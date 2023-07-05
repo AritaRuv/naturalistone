@@ -1,4 +1,5 @@
 "use strict";
+Object.defineProperty(exports, "__esModule", { value: true });
 const mysql = require('mysql');
 const { MysqlError } = require('mysql');
 require('dotenv').config();
@@ -15,4 +16,4 @@ connection.connect((err) => {
     else
         console.log('DB is connected');
 });
-module.exports = connection;
+exports.default = connection;

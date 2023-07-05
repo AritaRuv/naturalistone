@@ -16,4 +16,4 @@ connection.connect((err: typeof MysqlError | null) => {
   });
   
 
-module.exports = connection
+export default connection

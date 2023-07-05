@@ -2,7 +2,7 @@ import express, { Request, Response, NextFunction } from 'express';
 import cookieParser from 'cookie-parser'
 import bodyParser from 'body-parser';
 import morgan from 'morgan';
-const routes = require('./Routes/index')
+const routes = require('./Routes/index.ts')
 
 import './db';
 
