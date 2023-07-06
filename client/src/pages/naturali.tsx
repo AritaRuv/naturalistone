@@ -1,5 +1,10 @@
+import NavBar from "@/app/components/navBar/_navBar";
+import { Box } from "@chakra-ui/react";
+
 export default function Naturali() {
     return(
-        <h1>hola</h1>
+        <Box w={'100vw'} h={'100vh'} bg={'black'}>
+            <NavBar/>
+        </Box>
     )
 }
