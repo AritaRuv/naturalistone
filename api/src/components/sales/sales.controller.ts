@@ -1,7 +1,6 @@
 /* eslint-disable quotes */
 import { MysqlError } from "mysql";
 import express, { Request, Response } from "express";
-import { Router } from "express";
 import mysqlConnection from "../../db";
 import { RowDataPacket, FieldPacket } from "mysql2";
 

@@ -12,9 +12,11 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
+
 exports.getSales = void 0;
+
 const db_1 = __importDefault(require("../../db"));
-const { MysqlError } = require('mysql');
+
 function getSales(req, res) {
     return __awaiter(this, void 0, void 0, function* () {
         try {
@@ -24,11 +26,11 @@ function getSales(req, res) {
                     throw error;
                 }
                 if (results.length === 0) {
-                    console.log('Error en salesRoutes.get /invoice/:id');
-                    res.status(200).json('No invoices linked to this customer');
+                    console.log("Error en salesRoutes.get /invoice/:id");
+                    res.status(200).json("No invoices linked to this customer");
                 }
                 else {
-                    console.log('Data OK');
+                    console.log("Data OK");
                     res.status(200).json(results);
                 }
             });
@@ -39,4 +41,3 @@ function getSales(req, res) {
     });
 }
 exports.getSales = getSales;
-;
