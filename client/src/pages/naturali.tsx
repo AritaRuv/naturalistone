@@ -1,10 +1,12 @@
-import { Text } from "@chakra-ui/react";
+import { Center, Text } from "@chakra-ui/react";
+import HomeProductContainer from "@/app/components/homeProducts.tsx/_homeProductContainer";
 
 export default function Naturali() {
-    return(
-        <>
-        <h1>hola y chau</h1>
-        <Text>Hola</Text>
-        </>
-    )
+  return(
+    <>
+      <Center h={'100vh'} w={'100vw'}>
+        <HomeProductContainer/>
+      </Center>
+    </>
+  )
 }
