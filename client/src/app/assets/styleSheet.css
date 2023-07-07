@@ -1,0 +1,11 @@
+/* Estilo para eliminar el borde azul del desplegable cuando está en foco */
+.custom-popover:focus {
+    outline: none !important;
+    outline-color: transparent;
+    outline-style: none;
+    box-shadow: none !important;
+  }
+.custom-popover{
+    outline: none;
+    box-shadow: unset;
+    }
