@@ -1,10 +1,14 @@
+import { Center, Text, Box } from "@chakra-ui/react";
+import HomeProductContainer from "@/app/components/homeProducts.tsx/_homeProductContainer";
 import NavBar from "@/app/components/navBar/_navBar";
-import { Box } from "@chakra-ui/react";
 
 export default function Naturali() {
-    return(
-        <Box w={'100vw'} h={'100vh'} bg={'black'}>
-            <NavBar/>
-        </Box>
-    )
+  return(
+    <>
+      <Center h={'100vh'} w={'100vw'}>
+        <NavBar/>
+        <HomeProductContainer/>
+      </Center>
+    </>
+  )
 }
