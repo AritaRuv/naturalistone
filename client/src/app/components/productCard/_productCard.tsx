@@ -1,10 +1,9 @@
 import React from 'react';
-import { Box, Popover, PopoverTrigger, PopoverContent, IconButton, Text, Button } from '@chakra-ui/react';
+import { Box, Popover, PopoverTrigger, PopoverContent, IconButton, Button, Text, Center } from '@chakra-ui/react';
 import NextImage from 'next/image';
 import { useState } from 'react';
 import { PiCaretDownThin } from 'react-icons/pi'
 import '../../assets/styleSheet.css';
-import { Bowlby_One_SC } from 'next/font/google';
 
 const ProductCard: React.FC = () => {
   const [isDropdownOpen, setIsDropdownOpen] = useState(false);
@@ -21,7 +20,6 @@ const ProductCard: React.FC = () => {
   };
 
 
-
   return (
     <Box position="relative">
       <Popover isOpen={isDropdownOpen}>
@@ -30,6 +28,8 @@ const ProductCard: React.FC = () => {
             w={'14vw'}
             h={'42vh'}
             minW={'200px'}
+            minH={'350px'}
+            maxH={'400px'}
             position={'relative'}
             overflow={'hidden'}
             rounded={'md'}
@@ -38,11 +38,13 @@ const ProductCard: React.FC = () => {
           >
             <NextImage objectFit="cover" fill src={'https://naturalistone-images.s3.amazonaws.com/Limestone/Nuoro/Nuoro_0.jpg'} alt="img" />
             <Box
+              border={'2px solid red'}
               display={'flex'}
               w={'14vw'}
               minW={'200px'}
               bg={'rgba(210, 210, 210, 0.3)'}
               h={'5vh'}
+              //maxH={}
               position={'absolute'}
               bottom={0}
               left={0}
@@ -65,23 +67,38 @@ const ProductCard: React.FC = () => {
           rounded={'none'}
           border={'none'}
           position="relative"
-          h={'8vh'}
+          h={'106px'}
+          minH={'40px'}
           w={'14vw'}
           minW={'200px'}
           zIndex={10}
-          mt={'-9vh'}
+          mt={'-13vh'}
           className="custom-popover"
           bg={'rgba(210, 210, 210, 0.5)'}
+          borderBottomEndRadius={'md'}
+          borderBottomStartRadius={'md'}
         >
-        <Box>
-          {/* <Box>
-          <Text>Material</Text>
-          <Button variant={'unstyled'}>Nombre del producto</Button>
+        <Box pt={'6%'} px={'2%'}>
+          <Center flexDir={'column'} h={'5vh'}>
+          <Text fontSize={'0.6rem'}>MATERIAL</Text>
+          <Button variant={'unstyled'} fontSize={'0.9rem'}>NOMBRE DEL PRODUCTO</Button>
+          </Center>
+          <Box display={'flex'} justifyContent={'space-between'} p={'3%'} >
+          <Button 
+          fontSize={'0.6rem'} 
+          fontWeight={'light'} 
+          variant={'unstyled'}
+          _hover={{
+            fontWeight: 'semibold'
+          }}>ORDER SAMPLE</Button>
+          <Button 
+          fontSize={'0.6rem'}  
+          fontWeight={'light'} 
+          variant={'unstyled'}
+          _hover={{
+            fontWeight: 'semibold'
+          }}>ADD TO CART</Button>
           </Box>
-          <Box>
-          <Button variant={'unstyled'}>ORDER SAMPLE</Button>
-          <Button variant={'unstyled'}>ADD TO CART</Button>
-          </Box> */}
 
         </Box>
         </PopoverContent>
