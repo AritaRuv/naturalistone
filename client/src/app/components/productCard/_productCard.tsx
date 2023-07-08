@@ -29,6 +29,7 @@ const ProductCard: React.FC = () => {
             h={'42vh'}
             minW={'200px'}
             minH={'350px'}
+            maxH={'400px'}
             position={'relative'}
             overflow={'hidden'}
             rounded={'md'}
@@ -37,11 +38,13 @@ const ProductCard: React.FC = () => {
           >
             <NextImage objectFit="cover" fill src={'https://naturalistone-images.s3.amazonaws.com/Limestone/Nuoro/Nuoro_0.jpg'} alt="img" />
             <Box
+              border={'2px solid red'}
               display={'flex'}
               w={'14vw'}
               minW={'200px'}
               bg={'rgba(210, 210, 210, 0.3)'}
               h={'5vh'}
+              maxH={'30px'}
               position={'absolute'}
               bottom={0}
               left={0}
@@ -64,29 +67,32 @@ const ProductCard: React.FC = () => {
           rounded={'none'}
           border={'none'}
           position="relative"
-          h={'12vh'}
+          h={'106px'}
+          minH={'40px'}
           w={'14vw'}
           minW={'200px'}
           zIndex={10}
           mt={'-13vh'}
           className="custom-popover"
           bg={'rgba(210, 210, 210, 0.5)'}
+          borderBottomEndRadius={'md'}
+          borderBottomStartRadius={'md'}
         >
-        <Box py={'4%'} px={'4%'}>
-          <Center flexDir={'column'}>
-          <Text fontSize={'xs'}>MATERIAL</Text>
-          <Button variant={'unstyled'}>NOMBRE DEL PRODUCTO</Button>
+        <Box pt={'6%'} px={'2%'}>
+          <Center flexDir={'column'} h={'5vh'}>
+          <Text fontSize={'0.6rem'}>MATERIAL</Text>
+          <Button variant={'unstyled'} fontSize={'0.9rem'}>NOMBRE DEL PRODUCTO</Button>
           </Center>
-          <Box display={'flex'} justifyContent={'space-between'} >
+          <Box display={'flex'} justifyContent={'space-between'} p={'3%'} >
           <Button 
-          fontSize={'xs'} 
+          fontSize={'0.6rem'} 
           fontWeight={'light'} 
           variant={'unstyled'}
           _hover={{
             fontWeight: 'semibold'
           }}>ORDER SAMPLE</Button>
           <Button 
-          fontSize={'xs'} 
+          fontSize={'0.6rem'}  
           fontWeight={'light'} 
           variant={'unstyled'}
           _hover={{
