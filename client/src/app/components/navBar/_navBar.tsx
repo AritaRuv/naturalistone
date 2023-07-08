@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Box, Button, Flex, IconButton } from '@chakra-ui/react';
+import { Box, Button, Flex, IconButton, useMediaQuery } from '@chakra-ui/react';
 import NextImage from 'next/image';
 import logo from '../../assets/NaturalistoneLogo.png';
 import { PiShoppingCartThin, PiUserCircleThin, PiHeartStraightThin } from 'react-icons/pi';
@@ -7,8 +7,8 @@ import { css } from '@emotion/react';
 
 const NavBar: React.FC = () => {
 
-
   const [menuVisible, setMenuVisible] = useState(true)
+  const [hover, setHover] = useState(false)
 
   const handleMenu =() => {
     setMenuVisible(!menuVisible)
@@ -16,11 +16,26 @@ const NavBar: React.FC = () => {
 
   const handleHome =() => {
     setMenuVisible(true)
+    setHover(false)
   }
+
+  const handleMouseEnter = () => {
+    setHover(true);
+
+  };
+
+  const handleMouseLeave = () => {
+    setHover(false);
+  };
+
+  const [smallerThan1400] = useMediaQuery("(max-width: 1400px)");
+  const [smallerThan1120] = useMediaQuery("(max-width: 1120px)");
+  // const [isMobile] = useMediaQuery("(max-width: 768px)");
+  // const [isMobile] = useMediaQuery("(max-width: 768px)");
 
   return (
     <Flex
-      bg="white"
+      bg={menuVisible ? (hover ? 'white' : 'none') : 'white'}
       h={menuVisible ? '8vh' : '16vh'}
       alignContent="center"
       pr={'2vw'}
@@ -31,8 +46,10 @@ const NavBar: React.FC = () => {
       justifyContent="space-between"
       flexDir={'column'}
       w="100vw"
+      onMouseEnter={handleMouseEnter}
+      onMouseLeave={handleMouseLeave}
     >
-      <Flex w="96vw" ml={'2vw'}mr={'2vw'}>
+      <Flex w="96vw" ml={'2vw'}mr={'2vw'} border={'0.5px solid red'}>
         <Flex h="2.5vh" w="12vw" mt={'1vh'}>
           <NextImage src={logo} alt="Logo" />
         </Flex>
@@ -48,12 +65,12 @@ const NavBar: React.FC = () => {
                 &::before {
                   content: '';
                   position: absolute;
-                  width: calc(100% - 1vh);
+                  width: calc(24px);
                   height: 2px;
                   background-color: black;
                   bottom: 0;
                   left: 0;
-                  transform-origin: left;
+                  transform-origin: center;
                   animation: underline 0.3s ease forwards;
                 }
               }
@@ -137,7 +154,7 @@ const NavBar: React.FC = () => {
             SALE
           </Button>
         </Flex>
-        <Flex w="8vw" justifyContent="space-between">
+        <Flex w="8vw" justifyContent="space-between" border={'0.5px solid red'} minW={'12px'}>
           <IconButton
             aria-label="Cart-icon"
             variant="unstyled"
@@ -201,257 +218,259 @@ const NavBar: React.FC = () => {
       </Flex>
       {
       !menuVisible && (
-      <Flex w="47vw" ml={'50vw'} mr={'2vw'} justifyContent="space-between" justifySelf={'flex-end'}>
-        <Button
-          fontSize="sm"
-          variant="unstyled"
-          onClick={handleHome}
-          css={css`
-            position: relative;
-            font-weight: normal;
-            text-decoration: none;
-            &:hover {
-              &::before {
-                content: '';
-                position: absolute;
-                width: calc(100% - 1vh);
-                height: 2px;
-                background-color: black;
-                bottom: 0;
-                left: 0;
-                transform-origin: left;
-                animation: underline 0.3s ease forwards;
+      <Flex w="96vw" ml={'2vw'}mr={'2vw'} border={'0.5px solid red'}>
+        <Flex w="47vw" ml={'50vw'}justifyContent="space-between" justifySelf={'flex-end'} border={'0.5px solid red'}>
+          <Button
+            fontSize="sm"
+            variant="unstyled"
+            onClick={handleHome}
+            css={css`
+              position: relative;
+              font-weight: normal;
+              text-decoration: none;
+              &:hover {
+                &::before {
+                  content: '';
+                  position: absolute;
+                  width: calc(100% - 1vh);
+                  height: 2px;
+                  background-color: black;
+                  bottom: 0;
+                  left: 0;
+                  transform-origin: left;
+                  animation: underline 0.3s ease forwards;
+                }
               }
-            }
-            @keyframes underline {
-              0% {
-                transform: scaleX(0);
+              @keyframes underline {
+                0% {
+                  transform: scaleX(0);
+                }
+                50% {
+                  transform: scaleX(1);
+                }
+                100% {
+                  transform: scaleX(1);
+                }
               }
-              50% {
-                transform: scaleX(1);
-              }
-              100% {
-                transform: scaleX(1);
-              }
-            }
-          `}
-          >
+            `}
+            >
             HOME
-        </Button>
-        <Button
-          fontSize="sm"
-          variant="unstyled"
-          css={css`
-            position: relative;
-            font-weight: normal;
-            text-decoration: none;
-            &:hover {
-              &::before {
-                content: '';
-                position: absolute;
-                width: calc(100% - 1vh);
-                height: 2px;
-                background-color: black;
-                bottom: 0;
-                left: 0;
-                transform-origin: left;
-                animation: underline 0.3s ease forwards;
+          </Button>
+          <Button
+            fontSize="sm"
+            variant="unstyled"
+            css={css`
+              position: relative;
+              font-weight: normal;
+              text-decoration: none;
+              &:hover {
+                &::before {
+                  content: '';
+                  position: absolute;
+                  width: calc(100% - 1vh);
+                  height: 2px;
+                  background-color: black;
+                  bottom: 0;
+                  left: 0;
+                  transform-origin: left;
+                  animation: underline 0.3s ease forwards;
+                }
               }
-            }
-            @keyframes underline {
-              0% {
-                transform: scaleX(0);
+              @keyframes underline {
+                0% {
+                  transform: scaleX(0);
+                }
+                50% {
+                  transform: scaleX(1);
+                }
+                100% {
+                  transform: scaleX(1);
+                }
               }
-              50% {
-                transform: scaleX(1);
+            `}
+            >
+              ABOUT US
+          </Button>
+          <Button
+            fontSize="sm"
+            variant="unstyled"
+            css={css`
+              position: relative;
+              font-weight: normal;
+              text-decoration: none;
+              &:hover {
+                &::before {
+                  content: '';
+                  position: absolute;
+                  width: calc(100% - 1vh);
+                  height: 2px;
+                  background-color: black;
+                  bottom: 0;
+                  left: 0;
+                  transform-origin: left;
+                  animation: underline 0.3s ease forwards;
+                }
               }
-              100% {
-                transform: scaleX(1);
+              @keyframes underline {
+                0% {
+                  transform: scaleX(0);
+                }
+                50% {
+                  transform: scaleX(1);
+                }
+                100% {
+                  transform: scaleX(1);
+                }
               }
-            }
-          `}
-          >
-            ABOUT US
-        </Button>
-        <Button
-          fontSize="sm"
-          variant="unstyled"
-          css={css`
-            position: relative;
-            font-weight: normal;
-            text-decoration: none;
-            &:hover {
-              &::before {
-                content: '';
-                position: absolute;
-                width: calc(100% - 1vh);
-                height: 2px;
-                background-color: black;
-                bottom: 0;
-                left: 0;
-                transform-origin: left;
-                animation: underline 0.3s ease forwards;
+            `}
+            >
+              PROJECTS
+          </Button>
+          <Button
+            fontSize="sm"
+            variant="unstyled"
+            css={css`
+              position: relative;
+              font-weight: normal;
+              text-decoration: none;
+              &:hover {
+                &::before {
+                  content: '';
+                  position: absolute;
+                  width: calc(100% - 1vh);
+                  height: 2px;
+                  background-color: black;
+                  bottom: 0;
+                  left: 0;
+                  transform-origin: left;
+                  animation: underline 0.3s ease forwards;
+                }
               }
-            }
-            @keyframes underline {
-              0% {
-                transform: scaleX(0);
+              @keyframes underline {
+                0% {
+                  transform: scaleX(0);
+                }
+                50% {
+                  transform: scaleX(1);
+                }
+                100% {
+                  transform: scaleX(1);
+                }
               }
-              50% {
-                transform: scaleX(1);
+            `}
+            >
+              PRODUCTS
+          </Button>
+          <Button
+            fontSize="sm"
+            variant="unstyled"
+            css={css`
+              position: relative;
+              font-weight: normal;
+              text-decoration: none;
+              &:hover {
+                &::before {
+                  content: '';
+                  position: absolute;
+                  width: calc(100% - 1vh);
+                  height: 2px;
+                  background-color: black;
+                  bottom: 0;
+                  left: 0;
+                  transform-origin: left;
+                  animation: underline 0.3s ease forwards;
+                }
               }
-              100% {
-                transform: scaleX(1);
+              @keyframes underline {
+                0% {
+                  transform: scaleX(0);
+                }
+                50% {
+                  transform: scaleX(1);
+                }
+                100% {
+                  transform: scaleX(1);
+                }
               }
-            }
-          `}
-          >
-            PROJECTS
-        </Button>
-        <Button
-          fontSize="sm"
-          variant="unstyled"
-          css={css`
-            position: relative;
-            font-weight: normal;
-            text-decoration: none;
-            &:hover {
-              &::before {
-                content: '';
-                position: absolute;
-                width: calc(100% - 1vh);
-                height: 2px;
-                background-color: black;
-                bottom: 0;
-                left: 0;
-                transform-origin: left;
-                animation: underline 0.3s ease forwards;
-              }
-            }
-            @keyframes underline {
-              0% {
-                transform: scaleX(0);
-              }
-              50% {
-                transform: scaleX(1);
-              }
-              100% {
-                transform: scaleX(1);
-              }
-            }
-          `}
-          >
-            PRODUCTS
-        </Button>
-        <Button
-          fontSize="sm"
-          variant="unstyled"
-          css={css`
-            position: relative;
-            font-weight: normal;
-            text-decoration: none;
-            &:hover {
-              &::before {
-                content: '';
-                position: absolute;
-                width: calc(100% - 1vh);
-                height: 2px;
-                background-color: black;
-                bottom: 0;
-                left: 0;
-                transform-origin: left;
-                animation: underline 0.3s ease forwards;
-              }
-            }
-            @keyframes underline {
-              0% {
-                transform: scaleX(0);
-              }
-              50% {
-                transform: scaleX(1);
-              }
-              100% {
-                transform: scaleX(1);
-              }
-            }
-          `}
-          >
+            `}
+            >
             SHOWS
-        </Button>
-        <Button
-          fontSize="sm"
-          variant="unstyled"
-          css={css`
-            position: relative;
-            font-weight: normal;
-            text-decoration: none;
-            &:hover {
-              &::before {
-                content: '';
-                position: absolute;
-                width: calc(100% - 1vh);
-                height: 2px;
-                background-color: black;
-                bottom: 0;
-                left: 0;
-                transform-origin: left;
-                animation: underline 0.3s ease forwards;
+          </Button>
+          <Button
+            fontSize="sm"
+            variant="unstyled"
+            css={css`
+              position: relative;
+              font-weight: normal;
+              text-decoration: none;
+              &:hover {
+                &::before {
+                  content: '';
+                  position: absolute;
+                  width: calc(100% - 1vh);
+                  height: 2px;
+                  background-color: black;
+                  bottom: 0;
+                  left: 0;
+                  transform-origin: left;
+                  animation: underline 0.3s ease forwards;
+                }
               }
-            }
-            @keyframes underline {
-              0% {
-                transform: scaleX(0);
+              @keyframes underline {
+                0% {
+                  transform: scaleX(0);
+                }
+                50% {
+                  transform: scaleX(1);
+                }
+                100% {
+                  transform: scaleX(1);
+                }
               }
-              50% {
-                transform: scaleX(1);
+            `}
+            >
+              OUR TEAM
+          </Button>
+          <Button
+            fontSize="sm"
+            variant="unstyled"
+            css={css`
+              position: relative;
+              font-weight: normal;
+              text-decoration: none;
+              &:hover {
+                &::before {
+                  content: '';
+                  position: absolute;
+                  width: calc(100% - 1vh);
+                  height: 2px;
+                  background-color: black;
+                  bottom: 0;
+                  left: 0;
+                  transform-origin: left;
+                  animation: underline 0.3s ease forwards;
+                }
               }
-              100% {
-                transform: scaleX(1);
+              @keyframes underline {
+                0% {
+                  transform: scaleX(0);
+                }
+                50% {
+                  transform: scaleX(1);
+                }
+                100% {
+                  transform: scaleX(1);
+                }
               }
-            }
-          `}
-          >
-            OUR TEAM
-        </Button>
-        <Button
-          fontSize="sm"
-          variant="unstyled"
-          css={css`
-            position: relative;
-            font-weight: normal;
-            text-decoration: none;
-            &:hover {
-              &::before {
-                content: '';
-                position: absolute;
-                width: calc(100% - 1vh);
-                height: 2px;
-                background-color: black;
-                bottom: 0;
-                left: 0;
-                transform-origin: left;
-                animation: underline 0.3s ease forwards;
-              }
-            }
-            @keyframes underline {
-              0% {
-                transform: scaleX(0);
-              }
-              50% {
-                transform: scaleX(1);
-              }
-              100% {
-                transform: scaleX(1);
-              }
-            }
-          `}
-          >
+            `}
+            >
             CONTACT
-        </Button>
+          </Button>
+        </Flex>
       </Flex>
-    )}
-    </Flex>
-  );
-};
+    )}  
+    </Flex> 
+  );  
+};  
 
 export default NavBar;
