@@ -16,15 +16,14 @@ const HomeProductContainer: React.FC = () => {
 
   return (
     <SimpleGrid
-      spacingY={2}
+      spacingY={6}
       py={'2%'}
       px={'4%'}
-      border={'2px solid red'}
       w={'100vw'}
-
       placeItems={'center'}
       columns={gridColumns} // Establece el número de columnas dinámicamente
-    >
+      bg={'#f2f2f2'}
+     >
       <ProductCard />
       <ProductCard />
       <ProductCard />
