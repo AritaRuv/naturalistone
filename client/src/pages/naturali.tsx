@@ -5,10 +5,10 @@ import NavBar from "@/app/components/navBar/_navBar";
 export default function Naturali() {
   return(
     <>
-      <Center h={'100vh'} w={'100vw'}>
+      <Box h={'100vh'} w={'100vw'} background={'black'}>
         <NavBar/>
         <HomeProductContainer/>
-      </Center>
+      </Box>
     </>
   )
 }
