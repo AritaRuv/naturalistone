@@ -44,7 +44,7 @@ const ProductCard: React.FC = () => {
               minW={'200px'}
               bg={'rgba(210, 210, 210, 0.3)'}
               h={'5vh'}
-              maxH={'30px'}
+              //maxH={}
               position={'absolute'}
               bottom={0}
               left={0}
