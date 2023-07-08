@@ -1,10 +1,9 @@
 import React from 'react';
-import { Box, Popover, PopoverTrigger, PopoverContent, IconButton, Text, Button } from '@chakra-ui/react';
+import { Box, Popover, PopoverTrigger, PopoverContent, IconButton, Button, Text, Center } from '@chakra-ui/react';
 import NextImage from 'next/image';
 import { useState } from 'react';
 import { PiCaretDownThin } from 'react-icons/pi'
 import '../../assets/styleSheet.css';
-import { Bowlby_One_SC } from 'next/font/google';
 
 const ProductCard: React.FC = () => {
   const [isDropdownOpen, setIsDropdownOpen] = useState(false);
@@ -21,7 +20,6 @@ const ProductCard: React.FC = () => {
   };
 
 
-
   return (
     <Box position="relative">
       <Popover isOpen={isDropdownOpen}>
@@ -30,6 +28,7 @@ const ProductCard: React.FC = () => {
             w={'14vw'}
             h={'42vh'}
             minW={'200px'}
+            minH={'350px'}
             position={'relative'}
             overflow={'hidden'}
             rounded={'md'}
@@ -65,23 +64,35 @@ const ProductCard: React.FC = () => {
           rounded={'none'}
           border={'none'}
           position="relative"
-          h={'8vh'}
+          h={'12vh'}
           w={'14vw'}
           minW={'200px'}
           zIndex={10}
-          mt={'-9vh'}
+          mt={'-13vh'}
           className="custom-popover"
           bg={'rgba(210, 210, 210, 0.5)'}
         >
-        <Box>
-          {/* <Box>
-          <Text>Material</Text>
-          <Button variant={'unstyled'}>Nombre del producto</Button>
+        <Box py={'4%'} px={'4%'}>
+          <Center flexDir={'column'}>
+          <Text fontSize={'xs'}>MATERIAL</Text>
+          <Button variant={'unstyled'}>NOMBRE DEL PRODUCTO</Button>
+          </Center>
+          <Box display={'flex'} justifyContent={'space-between'} >
+          <Button 
+          fontSize={'xs'} 
+          fontWeight={'light'} 
+          variant={'unstyled'}
+          _hover={{
+            fontWeight: 'semibold'
+          }}>ORDER SAMPLE</Button>
+          <Button 
+          fontSize={'xs'} 
+          fontWeight={'light'} 
+          variant={'unstyled'}
+          _hover={{
+            fontWeight: 'semibold'
+          }}>ADD TO CART</Button>
           </Box>
-          <Box>
-          <Button variant={'unstyled'}>ORDER SAMPLE</Button>
-          <Button variant={'unstyled'}>ADD TO CART</Button>
-          </Box> */}
 
         </Box>
         </PopoverContent>

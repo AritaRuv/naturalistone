@@ -1,5 +1,5 @@
 import React from 'react';
-import { Box, Flex, SimpleGrid, useMediaQuery } from '@chakra-ui/react';
+import { SimpleGrid, useMediaQuery } from '@chakra-ui/react';
 import ProductCard from '../productCard/_productCard';
 
 const HomeProductContainer: React.FC = () => {
@@ -21,6 +21,7 @@ const HomeProductContainer: React.FC = () => {
       px={'4%'}
       border={'2px solid red'}
       w={'100vw'}
+
       placeItems={'center'}
       columns={gridColumns} // Establece el número de columnas dinámicamente
     >
