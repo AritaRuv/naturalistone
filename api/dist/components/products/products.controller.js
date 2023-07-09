@@ -37,10 +37,11 @@ function getAllProducts(req, res) {
                 }
                 if (results.length === 0) {
                     console.log("Error en productsRoutes.get /");
-                    res.status(200).json("No products");
+                    res.status(404).json("No products");
                 }
                 else {
                     console.log("Data OK");
+                    console.log(results);
                     res.status(200).json(results);
                 }
             });

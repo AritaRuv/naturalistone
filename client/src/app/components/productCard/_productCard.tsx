@@ -22,11 +22,8 @@ const ProductCard: React.FC = () => {
   return (
     <Box position="relative">
       <Box
-        w={'14vw'}
-        h={'42vh'}
-        minW={'200px'}
-        minH={'350px'}
-        maxH={'375px'}
+        w={'200px'}
+        h={'350px'}
         position={'relative'}
         overflow={'hidden'}
         rounded={'md'}
@@ -36,12 +33,9 @@ const ProductCard: React.FC = () => {
         <NextImage objectFit="cover" fill src={'https://naturalistone-images.s3.amazonaws.com/Limestone/Nuoro/Nuoro_0.jpg'} alt="img" />
         <Box
           display={'flex'}
-          w={'14vw'}
-          minW={'200px'}
+          w={'200px'}
           bg={'rgba(210, 210, 210, 0.3)'}
-          maxH={'50px'}
-          minH={'40px'}
-          h={'5vh'}
+          h={'40px'}
           position={'absolute'}
           bottom={0}
           left={0}
@@ -65,21 +59,17 @@ const ProductCard: React.FC = () => {
             onMouseEnter={handleMouseEnter}
             onMouseLeave={handleMouseLeave}
             position={'relative'}
-            rounded={'none'}
             border={'none'}
-            h={'12vh'}
-            maxH={'106px'}
-            minH={'80px'}
-            w={'100%'}
-            minW={'200px'}
+            h={'100px'}
+            w={'200px'}
             zIndex={10}
             className="custom-popover"
             bg={'rgba(210, 210, 210, 0.5)'}
-            borderTopEndRadius={'md'}
-            borderTopStartRadius={'md'}
+            borderBottomEndRadius={'md'}
+            borderBottomStartRadius={'md'}
           >
-            <Box pt={'2%'} px={'2%'} border={'2px solid red'}>
-              <Center mt={'5%'} flexDir={'column'} h={'5vh'} maxH={'50px'}>
+            <Box pt={'2%'} px={'2%'}>
+              <Center mt={'5%'} flexDir={'column'} h={'50px'}>
                 <Text fontSize={'0.6rem'}>MATERIAL</Text>
                 <Button variant={'unstyled'} fontSize={'0.9rem'}>NOMBRE DEL PRODUCTO</Button>
               </Center>
