@@ -42,6 +42,7 @@ const NavBar: React.FC = () => {
       !smallerThan1200 ? (
       <Box display={'flex'} flexDir={'column'}>
         <Box 
+          id={"navbar"}
           w={'100%'} 
           h={'6vh'} 
           minH={'60px'} 
@@ -74,6 +75,7 @@ const NavBar: React.FC = () => {
       !smallerThan740 ? 
       (
       <Box 
+        id={"navbar"}
         display={'flex'} 
         flexDir={'row'}
         w={'100%'} 
@@ -88,10 +90,9 @@ const NavBar: React.FC = () => {
         <Logo/>
         <IconButtonsNavBar/>
       </Box>
-      )
-      :
-      (
-      <Box 
+      ):(
+      <Box
+        id={"navbar"}
         display={'flex'} 
         flexDir={'row'}
         w={'100%'} 

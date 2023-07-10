@@ -35,6 +35,7 @@
     display: flex;
     justify-content: space-between;
   }
+  
   .menuDrawerButton:hover {
     transform: translate(5px, -5px); /* Desplaza el texto hacia arriba a la derecha */
     font-size: 1.1rem; /* Aumenta el tamaño de la fuente */
