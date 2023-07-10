@@ -2,15 +2,15 @@
 
 import { Box, useMediaQuery } from "@chakra-ui/react";
 import React, { useState } from 'react';
-import Logo from "./_navBar/logo";
-import TextButtonsNavBar from "./_navBar/textButtonsNavBar";
-import IconButtonsNavBar from "./_navBar/iconButtonsNavBar";
-import Menu from "./_navBar/menu";6
-import DropDownMenu from "./_navBar/dropDownMenu";
-import MenuDrawer from "./_navBar/menuDrawer";
-import CartButton from "./_navBar/cartButton";
+import Logo from "./logo";
+import TextButtonsNavBar from "./textButtonsNavBar";
+import IconButtonsNavBar from "./iconButtonsNavBar";
+import Menu from "./menu";6
+import DropDownMenu from "./dropDownMenu";
+import MenuDrawer from "./menuDrawer";
+import CartButton from "./cartButton";
 
-const NavBar2: React.FC = () => {
+const NavBar: React.FC = () => {
 
   const [menuVisible, setMenuVisible] = useState(true)
   const [hover, setHover] = useState(false)
@@ -113,4 +113,4 @@ const NavBar2: React.FC = () => {
   )
 }
 
-export default NavBar2;
+export default NavBar;

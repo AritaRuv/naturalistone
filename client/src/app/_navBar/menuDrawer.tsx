@@ -17,7 +17,7 @@ import {
 import { ChevronRightIcon } from '@chakra-ui/icons'
 import { RxHamburgerMenu } from 'react-icons/rx';
 import Logo from "./logo";
-import'../_navBar.css'
+import'./_navBar.css'
 
 interface MenuDrawerProps {
   handleHome: () => void;
