@@ -17,19 +17,8 @@ const db_1 = __importDefault(require("../../db"));
 function getAllProducts(req, res) {
     return __awaiter(this, void 0, void 0, function* () {
         try {
-            const query = `SELECT    
-                    ProdNames.Naturali_ProdName AS ProductName,
-                    ProdNames.Material,
-                    Dimension.Type,
-                    Dimension.Size,
-                    Dimension.Thickness,
-                    Dimension.Finish,
-                    Products.SalePrice AS Price,
-                    Products.ProdID,
-                    Products.Discontinued_Flag
-                  FROM Products
-                  INNER JOIN ProdNames ON ProdNames.ProdNameID = Products.ProdNameID
-                  INNER JOIN Dimension ON Dimension.DimensionID = Products.DimensionID;
+            const query = `SELECT ProdNameID, Naturali_ProdName, Material    
+                  FROM ProdNames
                     `;
             db_1.default.query(query, (error, results, fields) => {
                 if (error) {
@@ -37,7 +26,7 @@ function getAllProducts(req, res) {
                 }
                 if (results.length === 0) {
                     console.log("Error en productsRoutes.get /");
-                    res.status(200).json("No products");
+                    res.status(404).json("No products");
                 }
                 else {
                     console.log("Data OK");
