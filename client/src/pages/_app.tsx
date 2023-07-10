@@ -3,7 +3,7 @@ import { ChakraProvider } from '@chakra-ui/react'
 // 1. Import the extendTheme function
 import { extendTheme } from '@chakra-ui/react'
 import { Provider } from 'react-redux';
-import store from '../store/store';
+import {store} from '../store/store';
 
 
 // 2. Extend the theme to include custom colors, fonts, etc

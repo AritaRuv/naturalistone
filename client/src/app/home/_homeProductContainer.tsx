@@ -1,57 +1,18 @@
-<<<<<<< HEAD:client/src/app/home/_homeProductContainer.tsx
-"use client";
-import React from "react";
-import { SimpleGrid, useMediaQuery } from "@chakra-ui/react";
-import ProductCard from "./_productCard";
-
-const HomeProductContainer: React.FC = () => {
-  const [isSmallScreen] = useMediaQuery("(max-width: 900px)");
-  const [isExtraSmallScreen] = useMediaQuery("(max-width: 480px)");
-
-  let gridColumns = 4;
-  if (isSmallScreen) {
-    gridColumns = 2;
-  }
-  if (isExtraSmallScreen) {
-    gridColumns = 1;
-  }
-
-  return (
-    <SimpleGrid
-      spacingY={6}
-      py={"2%"}
-      px={"4%"}
-      w={"100vw"}
-      placeItems={"center"}
-      columns={gridColumns} // Establece el número de columnas dinámicamente
-      bg={"#f2f2f2"}
-    >
-      <ProductCard />
-      <ProductCard />
-      <ProductCard />
-      <ProductCard />
-    </SimpleGrid>
-  );
-};
-
-export default HomeProductContainer;
-=======
+'use client'
 import { useEffect } from "react";
 import { SimpleGrid, useMediaQuery } from '@chakra-ui/react';
-import ProductCard from '../productCard/_productCard';
-import { fetchProducts } from "../../../store/actions";
-import { ProductState } from "../../../store/types";
-import { useDispatch, useSelector } from "react-redux";
-import { AnyAction, Dispatch } from "redux";
-import { ThunkDispatch } from "redux-thunk";
+import ProductCard from '../components/productCard/_productCard';
+import { fetchProducts } from "../../store/actions";
+import { ProductState } from "../../store/types";
+import { useAppDispatch, useAppSelector } from '../../store/hooks';
 
 const HomeProductContainer: React.FC = () => {
 
   const [isSmallScreen] = useMediaQuery("(max-width: 950px)");
   const [isExtraSmallScreen] = useMediaQuery("(max-width: 480px)");
-  const dispatch: ThunkDispatch<ProductState, any, AnyAction> = useDispatch();
+  const dispatch = useAppDispatch();
 
-  const { products, loading, error } = useSelector((state: { productReducer: ProductState }) => state.productReducer);
+  const { products, loading, error } = useAppSelector((state: { productReducer: ProductState }) => state.productReducer);
   
   const homeProducts = products.slice(0,4)
   console.log(homeProducts)
@@ -92,4 +53,3 @@ const HomeProductContainer: React.FC = () => {
 };
 
 export default HomeProductContainer;
->>>>>>> ari:client/src/app/components/homeProducts.tsx/_homeProductContainer.tsx
