@@ -13,8 +13,7 @@ const HomeProductContainer: React.FC = () => {
   const [isExtraSmallScreen] = useMediaQuery("(max-width: 480px)");
   const dispatch: ThunkDispatch<ProductState, any, AnyAction> = useDispatch();
 
-  const { products, loading, error } = useSelector((state: ProductState) => state);
-  console.log('homecontainer',products)
+  const { products, loading, error } = useSelector((state: { productReducer: ProductState }) => state.productReducer);
 
   let gridColumns = 4;
   if (isSmallScreen) {
@@ -25,9 +24,9 @@ const HomeProductContainer: React.FC = () => {
   }
   
   useEffect(() => {
-       dispatch(fetchProducts())
-  }, [dispatch]);
-
+      if(!products)dispatch(fetchProducts())
+  }, [products]);
+  console.log(products)
   return (
     <SimpleGrid
       spacingY={6}

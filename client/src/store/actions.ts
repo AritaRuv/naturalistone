@@ -16,6 +16,7 @@ export const fetchProducts = () => {
         type: ProductActionTypes.FETCH_PRODUCTS_SUCCESS,
         payload: products,
       });
+      
     } catch (error) {
       dispatch({
         type: ProductActionTypes.FETCH_PRODUCTS_FAILURE,
