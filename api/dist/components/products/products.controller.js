@@ -12,8 +12,9 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.getAllProducts = void 0;
+exports.getProductsValuesByProdNameID = exports.getAllProducts = void 0;
 const db_1 = __importDefault(require("../../db"));
+const productDimensions_1 = require("../../controllers/productDimensions");
 function getAllProducts(req, res) {
     return __awaiter(this, void 0, void 0, function* () {
         try {
@@ -40,3 +41,47 @@ function getAllProducts(req, res) {
     });
 }
 exports.getAllProducts = getAllProducts;
+function getProductsValuesByProdNameID(req, res) {
+    return __awaiter(this, void 0, void 0, function* () {
+        try {
+            const prodNameID = req.params.id;
+            const query = `
+      SELECT
+        Products.ProdID,
+        Products.SalePrice,
+        Products.DimensionID,
+        Products.ProdNameID,
+        ProdNames.Naturali_ProdName,
+        Dimension.Finish,
+        Dimension.Size,
+        Dimension.Thickness
+      FROM
+        NaturaliStone.Products
+      LEFT JOIN
+        ProdNames ON ProdNames.ProdNameID = Products.ProdNameID
+      LEFT JOIN
+        Dimension ON Dimension.DimensionID = Products.DimensionID
+      WHERE
+        Products.ProdNameID = ?;
+    `;
+            db_1.default.query(query, [prodNameID], (error, results, fields) => {
+                if (error) {
+                    throw error;
+                }
+                if (results.length === 0) {
+                    console.log("Error en productsRoutes.get /:id");
+                    res.status(404).json("No products");
+                }
+                else {
+                    console.log("Data OK");
+                    const transformedResults = (0, productDimensions_1.productDimensions)(results);
+                    res.status(200).json(transformedResults);
+                }
+            });
+        }
+        catch (error) {
+            res.status(409).send(error);
+        }
+    });
+}
+exports.getProductsValuesByProdNameID = getProductsValuesByProdNameID;
