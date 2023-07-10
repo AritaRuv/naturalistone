@@ -1,11 +1,12 @@
 import HomeProductContainer from "@/app/home/_homeProductContainer";
-import NavBar from "@/app/home/_navBar";
+import NavBar2 from "./_navBar2";
 
 export default function Home() {
   return (
     <>
-      <NavBar />
-      <HomeProductContainer />
+      <NavBar2/>
+      {/* <NavBar />
+      <HomeProductContainer /> */}
     </>
   );
 }
