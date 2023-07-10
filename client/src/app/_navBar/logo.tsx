@@ -1,7 +1,7 @@
 "use client";
 import { Box } from "@chakra-ui/react";
 import NextImage from 'next/image';
-import logo from '../../assets/NaturalistoneLogo.png';
+import logo from '../assets/NaturalistoneLogo.png';
   
   const Logo: React.FC = () => {
     
