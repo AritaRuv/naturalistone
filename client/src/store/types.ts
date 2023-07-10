@@ -1,15 +1,9 @@
 // types.ts
 export interface Product {
-  ProductName: string;
+  ProdNameID: number;
+  Naturali_ProdName: string
   Material: string;
-  Type: string;
-  Size: string;
-  Thickness: string;
-  Finish: string;
-  Price: number;
-  ProdID: number;
-  Discontinued_Flag: boolean;
-}
+  }
 
 export interface ProductState {
   products: Product[];

@@ -14,6 +14,9 @@ const HomeProductContainer: React.FC = () => {
   const dispatch: ThunkDispatch<ProductState, any, AnyAction> = useDispatch();
 
   const { products, loading, error } = useSelector((state: { productReducer: ProductState }) => state.productReducer);
+  
+  const homeProducts = products.slice(0,4)
+  console.log(homeProducts)
 
   let gridColumns = 4;
   if (isSmallScreen) {
@@ -24,9 +27,9 @@ const HomeProductContainer: React.FC = () => {
   }
   
   useEffect(() => {
-      if(!products)dispatch(fetchProducts())
-  }, [products]);
-  console.log(products)
+      dispatch(fetchProducts())
+  }, []);
+
   return (
     <SimpleGrid
       spacingY={6}
@@ -37,10 +40,15 @@ const HomeProductContainer: React.FC = () => {
       columns={gridColumns} // Establece el número de columnas dinámicamente
       bg={'#f2f2f2'}
      >
-      <ProductCard />
-      <ProductCard />
-      <ProductCard />
-      <ProductCard />
+      {
+        homeProducts.length && (
+          homeProducts.map(prod => {
+            return(
+              <ProductCard product={prod} key={prod.ProdNameID} />
+            )
+          })
+        )
+      }
     </SimpleGrid>
   );
 };

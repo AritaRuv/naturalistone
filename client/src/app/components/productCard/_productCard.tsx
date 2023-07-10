@@ -1,14 +1,17 @@
 import React from 'react';
-import { Box, Popover, PopoverTrigger, PopoverContent, IconButton, Button, Text, Center } from '@chakra-ui/react';
+import { Box, IconButton, Button, Text, Center } from '@chakra-ui/react';
 import NextImage from 'next/image';
 import { useState } from 'react';
 import { PiCaretDownThin } from 'react-icons/pi';
 import '../../assets/styleSheet.css';
+import { Product } from '@/store/types';
 
-const ProductCard: React.FC = () => {
+const ProductCard: React.FC<{ product: Product }> = ({ product }) => {
+
   const [isDropdownOpen, setIsDropdownOpen] = useState(false);
   const [disableBox, setDisableBox] = useState(false);
-
+  const { Naturali_ProdName, Material, ProdNameID  } = product
+  const URL = `https://naturalistone-images.s3.amazonaws.com/${Material}/${Naturali_ProdName}/${Naturali_ProdName}_0.jpg`
   const handleMouseEnter = () => {
     setIsDropdownOpen(true);
     setDisableBox(true);
@@ -22,7 +25,7 @@ const ProductCard: React.FC = () => {
   return (
     <Box position="relative">
       <Box
-        w={'200px'}
+        w={'220px'}
         h={'350px'}
         position={'relative'}
         overflow={'hidden'}
@@ -30,11 +33,11 @@ const ProductCard: React.FC = () => {
         onMouseEnter={handleMouseEnter}
         onMouseLeave={handleMouseLeave}
       >
-        <NextImage objectFit="cover" fill src={'https://naturalistone-images.s3.amazonaws.com/Limestone/Nuoro/Nuoro_0.jpg'} alt="img" />
+        <NextImage objectFit="cover" fill src={URL} alt="img" />
         <Box
           display={'flex'}
-          w={'200px'}
-          bg={'rgba(210, 210, 210, 0.3)'}
+          w={'220px'}
+          bg={'rgba(210, 210, 210, 0.5)'}
           h={'40px'}
           position={'absolute'}
           bottom={0}
@@ -60,18 +63,18 @@ const ProductCard: React.FC = () => {
             onMouseLeave={handleMouseLeave}
             position={'relative'}
             border={'none'}
-            h={'100px'}
-            w={'200px'}
+            h={'90px'}
+            w={'220px'}
             zIndex={10}
             className="custom-popover"
-            bg={'rgba(210, 210, 210, 0.5)'}
+            bg={'rgba(210, 210, 210, 0.7)'}
             borderBottomEndRadius={'md'}
             borderBottomStartRadius={'md'}
           >
             <Box pt={'2%'} px={'2%'}>
-              <Center mt={'5%'} flexDir={'column'} h={'50px'}>
-                <Text fontSize={'0.6rem'}>MATERIAL</Text>
-                <Button variant={'unstyled'} fontSize={'0.9rem'}>NOMBRE DEL PRODUCTO</Button>
+              <Center mt={'5%'} flexDir={'column'} h={'40px'}>
+                <Text fontSize={'0.6rem'} textTransform={'uppercase'} >{Material}</Text>
+                <Button variant={'unstyled'} textTransform={'uppercase'} fontSize={'0.9rem'}>{Naturali_ProdName}</Button>
               </Center>
               <Box display={'flex'} justifyContent={'space-between'} p={'3%'}>
                 <Button

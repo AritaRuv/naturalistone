@@ -6,19 +6,8 @@ import { RowDataPacket, FieldPacket } from "mysql2";
 
 export async function getAllProducts(req: Request, res: Response) {
   try {
-    const query = `SELECT    
-                    ProdNames.Naturali_ProdName AS ProductName,
-                    ProdNames.Material,
-                    Dimension.Type,
-                    Dimension.Size,
-                    Dimension.Thickness,
-                    Dimension.Finish,
-                    Products.SalePrice AS Price,
-                    Products.ProdID,
-                    Products.Discontinued_Flag
-                  FROM Products
-                  INNER JOIN ProdNames ON ProdNames.ProdNameID = Products.ProdNameID
-                  INNER JOIN Dimension ON Dimension.DimensionID = Products.DimensionID;
+    const query = `SELECT ProdNameID, Naturali_ProdName, Material    
+                  FROM ProdNames
                     `;
 
     mysqlConnection.query(
@@ -31,8 +20,8 @@ export async function getAllProducts(req: Request, res: Response) {
           console.log("Error en productsRoutes.get /");
           res.status(404).json("No products");
         } else {
+
           console.log("Data OK");
-          console.log(results)
           res.status(200).json(results);
         }
       }
