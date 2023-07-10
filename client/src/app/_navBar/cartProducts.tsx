@@ -1,7 +1,6 @@
 import React from 'react';
 import { Box, Text } from '@chakra-ui/react';
 import NextImage from 'next/image';
-import { PiCaretDownThin } from 'react-icons/pi';
 import '../assets/styleSheet.css';
 import { ProductCart } from './cartButton';
 
