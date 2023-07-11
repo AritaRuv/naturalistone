@@ -41,9 +41,22 @@ function getCartProducts(req, res) {
     return __awaiter(this, void 0, void 0, function* () {
         try {
             const customerID = req.params.id;
-            const query = `SELECT * FROM NaturaliStone.Cart
-                     LEFT JOIN Products ON Cart.ProductID = Products.ProdID
-                     WHERE Cart.CustomerID = ?;
+            const query = `SELECT 
+                      Cart.idCartEntry,
+                      Cart.Quantity,
+                      Cart.CustomerID, 
+                      Products.SalePrice,
+                      Dimension.Type,
+                      Dimension.Size,
+                      Dimension.Thickness,
+                      Dimension.Finish,
+                      ProdNames.Naturali_ProdName,
+                      ProdNames.Material
+                    FROM NaturaliStone.Cart
+                    LEFT JOIN Products ON Cart.ProductID = Products.ProdID
+                    LEFT JOIN Dimension ON Products.DimensionID = Dimension.DimensionID
+                    LEFT JOIN ProdNames ON Products.ProdNameID = ProdNames.ProdNameID
+                    WHERE Cart.CustomerID = 1938;
                     `;
             db_1.default.query(query, [customerID], (error, results, fields) => {
                 if (error) {

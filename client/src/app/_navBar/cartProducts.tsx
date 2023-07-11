@@ -2,11 +2,12 @@ import React from 'react';
 import { Box, Text } from '@chakra-ui/react';
 import NextImage from 'next/image';
 import '../assets/styleSheet.css';
-import { ProductCart } from './cartButton';
+import { ProductCart } from '@/store/cart/typesCart';
 
 const ProductCardCart: React.FC<{ product: ProductCart }> = ({ product }) => {
-  const { material, product_name, price, quantity } = product
-  const URL = `https://naturalistone-images.s3.amazonaws.com/${material}/${product_name}/${product_name}_0.jpg`
+
+  const { CustomerID, Finish, Material, Naturali_ProdName, Quantity, SalePrice, Size, Thickness, Type, idCartEntry  } = product
+  const URL = `https://naturalistone-images.s3.amazonaws.com/${Material}/${Naturali_ProdName}/${Naturali_ProdName}_0.jpg`
   return (
     <>
       <Box
@@ -25,17 +26,18 @@ const ProductCardCart: React.FC<{ product: ProductCart }> = ({ product }) => {
         </Box>
         <Box w={'50%'} h={'150px'} display={'flex'} flexDir={'column'} justifyContent={'space-between'}>
           <Box>
-            <Text textTransform={'uppercase'} fontSize={'0.9rem'}>{material}</Text>
-            <Text textTransform={'uppercase'} fontWeight={'bold'} fontSize={'1.2rem'}>{product_name}</Text>
+            <Text textTransform={'uppercase'} fontSize={'0.9rem'}>{Material}</Text>
+            <Text textTransform={'uppercase'} fontWeight={'bold'} fontSize={'1.2rem'}>{Naturali_ProdName}</Text>
+            <Text>{Finish}{Size}{Thickness}</Text>
           </Box>
           <Box>
           <Box display={'flex'} justifyContent={'space-between'}>
             <Text textTransform={'uppercase'} fontSize={'0.9rem'}>Price</Text>
-            <Text textTransform={'uppercase'} fontSize={'0.9rem'}>${price}</Text>
+            <Text textTransform={'uppercase'} fontSize={'0.9rem'}>${SalePrice}</Text>
           </Box>
           <Box display={'flex'} justifyContent={'space-between'}>
             <Text textTransform={'uppercase'} fontSize={'0.9rem'}>Quantity</Text>
-            <Text textTransform={'uppercase'} fontSize={'0.9rem'}>{quantity}</Text>
+            <Text textTransform={'uppercase'} fontSize={'0.9rem'}>{Quantity}</Text>
           </Box>
           </Box>
         </Box>

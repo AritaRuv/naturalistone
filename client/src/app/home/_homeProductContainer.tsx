@@ -2,8 +2,8 @@
 import { useEffect } from "react";
 import { SimpleGrid, useMediaQuery } from '@chakra-ui/react';
 import ProductCard from '../products/_productCard';
-import { fetchProducts } from "../../store/actions";
-import { ProductState } from "../../store/types";
+import { fetchProducts } from "../../store/products/actionsProducts";
+import { ProductState } from "../../store/products/typesProducts";
 import { useAppDispatch, useAppSelector } from '../../store/hooks';
 
 const HomeProductContainer: React.FC = () => {
@@ -15,7 +15,6 @@ const HomeProductContainer: React.FC = () => {
   const { products, loading, error } = useAppSelector((state: { productReducer: ProductState }) => state.productReducer);
   
   const homeProducts = products.slice(0,4)
-  console.log(homeProducts)
 
   let gridColumns = 4;
   if (isSmallScreen) {
