@@ -1,4 +1,4 @@
-import { Box, Radio, RadioGroup, HStack, VStack, Text, Button } from '@chakra-ui/react';
+import { Box, Checkbox, CheckboxGroup, HStack, VStack, Text, Button } from '@chakra-ui/react';
 import { useState } from 'react';
 
 interface ProductListProps {
@@ -8,72 +8,77 @@ interface ProductListProps {
 const ProductList: React.FC<ProductListProps> = ({ data }) => {
 
   const { size, thickness, finish } = data;
-  
-  const [selectedSize, setSelectedSize] = useState('');
-  const [selectedThickness, setSelectedThickness] = useState('');
-  const [selectedFinish, setSelectedFinish] = useState('');
 
-  const handleSizeChange = (selected: string) => {
-    setSelectedSize(selected);
-  };
+  const [selectedSizes, setSelectedSizes] = useState<string[]>([]);
+  const [selectedThicknesses, setSelectedThicknesses] = useState<string[]>([]);
+  const [selectedFinishes, setSelectedFinishes] = useState<string[]>([]);
 
-  const handleThicknessChange = (selected: string) => {
-    setSelectedThickness(selected);
-  };
-
-  const handleFinishChange = (selected: string) => {
-    setSelectedFinish(selected);
-  };
+  const handleCheckboxChange = (value: string, setState: React.Dispatch<React.SetStateAction<string[]>>) => {
+    setState(prevState => prevState.includes(value) ? prevState.filter(v => v !== value) : [value]);
+  }; //maneja los checkboxes para controlar que solo 1 este clickeado a la vez
 
   return (
     <>
       <HStack align="start" spacing={4} w={'100%'} mb={'4%'}>
 
-        <VStack align="start" w={'33%'} >
-          <Text fontSize='0.8rem'>FINISH</Text>
-          <RadioGroup value={selectedFinish} onChange={handleFinishChange}>
-            {finish.map((finish) => (
-              <Box fontSize={'0.75rem'} display={'flex'} w={'70px'} justifyContent={'space-between'} py={'2%'}>
-                  {finish}
-                <Radio variant={'checkbox'} key={finish} value={finish} colorScheme="orange"/>
+        <CheckboxGroup colorScheme='whiteAlpha' value={selectedFinishes}>
+          <VStack align="start" w={'33%'}>
+            <Text fontSize='0.8rem'>FINISH</Text>
+            {finish.map(finish => (
+              <Box key={finish} fontSize={'0.75rem'} display={'flex'} justifyContent={'space-between'} w={'100%'}>
+                {finish}
+                <Checkbox
+                  value={finish}
+                  iconColor="orange"
+                  isChecked={selectedFinishes.includes(finish)}
+                  onChange={() => handleCheckboxChange(finish, setSelectedFinishes)}
+                />
               </Box>
             ))}
-          </RadioGroup>
-        </VStack>
+          </VStack>
+        </CheckboxGroup>
 
-        <VStack align="start" w={'33%'}>
-          <Text fontSize='0.8rem'>SIZE</Text>
-          <RadioGroup value={selectedSize} onChange={handleSizeChange}>
-            {size.map((size) => (
-              <Box fontSize={'0.75rem'} display={'flex'} w={'70px'} justifyContent={'space-between'} py={'2%'}>
-                  {size}
-                <Radio key={size} value={size} colorScheme="orange"/>
+        <CheckboxGroup colorScheme='whiteAlpha' value={selectedSizes}>
+          <VStack align="start" w={'33%'}>
+            <Text fontSize='0.8rem'>SIZE</Text>
+            {size.map(size => (
+              <Box key={size} fontSize={'0.75rem'} display={'flex'} justifyContent={'space-between'} w={'100%'}>
+                {size}
+                <Checkbox
+                  value={size}
+                  iconColor="orange"
+                  isChecked={selectedSizes.includes(size)}
+                  onChange={() => handleCheckboxChange(size, setSelectedSizes)}
+                />
               </Box>
             ))}
-          </RadioGroup>
-        </VStack>
+          </VStack>
+        </CheckboxGroup>
 
-        <VStack align="start" w={'33%'}>
-          <Text fontSize='0.8rem'>THICKNESS</Text>
-          <RadioGroup value={selectedThickness} onChange={handleThicknessChange}>
-            {thickness.map((thickness) => (
-              <Box fontSize={'0.75rem'} display={'flex'} w={'70px'} justifyContent={'space-between'} py={'2%'}>
-                  {thickness}
-                <Radio key={thickness} value={thickness} colorScheme="orange"/>
+        <CheckboxGroup colorScheme='whiteAlpha' value={selectedThicknesses}>
+          <VStack align="start" w={'33%'}>
+            <Text fontSize='0.8rem'>THICKNESS</Text>
+            {thickness.map(thickness => (
+              <Box key={thickness} fontSize={'0.75rem'} display={'flex'} justifyContent={'space-between'} w={'100%'}>
+                {thickness}
+                <Checkbox
+                  value={thickness}
+                  iconColor="orange"
+                  isChecked={selectedThicknesses.includes(thickness)}
+                  onChange={() => handleCheckboxChange(thickness, setSelectedThicknesses)}
+                />
               </Box>
             ))}
-          </RadioGroup>
-        </VStack>
+          </VStack>
+        </CheckboxGroup>
       </HStack>
-
       <Button
         fontSize={'1rem'}
         fontWeight={'semibold'}
         variant={'unstyled'}
         _hover={{
           fontWeight: 'bold',
-        }}
-      >
+        }}>
         ADD TO CART
       </Button>
     </>

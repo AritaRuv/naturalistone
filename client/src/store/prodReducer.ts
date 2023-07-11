@@ -3,6 +3,7 @@ import { ProductState, ProductAction, ProductActionTypes } from "./types";
 
 const initialState: ProductState = {
   products: [],
+  productValues:{},
   loading: false,
   error: null,
 };
@@ -26,6 +27,11 @@ const productReducer = (state = initialState, action: ProductAction): ProductSta
         ...state,
         loading: false,
         error: action.error,
+      };
+    case ProductActionTypes.FETCH_PRODUCTS_VALUES:
+      return {
+        ...state,
+        productValues: action.payload
       };
     default:
       return state;
