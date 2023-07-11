@@ -7,48 +7,66 @@ import {
   useBreakpointValue,
   Text,
   Button,
+  useMediaQuery,
 } from "@chakra-ui/react";
-// Here we have used react-icons package for the icons
-import { BiLeftArrowAlt, BiRightArrowAlt } from "react-icons/bi";
-// And react-slick as our Carousel Lib
-import Slider from "react-slick";
-import { PiCaretDownThin } from "react-icons/pi";
 
-export default function CarouselVideo({source}) {
-  // As we have used custom buttons, we need a reference variable to
-  // change the state
-  const [slider, setSlider] = React.useState<Slider | null>(null);
+export default function CarouselVideo({ source }) {
+  const [smallerThan1000] = useMediaQuery("(max-width: 1000px)");
+  const [smallerThan920] = useMediaQuery("(max-width: 920px)");
+  const [smallerThan700] = useMediaQuery("(max-width: 700px)");
+  const [smallerThan450] = useMediaQuery("(max-width: 450px)");
+  const [boxHeight, setBoxHeight] = useState("60vh");
+  const [boxHeightVideo, setBoxHeightVideo] = useState("");
 
-  // Settings for the slider
-  const settings = {
-    dots: true,
-    arrows: false,
-    fade: true,
-    infinite: true,
-    autoplay: true,
-    speed: 500,
-    autoplaySpeed: 5000,
-    slidesToShow: 1,
-    slidesToScroll: 1,
-  };
+  useEffect(() => {
+    if (!smallerThan1000) {
+      setBoxHeight("400px");
+      setBoxHeightVideo("900px");
+    }
+    if (smallerThan1000) {
+      setBoxHeight("350px");
+      setBoxHeightVideo("700px");
+    }
+    if (smallerThan700) {
+      setBoxHeight("200px");
+      setBoxHeightVideo("580px");
+    }
+    if (smallerThan450) {
+      setBoxHeight("180px");
+      setBoxHeightVideo("600px");
+    }
+  }, [
+    !smallerThan1000,
+    smallerThan1000,
+    smallerThan920,
+    smallerThan700,
+    smallerThan450,
+  ]);
 
   return (
-    <Box
-      position={"relative"}
-      height={"60vh"}
-      width={"100%"}
-      overflow={"hidden"}
-    >
-      <video autoPlay muted loop 
-        style={{
-          width: "100%",
-          backgroundPosition:"center",
-          backgroundSize:"cover",
-          position:"relative",
-          bottom:"25vh"
-        }}>
-        <source src={source} />
-      </video>
-    </Box>
+    <>
+      <Box
+        position={"relative"}
+        height={boxHeight}
+        width={"100%"}
+        overflow={"hidden"}
+      >
+        <video
+          autoPlay
+          muted
+          loop
+          style={{
+            width: "100%",
+            backgroundPosition: "center",
+            backgroundSize: "cover",
+            position: "relative",
+            bottom: "25vh",
+            height: boxHeightVideo,
+          }}
+        >
+          <source src={source} />
+        </video>
+      </Box>
+    </>
   );
 }
