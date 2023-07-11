@@ -2,14 +2,10 @@
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.productDimensions = void 0;
 function productDimensions(array) {
-    const values = {
-        size: [],
-        thickness: [],
-        finish: [],
-        prodNameID: 0
-    };
+    const obj = {};
     array.forEach((producto) => {
         const { Size, Thickness, Finish, ProdNameID } = producto;
+        const values = obj[ProdNameID] || { size: [], thickness: [], finish: [], prodNameID: ProdNameID };
         if (Size !== null && !values.size.includes(Size)) {
             values.size.push(Size);
         }
@@ -19,8 +15,8 @@ function productDimensions(array) {
         if (Finish !== null && !values.finish.includes(Finish)) {
             values.finish.push(Finish);
         }
-        values.prodNameID = ProdNameID;
+        obj[ProdNameID] = values;
     });
-    return values;
+    return obj;
 }
 exports.productDimensions = productDimensions;
