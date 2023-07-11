@@ -115,7 +115,7 @@ const ProductCard: React.FC<{ product: Product }> = ({ product }) => {
                 </Button>
               </Box>
               :
-              <AddProductToCart />
+              <AddProductToCart ProdNameID={ProdNameID}/>
               }
             </Box>
           </Box>
