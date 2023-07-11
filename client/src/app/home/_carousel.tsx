@@ -15,7 +15,7 @@ import { BiLeftArrowAlt, BiRightArrowAlt } from "react-icons/bi";
 import Slider from "react-slick";
 import { PiCaretDownThin } from "react-icons/pi";
 
-export default function Carousel({ h, mt, items, hidden }) {
+export default function Carousel({ mt, items, hidden }) {
   // As we have used custom buttons, we need a reference variable to
   // change the state
   const [slider, setSlider] = React.useState<Slider | null>(null);
