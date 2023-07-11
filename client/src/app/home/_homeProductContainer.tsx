@@ -34,7 +34,7 @@ const HomeProductContainer: React.FC = () => {
       spacingY={6}
       py={'2%'}
       px={'10%'}
-      w={'100vw'}
+      w={'100%'}
       placeItems={'center'}
       columns={gridColumns} // Establece el número de columnas dinámicamente
       bg={'#f2f2f2'}

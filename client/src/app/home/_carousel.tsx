@@ -49,7 +49,7 @@ export default function Carousel({ h, mt, items, hidden }) {
     <Box
       position={"relative"}
       height={h}
-      width={"full"}
+      width={"100%"}
       overflow={"hidden"}
       mt={mt}
     >
@@ -82,7 +82,7 @@ export default function Carousel({ h, mt, items, hidden }) {
               position="absolute"
               bottom={0}
               left={0}
-              width={"full"}
+              width={"100%"}
               // mt={mt}
               h={"40vh"}
               bg={"rgb(180, 177, 179)"}

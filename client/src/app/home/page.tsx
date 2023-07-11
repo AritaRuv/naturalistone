@@ -1,6 +1,7 @@
 import HomeProductContainer from "@/app/home/_homeProductContainer";
 import NavBar from "../_navBar/_navBar";
 import Carousel from "./_carousel";
+import CarouselVideo from "./carouselVideo";
 
 const cards = [
   {
@@ -20,7 +21,7 @@ const cards1 = [
   {
     material: "Honed",
     name: "Nombre Honed",
-    img: "https://media3.giphy.com/media/MUDBH3wJIOnHAtE3xM/giphy.gif?cid=ecf05e47asx5sp9gszouug0hy3nuavahme3lup8yrlf6pm8v&ep=v1_gifs_related&rid=giphy.gif&ct=g",
+    // img: "https://thumbs.gfycat.com/IdealUnknownAlaskanhusky-mobile.mp4",
   }
   // "https://media3.giphy.com/media/MUDBH3wJIOnHAtE3xM/giphy.gif?cid=ecf05e47asx5sp9gszouug0hy3nuavahme3lup8yrlf6pm8v&ep=v1_gifs_related&rid=giphy.gif&ct=g",
 ];
@@ -30,7 +31,9 @@ export default function Home() {
     <>
       <NavBar />
       <Carousel h={"800px"} mt={"-100px"} items={cards} hidden={false} />
-      <Carousel h={"400px"} mt={"0px"} items={cards1} hidden={true} />
+      <CarouselVideo source={"https://cdn.coverr.co/videos/coverr-bathroom-interior-design-4234/1080p.mp4"}/>
+      <Carousel h={"800px"} mt={"0px"} items={cards} hidden={false} />
+      <CarouselVideo source={"https://cdn.coverr.co/videos/coverr-bathroom-in-a-mobile-home-3685/1080p.mp4"}/>
       <HomeProductContainer />
     </>
   );
