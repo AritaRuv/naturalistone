@@ -6,7 +6,7 @@ import CartButton from "./cartButton";
   const IconButtonsNavBar: React.FC = () => {
     
     return(
-      <Box minW={'50px'}>
+      <Box minW={'50px'} zIndex={1}>
         <CartButton/>
         <IconButton
           aria-label="User-icon"

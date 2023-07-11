@@ -12,7 +12,6 @@ import {
 import { BiLeftArrowAlt, BiRightArrowAlt } from "react-icons/bi";
 // And react-slick as our Carousel Lib
 import Slider from "react-slick";
-import NavBar from "./_navBar";
 import { PiCaretDownThin } from "react-icons/pi";
 
 export default function Carousel({ h, mt, items, hidden }) {
@@ -68,7 +67,7 @@ export default function Carousel({ h, mt, items, hidden }) {
       />
       {/* Slider */}
       <Slider {...settings} ref={(slider) => setSlider(slider)}>
-        {items.map((url, index) => (
+        {items.map((elem, index) => (
           <Box
             key={index}
             height={"6xl"}
@@ -77,11 +76,78 @@ export default function Carousel({ h, mt, items, hidden }) {
             backgroundRepeat="no-repeat"
             backgroundSize="cover"
             bottom={"100px"}
-            backgroundImage={`url(${url})`}
-          ></Box>
-        ))}
+            backgroundImage={`url(${elem.img})`}
+          >
+            <Box
+              position="absolute"
+              bottom={0}
+              left={0}
+              width={"full"}
+              // mt={mt}
+              h={"40vh"}
+              bg={"rgb(180, 177, 179)"}
+              opacity={0.7} // Ajusta la opacidad según tus necesidades
+              hidden={hiddenBox}
+              placeContent={"center"}
+              onMouseEnter={handleMouseEnter}
+              onMouseLeave={handleMouseLeave}
+
+            >
+              <IconButton
+                display={"flex"}
+                aria-label={"description"}
+                icon={<PiCaretDownThin />}
+                h={"10px"}
+                mt={"15px"}
+                ml={"48vw"}
+                color={"black"}
+              ></IconButton>
+            </Box>
+            {isDropdownOpen && (
+              <Box
+                w={"full"}
+                h={"47vh"}
+                position={"absolute"}
+                placeContent={"center"}
+                bottom={0}
+                left={0}
+                bg={"rgb(180, 177, 179)"}
+                opacity={0.7} // Ajusta la opacidad según tus necesidades
+                onMouseEnter={handleMouseEnter}
+                onMouseLeave={handleMouseLeave}
+              >
+                <Box w={"full"} border={"2px solid red"} pt={"14px"} display={"flex"} justifyContent={"center"}>
+                  <Box display={"flex"} flexDirection={"column"} bg={"red"} w={"15vw"} mb={"5vw"}>
+                    <Box>
+                      <Center>
+                        <Text variant={"unstyled"} bg={"none"} fontSize={"1.3rem"}>
+                          {elem.material}
+                        </Text>
+                      </Center>
+                    </Box>
+                    <Box>
+                      <Center>
+                        <Text variant={"unstyled"} bg={"none"} fontSize={"1rem"}>
+                          {elem.name}
+                        </Text>
+                      </Center>
+                    </Box>
+                    <Box>
+                      <Center>
+                        <Button variant={"unstyled"} bg={"none"} fontSize={"0.9rem"}>
+                      Discover Collection
+                        </Button>
+                      </Center>
+                    </Box>
+                  </Box>
+                </Box>
+              </Box>
+            )}
+          </Box>
+        ))
+        }
       </Slider>
-      <Box
+      {/* <Box
         display={"flex"}
         w={"full"}
         bg={"rgba(210, 210, 210, 0.3)"}
@@ -130,7 +196,7 @@ export default function Carousel({ h, mt, items, hidden }) {
             </Center>
           </Box>
         </Box>
-      )}
+      )} */}
     </Box>
   );
 }

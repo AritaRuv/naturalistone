@@ -30,7 +30,7 @@ interface MenuDrawerProps {
 
   return(
     <>
-      <Box display={'flex'} placeItems={'center'}>
+      <Box display={'flex'} placeItems={'center'} zIndex={1}>
       <IconButton
         aria-label="Menu-icon"
         variant="unstyled"
