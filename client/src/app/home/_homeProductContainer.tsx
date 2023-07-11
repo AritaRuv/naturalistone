@@ -15,7 +15,6 @@ const HomeProductContainer: React.FC = () => {
   const { products, loading, error } = useAppSelector((state: { productReducer: ProductState }) => state.productReducer);
   
   const homeProducts = products.slice(0,4)
-  console.log(homeProducts)
 
   let gridColumns = 4;
   if (isSmallScreen) {
