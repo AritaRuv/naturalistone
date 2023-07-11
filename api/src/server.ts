@@ -37,7 +37,7 @@ app.use(morgan("dev"));
 app.use((req: Request, res: Response, next: NextFunction) => {
   res.header(
     "Access-Control-Allow-Origin",
-    "https://main.d2z2dpapj7iyfx.amplifyapp.com/"
+    "http://localhost:3000"
   ); // update to match the domain you will make the request from
   res.header("Access-Control-Allow-Credentials", "true");
   res.header(
