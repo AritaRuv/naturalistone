@@ -20,7 +20,7 @@ const HomeProductContainer: React.FC = () => {
       spacingY={6}
       py={"2%"}
       px={"4%"}
-      w={"100vw"}
+      w={"98.8vw"}
       placeItems={"center"}
       columns={gridColumns} // Establece el número de columnas dinámicamente
       bg={"#f2f2f2"}

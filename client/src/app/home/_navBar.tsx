@@ -1,5 +1,5 @@
 "use client";
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { Box, Button, Flex, IconButton, useMediaQuery } from "@chakra-ui/react";
 import NextImage from "next/image";
 import logo from "../assets/NaturalistoneLogo.png";
@@ -10,7 +10,7 @@ import {
 } from "react-icons/pi";
 import { css } from "@emotion/react";
 
-const NavBar: React.FC = () => {
+export function NavBar() {
   const [menuVisible, setMenuVisible] = useState(true);
   const [hover, setHover] = useState(false);
 
@@ -38,7 +38,9 @@ const NavBar: React.FC = () => {
 
   return (
     <Flex
-      bg={menuVisible ? (hover ? "white" : "none") : "white"}
+      // backgroundImage={menuVisible ? (hover ? "white" : "none") : "white"}
+      position={"relative"}
+      bg={menuVisible ? (hover ? "white" : "transparent") : "white"}
       h={menuVisible ? "8vh" : "16vh"}
       alignContent="center"
       pr={"2vw"}
@@ -48,7 +50,8 @@ const NavBar: React.FC = () => {
       alignItems="center"
       justifyContent="space-between"
       flexDir={"column"}
-      w="100vw"
+      w="98vw"
+      zIndex={1}
       onMouseEnter={handleMouseEnter}
       onMouseLeave={handleMouseLeave}
     >
@@ -488,6 +491,6 @@ const NavBar: React.FC = () => {
       )}
     </Flex>
   );
-};
+}
 
 export default NavBar;
