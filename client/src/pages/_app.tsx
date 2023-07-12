@@ -4,7 +4,7 @@ import { ChakraProvider } from '@chakra-ui/react'
 import { extendTheme } from '@chakra-ui/react'
 import { Provider } from 'react-redux';
 import {store} from '../store/store';
-import { radioTheme } from '@/app/products/Radio';
+
 
 
 
@@ -18,9 +18,7 @@ const colors = {
 
 export const theme = extendTheme({ 
   colors,
-  components: {
-    Radio: radioTheme,
-  }})
+  })
 
 // 3. Pass the `theme` prop to the `ChakraProvider`
 function MyApp({ Component, pageProps }) {

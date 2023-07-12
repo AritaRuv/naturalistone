@@ -1,6 +1,7 @@
 "use client";
-import React, { useRef} from "react";
-import { 
+import React, { useEffect, useRef} from "react";
+import {
+  Box, 
   IconButton,
   Drawer,
   DrawerBody,
@@ -10,40 +11,26 @@ import {
   DrawerContent,
   DrawerCloseButton,
   useDisclosure, 
-  Divider} from "@chakra-ui/react";
+  Text,
+  Divider,
+  Button} from "@chakra-ui/react";
 import { PiShoppingCartThin } from 'react-icons/pi';
+import { useAppSelector, useAppDispatch } from "@/store/hooks";
+import { CartState } from "@/store/cart/typesCart";
+import { fetchCart } from "@/store/cart/actionsCart";
 import ProductCardCart from "./cartProducts";
-
-export interface ProductCart {
-  product_id: number;
-  product_name: string
-  material: string;
-  price: number,
-  quantity: number
-  }
+import './_navBar.css'
 
   const CartButton: React.FC = () => {
 
     const { isOpen, onOpen, onClose } = useDisclosure()
-    const products = [{
-      product_id: 1,
-      product_name: 'Rimini',
-      material:'Terrazzo',
-      price: 1223,
-      quantity: 32
-    },{
-      product_id: 3,
-      product_name: 'Rimini',
-      material:'Terrazzo',
-      price: 1223,
-      quantity: 32
-    },{
-      product_id: 2,
-      product_name: 'Rimini',
-      material:'Terrazzo',
-      price: 1223,
-      quantity: 32
-    }]
+    const { cart, loading, error } = useAppSelector((state: { cartReducer: CartState }) => state.cartReducer);
+    const dispatch = useAppDispatch();
+
+    useEffect(()=>{
+      dispatch(fetchCart(1938))
+    },[])
+    console.log(cart)
 
     return(
       <>
@@ -65,16 +52,21 @@ export interface ProductCart {
           <DrawerCloseButton />
           <DrawerHeader>CART ITEMS</DrawerHeader>
           <DrawerBody >
-          {
-              products.map(product => {
-                return(
-                  <>
-                  <ProductCardCart product={product} key={product.product_id}/>
-                  <Divider borderColor={'gray.300'}/>
-                  </>
-                )
-              })
-            }
+            <Box h={'85%'} overflow={'auto'}>
+              {
+                cart?.map(product => {
+                  return(
+                    <>
+                    <ProductCardCart product={product} key={product.idCartEntry}/>
+                    <Divider borderColor={'gray.300'}/>
+                    </>
+                    )})
+              }
+            </Box>
+            <Box w={'100%'} h={'15%'} p={'5%'} display={'flex'} justifyContent={'space-between'} alignItems={'center'} flexDir={'column'}>
+              <Text fontWeight={'semibold'}>SUB TOTAL: $XXXX</Text>
+              <Button fontSize="0.9rem" variant="unstyled" className="customButton"> CHECK OUT </Button>
+            </Box>
           </DrawerBody>
 
           <DrawerFooter>

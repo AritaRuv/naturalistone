@@ -15,7 +15,7 @@ export const getProducts = async () => {
 
 export const getProductValues = async ({ProdNameID}) => {
   try {
-
+    console.log(ProdNameID)
     const response = await axios.get(`http://localhost:5000/api/products/${ProdNameID}`); // Realiza la solicitud GET a la ruta /api/products de tu backend
  
     return response.data;

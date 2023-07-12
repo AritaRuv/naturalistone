@@ -33,9 +33,22 @@ export async function getCartProducts(req: Request, res: Response) {
   
       const customerID = req.params.id;
     
-      const query = `SELECT * FROM NaturaliStone.Cart
-                     LEFT JOIN Products ON Cart.ProductID = Products.ProdID
-                     WHERE Cart.CustomerID = ?;
+      const query = `SELECT 
+                      Cart.idCartEntry,
+                      Cart.Quantity,
+                      Cart.CustomerID, 
+                      Products.SalePrice,
+                      Dimension.Type,
+                      Dimension.Size,
+                      Dimension.Thickness,
+                      Dimension.Finish,
+                      ProdNames.Naturali_ProdName,
+                      ProdNames.Material
+                    FROM NaturaliStone.Cart
+                    LEFT JOIN Products ON Cart.ProductID = Products.ProdID
+                    LEFT JOIN Dimension ON Products.DimensionID = Dimension.DimensionID
+                    LEFT JOIN ProdNames ON Products.ProdNameID = ProdNames.ProdNameID
+                    WHERE Cart.CustomerID = 1938;
                     `;
       
       mysqlConnection.query(
