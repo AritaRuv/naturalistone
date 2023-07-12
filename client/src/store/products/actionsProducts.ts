@@ -1,7 +1,7 @@
 // actions.ts
 import { Dispatch } from "redux";
-import { ProductActionTypes, ProductAction } from "./types";
-import { getProductValues, getProducts } from '../api/apiProds'; // Importa tu función de solicitud a la API
+import { ProductActionTypes, ProductAction } from "./typesProducts";
+import { getProductValues, getProducts } from '../../api/apiProds'; // Importa tu función de solicitud a la API
 
 export const fetchProducts = () => {
 

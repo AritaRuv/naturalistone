@@ -1,5 +1,5 @@
 // reducer.ts
-import { ProductState, ProductAction, ProductActionTypes } from "./types";
+import { ProductState, ProductAction, ProductActionTypes } from "./typesProducts";
 
 const initialState: ProductState = {
   products: [],
