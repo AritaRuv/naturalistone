@@ -3,6 +3,7 @@ import { Box, Text, useMediaQuery } from '@chakra-ui/react';
 import NextImage from 'next/image';
 import '../assets/styleSheet.css';
 import { ProductCart } from '@/store/cart/typesCart';
+import { type } from 'os';
 
 const ProductCardCart: React.FC<{ product: ProductCart }> = ({ product }) => {
 
@@ -43,7 +44,7 @@ const ProductCardCart: React.FC<{ product: ProductCart }> = ({ product }) => {
           <Box>
             <Text textTransform={'uppercase'} fontSize={fontSubTitle}>{Material}</Text>
             <Text textTransform={'uppercase'} fontWeight={'bold'} fontSize={fontTitle}>{Naturali_ProdName}</Text>
-            <Text textTransform={'uppercase'} fontSize={'0.8rem'} color={'gray.600'}>{Finish} - {Size} - {Thickness}</Text>
+            <Text textTransform={'uppercase'} fontSize={'0.8rem'} color={'gray.600'}>{Finish} - {Size} - {Thickness}-{Type}</Text>
           </Box>
           <Box>
           <Box display={'flex'} justifyContent={'space-between'}>
