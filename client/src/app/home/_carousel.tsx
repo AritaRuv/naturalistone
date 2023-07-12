@@ -19,23 +19,8 @@ export default function Carousel({ mt, items, hidden }) {
   // As we have used custom buttons, we need a reference variable to
   // change the state
   const [slider, setSlider] = React.useState<Slider | null>(null);
-  const [currentImage, setCurrentImage] = useState(items[0]);
   const [isDropdownOpen, setIsDropdownOpen] = useState(false);
   const [hiddenBox, setHiddenBox] = useState(false);
-  const [smallerThan900] = useMediaQuery("(max-width: 900px)");
-  const [smallerThan880] = useMediaQuery("(max-width: 880px)");
-  const [smallerThan760] = useMediaQuery("(max-width: 760px)");
-  const [smallerThan490] = useMediaQuery("(max-width: 490px)");
-  const [boxHeight, setBoxHeight] = useState("800px");
-
-  // useEffect(() => {
-  //   if (!smallerThan900) setBoxHeight("800px");
-  //   if (smallerThan900) setBoxHeight("700px");
-  //   if (smallerThan880) setBoxHeight("600px");
-  //   if (smallerThan760) setBoxHeight("550px");
-  //   // if (smallerThan760) setBoxHeight("650px");
-  //   // else setBoxHeight("800px");
-  // }, [smallerThan900, smallerThan760, !smallerThan900]);
 
   const handleMouseEnter = () => {
     setIsDropdownOpen(true);

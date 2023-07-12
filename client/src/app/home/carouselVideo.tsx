@@ -1,14 +1,6 @@
 "use client";
 import React, { useState, useEffect } from "react";
-import {
-  Box,
-  Center,
-  IconButton,
-  useBreakpointValue,
-  Text,
-  Button,
-  useMediaQuery,
-} from "@chakra-ui/react";
+import { Box, useMediaQuery } from "@chakra-ui/react";
 
 export default function CarouselVideo({ source }) {
   const [smallerThan1000] = useMediaQuery("(max-width: 1000px)");

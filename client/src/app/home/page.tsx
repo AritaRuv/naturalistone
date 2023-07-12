@@ -23,7 +23,7 @@ export default function Home() {
       <Carousel mt={"-100px"} items={cards} hidden={false} />
       <CarouselVideo
         source={
-          "https://cdn.coverr.co/videos/coverr-bathroom-interior-design-4234/1080p.mp4"
+          "https://naturalistone-images.s3.amazonaws.com/131642+(Original).mp4"
         }
       />
       <Carousel mt={"0px"} items={cards} hidden={false} />
