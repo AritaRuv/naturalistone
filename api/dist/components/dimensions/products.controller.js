@@ -75,7 +75,7 @@ function getProductsValuesByProdNameID(req, res) {
                 else {
                     console.log("Data OK");
                     const transformedResults = (0, productDimensions_1.productDimensions)(results);
-                    res.status(200).json({ results, transformedResults });
+                    res.status(200).json(transformedResults);
                 }
             });
         }

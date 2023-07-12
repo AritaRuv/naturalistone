@@ -69,7 +69,7 @@ export async function getProductsValuesByProdNameID(req: Request, res: Response)
         } else {
           console.log("Data OK");
           const transformedResults = productDimensions(results)
-          res.status(200).json(transformedResults);
+          res.status(200).json({results, transformedResults});
         }
       }
     );

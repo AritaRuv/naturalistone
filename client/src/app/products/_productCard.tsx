@@ -4,11 +4,15 @@ import NextImage from 'next/image';
 import { useState } from 'react';
 import { PiCaretDownThin } from 'react-icons/pi';
 import '../assets/styleSheet.css';
-import { Product } from '@/store/types';
+import { Product, ProductState } from '@/store/types';
 import AddProducttoCart from './addToCartDropdown';
 import AddProductToCart from './addToCartDropdown';
+import { useAppDispatch, useAppSelector } from '@/store/hooks';
+import { fetchProductsValues } from '@/store/actions';
 
 const ProductCard: React.FC<{ product: Product }> = ({ product }) => {
+
+  const dispatch = useAppDispatch();
 
   const [isDropdownOpen, setIsDropdownOpen] = useState(false);
   const [disableBox, setDisableBox] = useState(false);
@@ -17,9 +21,15 @@ const ProductCard: React.FC<{ product: Product }> = ({ product }) => {
   const { Naturali_ProdName, Material, ProdNameID  } = product
   const URL = `https://naturalistone-images.s3.amazonaws.com/${Material}/${Naturali_ProdName}/${Naturali_ProdName}_0.jpg`
 
+  const { productValues } = useAppSelector((state: { productReducer: ProductState }) => state.productReducer);
+
   const handleMouseEnter = () => {
     setIsDropdownOpen(true);
     setDisableBox(true);
+      if(!productValues.hasOwnProperty(ProdNameID)) {
+        console.log('Dispatching fetchProductsValues action');
+        dispatch(fetchProductsValues({ ProdNameID }));
+      }
   };
 
   const handleMouseLeave = () => {
@@ -115,7 +125,7 @@ const ProductCard: React.FC<{ product: Product }> = ({ product }) => {
                 </Button>
               </Box>
               :
-              <AddProductToCart ProdNameID={ProdNameID}/>
+              <AddProductToCart ProdNameID={ProdNameID} productValues={productValues}/>
               }
             </Box>
           </Box>

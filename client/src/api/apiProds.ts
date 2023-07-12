@@ -13,14 +13,13 @@ export const getProducts = async () => {
   }
 };
 
-export const getProductValues = async ({ProdNameID}) => {
+export const getProductValues = async (ProdNameID:number) => {
   try {
-    console.log(ProdNameID)
-    const response = await axios.get(`http://localhost:5000/api/products/${ProdNameID}`); // Realiza la solicitud GET a la ruta /api/products de tu backend
- 
+
+    const response = await axios.get(`http://localhost:5000/api/products/${ProdNameID}`);
+
     return response.data;
   } catch (error) {
-    console.log(error)
     throw new Error("Error al obtener los product values de la API");
   }
 };

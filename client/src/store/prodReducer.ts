@@ -29,10 +29,14 @@ const productReducer = (state = initialState, action: ProductAction): ProductSta
         error: action.error,
       };
     case ProductActionTypes.FETCH_PRODUCTS_VALUES:
+     const key = Object.keys(action.payload.transformedResults)[0];
+    
       return {
         ...state,
-        productValues: action.payload
-      };
+        productValues: {
+          ...state.productValues,
+          [key]:action.payload.transformedResults[key]
+          }}   
     default:
       return state;
   }
