@@ -4,6 +4,7 @@ import { ProductState, ProductAction, ProductActionTypes } from "./typesProducts
 const initialState: ProductState = {
   products: [],
   productValues:{},
+  materials: [],
   loading: false,
   error: null,
 };
@@ -32,6 +33,11 @@ const productReducer = (state = initialState, action: ProductAction): ProductSta
       return {
         ...state,
         productValues: action.payload
+      };
+    case ProductActionTypes.FETCH_MATERIALS:
+      return {
+        ...state,
+        materials: action.payload
       };
     default:
       return state;

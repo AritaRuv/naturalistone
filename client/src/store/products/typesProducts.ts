@@ -5,6 +5,7 @@ export interface Product {
   Material: string;
   }
 
+
 export interface ProductData {
   [key: string]: {
     size: string[];
@@ -17,6 +18,7 @@ export interface ProductData {
 export interface ProductState {
   products: Product[];
   productValues:ProductData;
+  materials: string[];
   loading: boolean;
   error: string | null;
 }
@@ -26,6 +28,7 @@ export enum ProductActionTypes {
   FETCH_PRODUCTS_SUCCESS = "FETCH_PRODUCTS_SUCCESS",
   FETCH_PRODUCTS_FAILURE = "FETCH_PRODUCTS_FAILURE",
   FETCH_PRODUCTS_VALUES = "FETCH_PRODUCTS_VALUES",
+  FETCH_MATERIALS = "FETCH_MATERIALS",
 }
 
 export interface FetchProductsRequestAction {
@@ -47,8 +50,14 @@ export interface FetchProductsDataAction {
   payload: ProductData;
 }
 
+export interface FetchMaterialsAction {
+  type: ProductActionTypes.FETCH_MATERIALS;
+  payload: string[];
+}
+
 export type ProductAction =
   | FetchProductsRequestAction
   | FetchProductsSuccessAction
   | FetchProductsFailureAction
-  | FetchProductsDataAction;
+  | FetchProductsDataAction
+  | FetchMaterialsAction;

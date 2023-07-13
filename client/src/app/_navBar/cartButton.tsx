@@ -30,7 +30,6 @@ import './_navBar.css'
     useEffect(()=>{
       dispatch(fetchCart(1938))
     },[])
-    console.log(cart)
 
     return(
       <>
@@ -56,10 +55,10 @@ import './_navBar.css'
               {
                 cart?.map(product => {
                   return(
-                    <>
-                    <ProductCardCart product={product} key={product.idCartEntry}/>
+                    <Box key={product.idCartEntry}>
+                    <ProductCardCart product={product} />
                     <Divider borderColor={'gray.300'}/>
-                    </>
+                    </Box>
                     )})
               }
             </Box>
