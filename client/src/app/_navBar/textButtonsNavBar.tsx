@@ -15,6 +15,7 @@ import { Box, Button } from "@chakra-ui/react";
         justifyContent={'space-between'}
         alignItems="center"
         minW={'300px'}
+        zIndex={1}
         w={'24%'}>
         <Button fontSize="0.9rem" variant="unstyled" className="customButton"> NEW PRODUCTS </Button>
         <Button fontSize="0.9rem" variant="unstyled" className="customButton"> PRODUCTS </Button>

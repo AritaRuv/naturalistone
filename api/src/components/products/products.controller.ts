@@ -104,3 +104,33 @@ export async function getProductByIDS(req: Request, res: Response) {
     res.status(409).send(error);
   }
 }
+
+export async function getAllMaterials(req: Request, res: Response) {
+  try {
+    const query = `SELECT GROUP_CONCAT(DISTINCT ProdNames.Material SEPARATOR ', ') AS Materials
+                    FROM ProdNames;
+    
+                    `;
+
+    mysqlConnection.query(
+      query,
+      (error: MysqlError, results: RowDataPacket[], fields: FieldPacket[]) => {
+        if (error) {
+          throw error;
+        }
+        if (results.length === 0) {
+          console.log("Error en productsRoutes.get /material");
+          res.status(404).json("No material");
+        } else {
+          const materialesRowData = results as RowDataPacket[]; // Convertir a tipo RowDataPacket[]
+          const materialesString = materialesRowData.map((row) => row.Materials)[0]; // Obtener la cadena de materiales
+          const materialesArray = materialesString.split(", ").map((material) => material.trim()); // Dividir la cadena y eliminar los espacios en blanco       
+          res.status(200).json(materialesArray) 
+        }
+      }
+    );
+  } catch (error) {
+    res.status(409).send(error);
+  }
+}
+

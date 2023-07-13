@@ -4,7 +4,7 @@ import { ProductState, ProductAction, ProductActionTypes } from "./typesProducts
 const initialState: ProductState = {
   products: [],
   productValues:{},
-  // productsByProdNameID:[],
+  materials: [],
   loading: false,
   error: null,
 };

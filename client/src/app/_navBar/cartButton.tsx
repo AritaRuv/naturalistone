@@ -56,10 +56,10 @@ import './_navBar.css'
               {
                 cart?.map(product => {
                   return(
-                    <>
-                    <ProductCardCart product={product} key={product.idCartEntry}/>
+                    <Box key={product.idCartEntry}>
+                    <ProductCardCart product={product} />
                     <Divider borderColor={'gray.300'}/>
-                    </>
+                    </Box>
                     )})
               }
             </Box>
