@@ -30,15 +30,16 @@ const productReducer = (state = initialState, action: ProductAction): ProductSta
         error: action.error,
       };
     case ProductActionTypes.FETCH_PRODUCTS_VALUES:
+     const key = Object.keys(action.payload.transformedResults)[0];
+      
       return {
         ...state,
-        productValues: action.payload
-      };
-    case ProductActionTypes.FETCH_MATERIALS:
-      return {
-        ...state,
-        materials: action.payload
-      };
+        productValues: {
+          ...state.productValues,
+          [key]:action.payload.transformedResults[key]
+          },
+        // productsByProdNameID: action.payload.results as unknown  as ProductsByProdNameID[]
+        }   
     default:
       return state;
   }

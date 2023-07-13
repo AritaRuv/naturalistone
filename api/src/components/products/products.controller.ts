@@ -69,7 +69,34 @@ export async function getProductsValuesByProdNameID(req: Request, res: Response)
         } else {
           console.log("Data OK");
           const transformedResults = productDimensions(results)
-          res.status(200).json(transformedResults);
+          res.status(200).json({transformedResults});
+        }
+      }
+    );
+  } catch (error) {
+    res.status(409).send(error);
+  }
+}
+//Ruta para obtener el productID de la tarjeta en funcion de su DimensionID y de su ProdNameID
+export async function getProductByIDS(req: Request, res: Response) {
+  try {
+    const {ProdNameID, DimensionID} = req.query
+    
+    const query = `SELECT * FROM NaturaliStone.Products where Products.ProdNameID = ${ProdNameID} AND Products.DimensionID = ${DimensionID};`;
+
+    mysqlConnection.query(
+      query,
+      (error: MysqlError, results: RowDataPacket[], fields: FieldPacket[]) => {
+        if (error) {
+          throw error;
+        }
+        if (results.length === 0) {
+          console.log("Error en productsRoutes.get /IDs");
+          res.status(404).json("No products match this search");
+        } else {
+
+          console.log("Data OK");
+          res.status(200).json(results);
         }
       }
     );
