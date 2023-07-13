@@ -30,7 +30,7 @@ import './_navBar.css'
     useEffect(()=>{
       dispatch(fetchCart(1938))
     },[])
-    console.log(cart)
+
 
     return(
       <>

@@ -1,36 +1,35 @@
 // /* eslint-disable quotes */
-// import { FieldInfo, MysqlError } from "mysql";
-// import express, { Request, Response } from "express";
-// import mysqlConnection from "../../db";
-// import { RowDataPacket, FieldPacket } from "mysql2";
-// import { productDimensions } from "../../controllers/productDimensions";
+import { FieldInfo, MysqlError } from "mysql";
+import express, { Request, Response } from "express";
+import mysqlConnection from "../../db";
+import { RowDataPacket, FieldPacket } from "mysql2";
 
-// export async function getAllProducts(req: Request, res: Response) {
-//   try {
-//     const query = `SELECT ProdNameID, Naturali_ProdName, Material    
-//                   FROM ProdNames
-//                     `;
+export async function getDimensions(req: Request, res: Response) {
+  try {
+    const {size, thickness, finish} = req.query
+    
+    const query = `SELECT * From Dimension WHERE Dimension.Size = "${size}" AND Dimension.Thickness = "${thickness}" AND Dimension.Finish = "${finish}"`;
 
-//     mysqlConnection.query(
-//       query,
-//       (error: MysqlError, results: RowDataPacket[], fields: FieldPacket[]) => {
-//         if (error) {
-//           throw error;
-//         }
-//         if (results.length === 0) {
-//           console.log("Error en productsRoutes.get /");
-//           res.status(404).json("No products");
-//         } else {
+    mysqlConnection.query(
+      query,
+      (error: MysqlError, results: RowDataPacket[], fields: FieldPacket[]) => {
+        if (error) {
+          throw error;
+        }
+        if (results.length === 0) {
+          console.log("Error en ddimensions.get /");
+          res.status(404).json("No dimensions");
+        } else {
 
-//           console.log("Data OK");
-//           res.status(200).json(results);
-//         }
-//       }
-//     );
-//   } catch (error) {
-//     res.status(409).send(error);
-//   }
-// }
+          console.log("Data OK");
+          res.status(200).json(results);
+        }
+      }
+    );
+  } catch (error) {
+    res.status(409).send(error);
+  }
+}
 
 // export async function getProductsValuesByProdNameID(req: Request, res: Response) {
 //   try {

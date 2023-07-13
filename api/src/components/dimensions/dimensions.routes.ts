@@ -1,7 +1,8 @@
-// import { Router } from 'express';
+import { Router } from 'express';
+import { getDimensions } from './dimensions.controller';
 
-// const dimensionsRouter: Router = Router();
+const dimensionsRouter: Router = Router();
 
-// // dimensionsRouter.get('/', getAllProducts );
+dimensionsRouter.get('/', getDimensions );
 
-// export default dimensionsRouter;
+export default dimensionsRouter;

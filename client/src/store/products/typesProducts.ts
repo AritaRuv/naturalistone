@@ -13,10 +13,21 @@ export interface ProductData {
     prodNameID: number;
   };
 }
+// export interface ProductsByProdNameID {
+//   ProdID: number;
+//   SalePrice: number | null;
+//   DimensionID: number;
+//   ProdNameID: number;
+//   Naturali_ProdName: string;
+//   Finish: string;
+//   Size: string | null;
+//   Thickness: string | null;
+// }
 
 export interface ProductState {
   products: Product[];
   productValues:ProductData;
+  // productsByProdNameID: ProductsByProdNameID[];
   loading: boolean;
   error: string | null;
 }

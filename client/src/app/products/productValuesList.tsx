@@ -1,5 +1,7 @@
+import { fetchDimension } from '@/store/dimensions/actionsDimensions';
 import { Box, Checkbox, CheckboxGroup, HStack, VStack, Text, Button } from '@chakra-ui/react';
 import { useState } from 'react';
+import { useAppDispatch,  } from '@/store/hooks';
 
 interface ProductListProps {
   data: {
@@ -13,6 +15,8 @@ interface ProductListProps {
 }
 
 const ProductList: React.FC<ProductListProps> = ({ data }) => {
+
+  const dispatch = useAppDispatch();
 
   const productKey = Object.keys(data)[0];
 
@@ -33,11 +37,8 @@ const ProductList: React.FC<ProductListProps> = ({ data }) => {
   }; //maneja los checkboxes para controlar que solo 1 este clickeado a la vez
 
   const handleAddToCart = () => {
-    
+    dispatch(fetchDimension(selectedProduct.size[0], selectedProduct.thickness[0], selectedProduct.finish[0]))
   }
-  
-
-  console.log({selectedProduct})
 
   return (
     <>

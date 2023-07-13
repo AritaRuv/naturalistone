@@ -4,6 +4,7 @@ import { ProductState, ProductAction, ProductActionTypes } from "./typesProducts
 const initialState: ProductState = {
   products: [],
   productValues:{},
+  // productsByProdNameID:[],
   loading: false,
   error: null,
 };
@@ -30,13 +31,15 @@ const productReducer = (state = initialState, action: ProductAction): ProductSta
       };
     case ProductActionTypes.FETCH_PRODUCTS_VALUES:
      const key = Object.keys(action.payload.transformedResults)[0];
-    
+      
       return {
         ...state,
         productValues: {
           ...state.productValues,
           [key]:action.payload.transformedResults[key]
-          }}   
+          },
+        // productsByProdNameID: action.payload.results as unknown  as ProductsByProdNameID[]
+        }   
     default:
       return state;
   }

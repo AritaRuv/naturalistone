@@ -4,11 +4,11 @@ import NextImage from 'next/image';
 import { useState } from 'react';
 import { PiCaretDownThin } from 'react-icons/pi';
 import '../assets/styleSheet.css';
-import { Product } from '@/store/products/typesProducts';
-import AddProducttoCart from './addToCartDropdown';
+import { Product, ProductState } from '@/store/products/typesProducts';
 import AddProductToCart from './addToCartDropdown';
 import { useAppDispatch, useAppSelector } from '@/store/hooks';
-import { fetchProductsValues } from '@/store/actions';
+import { fetchProductsValues } from '@/store/products/actionsProducts';
+
 
 const ProductCard: React.FC<{ product: Product }> = ({ product }) => {
 
@@ -22,6 +22,7 @@ const ProductCard: React.FC<{ product: Product }> = ({ product }) => {
   const URL = `https://naturalistone-images.s3.amazonaws.com/${Material}/${Naturali_ProdName}/${Naturali_ProdName}_0.jpg`
 
   const { productValues } = useAppSelector((state: { productReducer: ProductState }) => state.productReducer);
+  // const { productsByProdNameID } = useAppSelector((state: { productReducer: ProductState }) => state.productReducer);
 
   const handleMouseEnter = () => {
     setIsDropdownOpen(true);
@@ -42,6 +43,7 @@ const ProductCard: React.FC<{ product: Product }> = ({ product }) => {
     setShowAddToCart(true);
   };
 
+  
   return (
     <Box position="relative">
       <Box

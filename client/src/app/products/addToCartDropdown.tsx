@@ -1,10 +1,6 @@
 import React from 'react';
 import { Box } from '@chakra-ui/react';
 import ProductList from './productValuesList';
-import { useAppDispatch, useAppSelector } from '@/store/hooks';
-import { fetchProductsValues } from '@/store/products/actionsProducts';
-import { ProductState } from '@/store/products/typesProducts';
-
 
 interface AddProductToCartProps {
   ProdNameID: number;
