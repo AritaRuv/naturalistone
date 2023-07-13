@@ -15,7 +15,6 @@ const MaterialFilter: React.FC = () => {
     dispatch(fetchMaterials())
   },[])
 
-  console.log('materials', materials)
   return (
     <SimpleGrid
       spacingY={6}
@@ -24,7 +23,7 @@ const MaterialFilter: React.FC = () => {
       w={"100%"}
       placeItems={"center"}
       //columns={} // Establece el número de columnas dinámicamente
-      bg={"#f2f2f2"}
+      bg={"white"}
     >
 
     </SimpleGrid>
