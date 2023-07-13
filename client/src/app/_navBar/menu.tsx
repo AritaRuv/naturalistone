@@ -8,7 +8,7 @@ import { Box, Button } from "@chakra-ui/react";
   const Menu: React.FC<MenuProps> = ({handleMenu}) => {
     
     return(
-      <Box minW={'30px'}>
+      <Box minW={'30px'} zIndex={1} >
         <Button fontSize="0.9rem" variant="unstyled" className="customButton" onClick={handleMenu}> MENU </Button>
       </Box>
     )

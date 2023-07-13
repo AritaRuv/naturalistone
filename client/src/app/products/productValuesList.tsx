@@ -2,13 +2,21 @@ import { Box, Checkbox, CheckboxGroup, HStack, VStack, Text, Button } from '@cha
 import { useState } from 'react';
 
 interface ProductListProps {
-  data: { size: string[], thickness: string[], finish: string[], prodNameID: number };
+  data: {
+    [key: string]: {
+      size: string[];
+      thickness: string[];
+      finish: string[];
+      prodNameID: number;
+    };
+  };
 }
 
 const ProductList: React.FC<ProductListProps> = ({ data }) => {
 
-  const { size, thickness, finish } = data;
-
+  console.log(data)
+  const productKey = Object.keys(data)[0];
+  const { size, thickness, finish, prodNameID } = data[productKey];
   const [selectedSizes, setSelectedSizes] = useState<string[]>([]);
   const [selectedThicknesses, setSelectedThicknesses] = useState<string[]>([]);
   const [selectedFinishes, setSelectedFinishes] = useState<string[]>([]);

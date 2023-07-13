@@ -18,10 +18,10 @@ const AddProductToCart: React.FC<AddProductToCartProps> = ({ProdNameID}) => {
   useEffect(() => {
     dispatch(fetchProductsValues({ProdNameID}))
   }, []);
-
+  console.log(productValues)
   return (
     <Box display={'flex'} justifyContent={'space-between'} py={'2%'} px={'2%'} w={'260px'} h={'20vh'} bg={'white'} flexDir={'column'} >
-      <ProductList productValues={productValues}/>
+      {/* <ProductList /> */}
     </Box>
   );
 };
