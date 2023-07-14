@@ -51,7 +51,6 @@ export const fetchMaterials = () => {
     dispatch({ type: ProductActionTypes.FETCH_PRODUCTS_REQUEST });
     try {
       const data = await getMaterials(); // Llama a tu función de solicitud a la API
-
       dispatch({
         type: ProductActionTypes.FETCH_MATERIALS,
         payload: data,

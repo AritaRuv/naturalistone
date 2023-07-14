@@ -109,7 +109,6 @@ export async function getAllMaterials(req: Request, res: Response) {
   try {
     const query = `SELECT GROUP_CONCAT(DISTINCT ProdNames.Material SEPARATOR ', ') AS Materials
                     FROM ProdNames;
-    
                     `;
 
     mysqlConnection.query(
