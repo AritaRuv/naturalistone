@@ -116,7 +116,6 @@ function getAllMaterials(req, res) {
         try {
             const query = `SELECT GROUP_CONCAT(DISTINCT ProdNames.Material SEPARATOR ', ') AS Materials
                     FROM ProdNames;
-    
                     `;
             db_1.default.query(query, (error, results, fields) => {
                 if (error) {

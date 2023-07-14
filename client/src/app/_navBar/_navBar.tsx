@@ -47,7 +47,7 @@ const NavBar: React.FC = () => {
     <>
       {
         !smallerThan1200 ? (
-          <Box display={'flex'} flexDir={'column'}>
+          <Box display={'flex'} flexDir={'column'} position={'relative'}>
             <Box 
               bg={active ? "white" : hover ? "white" : "none"}
               onMouseEnter={handleMouseEnter}
@@ -77,7 +77,7 @@ const NavBar: React.FC = () => {
             </Box>
             {
               !menuVisible && (
-                <DropDownMenu handleHome={handleHome} active={active} handleActive={handleActive}/>
+                  <DropDownMenu handleHome={handleHome} active={active}/>
               )
             }
           </Box>

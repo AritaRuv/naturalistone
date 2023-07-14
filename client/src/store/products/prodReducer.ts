@@ -39,7 +39,12 @@ const productReducer = (state = initialState, action: ProductAction): ProductSta
           [key]:action.payload.transformedResults[key]
           },
         // productsByProdNameID: action.payload.results as unknown  as ProductsByProdNameID[]
-        }   
+        }
+    case ProductActionTypes.FETCH_MATERIALS:
+      return {
+        ...state,
+        materials: action.payload
+      };   
     default:
       return state;
   }
