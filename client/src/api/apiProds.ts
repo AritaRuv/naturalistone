@@ -16,7 +16,7 @@ export const getProducts = async () => {
 export const getProductValues = async (ProdNameID:number) => {
   try {
 
-    const response = await axios.get(`http://localhost:5000/api/products/${ProdNameID}`);
+    const response = await axios.get(`http://localhost:5000/api/products/id/${ProdNameID}`);
 
     return response.data;
   } catch (error) {
@@ -31,5 +31,15 @@ export const getMaterials = async () => {
   } catch (error) {
     console.log(error)
     throw new Error("Error al obtener los product values de la API");
+  }
+};
+
+export const getProduct= async (ProdNameID:number, DimensionID:number) => {
+  try {
+    const response = await axios.get(`http://localhost:5000/api/products/IDs?ProdNameID=${ProdNameID}&DimensionID=${DimensionID}`); 
+    return response.data;
+  } catch (error) {
+    console.log(error)
+    throw new Error("Error al obtener el product de la API");
   }
 };

@@ -69,13 +69,13 @@ function getProductsValuesByProdNameID(req, res) {
                     throw error;
                 }
                 if (results.length === 0) {
-                    console.log("Error en productsRoutes.get /:id");
+                    console.log("Error en productsRoutes.get /id/:id");
                     res.status(404).json("No products");
                 }
                 else {
                     console.log("Data OK");
                     const transformedResults = (0, productDimensions_1.productDimensions)(results);
-                    res.status(200).json({ transformedResults });
+                    res.status(200).json(transformedResults);
                 }
             });
         }

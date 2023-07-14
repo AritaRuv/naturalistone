@@ -23,12 +23,11 @@ const ProductCard: React.FC<{ product: Product }> = ({ product }) => {
 
   const { productValues } = useAppSelector((state: { productReducer: ProductState }) => state.productReducer);
   // const { productsByProdNameID } = useAppSelector((state: { productReducer: ProductState }) => state.productReducer);
-
+  
   const handleMouseEnter = () => {
     setIsDropdownOpen(true);
     setDisableBox(true);
       if(!productValues.hasOwnProperty(ProdNameID)) {
-        console.log('Dispatching fetchProductsValues action');
         dispatch(fetchProductsValues({ ProdNameID }));
       }
   };

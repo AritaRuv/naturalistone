@@ -1,7 +1,7 @@
 // actions.ts
 import { Dispatch } from "redux";
 import { ProductActionTypes, ProductAction } from "./typesProducts";
-import { getProductValues, getProducts, getMaterials } from '../../api/apiProds'; // Importa tu función de solicitud a la API
+import { getProductValues, getProducts, getMaterials, getProduct } from '../../api/apiProds'; // Importa tu función de solicitud a la API
 
 export const fetchProducts = () => {
 
@@ -60,8 +60,26 @@ export const fetchMaterials = () => {
     } catch (error) {
       dispatch({
         type: ProductActionTypes.FETCH_PRODUCTS_FAILURE,
-        error: "Error al obtener los product values",
+        error: "Error al obtener los product materials",
       });
+    }
+  };
+};
+
+export const fetchProduct = (ProductNameID: number, DimensionID) => {
+
+  return async (dispatch: Dispatch<ProductAction>) => {
+
+    try {
+      const product = await getProduct(ProductNameID, DimensionID); 
+
+      dispatch({
+        type: ProductActionTypes.FETCH_PRODUCT_BY_IDS,
+        payload: product,
+      });
+      
+    } catch (error) {
+        console.error("Error al obtener el product", error);
     }
   };
 };
