@@ -1,8 +1,8 @@
-'use client'
 import HomeProductContainer from "@/app/home/_homeProductContainer";
 import NavBar from "../_navBar/_navBar";
 import Carousel from "./_carousel";
 import CarouselVideo from "./carouselVideo";
+import { Filters } from "./filters/filters";
 
 const cards = [
   {
@@ -21,7 +21,7 @@ export default function Home() {
   return (
     <>
       <NavBar />
-      <Carousel mt={"-100px"} items={cards} hidden={false} />
+      <Carousel mt={"-10vh"} items={cards} hidden={false} />
       <CarouselVideo
         source={
           "https://naturalistone-images.s3.amazonaws.com/131642+(Original).mp4"
@@ -34,6 +34,7 @@ export default function Home() {
         }
       />
       <HomeProductContainer />
+      <Filters />
     </>
   );
 }
