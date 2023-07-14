@@ -28,11 +28,8 @@ export const fetchProducts = () => {
 
 export const fetchProductsValues = ({ ProdNameID }) => {
   return async (dispatch: Dispatch<ProductAction>) => {
-    dispatch({ type: ProductActionTypes.FETCH_PRODUCTS_REQUEST });
     try {
       const productValues = await getProductValues(ProdNameID); // Llama a tu función de solicitud a la API
-
-      console.log("actions", productValues);
 
       dispatch({
         type: ProductActionTypes.FETCH_PRODUCTS_VALUES,
@@ -65,3 +62,4 @@ export const fetchMaterials = () => {
     }
   };
 };
+

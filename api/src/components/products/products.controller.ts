@@ -71,7 +71,66 @@ export async function getProductsValuesByProdNameID(
         } else {
           console.log("Data OK");
           const transformedResults = productDimensions(results);
-          res.status(200).json(transformedResults);
+          res.status(200).json({ transformedResults });
+        }
+      }
+    );
+  } catch (error) {
+    res.status(409).send(error);
+  }
+}
+//Ruta para obtener el productID de la tarjeta en funcion de su DimensionID y de su ProdNameID
+export async function getProductByIDS(req: Request, res: Response) {
+  try {
+    const { ProdNameID, DimensionID } = req.query;
+
+    const query = `SELECT * FROM NaturaliStone.Products where Products.ProdNameID = ${ProdNameID} AND Products.DimensionID = ${DimensionID};`;
+
+    mysqlConnection.query(
+      query,
+      (error: MysqlError, results: RowDataPacket[], fields: FieldPacket[]) => {
+        if (error) {
+          throw error;
+        }
+        if (results.length === 0) {
+          console.log("Error en productsRoutes.get /IDs");
+          res.status(404).json("No products match this search");
+        } else {
+          console.log("Data OK");
+          res.status(200).json(results);
+        }
+      }
+    );
+  } catch (error) {
+    res.status(409).send(error);
+  }
+}
+
+export async function getAllMaterials(req: Request, res: Response) {
+  try {
+    const query = `SELECT GROUP_CONCAT(DISTINCT ProdNames.Material SEPARATOR ', ') AS Materials
+                    FROM ProdNames;
+    
+                    `;
+
+    mysqlConnection.query(
+      query,
+      (error: MysqlError, results: RowDataPacket[], fields: FieldPacket[]) => {
+        if (error) {
+          throw error;
+        }
+        if (results.length === 0) {
+          console.log("Error en productsRoutes.get /material");
+          res.status(404).json("No material");
+        } else {
+          const materialesRowData = results as RowDataPacket[]; // Convertir a tipo RowDataPacket[]
+          const materialesString = materialesRowData.map(
+            (row) => row.Materials
+          )[0]; // Obtener la cadena de materiales
+          const materialesArray = materialesString
+            .split(", ")
+            .map((material) => material.trim()); // Dividir la cadena y eliminar los espacios en blanco
+          res.status(200).json(materialesArray);
         }
       }
     );
