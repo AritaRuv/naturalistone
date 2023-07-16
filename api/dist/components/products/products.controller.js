@@ -18,8 +18,10 @@ const productDimensions_1 = require("../../controllers/productDimensions");
 function getAllProducts(req, res) {
     return __awaiter(this, void 0, void 0, function* () {
         try {
+            const { material } = req.query;
             const query = `SELECT ProdNameID, Naturali_ProdName, Material    
                   FROM ProdNames
+                  ${material ? `WHERE Material = "${material}"` : ``}
                     `;
             db_1.default.query(query, (error, results, fields) => {
                 if (error) {

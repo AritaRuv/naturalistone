@@ -7,8 +7,10 @@ import { productDimensions } from "../../controllers/productDimensions";
 
 export async function getAllProducts(req: Request, res: Response) {
   try {
+    const { material } = req.query;
     const query = `SELECT ProdNameID, Naturali_ProdName, Material    
                   FROM ProdNames
+                  ${material ? `WHERE Material = "${material}"` : ``}
                     `;
 
     mysqlConnection.query(
@@ -138,4 +140,3 @@ export async function getAllMaterials(req: Request, res: Response) {
     res.status(409).send(error);
   }
 }
-
