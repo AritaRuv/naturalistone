@@ -9,31 +9,33 @@ export default function CarouselVideo({ source }) {
   const [smallerThan450] = useMediaQuery("(max-width: 450px)");
   const [boxHeight, setBoxHeight] = useState("70vh");
   const [boxHeightVideo, setBoxHeightVideo] = useState("");
+  const [bottomVideo, setBottomVideo] = useState("200px");
 
-  // useEffect(() => {
-  //   if (!smallerThan1000) {
-  //     setBoxHeight("100%");
-  //     setBoxHeightVideo("40vh");
-  //   }
-    // if (smallerThan1000) {
-    //   setBoxHeight("350px");
-    //   setBoxHeightVideo("700px");
-    // }
-    // if (smallerThan700) {
-    //   setBoxHeight("200px");
-    //   setBoxHeightVideo("580px");
-    // }
-    // if (smallerThan450) {
-    //   setBoxHeight("180px");
-    //   setBoxHeightVideo("600px");
-    // }
-  // }, [
-  //   !smallerThan1000,
-  //   smallerThan1000,
-  //   // smallerThan920,
-  //   // smallerThan700,
-  //   // smallerThan450,
-  // ]);
+  useEffect(() => {
+    if (!smallerThan1000) {
+      setBoxHeight("70vh");
+      setBoxHeightVideo("");
+      setBottomVideo("160px");
+    }
+    if (smallerThan1000) {
+      setBoxHeight("350px");
+      setBoxHeightVideo("700px");
+    }
+    if (smallerThan700) {
+      setBoxHeight("200px");
+      setBoxHeightVideo("580px");
+    }
+    if (smallerThan450) {
+      setBoxHeight("180px");
+      setBoxHeightVideo("600px");
+    }
+  }, [
+    !smallerThan1000,
+    smallerThan1000,
+    smallerThan920,
+    smallerThan700,
+    smallerThan450,
+  ]);
 
   return (
     <>
@@ -42,7 +44,7 @@ export default function CarouselVideo({ source }) {
         height={boxHeight}
         width={"100%"}
         overflow={"hidden"}
-        mt={'-1vh'}
+        mt={"-1vh"}
       >
         <video
           autoPlay
@@ -53,7 +55,7 @@ export default function CarouselVideo({ source }) {
             backgroundPosition: "center",
             backgroundSize: "cover",
             position: "relative",
-            bottom: "5vh",
+            bottom: bottomVideo,
             height: boxHeightVideo,
           }}
         >
