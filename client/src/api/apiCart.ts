@@ -1,5 +1,5 @@
 // api.ts
-import { bodyCart } from "@/store/cart/actionsCart";
+import { bodyCart, bodyCartUpdate } from "@/store/cart/actionsCart";
 import axios from "axios";
 
 export const getCart = async (id: number) => {
@@ -22,7 +22,31 @@ export const addToCart = async (body: bodyCart) => {
     return response.data;
   } catch (error) {
     console.log(error)
-    throw new Error("Error al obtener el cart de la API");
+    throw new Error("Error al insertar un producto en el carrito");
+  }
+};
+
+export const updateCartProd = async (body: bodyCartUpdate) => {
+  try {
+
+    const response = await axios.patch('http://localhost:5000/api/cart', body); 
+    
+    return response.data;
+  } catch (error) {
+    console.log(error)
+    throw new Error("Error al updatear prod");
+  }
+};
+
+export const deleteCartProd = async (idEntryCart: number) => {
+  try {
+
+    const response = await axios.patch(`http://localhost:5000/api/cart/${idEntryCart}`); 
+    console.log('deleted')
+    return response.data;
+  } catch (error) {
+    console.log(error)
+    throw new Error("Error deleting prod");
   }
 };
 
