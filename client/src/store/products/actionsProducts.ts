@@ -5,6 +5,7 @@ import {
   getProductValues,
   getProducts,
   getMaterials,
+  getProduct,
 } from "../../api/apiProds"; // Importa tu función de solicitud a la API
 
 export const fetchProducts = (material: string) => {
@@ -49,7 +50,6 @@ export const fetchMaterials = () => {
     dispatch({ type: ProductActionTypes.FETCH_PRODUCTS_REQUEST });
     try {
       const data = await getMaterials(); // Llama a tu función de solicitud a la API
-      console.log("dispatch", data);
       dispatch({
         type: ProductActionTypes.FETCH_MATERIALS,
         payload: data,
@@ -57,9 +57,23 @@ export const fetchMaterials = () => {
     } catch (error) {
       dispatch({
         type: ProductActionTypes.FETCH_PRODUCTS_FAILURE,
-        error: "Error al obtener los product values",
+        error: "Error al obtener los product materials",
       });
     }
   };
 };
 
+export const fetchProduct = (ProductNameID: number, DimensionID) => {
+  return async (dispatch: Dispatch<ProductAction>) => {
+    try {
+      const product = await getProduct(ProductNameID, DimensionID);
+
+      dispatch({
+        type: ProductActionTypes.FETCH_PRODUCT_BY_IDS,
+        payload: product,
+      });
+    } catch (error) {
+      console.error("Error al obtener el product", error);
+    }
+  };
+};

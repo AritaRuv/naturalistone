@@ -13,21 +13,12 @@ export interface ProductData {
     prodNameID: number;
   };
 }
-// export interface ProductsByProdNameID {
-//   ProdID: number;
-//   SalePrice: number | null;
-//   DimensionID: number;
-//   ProdNameID: number;
-//   Naturali_ProdName: string;
-//   Finish: string;
-//   Size: string | null;
-//   Thickness: string | null;
-// }
 
 export interface ProductState {
   products: Product[];
   productValues: ProductData;
   materials: string[];
+  product: {};
   loading: boolean;
   error: string | null;
 }
@@ -38,6 +29,7 @@ export enum ProductActionTypes {
   FETCH_PRODUCTS_FAILURE = "FETCH_PRODUCTS_FAILURE",
   FETCH_PRODUCTS_VALUES = "FETCH_PRODUCTS_VALUES",
   FETCH_MATERIALS = "FETCH_MATERIALS",
+  FETCH_PRODUCT_BY_IDS = "FETCH_PRODUCT_BY_IDS",
 }
 
 export interface FetchProductsRequestAction {
@@ -64,10 +56,16 @@ export interface FetchMaterialsAction {
   payload: string[];
 }
 
+export interface FetchProductAction {
+  type: ProductActionTypes.FETCH_PRODUCT_BY_IDS;
+  payload: {};
+}
+
 export type ProductAction =
   | FetchProductsRequestAction
   | FetchProductsSuccessAction
   | FetchProductsFailureAction
   | FetchProductsDataAction
-  | FetchMaterialsAction;
+  | FetchMaterialsAction
+  | FetchProductAction;
 

@@ -9,6 +9,7 @@ const initialState: ProductState = {
   products: [],
   productValues: {},
   materials: [],
+  product: {},
   loading: false,
   error: null,
 };
@@ -37,13 +38,13 @@ const productReducer = (
         error: action.error,
       };
     case ProductActionTypes.FETCH_PRODUCTS_VALUES:
-      const key = Object.keys(action.payload.transformedResults)[0];
+      const key = Object.keys(action.payload)[0];
 
       return {
         ...state,
         productValues: {
           ...state.productValues,
-          [key]: action.payload.transformedResults[key],
+          [key]: action.payload[key],
         },
         // productsByProdNameID: action.payload.results as unknown  as ProductsByProdNameID[]
       };

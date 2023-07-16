@@ -1,5 +1,5 @@
 import React from 'react';
-import { Box, Text, useMediaQuery } from '@chakra-ui/react';
+import { Box, Button, Text, useMediaQuery } from '@chakra-ui/react';
 import NextImage from 'next/image';
 import '../assets/styleSheet.css';
 import { ProductCart } from '@/store/cart/typesCart';
@@ -53,7 +53,11 @@ const ProductCardCart: React.FC<{ product: ProductCart }> = ({ product }) => {
           </Box>
           <Box display={'flex'} justifyContent={'space-between'}>
             <Text textTransform={'uppercase'} fontSize={fontSubTitle}>Quantity</Text>
-            <Text textTransform={'uppercase'} fontSize={fontSubTitle}>{Quantity}</Text>
+            <Box display={'flex'} flexDir={'row'} alignItems={'center'} justifyItems={'space-between'}>
+              <Button variant={'unstyled'} size={'xs'}>-</Button>
+              <Text textTransform={'uppercase'} fontSize={fontSubTitle}>{Quantity}</Text>
+              <Button variant={'unstyled'} size={'xs'}>+</Button>
+            </Box>
           </Box>
           </Box>
         </Box>

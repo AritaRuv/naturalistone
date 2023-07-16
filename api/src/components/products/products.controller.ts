@@ -68,12 +68,12 @@ export async function getProductsValuesByProdNameID(
           throw error;
         }
         if (results.length === 0) {
-          console.log("Error en productsRoutes.get /:id");
+          console.log("Error en productsRoutes.get /id/:id");
           res.status(404).json("No products");
         } else {
           console.log("Data OK");
           const transformedResults = productDimensions(results);
-          res.status(200).json({ transformedResults });
+          res.status(200).json(transformedResults);
         }
       }
     );
@@ -112,7 +112,6 @@ export async function getAllMaterials(req: Request, res: Response) {
   try {
     const query = `SELECT GROUP_CONCAT(DISTINCT ProdNames.Material SEPARATOR ', ') AS Materials
                     FROM ProdNames;
-    
                     `;
 
     mysqlConnection.query(

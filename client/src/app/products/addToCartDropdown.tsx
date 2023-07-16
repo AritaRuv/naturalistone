@@ -10,12 +10,10 @@ interface AddProductToCartProps {
   productValues: any;
 }
 
-const AddProductToCart: React.FC<AddProductToCartProps> = ({ ProdNameID }) => {
-  const dispatch = useAppDispatch();
-  const { productValues } = useAppSelector(
-    (state: { productReducer: ProductState }) => state.productReducer
-  );
-
+const AddProductToCart: React.FC<AddProductToCartProps> = ({
+  ProdNameID,
+  productValues,
+}) => {
   useEffect(() => {
     dispatch(fetchProductsValues({ ProdNameID }));
   }, []);
@@ -31,7 +29,7 @@ const AddProductToCart: React.FC<AddProductToCartProps> = ({ ProdNameID }) => {
       bg={"white"}
       flexDir={"column"}
     >
-      {/* <ProductList /> */}
+      <ProductList data={productValues} ProdNameID={ProdNameID} />
     </Box>
   );
 };
