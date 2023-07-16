@@ -1,8 +1,10 @@
+"use client";
 import HomeProductContainer from "@/app/home/_homeProductContainer";
 import NavBar from "../_navBar/_navBar";
 import Carousel from "./_carousel";
 import CarouselVideo from "./carouselVideo";
 import { Filters } from "./filters/filters";
+import { useState } from "react";
 
 const cards = [
   {
@@ -17,7 +19,17 @@ const cards = [
   },
 ];
 
+export interface ProductsFilter {
+  color: string;
+  material: string;
+}
+
 export default function Home() {
+  const [productsFilter, setProductsFilter] = useState<ProductsFilter>({
+    color: "",
+    material: "",
+  });
+
   return (
     <>
       <NavBar />
@@ -33,8 +45,8 @@ export default function Home() {
           "https://cdn.coverr.co/videos/coverr-bathroom-in-a-mobile-home-3685/1080p.mp4"
         }
       />
-      <HomeProductContainer />
-      <Filters />
+      <HomeProductContainer productsFilter={productsFilter} />
+      <Filters setProductsFilter={setProductsFilter} />
     </>
   );
 }

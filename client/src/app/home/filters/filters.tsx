@@ -2,8 +2,13 @@
 import { Box, Stack, Text, useMediaQuery } from "@chakra-ui/react";
 import { FiltersMaterials } from "./filtersMaterial";
 import { FiltersColors } from "./filtersColors";
+import { ProductsFilter } from "../page";
 
-export function Filters() {
+export interface FiltersProps {
+  setProductsFilter: React.Dispatch<React.SetStateAction<ProductsFilter>>;
+}
+
+export function Filters({ setProductsFilter }: FiltersProps) {
   const [smallerThan550] = useMediaQuery("(max-width: 550px)");
 
   return (
@@ -18,7 +23,7 @@ export function Filters() {
           justifyContent={"center"}
           flexDirection={"row"}
         >
-          <FiltersMaterials />
+          <FiltersMaterials setProductsFilter={setProductsFilter} />
           <FiltersColors />
         </Box>
       ) : (
@@ -31,7 +36,7 @@ export function Filters() {
           justifyContent={"center"}
           flexDirection={"column-reverse"}
         >
-          <FiltersMaterials />
+          <FiltersMaterials setProductsFilter={setProductsFilter} />
           <FiltersColors />
         </Box>
       )}

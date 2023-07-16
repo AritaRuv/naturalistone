@@ -5,8 +5,10 @@ import { ProductState } from "@/store/products/typesProducts";
 import { Box, Select, Text, useMediaQuery } from "@chakra-ui/react";
 import { useEffect, useState } from "react";
 import { MdOutlineArrowDropDownCircle } from "react-icons/md";
+import { ProductsFilter } from "../page";
+import { FiltersProps } from "./filters";
 
-export function FiltersMaterials() {
+export function FiltersMaterials({ setProductsFilter }: FiltersProps) {
   const dispatch = useAppDispatch();
   const { materials } = useAppSelector(
     (state: { productReducer: ProductState }) => state.productReducer
@@ -18,6 +20,14 @@ export function FiltersMaterials() {
   useEffect(() => {
     if (smallerThan550) setBoxMarginLeft("none");
   }, [smallerThan550]);
+
+  const handleClick = (event) => {
+    console.log("soy event", event.target.value);
+    setProductsFilter({
+      color: "",
+      material: event.target.value,
+    });
+  };
 
   useEffect(() => {
     dispatch(fetchMaterials());
@@ -50,18 +60,19 @@ export function FiltersMaterials() {
           w={"140px"}
           bg={"none"}
           border={"none"}
+          onClick={handleClick}
           icon={<MdOutlineArrowDropDownCircle />}
         >
-          {/* {materials?.map((material) => (
-            <option value="material">{material}</option>
-          ))} */}
-          <option value="MATERIALS">MATERIALS</option>
+          {materials?.map((material) => (
+            <option value={material}>{material}</option>
+          ))}
+          {/* <option value="MATERIALS">MATERIALS</option>
           <option value="">Terrazzo</option>
           <option value="">Porcelain</option>
           <option value="">Marble</option>
           <option value="">Quartzite</option>
           <option value="">Granite</option>
-          <option value="">Basalt</option>
+          <option value="">Basalt</option> */}
         </Select>
       </Box>
     </Box>

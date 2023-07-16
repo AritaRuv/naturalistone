@@ -1,39 +1,30 @@
 "use client";
+import { fetchColors } from "@/store/colors/actionsColors";
+import { ColorsState } from "@/store/colors/typeColors";
 import { useAppDispatch, useAppSelector } from "@/store/hooks";
 import { fetchMaterials } from "@/store/products/actionsProducts";
 import { ProductState } from "@/store/products/typesProducts";
-import {
-  Box,
-  Button,
-  Center,
-  ChakraProvider,
-  Heading,
-  Input,
-  Popover,
-  PopoverArrow,
-  PopoverBody,
-  PopoverCloseButton,
-  PopoverContent,
-  PopoverHeader,
-  PopoverTrigger,
-  Select,
-  SimpleGrid,
-  useMediaQuery,
-} from "@chakra-ui/react";
+import { Box, Button, Center, Heading, useMediaQuery } from "@chakra-ui/react";
 import { useEffect, useState } from "react";
 
 export function FiltersColors() {
   const dispatch = useAppDispatch();
   const [color, setColor] = useState("gray.500");
-  const colors = ["black", "white.500", "gray.500", "green.500", "blue.600"];
+  // const colors = ["black", "white.500", "gray.500", "green.500", "blue.600"];
   const [activeButton, setActiveButton] = useState(null);
-  const [isActive, setIsActive] = useState(false);
-  const [hightButton, setHightButton] = useState("50px");
-  const [widthButton, setWidthButton] = useState("50px");
   const [smallerThan550] = useMediaQuery("(max-width: 550px)");
   const [boxMarginRight, setBoxMarginRight] = useState("auto");
   const [boxMargin, setBoxMargin] = useState(false);
   const [boxMl, setBoxMl] = useState("auto");
+  const { colors } = useAppSelector(
+    (state: { colorsReducer: ColorsState }) => state.colorsReducer
+  );
+
+  const homeColors = colors.slice(0, 5);
+
+  useEffect(() => {
+    dispatch(fetchColors());
+  }, []);
 
   useEffect(() => {
     if (!smallerThan550) setBoxMargin(false);
@@ -42,9 +33,7 @@ export function FiltersColors() {
 
   const handleClick = (index) => {
     setActiveButton(index);
-    setColor(colors[index]);
-    setHightButton("50px");
-    setWidthButton("50px");
+    setColor(homeColors[index].Color);
   };
 
   return (
@@ -86,11 +75,11 @@ export function FiltersColors() {
             minW={"220px"}
             // border={"2px solid red"}
           >
-            {colors.map((c, index) => (
+            {homeColors.map((c, index) => (
               <Button
-                key={c}
-                aria-label={c}
-                background={c}
+                key={c.ColorID}
+                aria-label={c.Color}
+                background={c.Color}
                 height={activeButton === index ? "38px" : "35px"}
                 width={activeButton === index ? "38px" : "35px"}
                 padding={0}
@@ -100,7 +89,7 @@ export function FiltersColors() {
                 borderWidth={activeButton === index ? "4px" : "0px"}
                 boxShadow={"0px 2px 4px rgba(0, 0, 0, 0.8)"}
                 _active={{ borderColor: "black" }}
-                _hover={{ background: c }}
+                _hover={{ background: c.Color }}
                 onClick={() => {
                   handleClick(index);
                 }}

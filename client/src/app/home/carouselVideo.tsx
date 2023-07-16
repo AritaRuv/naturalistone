@@ -13,9 +13,9 @@ export default function CarouselVideo({ source }) {
 
   useEffect(() => {
     if (!smallerThan1000) {
-      setBoxHeight("70vh");
+      setBoxHeight("50vh");
       setBoxHeightVideo("");
-      setBottomVideo("160px");
+      setBottomVideo("150px");
     }
     if (smallerThan1000) {
       setBoxHeight("350px");
@@ -26,8 +26,8 @@ export default function CarouselVideo({ source }) {
       setBoxHeightVideo("580px");
     }
     if (smallerThan450) {
-      setBoxHeight("180px");
-      setBoxHeightVideo("600px");
+      setBoxHeight("160px");
+      setBoxHeightVideo("500px");
     }
   }, [
     !smallerThan1000,

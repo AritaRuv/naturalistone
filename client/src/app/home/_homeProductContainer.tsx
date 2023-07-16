@@ -6,11 +6,21 @@ import { fetchProducts } from "../../store/products/actionsProducts";
 import { ProductState } from "../../store/products/typesProducts";
 import { useAppDispatch, useAppSelector } from "../../store/hooks";
 
-const HomeProductContainer: React.FC = () => {
+interface ComponentsProps {
+  productsFilter: {
+    color: string;
+    material: string;
+  };
+}
+
+const HomeProductContainer: React.FC<ComponentsProps> = ({
+  productsFilter,
+}) => {
   const [isSmallScreen] = useMediaQuery("(max-width: 950px)");
   const [isMediumScreen] = useMediaQuery("(max-width: 1280px)");
   const [isExtraSmallScreen] = useMediaQuery("(max-width: 480px)");
   const dispatch = useAppDispatch();
+  const { material, color } = productsFilter;
 
   const { products, loading, error } = useAppSelector(
     (state: { productReducer: ProductState }) => state.productReducer
@@ -27,14 +37,14 @@ const HomeProductContainer: React.FC = () => {
   }
 
   useEffect(() => {
-    dispatch(fetchProducts());
-  }, []);
+    dispatch(fetchProducts(material));
+  }, [material]);
 
   return (
     <SimpleGrid
       spacingY={6}
       py={"2%"}
-      px={ isMediumScreen && !isSmallScreen ? "5%":"10%"}
+      px={isMediumScreen && !isSmallScreen ? "5%" : "10%"}
       w={"100%"}
       placeItems={"center"}
       columns={gridColumns} // Establece el número de columnas dinámicamente
@@ -49,4 +59,3 @@ const HomeProductContainer: React.FC = () => {
 };
 
 export default HomeProductContainer;
-

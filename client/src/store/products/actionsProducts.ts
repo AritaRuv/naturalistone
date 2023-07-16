@@ -7,11 +7,11 @@ import {
   getMaterials,
 } from "../../api/apiProds"; // Importa tu función de solicitud a la API
 
-export const fetchProducts = () => {
+export const fetchProducts = (material: string) => {
   return async (dispatch: Dispatch<ProductAction>) => {
     dispatch({ type: ProductActionTypes.FETCH_PRODUCTS_REQUEST });
     try {
-      const products = await getProducts(); // Llama a tu función de solicitud a la AP
+      const products = await getProducts(material); // Llama a tu función de solicitud a la AP
 
       dispatch({
         type: ProductActionTypes.FETCH_PRODUCTS_SUCCESS,
