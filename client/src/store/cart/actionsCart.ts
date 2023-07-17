@@ -89,16 +89,19 @@ export const updateCart = (body: bodyCartUpdate) => {
   }
   };
 
-export const deleteCart = (idEntryCart:number) => {
+export const deleteCart = (idEntryCart:number, customerID:number) => {
 
   return async (dispatch: Dispatch<CartAction>) => {
 
   dispatch({ type: CartActionTypes.FETCH_CART_REQUEST });
     try {
-      const res = await deleteCartProd(idEntryCart); 
+      console.log(idEntryCart)
+      const res = await deleteCartProd(idEntryCart);
+      const cart = await getCart(customerID)
 
       dispatch({
         type: CartActionTypes.DELETE_CART_PRODUCT,
+        payload: cart
 
       });
       

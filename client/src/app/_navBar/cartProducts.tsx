@@ -1,5 +1,7 @@
 import React, { useState } from 'react';
 import { Box, Button, Input, Text, useMediaQuery, IconButton } from '@chakra-ui/react';
+import { DeleteIcon } from '@chakra-ui/icons'
+
 import NextImage from 'next/image';
 import '../assets/styleSheet.css';
 import { ProductCart } from '@/store/cart/typesCart';
@@ -17,6 +19,7 @@ const ProductCardCart: React.FC<{ product: ProductCart }> = ({ product }) => {
   const fontTitle = isExtraExtraSmallScreen ? '0.9rem' : '1.2rem';
 
   const [quantity, setQuantity] = useState(Quantity);
+  let totalPrice= Number(quantity)*  Number(SalePrice)
   const dispatch = useAppDispatch();
 
   const decreaseQuantity = () => {
@@ -53,7 +56,7 @@ const ProductCardCart: React.FC<{ product: ProductCart }> = ({ product }) => {
   };
 
   const handleDelete = () => {
-    deleteCart(idCartEntry)
+    dispatch(deleteCart(idCartEntry, 1938));
   };
   
   return (
@@ -78,7 +81,7 @@ const ProductCardCart: React.FC<{ product: ProductCart }> = ({ product }) => {
             <Box position="relative" h="150px" w="150px">
             <IconButton
               position="absolute"
-              aria-label="Cerrar"
+              aria-label="Delete X"
               top="0px"
               left="0px"
               size={'lg'}
@@ -114,19 +117,33 @@ const ProductCardCart: React.FC<{ product: ProductCart }> = ({ product }) => {
           <Box>
             <Box display={'flex'} justifyContent={'space-between'}>
               <Text textTransform={'uppercase'} fontSize={fontSubTitle}>Price</Text>
-              <Text textTransform={'uppercase'} fontSize={fontSubTitle}>${SalePrice}</Text>
+              <Text textTransform={'uppercase'} fontSize={fontSubTitle}>${totalPrice}</Text>
             </Box>
             <Box display={'flex'} justifyContent={'space-between'}>
               <Text textTransform={'uppercase'} fontSize={fontSubTitle}>Quantity</Text>
-              <Box display={'flex'} flexDir={'row'} alignItems={'center'} justifyItems={'space-between'}>
-                <Button variant={'unstyled'} size={'xs'} onClick={decreaseQuantity}>-</Button>
+              <Box display={'flex'} flexDir={'row'} alignItems={'center'} justifyItems={'flex-end'}>
+                {
+                  quantity > 1 ?
+                    <Button variant={'unstyled'} size={'xs'} onClick={decreaseQuantity}>-</Button>
+                    :
+                    <IconButton
+                    size={'xs'}
+                    aria-label='Delete'
+                    bg="transparent"
+                    _hover={{ bg: "transparent" }}
+                    _active={{ bg: "transparent" }}
+                    _focus={{ boxShadow: "none" }}
+                    icon={<DeleteIcon />}
+                    onClick={handleDelete}
+                  />
+                }
                   <Input 
                     type="number" 
                     value={quantity} 
                     min={1} 
                     onChange={handleQuantityChange} 
                     onBlur={handleQuantityBlur}
-                    size={'xs'} textAlign={'center'} w={'30px'} />
+                    size={'xs'} textAlign={'center'} w={quantity.toString().length < 1 ? '30px' : '35px'} />
                 <Button variant={'unstyled'} size={'xs'} onClick={increaseQuantity}>+</Button>
               </Box>
             </Box>

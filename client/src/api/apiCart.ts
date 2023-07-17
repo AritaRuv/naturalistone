@@ -41,7 +41,7 @@ export const updateCartProd = async (body: bodyCartUpdate) => {
 export const deleteCartProd = async (idEntryCart: number) => {
   try {
 
-    const response = await axios.patch(`http://localhost:5000/api/cart/${idEntryCart}`); 
+    const response = await axios.delete(`http://localhost:5000/api/cart/${idEntryCart}`); 
     console.log('deleted')
     return response.data;
   } catch (error) {

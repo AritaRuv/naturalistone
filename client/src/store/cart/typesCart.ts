@@ -52,7 +52,8 @@ export interface ProductCart {
   }
 
   export interface DeleteCartProductAction {
-    type: CartActionTypes.DELETE_CART_PRODUCT
+    type: CartActionTypes.DELETE_CART_PRODUCT,
+    payload: ProductCart[]
   }
 
   export type CartAction =
