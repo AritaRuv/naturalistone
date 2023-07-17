@@ -22,7 +22,7 @@ const MaterialFilter: React.FC = () => {
       px={ "10%"}
       w={"100%"}
       placeItems={"center"}
-      columns={5} 
+      columns={6} 
       h={'28vh'}
       pt={'6vh'}
       bg={"white"}

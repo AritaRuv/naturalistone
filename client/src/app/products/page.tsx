@@ -9,15 +9,16 @@ export default function Products() {
   return (
     <>
       <NavBar />
-      <Grid
-        h='200px'
-        templateRows='repeat(2, 1fr)'
-        templateColumns='repeat(5, 1fr)'
-        gap={4}>
-        <GridItem bg={'blue'}></GridItem>
-        <GridItem bg={'red'}></GridItem>
-        <GridItem bg={'yellow'}></GridItem>
-      </Grid>
+      <MaterialFilter/>
+      {/* <Grid
+        h={'92.5vh'}
+        templateRows="1fr 1fr 1fr 1fr 1fr 1fr 1fr 1fr" // 3 filas en el eje y
+        templateColumns="1fr 1fr 1fr 1fr 1fr 1fr 1fr 1fr" // 3 columnas en el eje x
+        gap={2}>
+        <GridItem bg={'blue'} rowSpan={2} colSpan={8}></GridItem>
+        <GridItem bg={'red'} rowSpan={6} colSpan={1} ></GridItem>
+        <GridItem bg={'yellow'} rowSpan={6} colSpan={7} ></GridItem>
+      </Grid> */}
     </>
   );
 }
