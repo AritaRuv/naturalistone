@@ -8,7 +8,7 @@ import { useAppDispatch, useAppSelector } from "../../store/hooks";
 
 interface ComponentsProps {
   productsFilter: {
-    color: string;
+    colorId: string;
     material: string;
   };
 }
@@ -20,7 +20,9 @@ const HomeProductContainer: React.FC<ComponentsProps> = ({
   const [isMediumScreen] = useMediaQuery("(max-width: 1280px)");
   const [isExtraSmallScreen] = useMediaQuery("(max-width: 480px)");
   const dispatch = useAppDispatch();
-  const { material, color } = productsFilter;
+  const { material, colorId } = productsFilter;
+
+  console.log("soy colorid", colorId);
 
   const { products, loading, error } = useAppSelector(
     (state: { productReducer: ProductState }) => state.productReducer
@@ -37,8 +39,8 @@ const HomeProductContainer: React.FC<ComponentsProps> = ({
   }
 
   useEffect(() => {
-    dispatch(fetchProducts(material));
-  }, [material]);
+    dispatch(fetchProducts(material, colorId));
+  }, [material, colorId]);
 
   return (
     <SimpleGrid

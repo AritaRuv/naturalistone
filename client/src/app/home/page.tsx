@@ -20,13 +20,13 @@ const cards = [
 ];
 
 export interface ProductsFilter {
-  color: string;
+  colorId: string;
   material: string;
 }
 
 export default function Home() {
   const [productsFilter, setProductsFilter] = useState<ProductsFilter>({
-    color: "",
+    colorId: "",
     material: "",
   });
 

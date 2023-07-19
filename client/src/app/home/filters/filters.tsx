@@ -24,7 +24,7 @@ export function Filters({ setProductsFilter }: FiltersProps) {
           flexDirection={"row"}
         >
           <FiltersMaterials setProductsFilter={setProductsFilter} />
-          <FiltersColors />
+          <FiltersColors setProductsFilter={setProductsFilter} />
         </Box>
       ) : (
         <Box
@@ -37,7 +37,7 @@ export function Filters({ setProductsFilter }: FiltersProps) {
           flexDirection={"column-reverse"}
         >
           <FiltersMaterials setProductsFilter={setProductsFilter} />
-          <FiltersColors />
+          <FiltersColors setProductsFilter={setProductsFilter} />
         </Box>
       )}
     </>

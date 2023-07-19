@@ -5,9 +5,10 @@ import { useAppDispatch, useAppSelector } from "@/store/hooks";
 import { fetchMaterials } from "@/store/products/actionsProducts";
 import { ProductState } from "@/store/products/typesProducts";
 import { Box, Button, Center, Heading, useMediaQuery } from "@chakra-ui/react";
+import { FiltersProps } from "./filters";
 import { useEffect, useState } from "react";
 
-export function FiltersColors() {
+export function FiltersColors({ setProductsFilter }: FiltersProps) {
   const dispatch = useAppDispatch();
   const [color, setColor] = useState("gray.500");
   // const colors = ["black", "white.500", "gray.500", "green.500", "blue.600"];
@@ -34,6 +35,10 @@ export function FiltersColors() {
   const handleClick = (index) => {
     setActiveButton(index);
     setColor(homeColors[index].Color);
+    // setProductsFilter({
+    //   colorId: event,
+    //   material: "",
+    // });
   };
 
   return (

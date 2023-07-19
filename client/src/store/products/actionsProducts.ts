@@ -8,11 +8,11 @@ import {
   getProduct,
 } from "../../api/apiProds"; // Importa tu función de solicitud a la API
 
-export const fetchProducts = (material: string) => {
+export const fetchProducts = (material: string, colorId: string) => {
   return async (dispatch: Dispatch<ProductAction>) => {
     dispatch({ type: ProductActionTypes.FETCH_PRODUCTS_REQUEST });
     try {
-      const products = await getProducts(material); // Llama a tu función de solicitud a la AP
+      const products = await getProducts(material, colorId); // Llama a tu función de solicitud a la AP
 
       dispatch({
         type: ProductActionTypes.FETCH_PRODUCTS_SUCCESS,
@@ -77,3 +77,4 @@ export const fetchProduct = (ProductNameID: number, DimensionID) => {
     }
   };
 };
+

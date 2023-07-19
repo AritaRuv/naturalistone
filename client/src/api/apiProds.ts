@@ -2,11 +2,11 @@
 // api.ts
 import axios from "axios";
 
-export const getProducts = async (material: string) => {
+export const getProducts = async (material: string, colorId: string) => {
   try {
     console.log("material in api", material);
     const response = await axios.get(
-      `http://localhost:5000/api/products?material=${material}`
+      `http://localhost:5000/api/products?material=${material}&colorId=${colorId}`
     ); // Realiza la solicitud GET a la ruta /api/products de tu backend
 
     return response.data;
@@ -54,3 +54,4 @@ export const getProduct = async (ProdNameID: number, DimensionID: number) => {
     throw new Error("Error al obtener el product de la API");
   }
 };
+

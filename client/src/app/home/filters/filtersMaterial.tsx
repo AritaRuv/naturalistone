@@ -23,10 +23,10 @@ export function FiltersMaterials({ setProductsFilter }: FiltersProps) {
 
   const handleClick = (event) => {
     console.log("soy event", event.target.value);
-    setProductsFilter({
-      color: "",
+    setProductsFilter((prevState) => ({
+      ...prevState,
       material: event.target.value,
-    });
+    }));
   };
 
   useEffect(() => {
