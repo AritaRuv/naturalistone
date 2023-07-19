@@ -23,6 +23,7 @@ const ContainerLogin: React.FC = () => {
   return (
     <>
       <Box
+        border={'2px solid blue'}
         h={"92vh"}
         w={"full"}
         display={"flex"}

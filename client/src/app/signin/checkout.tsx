@@ -1,7 +1,7 @@
 "use client";
 import { Box } from "@chakra-ui/react";
 
-export async function Checkout() {
+export const Checkout = () => {
   return (
     <Box
       display={"flex"}
