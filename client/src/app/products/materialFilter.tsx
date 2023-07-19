@@ -19,22 +19,22 @@ const MaterialFilter: React.FC = () => {
     <SimpleGrid
       spacingY={6}
       py={"1%"}
-      px={ "10%"}
+      px={ "5%"}
       w={"100%"}
       placeItems={"center"}
-      columns={6} 
-      h={'28vh'}
+      columns={7} 
+      h={'22vh'}
       pt={'6vh'}
       bg={"white"}
       alignItems={'flex-start'}
-      border={'2px solid red'}
       position={'fixed'}
     >
         {
           materials.map(mat => {
             return(
-            <Box key={mat} display={'flex'} justifyContent={'flex-start'} alignItems={'center'} w={'250px'}>
-              
+            <Box key={mat} display={'flex'} justifyContent={'flex-end'} alignItems={'flex-start'} w={'200px'}>
+                <Text mr={'5px'} textTransform={'uppercase'}  fontSize={'0.9rem'}>{mat}</Text>
+                <Box display={'flex'} alignItems={'center'} h={'20px'}>
                 <Checkbox
                   colorScheme='whiteAlpha'
                   iconColor="orange"
@@ -42,7 +42,8 @@ const MaterialFilter: React.FC = () => {
                   //isChecked={selectedFinish.includes(finish)}
                   //onChange={() => handleCheckboxChange(finish, setSelectedFinish)}
                 />
-                <Text ml={'5px'} textTransform={'uppercase'}  fontSize={'0.9rem'}>{mat}</Text>
+                </Box>
+                
             </Box>)
           })
         }
