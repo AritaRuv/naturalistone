@@ -18,8 +18,10 @@ const productDimensions_1 = require("../../controllers/productDimensions");
 function getAllProducts(req, res) {
     return __awaiter(this, void 0, void 0, function* () {
         try {
+            const { material } = req.query;
             const query = `SELECT ProdNameID, Naturali_ProdName, Material    
                   FROM ProdNames
+                  ${material ? `WHERE Material = "${material}"` : ``}
                     `;
             db_1.default.query(query, (error, results, fields) => {
                 if (error) {
@@ -69,13 +71,13 @@ function getProductsValuesByProdNameID(req, res) {
                     throw error;
                 }
                 if (results.length === 0) {
-                    console.log("Error en productsRoutes.get /:id");
+                    console.log("Error en productsRoutes.get /id/:id");
                     res.status(404).json("No products");
                 }
                 else {
                     console.log("Data OK");
                     const transformedResults = (0, productDimensions_1.productDimensions)(results);
-                    res.status(200).json({ transformedResults });
+                    res.status(200).json(transformedResults);
                 }
             });
         }
@@ -128,7 +130,9 @@ function getAllMaterials(req, res) {
                 else {
                     const materialesRowData = results; // Convertir a tipo RowDataPacket[]
                     const materialesString = materialesRowData.map((row) => row.Materials)[0]; // Obtener la cadena de materiales
-                    const materialesArray = materialesString.split(", ").map((material) => material.trim()); // Dividir la cadena y eliminar los espacios en blanco       
+                    const materialesArray = materialesString
+                        .split(", ")
+                        .map((material) => material.trim()); // Dividir la cadena y eliminar los espacios en blanco
                     res.status(200).json(materialesArray);
                 }
             });

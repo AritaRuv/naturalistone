@@ -14,6 +14,7 @@ import { BiLeftArrowAlt, BiRightArrowAlt } from "react-icons/bi";
 // And react-slick as our Carousel Lib
 import Slider from "react-slick";
 import { PiCaretDownThin } from "react-icons/pi";
+import { IoIosArrowDown } from "react-icons/io";
 
 export default function Carousel({ mt, items, hidden }) {
   // As we have used custom buttons, we need a reference variable to
@@ -49,7 +50,7 @@ export default function Carousel({ mt, items, hidden }) {
     <>
       <Box
         position={"relative"}
-        height={"800px"}
+        height={"40%"}
         width={"100%"}
         overflow={"hidden"}
         mt={mt}
@@ -71,21 +72,19 @@ export default function Carousel({ mt, items, hidden }) {
           {items.map((elem, index) => (
             <Box
               key={index}
-              height={"6xl"}
+              height={"105vh"}
               position="relative"
               backgroundPosition="center"
               backgroundRepeat="no-repeat"
               backgroundSize="cover"
-              bottom={"100px"}
               backgroundImage={`url(${elem.img})`}
             >
               <Box
                 position="absolute"
-                bottom={6}
+                bottom={0}
                 left={0}
                 width={"100%"}
-                // mt={mt}
-                h={"40vh"}
+                h={"7vh"}
                 bg={"rgb(180, 177, 179)"}
                 opacity={0.7} // Ajusta la opacidad según tus necesidades
                 hidden={hiddenBox}
@@ -96,20 +95,22 @@ export default function Carousel({ mt, items, hidden }) {
                 <IconButton
                   display={"flex"}
                   aria-label={"description"}
-                  icon={<PiCaretDownThin />}
-                  h={"10px"}
-                  mt={"15px"}
+                  icon={<IoIosArrowDown />}
+                  h={"5vh"}
+                  // mt={"15px"}
                   ml={"48vw"}
+                  mb={"5vh"}
                   color={"black"}
+                  bg={'none'}
                 ></IconButton>
               </Box>
               {isDropdownOpen && (
                 <Box
                   w={"full"}
-                  h={"47vh"}
+                  h={"14.5vh"}
                   position={"absolute"}
                   placeContent={"center"}
-                  bottom={15}
+                  bottom={0}
                   left={0}
                   bg={"rgb(180, 177, 179)"}
                   opacity={0.7} // Ajusta la opacidad según tus necesidades

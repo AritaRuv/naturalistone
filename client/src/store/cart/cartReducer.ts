@@ -27,6 +27,16 @@ const cartReducer = (state = initialState, action: CartAction): CartState => {
         loading: false,
         error: action.error,
       };
+    case CartActionTypes.POST_CART_PRODUCTS:
+      return {
+        ...state,
+        cart: action.payload
+      };
+    case CartActionTypes.DELETE_CART_PRODUCT:
+      return {
+        ...state,
+        cart: action.payload
+      };
     default:
       return state;
   }

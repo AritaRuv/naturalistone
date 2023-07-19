@@ -1,20 +1,23 @@
 // actions.ts
 import { Dispatch } from "redux";
 import { ProductActionTypes, ProductAction } from "./typesProducts";
-import { getProductValues, getProducts, getMaterials } from '../../api/apiProds'; // Importa tu función de solicitud a la API
+import {
+  getProductValues,
+  getProducts,
+  getMaterials,
+  getProduct,
+} from "../../api/apiProds"; // Importa tu función de solicitud a la API
 
-export const fetchProducts = () => {
-
+export const fetchProducts = (material: string) => {
   return async (dispatch: Dispatch<ProductAction>) => {
     dispatch({ type: ProductActionTypes.FETCH_PRODUCTS_REQUEST });
     try {
-      const products = await getProducts(); // Llama a tu función de solicitud a la AP
+      const products = await getProducts(material); // Llama a tu función de solicitud a la AP
 
       dispatch({
         type: ProductActionTypes.FETCH_PRODUCTS_SUCCESS,
         payload: products,
       });
-      
     } catch (error) {
       dispatch({
         type: ProductActionTypes.FETCH_PRODUCTS_FAILURE,
@@ -24,18 +27,15 @@ export const fetchProducts = () => {
   };
 };
 
-export const fetchProductsValues = ({ProdNameID}) => {
-
+export const fetchProductsValues = ({ ProdNameID }) => {
   return async (dispatch: Dispatch<ProductAction>) => {
-
     try {
       const productValues = await getProductValues(ProdNameID); // Llama a tu función de solicitud a la API
-      
+
       dispatch({
         type: ProductActionTypes.FETCH_PRODUCTS_VALUES,
         payload: productValues,
       });
-      
     } catch (error) {
       dispatch({
         type: ProductActionTypes.FETCH_PRODUCTS_FAILURE,
@@ -46,7 +46,6 @@ export const fetchProductsValues = ({ProdNameID}) => {
 };
 
 export const fetchMaterials = () => {
-
   return async (dispatch: Dispatch<ProductAction>) => {
     dispatch({ type: ProductActionTypes.FETCH_PRODUCTS_REQUEST });
     try {
@@ -55,12 +54,26 @@ export const fetchMaterials = () => {
         type: ProductActionTypes.FETCH_MATERIALS,
         payload: data,
       });
-      
     } catch (error) {
       dispatch({
         type: ProductActionTypes.FETCH_PRODUCTS_FAILURE,
-        error: "Error al obtener los product values",
+        error: "Error al obtener los product materials",
       });
+    }
+  };
+};
+
+export const fetchProduct = (ProductNameID: number, DimensionID) => {
+  return async (dispatch: Dispatch<ProductAction>) => {
+    try {
+      const product = await getProduct(ProductNameID, DimensionID);
+
+      dispatch({
+        type: ProductActionTypes.FETCH_PRODUCT_BY_IDS,
+        payload: product,
+      });
+    } catch (error) {
+      console.error("Error al obtener el product", error);
     }
   };
 };

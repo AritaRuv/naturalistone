@@ -4,5 +4,7 @@ const express_1 = require("express");
 const cart_controller_1 = require("./cart.controller");
 const cartRouter = (0, express_1.Router)();
 cartRouter.post('/', cart_controller_1.newCartEntry);
+cartRouter.patch('/', cart_controller_1.updateCartProducts);
 cartRouter.get('/:id', cart_controller_1.getCartProducts);
+cartRouter.delete('/:idCartEntry', cart_controller_1.deleteCartProducts);
 exports.default = cartRouter;

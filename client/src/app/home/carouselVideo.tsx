@@ -7,13 +7,15 @@ export default function CarouselVideo({ source }) {
   const [smallerThan920] = useMediaQuery("(max-width: 920px)");
   const [smallerThan700] = useMediaQuery("(max-width: 700px)");
   const [smallerThan450] = useMediaQuery("(max-width: 450px)");
-  const [boxHeight, setBoxHeight] = useState("60vh");
+  const [boxHeight, setBoxHeight] = useState("70vh");
   const [boxHeightVideo, setBoxHeightVideo] = useState("");
+  const [bottomVideo, setBottomVideo] = useState("200px");
 
   useEffect(() => {
     if (!smallerThan1000) {
-      setBoxHeight("400px");
-      setBoxHeightVideo("900px");
+      setBoxHeight("50vh");
+      setBoxHeightVideo("");
+      setBottomVideo("150px");
     }
     if (smallerThan1000) {
       setBoxHeight("350px");
@@ -24,8 +26,8 @@ export default function CarouselVideo({ source }) {
       setBoxHeightVideo("580px");
     }
     if (smallerThan450) {
-      setBoxHeight("180px");
-      setBoxHeightVideo("600px");
+      setBoxHeight("160px");
+      setBoxHeightVideo("500px");
     }
   }, [
     !smallerThan1000,
@@ -42,17 +44,18 @@ export default function CarouselVideo({ source }) {
         height={boxHeight}
         width={"100%"}
         overflow={"hidden"}
+        mt={"-1vh"}
       >
         <video
           autoPlay
           muted
           loop
           style={{
-            width: "100%",
+            width: "100vw",
             backgroundPosition: "center",
             backgroundSize: "cover",
             position: "relative",
-            bottom: "25vh",
+            bottom: bottomVideo,
             height: boxHeightVideo,
           }}
         >

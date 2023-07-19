@@ -1,8 +1,13 @@
-import { configureStore, combineReducers } from '@reduxjs/toolkit';
-import productReducer  from "./products/prodReducer";
-import cartReducer from './cart/cartReducer';
+import { configureStore, combineReducers } from "@reduxjs/toolkit";
+import productReducer from "./products/prodReducer";
+import cartReducer from "./cart/cartReducer";
+import colorsReducer from "./colors/colorsReducer";
 
-const rootReducer = combineReducers({productReducer, cartReducer})
+const rootReducer = combineReducers({
+  productReducer,
+  cartReducer,
+  colorsReducer,
+});
 
 export const store = configureStore({
   reducer: rootReducer,
@@ -11,4 +16,6 @@ export const store = configureStore({
 });
 
 export type RootState = ReturnType<typeof store.getState>;
+
 export type AppDispatch = typeof store.dispatch;
+

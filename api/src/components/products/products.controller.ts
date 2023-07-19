@@ -7,8 +7,10 @@ import { productDimensions } from "../../controllers/productDimensions";
 
 export async function getAllProducts(req: Request, res: Response) {
   try {
+    const { material } = req.query;
     const query = `SELECT ProdNameID, Naturali_ProdName, Material    
                   FROM ProdNames
+                  ${material ? `WHERE Material = "${material}"` : ``}
                     `;
 
     mysqlConnection.query(
@@ -21,7 +23,6 @@ export async function getAllProducts(req: Request, res: Response) {
           console.log("Error en productsRoutes.get /");
           res.status(404).json("No products");
         } else {
-
           console.log("Data OK");
           res.status(200).json(results);
         }
@@ -32,11 +33,13 @@ export async function getAllProducts(req: Request, res: Response) {
   }
 }
 
-export async function getProductsValuesByProdNameID(req: Request, res: Response) {
+export async function getProductsValuesByProdNameID(
+  req: Request,
+  res: Response
+) {
   try {
-
     const prodNameID = req.params.id;
-  
+
     const query = `
       SELECT
         Products.ProdID,
@@ -56,20 +59,21 @@ export async function getProductsValuesByProdNameID(req: Request, res: Response)
       WHERE
         Products.ProdNameID = ?;
     `;
-    
+
     mysqlConnection.query(
       query,
-      [prodNameID], (error: MysqlError, results: RowDataPacket[], fields: FieldInfo[]) => {
+      [prodNameID],
+      (error: MysqlError, results: RowDataPacket[], fields: FieldInfo[]) => {
         if (error) {
           throw error;
         }
         if (results.length === 0) {
-          console.log("Error en productsRoutes.get /:id");
+          console.log("Error en productsRoutes.get /id/:id");
           res.status(404).json("No products");
         } else {
           console.log("Data OK");
-          const transformedResults = productDimensions(results)
-          res.status(200).json({transformedResults});
+          const transformedResults = productDimensions(results);
+          res.status(200).json(transformedResults);
         }
       }
     );
@@ -80,8 +84,8 @@ export async function getProductsValuesByProdNameID(req: Request, res: Response)
 //Ruta para obtener el productID de la tarjeta en funcion de su DimensionID y de su ProdNameID
 export async function getProductByIDS(req: Request, res: Response) {
   try {
-    const {ProdNameID, DimensionID} = req.query
-    
+    const { ProdNameID, DimensionID } = req.query;
+
     const query = `SELECT * FROM NaturaliStone.Products where Products.ProdNameID = ${ProdNameID} AND Products.DimensionID = ${DimensionID};`;
 
     mysqlConnection.query(
@@ -94,7 +98,6 @@ export async function getProductByIDS(req: Request, res: Response) {
           console.log("Error en productsRoutes.get /IDs");
           res.status(404).json("No products match this search");
         } else {
-
           console.log("Data OK");
           res.status(200).json(results);
         }
@@ -122,9 +125,13 @@ export async function getAllMaterials(req: Request, res: Response) {
           res.status(404).json("No material");
         } else {
           const materialesRowData = results as RowDataPacket[]; // Convertir a tipo RowDataPacket[]
-          const materialesString = materialesRowData.map((row) => row.Materials)[0]; // Obtener la cadena de materiales
-          const materialesArray = materialesString.split(", ").map((material) => material.trim()); // Dividir la cadena y eliminar los espacios en blanco       
-          res.status(200).json(materialesArray) 
+          const materialesString = materialesRowData.map(
+            (row) => row.Materials
+          )[0]; // Obtener la cadena de materiales
+          const materialesArray = materialesString
+            .split(", ")
+            .map((material) => material.trim()); // Dividir la cadena y eliminar los espacios en blanco
+          res.status(200).json(materialesArray);
         }
       }
     );
@@ -132,4 +139,3 @@ export async function getAllMaterials(req: Request, res: Response) {
     res.status(409).send(error);
   }
 }
-

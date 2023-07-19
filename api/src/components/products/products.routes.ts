@@ -1,13 +1,16 @@
-import { Router } from 'express';
+import { Router } from "express";
 import {
-  getAllProducts, getProductByIDS, getProductsValuesByProdNameID, getAllMaterials
-} from './products.controller';
+  getAllProducts,
+  getProductByIDS,
+  getProductsValuesByProdNameID,
+  getAllMaterials,
+} from "./products.controller";
 
 const productsRouter: Router = Router();
 
-productsRouter.get('/', getAllProducts );
-productsRouter.get('/IDs', getProductByIDS );
-productsRouter.get('id/:id', getProductsValuesByProdNameID );
-productsRouter.get('/material', getAllMaterials );
+productsRouter.get("/", getAllProducts);
+productsRouter.get("/IDs", getProductByIDS);
+productsRouter.get("/material", getAllMaterials);
+productsRouter.get("id/:id", getProductsValuesByProdNameID);
 
 export default productsRouter;

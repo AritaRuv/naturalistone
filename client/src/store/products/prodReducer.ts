@@ -1,15 +1,23 @@
 // reducer.ts
-import { ProductState, ProductAction, ProductActionTypes } from "./typesProducts";
+import {
+  ProductState,
+  ProductAction,
+  ProductActionTypes,
+} from "./typesProducts";
 
 const initialState: ProductState = {
   products: [],
-  productValues:{},
+  productValues: {},
   materials: [],
+  product: {},
   loading: false,
   error: null,
 };
 
-const productReducer = (state = initialState, action: ProductAction): ProductState => {
+const productReducer = (
+  state = initialState,
+  action: ProductAction
+): ProductState => {
   switch (action.type) {
     case ProductActionTypes.FETCH_PRODUCTS_REQUEST:
       return {
@@ -30,21 +38,21 @@ const productReducer = (state = initialState, action: ProductAction): ProductSta
         error: action.error,
       };
     case ProductActionTypes.FETCH_PRODUCTS_VALUES:
-     const key = Object.keys(action.payload.transformedResults)[0];
-      
+      const key = Object.keys(action.payload)[0];
+
       return {
         ...state,
         productValues: {
           ...state.productValues,
-          [key]:action.payload.transformedResults[key]
-          },
+          [key]: action.payload[key],
+        },
         // productsByProdNameID: action.payload.results as unknown  as ProductsByProdNameID[]
-        }
+      };
     case ProductActionTypes.FETCH_MATERIALS:
       return {
         ...state,
-        materials: action.payload
-      };   
+        materials: action.payload,
+      };
     default:
       return state;
   }

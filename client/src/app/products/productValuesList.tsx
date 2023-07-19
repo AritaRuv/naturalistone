@@ -1,7 +1,9 @@
-import { fetchDimension } from '@/store/dimensions/actionsDimensions';
 import { Box, Checkbox, CheckboxGroup, HStack, VStack, Text, Button } from '@chakra-ui/react';
 import { useState } from 'react';
-import { useAppDispatch,  } from '@/store/hooks';
+import { useAppDispatch, useAppSelector,  } from '@/store/hooks';
+import { fetchProduct } from '@/store/products/actionsProducts';
+import { ProductState } from '@/store/products/typesProducts';
+import { postCart } from '@/store/cart/actionsCart';
 
 interface ProductListProps {
   data: {
@@ -11,35 +13,41 @@ interface ProductListProps {
       finish: string[];
       prodNameID: number;
     };
-  };
+  },
+  ProdNameID: number
 }
 
-const ProductList: React.FC<ProductListProps> = ({ data }) => {
+const ProductList: React.FC<ProductListProps> = ({ data, ProdNameID}) => {
 
   const dispatch = useAppDispatch();
 
-  const productKey = Object.keys(data)[0];
-
-  const { size, thickness, finish, prodNameID } = data[productKey];
+  const { size, thickness, finish, prodNameID } = data[ProdNameID];
 
   const [selectedSize, setSelectedSize] = useState<string[]>([]);
   const [selectedThickness, setSelectedThickness] = useState<string[]>([]);
   const [selectedFinish, setSelectedFinish] = useState<string[]>([]);
 
-  const selectedProduct = {
-    productNameID: prodNameID,
-    size: selectedSize,
-    finish: selectedFinish,
-    thickness: selectedThickness
-  }
   const handleCheckboxChange = (value: string, setState: React.Dispatch<React.SetStateAction<string[]>>) => {
     setState(prevState => prevState.includes(value) ? prevState.filter(v => v !== value) : [value]);
-  }; //maneja los checkboxes para controlar que solo 1 este clickeado a la vez
+  }; 
 
-  const handleAddToCart = () => {
-    dispatch(fetchDimension(selectedProduct.size[0], selectedProduct.thickness[0], selectedProduct.finish[0]))
-  }
+  //maneja los checkboxes para controlar que solo 1 este clickeado a la vez
 
+  const handleAddToCart = async () => {
+    const bodyCust = {
+      size: selectedSize[0],
+      thickness: selectedThickness[0],
+      finish: selectedFinish[0],
+      ProdNameID: ProdNameID,
+      customerID: 1938,
+    };
+  
+    dispatch(postCart(bodyCust));
+      //ahoramismo estoy intentando que la logica general funcione. Voy a necesitar agregar logica para controlar los chcekcbox
+      // ya que en este momento admite convinaciones inexistentes. Al clickear 1 checkbox filtra los demas x resultados existentes 
+      //o algo por el estilo. 
+    }
+  
   return (
     <>
       <HStack align="start" spacing={4} w={'100%'} mb={'4%'}>
