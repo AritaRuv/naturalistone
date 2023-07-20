@@ -40,11 +40,24 @@ export async function newCartEntry(req: Request, res: Response) {
             });
             return;
           }
-
+          
+          // Maneja el resultado undefined de la query, en caso de que la convinacion ProdNameID y DimensionID no 
+          // exista en la db
+          
+          // ---------------------------------
+          if (prodResults.length === 0) {
+            console.log("El resultado de queryGetProdID es indefinido o vacío.");
+            mysqlConnection.rollback(() => {
+              console.log("Rollback realizado debido a un resultado indefinido o vacío en queryGetProdID");
+              res.status(404).json({ error: "Producto no encontrado" });
+            });
+            return;
+          }
+          //----------------------------------
           const product = prodResults[0];
           const Quantity = 1;
           const CustomerID = 1938;
-
+          
           const productSalePrice = product.SalePrice === null ? 1 : product.SalePrice
 
           const queryInsertCart = `INSERT INTO Cart(CustomerID, ProductID, Quantity, SalePrice) VALUES (?, ?, ?, ?)`;

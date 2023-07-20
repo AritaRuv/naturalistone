@@ -46,6 +46,18 @@ function newCartEntry(req, res) {
                             });
                             return;
                         }
+                        // Maneja el resultado undefined de la query, en caso de que la convinacion ProdNameID y DimensionID no 
+                        // exista en la db
+                        // ---------------------------------
+                        if (prodResults.length === 0) {
+                            console.log("El resultado de queryGetProdID es indefinido o vacío.");
+                            db_1.default.rollback(() => {
+                                console.log("Rollback realizado debido a un resultado indefinido o vacío en queryGetProdID");
+                                res.status(404).json({ error: "Producto no encontrado" });
+                            });
+                            return;
+                        }
+                        //----------------------------------
                         const product = prodResults[0];
                         const Quantity = 1;
                         const CustomerID = 1938;

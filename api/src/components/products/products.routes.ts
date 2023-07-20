@@ -13,6 +13,6 @@ productsRouter.get("/", getAllProducts);
 productsRouter.get("/IDs", getProductByIDS);
 productsRouter.get("/material", getAllMaterials);
 productsRouter.get("/dimension", getAllDimensionProperties);
-productsRouter.get("id/:id", getProductsValuesByProdNameID);
+productsRouter.get("/id/:id", getProductsValuesByProdNameID);
 
 export default productsRouter;
