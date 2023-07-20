@@ -10,7 +10,7 @@ import { useAppDispatch, useAppSelector } from '@/store/hooks';
 import { fetchProductsValues } from '@/store/products/actionsProducts';
 
 
-const ProductCard: React.FC<{ product: Product }> = ({ product }) => {
+const ProductCard: React.FC<{ product: Product, site:string }> = ({ product, site }) => {
 
   const dispatch = useAppDispatch();
 
@@ -43,7 +43,7 @@ const ProductCard: React.FC<{ product: Product }> = ({ product }) => {
 
   
   return (
-    <Box position="relative">
+    <Box position="relative" zIndex={2}>
       <Box
         w={'260px'}
         h={'370px'}

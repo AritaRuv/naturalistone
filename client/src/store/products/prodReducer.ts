@@ -12,6 +12,7 @@ const initialState: ProductState = {
   product: {},
   loading: false,
   error: null,
+  dimensions: null
 };
 
 const productReducer = (
@@ -52,6 +53,11 @@ const productReducer = (
       return {
         ...state,
         materials: action.payload,
+      };
+    case ProductActionTypes.FETCH_DIMENSION:
+      return {
+        ...state,
+        dimensions: action.payload,
       };
     default:
       return state;
