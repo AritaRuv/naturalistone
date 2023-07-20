@@ -12,8 +12,9 @@ import { useAppDispatch, useAppSelector } from "@/store/hooks";
 import { fetchMaterials } from "@/store/products/actionsProducts";
 import { ProductState } from "@/store/products/typesProducts";
 import Login from "./Login";
-import { Checkout } from "./checkout";
-// import Register from "./register";
+import Checkout from "./checkout";
+import Register from "./register";
+import Footer from "./footer";
 
 const ContainerLogin: React.FC = () => {
   const [isActive600, setIsActive600] = useState(false);
@@ -23,22 +24,31 @@ const ContainerLogin: React.FC = () => {
   return (
     <>
       <Box
-        h={"92vh"}
+        h={"82vh"}
         w={"full"}
         display={"flex"}
         alignItems={"center"}
         justifyContent={"center"}
         flexDirection={smallerThan600 ? "column" : "row"}
       >
-        {/* {
-        activeLogin 
-        ? ( */}
-        <Login setActiveLogin={setActiveLogin} />
-        {/* ) : ( */}
-        {/* <Register isActive600={isActive600} /> */}
-        {/* )} */}
-        <Checkout />
+        {activeLogin ? (
+          <Login
+            setActiveLogin={setActiveLogin}
+            smallerThan600={smallerThan600}
+          />
+        ) : (
+          <Register
+            setActiveLogin={setActiveLogin}
+            smallerThan600={smallerThan600}
+          />
+        )}
+        <Checkout
+          setActiveLogin={setActiveLogin}
+          smallerThan600={smallerThan600}
+        />
+        {smallerThan600 ? <Footer /> : <></>}
       </Box>
+      {!smallerThan600 ? <Footer /> : <></>}
     </>
   );
 };

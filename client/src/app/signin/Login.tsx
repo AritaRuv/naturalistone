@@ -10,34 +10,14 @@ import {
 } from "@chakra-ui/react";
 import React, { useState, useEffect } from "react";
 import { FaRegUserCircle } from "react-icons/fa";
-import { PiLockLight } from "react-icons/pi";
+import { SlLock } from "react-icons/sl";
 
-interface Props {
+export interface Props {
   setActiveLogin: React.Dispatch<React.SetStateAction<boolean>>;
+  smallerThan600: boolean;
 }
 
-const Login: React.FC<Props> = ({ setActiveLogin }: Props) => {
-  const [smallerThan1100] = useMediaQuery("(max-width: 1100px)");
-  const [smallerThan600] = useMediaQuery("(max-width: 600px)");
-  const [boxCircle, setBoxCircle] = useState({ h: "200px", w: "200px" });
-
-  // useEffect(() => {
-  //   if (!smallerThan1100) {
-  //     setBoxCircle({
-  //       ...boxCircle,
-  //       h: "200px",
-  //       w: "200px",
-  //     });
-  //   }
-  //   if (smallerThan600) {
-  //     setBoxCircle({
-  //       ...boxCircle,
-  //       h: "100px",
-  //       w: "100px",
-  //     });
-  //   }
-  // }, [smallerThan1100, smallerThan600]);
-
+const Login: React.FC<Props> = ({ setActiveLogin, smallerThan600 }) => {
   const handleClick = () => {
     setActiveLogin(false);
   };
@@ -46,34 +26,29 @@ const Login: React.FC<Props> = ({ setActiveLogin }: Props) => {
     <Box
       display={"flex"}
       h={"68vh"}
-      w={"50vw"}
+      w={smallerThan600 ? "80vw" : "50vw"}
       bg={"#f2f2f2"}
-      border={"2px solid red"}
-      position={"relative"}
+      // border={"2px solid red"}
       flexDirection={"column"}
-      bottom={10}
+      mt={smallerThan600 ? "70vh" : 0}
     >
       <Box
         display={"flex"}
         h={"30vh"}
         w={"full"}
-        // borderRadius={"50%"}
-        // bg={"red"}
-        // position={"relative"}
         alignItems={"center"}
         justifyContent={"center"}
         top={0}
         flexDirection={"column"}
-        // bg={"green"}
       >
         <Box
           display={"flex"}
-          h={boxCircle.h}
-          w={boxCircle.w}
+          h={smallerThan600 ? "100px" : "200px"}
+          w={smallerThan600 ? "100px" : "200px"}
           borderRadius={"50%"}
           bg={"#a9a9a9"}
           position={"relative"}
-          bottom={8}
+          bottom={smallerThan600 ? 12 : 12}
         ></Box>
         <Box
           display={"flex"}
@@ -131,7 +106,7 @@ const Login: React.FC<Props> = ({ setActiveLogin }: Props) => {
           </InputGroup>
           <InputGroup display={"flex"} mt={"20px"}>
             <InputLeftElement pointerEvents="none">
-              <PiLockLight />
+              <SlLock />
             </InputLeftElement>
             <Input
               h={"30px"}
