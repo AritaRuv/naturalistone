@@ -34,12 +34,10 @@ export const getMaterials = async () => {
     const response = await axios.get(
       `http://localhost:5000/api/products/material`
     ); // Realiza la solicitud GET a la ruta /api/products de tu backend
-
-    console.log("entre aqui", response.data);
     return response.data;
   } catch (error) {
     console.log(error);
-    throw new Error("Error al obtener los product values de la API");
+    throw new Error("Error al obtener los material de la API");
   }
 };
 
@@ -52,5 +50,17 @@ export const getProduct = async (ProdNameID: number, DimensionID: number) => {
   } catch (error) {
     console.log(error);
     throw new Error("Error al obtener el product de la API");
+  }
+};
+
+export const getDimension = async () => {
+  try {
+    const response = await axios.get(
+      `http://localhost:5000/api/products/dimension`
+    ); 
+    return response.data;
+  } catch (error) {
+    console.log(error);
+    throw new Error("Error al obtener los dimension de la API");
   }
 };

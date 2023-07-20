@@ -52,7 +52,7 @@ const HomeProductContainer: React.FC<ComponentsProps> = ({
     >
       {homeProducts.length &&
         homeProducts.map((prod) => {
-          return <ProductCard product={prod} key={prod.ProdNameID} />;
+          return <ProductCard product={prod} key={prod.ProdNameID} site={'home'} />;
         })}
     </SimpleGrid>
   );

@@ -1,24 +1,88 @@
 
 'use client'
-import { Box, Grid, GridItem } from "@chakra-ui/react";
+import { Box, useMediaQuery } from "@chakra-ui/react";
 import NavBar from "../_navBar/_navBar";
-import MaterialFilter from "./materialFilter";
+import MaterialFilter from "./productFilters/materialFilter";
+import ProductsFilters from "./productFilters/productsFilter";
+import ProductsContainer from "./productsContainer";
+import FilterButtons from "./productFilters/filters_buttons";
+import { useState } from "react";
+import FiltersDropDownMenu from "./productFilters/filters_dropDownMenu";
+import { useEffect } from "react";
+import { useAppDispatch, useAppSelector } from "@/store/hooks";
+import { fetchDimension } from "@/store/products/actionsProducts";
+import { ProductState } from "@/store/products/typesProducts";
+import { Filters } from "./productFilters/types";
 
 
 export default function Products() {
+
+  const { dimensions } = useAppSelector(
+    (state: { productReducer: ProductState }) => state.productReducer
+  );
+  const { materials } = useAppSelector(
+    (state: { productReducer: ProductState }) => state.productReducer
+  );
+  const dispatch = useAppDispatch()
+  
+  useEffect(()=>{
+    dispatch(fetchDimension())
+  },[])
+
+  const [isSmallScreen] = useMediaQuery("(max-width: 1200px)");
+  const [showMenu, setShowMenu] = useState("");
+  const [filters, setFilters] = useState<Filters>({});
+  
+  const handleCheckboxChange = (filterName: string, value: string) => {
+    setFilters((prevFilters) => {
+      const updatedFilters = { ...prevFilters };
+  
+      if (!updatedFilters.hasOwnProperty(filterName)) {
+        updatedFilters[filterName] = [];
+      }
+      const isValueSelected = updatedFilters[filterName].includes(value);
+  
+      if (isValueSelected) {
+        updatedFilters[filterName] = updatedFilters[filterName].filter(
+          (item) => item !== value
+        );
+      } else {
+        updatedFilters[filterName] = [...updatedFilters[filterName], value];
+      }
+      return updatedFilters;
+    });
+  };
+  console.log(filters)
+
   return (
     <>
       <NavBar />
-      <MaterialFilter/>
-      <Grid
-        h={'92.5vh'}
-        templateRows="1fr 1fr 1fr 1fr 1fr 1fr 1fr 1fr" // 3 filas en el eje y
-        templateColumns="1fr 1fr 1fr 1fr 1fr 1fr 1fr 1fr" // 3 columnas en el eje x
-        gap={2}>
-        <GridItem bg={'blue'} rowSpan={2} colSpan={8}></GridItem>
-        <GridItem bg={'red'} rowSpan={6} colSpan={1} ></GridItem>
-        <GridItem bg={'yellow'} rowSpan={6} colSpan={7} ></GridItem>
-      </Grid>
+        <Box h={'93vh'}>
+          {
+            !isSmallScreen ? (
+              <>
+                <MaterialFilter setFilters={setFilters} filters={filters} handleCheckboxChange={handleCheckboxChange}/>
+                <Box display={'flex'} flexDir={'row'} w={'100vw'}>
+                  <ProductsFilters setFilters={setFilters} filters={filters} handleCheckboxChange={handleCheckboxChange}/>
+                  <ProductsContainer productsFilter={{color:'', material: ''}}/>
+                </Box>
+              </> 
+            ):(
+              <>
+                <FilterButtons setFilters={setFilters} filters={filters} setShowMenu={setShowMenu} showMenu={showMenu}/>
+                {
+                  showMenu !== '' && (
+                    <FiltersDropDownMenu setShowMenu={setShowMenu} showMenu={showMenu} finish={dimensions?.Finish} size={dimensions?.Size} materials={materials} thickness={dimensions?.Thickness} type={dimensions?.Type}/>              
+                  )
+                }
+                <Box zIndex={2}>
+                  <ProductsContainer productsFilter={{color:'', material: ''}}/>
+                </Box>
+              </>
+            )
+          }
+        
+      </Box>
     </>
   );
 }

@@ -6,6 +6,7 @@ import {
   getProducts,
   getMaterials,
   getProduct,
+  getDimension
 } from "../../api/apiProds"; // Importa tu función de solicitud a la API
 
 export const fetchProducts = (material: string) => {
@@ -74,6 +75,24 @@ export const fetchProduct = (ProductNameID: number, DimensionID) => {
       });
     } catch (error) {
       console.error("Error al obtener el product", error);
+    }
+  };
+};
+
+export const fetchDimension = () => {
+  return async (dispatch: Dispatch<ProductAction>) => {
+    dispatch({ type: ProductActionTypes.FETCH_PRODUCTS_REQUEST });
+    try {
+      const data = await getDimension(); // Llama a tu función de solicitud a la API
+      dispatch({
+        type: ProductActionTypes.FETCH_DIMENSION,
+        payload: data,
+      });
+    } catch (error) {
+      dispatch({
+        type: ProductActionTypes.FETCH_PRODUCTS_FAILURE,
+        error: "Error al obtener los product materials",
+      });
     }
   };
 };

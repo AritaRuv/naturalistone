@@ -12,7 +12,7 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.getAllMaterials = exports.getProductByIDS = exports.getProductsValuesByProdNameID = exports.getAllProducts = void 0;
+exports.getAllDimensionProperties = exports.getAllMaterials = exports.getProductByIDS = exports.getProductsValuesByProdNameID = exports.getAllProducts = void 0;
 const db_1 = __importDefault(require("../../db"));
 const productDimensions_1 = require("../../controllers/productDimensions");
 function getAllProducts(req, res) {
@@ -113,6 +113,7 @@ function getProductByIDS(req, res) {
     });
 }
 exports.getProductByIDS = getProductByIDS;
+//Ruta para obtener listado de todos los nombres de materiales sin repetir
 function getAllMaterials(req, res) {
     return __awaiter(this, void 0, void 0, function* () {
         try {
@@ -143,3 +144,40 @@ function getAllMaterials(req, res) {
     });
 }
 exports.getAllMaterials = getAllMaterials;
+function getAllDimensionProperties(req, res) {
+    return __awaiter(this, void 0, void 0, function* () {
+        try {
+            const query = `
+      SELECT 
+        GROUP_CONCAT(DISTINCT Type SEPARATOR ', ') AS Types,
+        GROUP_CONCAT(DISTINCT Size SEPARATOR ', ') AS Sizes,
+        GROUP_CONCAT(DISTINCT Thickness SEPARATOR ', ') AS Thicknesses,
+        GROUP_CONCAT(DISTINCT Finish SEPARATOR ', ') AS Finishes
+      FROM Dimension;
+    `;
+            db_1.default.query(query, (error, results, fields) => {
+                if (error) {
+                    throw error;
+                }
+                if (results.length === 0) {
+                    console.log("Error en getAllDimensionProperties");
+                    res.status(404).json("No data");
+                }
+                else {
+                    const propertiesRowData = results[0];
+                    const dimensionProperties = {
+                        Type: propertiesRowData.Types.split(", ").map((type) => type.trim()),
+                        Size: propertiesRowData.Sizes.split(", ").map((size) => size.trim()),
+                        Thickness: propertiesRowData.Thicknesses.split(", ").map((thickness) => thickness.trim()),
+                        Finish: propertiesRowData.Finishes.split(", ").map((finish) => finish.trim()),
+                    };
+                    res.status(200).json(dimensionProperties);
+                }
+            });
+        }
+        catch (error) {
+            res.status(409).send(error);
+        }
+    });
+}
+exports.getAllDimensionProperties = getAllDimensionProperties;

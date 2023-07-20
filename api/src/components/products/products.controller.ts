@@ -107,7 +107,7 @@ export async function getProductByIDS(req: Request, res: Response) {
     res.status(409).send(error);
   }
 }
-
+//Ruta para obtener listado de todos los nombres de materiales sin repetir
 export async function getAllMaterials(req: Request, res: Response) {
   try {
     const query = `SELECT GROUP_CONCAT(DISTINCT ProdNames.Material SEPARATOR ', ') AS Materials
@@ -139,3 +139,41 @@ export async function getAllMaterials(req: Request, res: Response) {
     res.status(409).send(error);
   }
 }
+
+export async function getAllDimensionProperties(req: Request, res: Response) {
+  try {
+    const query = `
+      SELECT 
+        GROUP_CONCAT(DISTINCT Type SEPARATOR ', ') AS Types,
+        GROUP_CONCAT(DISTINCT Size SEPARATOR ', ') AS Sizes,
+        GROUP_CONCAT(DISTINCT Thickness SEPARATOR ', ') AS Thicknesses,
+        GROUP_CONCAT(DISTINCT Finish SEPARATOR ', ') AS Finishes
+      FROM Dimension;
+    `;
+
+    mysqlConnection.query(
+      query,
+      (error: MysqlError, results: RowDataPacket[], fields: FieldPacket[]) => {
+        if (error) {
+          throw error;
+        }
+        if (results.length === 0) {
+          console.log("Error en getAllDimensionProperties");
+          res.status(404).json("No data");
+        } else {
+          const propertiesRowData = results[0] as RowDataPacket;
+          const dimensionProperties = {
+            Type: propertiesRowData.Types.split(", ").map((type) => type.trim()),
+            Size: propertiesRowData.Sizes.split(", ").map((size) => size.trim()),
+            Thickness: propertiesRowData.Thicknesses.split(", ").map((thickness) => thickness.trim()),
+            Finish: propertiesRowData.Finishes.split(", ").map((finish) => finish.trim()),
+          };
+          res.status(200).json(dimensionProperties);
+        }
+      }
+    );
+  } catch (error) {
+    res.status(409).send(error);
+  }
+}
+
