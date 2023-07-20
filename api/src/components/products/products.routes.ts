@@ -11,6 +11,6 @@ const productsRouter: Router = Router();
 productsRouter.get("/", getAllProducts);
 productsRouter.get("/IDs", getProductByIDS);
 productsRouter.get("/material", getAllMaterials);
-productsRouter.get("id/:id", getProductsValuesByProdNameID);
+productsRouter.get("/id/:id", getProductsValuesByProdNameID);
 
 export default productsRouter;

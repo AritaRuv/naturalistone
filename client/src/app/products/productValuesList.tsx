@@ -20,7 +20,7 @@ interface ProductListProps {
 const ProductList: React.FC<ProductListProps> = ({ data, ProdNameID}) => {
 
   const dispatch = useAppDispatch();
-
+  console.log({data})
   const { size, thickness, finish, prodNameID } = data[ProdNameID];
 
   const [selectedSize, setSelectedSize] = useState<string[]>([]);

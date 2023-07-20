@@ -6,7 +6,7 @@ import { getColors } from "@/api/apiColors";
 export const fetchColors = () => {
   return async (dispatch: Dispatch<ColorsAction>) => {
     try {
-      console.log("entro al fetchhhhhhhhhh");
+
       const colors = await getColors();
       dispatch({
         type: ColorsActionsType.FETCH_COLORS,

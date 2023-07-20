@@ -22,8 +22,8 @@ const ProductCard: React.FC<{ product: Product }> = ({ product }) => {
   const URL = `https://naturalistone-images.s3.amazonaws.com/${Material}/${Naturali_ProdName}/${Naturali_ProdName}_0.jpg`
 
   const { productValues } = useAppSelector((state: { productReducer: ProductState }) => state.productReducer);
-  // const { productsByProdNameID } = useAppSelector((state: { productReducer: ProductState }) => state.productReducer);
-  
+  console.log({productValues})
+
   const handleMouseEnter = () => {
     setIsDropdownOpen(true);
     setDisableBox(true);
