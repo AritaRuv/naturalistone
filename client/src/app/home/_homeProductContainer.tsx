@@ -2,7 +2,7 @@
 import { useEffect } from "react";
 import { SimpleGrid, useMediaQuery } from "@chakra-ui/react";
 import ProductCard from "../products/_productCard";
-import { fetchProducts } from "../../store/products/actionsProducts";
+import { fetchProductsHome } from "../../store/products/actionsProducts";
 import { ProductState } from "../../store/products/typesProducts";
 import { useAppDispatch, useAppSelector } from "../../store/hooks";
 
@@ -22,8 +22,6 @@ const HomeProductContainer: React.FC<ComponentsProps> = ({
   const dispatch = useAppDispatch();
   const { material, colorId } = productsFilter;
 
-  console.log("soy colorid", colorId);
-
   const { products, loading, error } = useAppSelector(
     (state: { productReducer: ProductState }) => state.productReducer
   );
@@ -39,7 +37,7 @@ const HomeProductContainer: React.FC<ComponentsProps> = ({
   }
 
   useEffect(() => {
-    dispatch(fetchProducts(material, colorId));
+    dispatch(fetchProductsHome(material, colorId));
   }, [material, colorId]);
 
   return (

@@ -73,6 +73,7 @@ const Register: React.FC<Props> = ({ setActiveLogin, smallerThan600 }) => {
 
   const handleClick = () => {
     setActiveLogin(true);
+    setErrors({});
   };
 
   const handleRegister = () => {
@@ -83,13 +84,14 @@ const Register: React.FC<Props> = ({ setActiveLogin, smallerThan600 }) => {
       password: "",
       confirmPassword: "",
     });
+    setErrors({});
   };
 
   return (
     <Box
       display={"flex"}
-      h={smallerThan600 ? "70vh" : "62vh"}
-      w={smallerThan600 ? "80vw" : "40vw"}
+      h={smallerThan600 ? "60vh" : "68vh"}
+      w={smallerThan600 ? "100vw" : "35vw"}
       bg={"#f2f2f2"}
       flexDirection={"column"}
       mt={smallerThan600 ? "70vh" : 0}
@@ -100,21 +102,32 @@ const Register: React.FC<Props> = ({ setActiveLogin, smallerThan600 }) => {
     >
       <Box
         display={"flex"}
-        h={"40px"}
-        w={"full"}
         // bg={"yellow"}
-        mt={smallerThan600 ? "10vh" : 0}
+        flexDirection={"column"}
         justifyContent={"center"}
-        alignItems={"flex-start"}
-        fontSize={"2xl"}
+        alignItems={"center"}
+        h={"15vh"}
+        w={"80%"}
       >
-        <Center>SIGN UP</Center>
+        <Box
+          display={"flex"}
+          h={"40px"}
+          w={"full"}
+          // bg={"yellow"}
+          mt={smallerThan600 ? "4vh" : "4vh"}
+          justifyContent={"center"}
+          alignItems={"flex-start"}
+          fontSize={"xl"}
+          mb={"2vh"}
+        >
+          <Center>SIGN UP</Center>
+        </Box>
       </Box>
       <Box
         display={"flex"}
         alignItems={"center"}
         justifyItems={"center"}
-        mt={"5vh"}
+        // mt={"5vh"}
         // bg={"red"}
         // mt={smallerThan600 ? "50px" : "20px"}
         w={"80%"}
@@ -132,22 +145,25 @@ const Register: React.FC<Props> = ({ setActiveLogin, smallerThan600 }) => {
                     <IconButton
                       aria-label="User-icon"
                       variant="unstyled"
-                      fontSize="2xl"
+                      fontSize="xl"
+                      mb={"12px"}
                       icon={<PiUserCircleThin />}
                     />
                   </InputLeftElement>
                   <Input
-                    h={"30px"}
+                    h={"25px"}
                     w={"full"}
                     position={"relative"}
                     // mt={"7px"}
-                    border={"none"}
                     id={"username"}
                     name={"username"}
+                    fontSize={"sm"}
                     value={formData.username}
+                    border={"none"}
                     onChange={handleChange}
                     _hover={{
                       backgroundColor: "transparent",
+                      border: "none",
                     }}
                     _focus={{
                       backgroundColor: "transparent",
@@ -184,12 +200,13 @@ const Register: React.FC<Props> = ({ setActiveLogin, smallerThan600 }) => {
                     />
                   </InputLeftElement>
                   <Input
-                    h={"30px"}
+                    h={"25px"}
                     w={"full"}
                     position={"relative"}
                     id={"email"}
                     mt={"7px"}
                     border={"none"}
+                    fontSize={"sm"}
                     name={"email"}
                     value={formData.email}
                     onChange={handleChange}
@@ -224,17 +241,18 @@ const Register: React.FC<Props> = ({ setActiveLogin, smallerThan600 }) => {
                     <IconButton
                       aria-label="Password-icon"
                       variant="unstyled"
-                      fontSize="2xl"
+                      fontSize="xl"
                       icon={<PiLockLight />}
                     />
                   </InputLeftElement>
                   <Input
-                    h={"30px"}
+                    h={"25px"}
                     w={"full"}
                     position={"relative"}
                     mt={"7px"}
                     id={"password"}
                     border={"none"}
+                    fontSize={"sm"}
                     name={"password"}
                     value={formData.password}
                     onChange={handleChange}
@@ -269,15 +287,16 @@ const Register: React.FC<Props> = ({ setActiveLogin, smallerThan600 }) => {
                     <IconButton
                       aria-label="Password-icon"
                       variant="unstyled"
-                      fontSize="2xl"
+                      fontSize="xl"
                       icon={<PiLockLight />}
                     />
                   </InputLeftElement>
                   <Input
-                    h={"30px"}
+                    h={"25px"}
                     w={"full"}
                     position={"relative"}
                     mt={"7px"}
+                    fontSize={"sm"}
                     border={"none"}
                     id={"confirmPassword"}
                     name={"confirmPassword"}
@@ -308,10 +327,10 @@ const Register: React.FC<Props> = ({ setActiveLogin, smallerThan600 }) => {
       </Box>
       <Box
         display={"flex"}
-        h={"15vh"}
+        h={smallerThan600 ? "20vh" : "20vh"}
         w={"full"}
         // bg={"blue"}
-        mt={smallerThan600 ? "4vh" : "0"}
+        mt={smallerThan600 ? "2vh" : "0"}
         flexDirection={"column"}
       >
         <Box>
@@ -337,14 +356,17 @@ const Register: React.FC<Props> = ({ setActiveLogin, smallerThan600 }) => {
           flexDirection={"row"}
           h={"full"}
           w={"full"}
+          mb={"2vh"}
           // bg={"red"}
           // mt={smallerThan1400 ? 0 : "2vh"}
           justifyContent={"center"}
-          alignItems={"center"}
+          alignItems={"flex-end"}
           // position={"relative"}
           // top={smallerThan1400 ? 0 : 5}
         >
-          <Center>Already have an account?</Center>
+          <Center color={"#6A6969"} fontWeight={"300"}>
+            Already have an account?
+          </Center>
           <Center ml={"10px"}>
             <Button
               border={"none"}
@@ -357,11 +379,16 @@ const Register: React.FC<Props> = ({ setActiveLogin, smallerThan600 }) => {
                 border: "none",
               }}
               style={{
-                borderBottom: "1px solid black",
+                borderBottom: "1px solid gray",
                 borderRadius: "0", // Ajusta el radio de las esquinas a cero
                 outline: "none",
               }}
+              mb={"0.5vh"}
               onClick={handleClick}
+              color={"#6A6969"}
+              h={"18px"}
+              w={"100px"}
+              fontWeight={300}
             >
               LOGIN HERE
             </Button>

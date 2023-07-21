@@ -2,7 +2,7 @@
 // api.ts
 import axios from "axios";
 
-export const getProducts = async (material: string, colorId: string) => {
+export const getProductsHome = async (material: string, colorId: string) => {
   try {
     console.log("material in api", material);
     const response = await axios.get(

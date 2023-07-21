@@ -6,6 +6,10 @@ const initialState: LoginState = {
     email: "",
     password: "",
   },
+  signin: {
+    email: "",
+    password: "",
+  },
 };
 
 const loginReducer = (
@@ -17,6 +21,12 @@ const loginReducer = (
       return {
         ...state,
         register: action.payload,
+      };
+    }
+    case LoginActionsType.POST_SIGNIN: {
+      return {
+        ...state,
+        signin: action.payload,
       };
     }
     default: {

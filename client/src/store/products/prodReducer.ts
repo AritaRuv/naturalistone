@@ -19,19 +19,19 @@ const productReducer = (
   action: ProductAction
 ): ProductState => {
   switch (action.type) {
-    case ProductActionTypes.FETCH_PRODUCTS_REQUEST:
+    case ProductActionTypes.FETCH_PRODUCTS_HOME_REQUEST:
       return {
         ...state,
         loading: true,
         error: null,
       };
-    case ProductActionTypes.FETCH_PRODUCTS_SUCCESS:
+    case ProductActionTypes.FETCH_PRODUCTS_HOME_SUCCESS:
       return {
         ...state,
         loading: false,
         products: action.payload,
       };
-    case ProductActionTypes.FETCH_PRODUCTS_FAILURE:
+    case ProductActionTypes.FETCH_PRODUCTS_HOME_FAILURE:
       return {
         ...state,
         loading: false,

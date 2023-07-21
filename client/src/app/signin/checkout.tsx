@@ -7,13 +7,13 @@ const Checkout: React.FC<Props> = ({ setActiveLogin, smallerThan600 }) => {
     <>
       <Box
         display={"flex"}
-        h={"62vh"}
+        h={"68vh"}
         w={smallerThan600 ? "80%" : "25%"}
         flexDirection={"column"}
       >
         <Box
           display={"flex"}
-          h={"54vh"}
+          h={"65vh"}
           w={"full"}
           backgroundImage={
             "url(https://elegancetiles.com.au/wp-content/uploads/IMG_3315-1-1350x1013.jpg)"
