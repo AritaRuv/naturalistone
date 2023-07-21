@@ -1,5 +1,7 @@
 import mysqlConnection from "../../db";
-import { Response, Request } from "express";
+import { Response, Request, NextFunction } from "express";
+import { sign, verify } from "jsonwebtoken";
+import bcrypt from "bcrypt";
 
 export async function register(req: Request, res: Response) {
   const { username, email, password } = req.body;
@@ -25,12 +27,9 @@ export async function register(req: Request, res: Response) {
         }
         const customerId = results.insertId;
 
-        console.log("soy restuls222222", results);
-
         const _query1 = `INSERT INTO Customer_Login (CustomerID, Username, Password) Values ("${customerId}", "${email}", "${password}")`;
 
         mysqlConnection.query(_query1, function (err, results, fields) {
-          console.log("soy results3", results);
           if (err) {
             res
               .status(400)
@@ -39,8 +38,6 @@ export async function register(req: Request, res: Response) {
               throw err;
             });
           }
-
-          console.log("soy result44444", results);
 
           return mysqlConnection.commit(function (err) {
             if (err) {
@@ -52,7 +49,7 @@ export async function register(req: Request, res: Response) {
               });
             }
 
-            console.log("Transaction committed successfully");
+            console.log("Register committed successfully");
 
             res
               .status(200)
@@ -65,4 +62,61 @@ export async function register(req: Request, res: Response) {
     console.log(error);
     return res.status(500).json({ msg: "general_error" + error });
   }
+}
+
+export async function generateJWT(user = "", expiresAt = 0) {
+  const payload = { user };
+  const SECRETKEY = process.env.SECRET_KEY;
+
+  const options: any = {};
+
+  if (expiresAt > 0) {
+    options.expiresAt = 60 * expiresAt;
+  }
+
+  const token = sign(payload, SECRETKEY, options);
+
+  return token;
+}
+
+export async function validateJWT(
+  req: Request,
+  res: Response,
+  next: NextFunction
+) {
+  let token = req.headers.authorization;
+
+  if (!token) {
+    return res.status(401).json({ success: false, msg: "no token" });
+  }
+
+  token = token.split(" ")[1];
+
+  verify(token, process.env.SECRET_KEY, function (err, data) {
+    if (err) {
+      res.status(401).json("invalid_token");
+    }
+    res.status(200).json(data);
+    next();
+  });
+}
+
+export async function signIn(req: Request, res: Response) {
+  const { email, password } = req.body;
+
+  const _query = `SELECT * FROM Customer_Login WHERE Username = "${email}" AND Password="${password}"`;
+
+  mysqlConnection.query(_query, async function (err, results) {
+    if (err) {
+      return res.status(400).json({ success: false, msg: "err in login" });
+    }
+
+    const token = await generateJWT(results.insertId);
+
+    return res.status(200).json({ success: true, results, token });
+  });
+}
+
+export async function protectedRoute() {
+  return "hola";
 }

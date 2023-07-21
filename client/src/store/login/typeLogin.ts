@@ -1,7 +1,8 @@
 export interface Register {
-  username: string;
+  username: string | undefined;
   email: string;
   password: string;
+  confirmPassword?: string;
 }
 
 export interface LoginState {

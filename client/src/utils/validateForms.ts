@@ -1,12 +1,14 @@
+/* eslint-disable no-useless-escape */
 import { Register } from "@/store/login/typeLogin";
 
 export interface FormErrors {
   username?: string;
   email?: string;
   password?: string;
+  confirmPassword?: string;
 }
 
-export const validateCompletedInputs = (formData: Register) => {
+export const validateCompletedInputs = (formData) => {
   const errors: FormErrors = {};
   const regexNoNumber = /^[a-zA-Z\s!"#$%&'()*+,./:;<=>?@\[\\\]^_`{|}~]*$/;
   const regexMore5Length = /^.{5,}$/;
@@ -17,15 +19,18 @@ export const validateCompletedInputs = (formData: Register) => {
       errors.username = "Please enter a valid name";
     }
   }
-  if (formData.password !== "") {
-    if (!regexMore5Length.test(formData.username)) {
-      errors.password = "Please enter a valid password";
-    }
-  }
   if (formData.email !== "") {
     if (!regexEmail.test(formData.email)) {
       errors.email = "Please enter a valid email";
     }
+  }
+  if (formData.password !== "") {
+    if (!regexMore5Length.test(formData.password)) {
+      errors.password = "Please enter a valid password";
+    }
+  }
+  if (formData.confirmPassword !== formData.password) {
+    errors.confirmPassword = "confirmPassword is not equal to password";
   }
 
   return errors;

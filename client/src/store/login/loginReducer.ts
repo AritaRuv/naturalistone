@@ -19,6 +19,9 @@ const loginReducer = (
         register: action.payload,
       };
     }
+    default: {
+      return state;
+    }
   }
 };
 

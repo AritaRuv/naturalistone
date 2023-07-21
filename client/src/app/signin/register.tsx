@@ -6,62 +6,106 @@ import {
   FormControl,
   FormErrorMessage,
   FormLabel,
+  IconButton,
   Input,
   InputGroup,
   InputLeftElement,
   SimpleGrid,
+  Text,
   useMediaQuery,
 } from "@chakra-ui/react";
 import { useState, useEffect } from "react";
-import { FaRegUserCircle } from "react-icons/fa";
-import { SlLock } from "react-icons/sl";
-import { AiOutlineMail } from "react-icons/ai";
+import { PiUserCircleThin } from "react-icons/pi";
+import { PiLockLight } from "react-icons/pi";
+import { TfiEmail } from "react-icons/tfi";
 import { Props } from "./Login";
-import { FormErrors } from "@/utils/validateForms";
+import { FormErrors, validateCompletedInputs } from "@/utils/validateForms";
+import { useDispatch } from "react-redux";
+import { useAppDispatch } from "@/store/hooks";
+import { Register } from "@/store/login/typeLogin";
+import { registerUser } from "@/store/login/actionsLogin";
 
 const Register: React.FC<Props> = ({ setActiveLogin, smallerThan600 }) => {
-  // const [smallerThan1100] = useMediaQuery("(max-width: 1100px)");
+  const [smallerThan1400] = useMediaQuery("(max-width: 1400px)");
   // const [smallerThan600] = useMediaQuery("(max-width: 600px)");
-  const [formData, setFormData] = useState({
+  const dispatch = useAppDispatch();
+  const [formData, setFormData] = useState<Register>({
     username: "",
     email: "",
     password: "",
+    confirmPassword: "",
   });
   const [errors, setErrors] = useState<FormErrors>({});
+  const [isFormInvalid, setIsFormInvalid] = useState(false);
 
   const handleChange = (event) => {
-    setErrors({});
+    // setErrors({});
+    const name = event.target.name;
+    const value = event.target.value;
     setFormData({
       ...formData,
       [event.target.name]: event.target.value,
     });
+    const errors = validateCompletedInputs({
+      ...formData,
+      [name]: value,
+    });
+    // Comprobar si hay errores en el campo "username"
+    const isUsernameInvalid = !!errors.username;
+    // Comprobar si hay errores en el campo "email"
+    const isEmailInvalid = !!errors.email;
+    // Comprobar si hay errores en el campo "password"
+    const isPasswordInvalid = !!errors.password;
+    // Comprobar si hay errores en el campo "confirmPassword"
+    const isConfirmPasswordInvalid = !!errors.confirmPassword;
+
+    // Combinar todos los resultados para obtener isFormInvalid (true si hay errores en al menos un campo, false si no hay errores en ningún campo)
+    const formHasErrors =
+      isUsernameInvalid ||
+      isEmailInvalid ||
+      isPasswordInvalid ||
+      isConfirmPasswordInvalid;
+
+    // Establecer los errores y la propiedad isInvalid en el estado
+    setErrors(errors);
+    setIsFormInvalid(formHasErrors);
   };
 
   const handleClick = () => {
     setActiveLogin(true);
   };
 
-  console.log("soy form data", formData);
+  const handleRegister = () => {
+    // dispatch(registerUser(formData));
+    setFormData({
+      username: "",
+      email: "",
+      password: "",
+      confirmPassword: "",
+    });
+  };
 
   return (
     <Box
       display={"flex"}
-      h={"68vh"}
-      w={smallerThan600 ? "80vw" : "50vw"}
+      h={smallerThan600 ? "70vh" : "62vh"}
+      w={smallerThan600 ? "80vw" : "40vw"}
       bg={"#f2f2f2"}
       flexDirection={"column"}
       mt={smallerThan600 ? "70vh" : 0}
       justifyContent={"center"}
       alignItems={"center"}
+      mr={smallerThan600 ? 0 : "15px"}
+      mb={smallerThan600 ? "15px" : 0}
     >
       <Box
         display={"flex"}
         h={"40px"}
         w={"full"}
         // bg={"yellow"}
-        mt={smallerThan600 ? "8vh" : 0}
+        mt={smallerThan600 ? "10vh" : 0}
         justifyContent={"center"}
-        alignItems={"center"}
+        alignItems={"flex-start"}
         fontSize={"2xl"}
       >
         <Center>SIGN UP</Center>
@@ -75,20 +119,30 @@ const Register: React.FC<Props> = ({ setActiveLogin, smallerThan600 }) => {
         // mt={smallerThan600 ? "50px" : "20px"}
         w={"80%"}
       >
-        <FormControl>
-          <SimpleGrid column={2} spacing={4}>
+        <FormControl onSubmit={handleRegister} isInvalid={isFormInvalid}>
+          <SimpleGrid column={2}>
             <Box>
-              <FormLabel>
-                <InputGroup>
+              <FormLabel htmlFor="username">
+                <InputGroup
+                  display={"flex"}
+                  flexDirection={"column"}
+                  h={"60px"}
+                >
                   <InputLeftElement pointerEvents="none">
-                    <FaRegUserCircle />
+                    <IconButton
+                      aria-label="User-icon"
+                      variant="unstyled"
+                      fontSize="2xl"
+                      icon={<PiUserCircleThin />}
+                    />
                   </InputLeftElement>
                   <Input
                     h={"30px"}
                     w={"full"}
                     position={"relative"}
-                    mt={"7px"}
+                    // mt={"7px"}
                     border={"none"}
+                    id={"username"}
                     name={"username"}
                     value={formData.username}
                     onChange={handleChange}
@@ -100,7 +154,7 @@ const Register: React.FC<Props> = ({ setActiveLogin, smallerThan600 }) => {
                       border: "none",
                     }}
                     style={{
-                      borderBottom: "2px solid black",
+                      borderBottom: "1px solid black",
                       borderRadius: "0", // Ajusta el radio de las esquinas a cero
                       outline: "none",
                     }}
@@ -114,14 +168,26 @@ const Register: React.FC<Props> = ({ setActiveLogin, smallerThan600 }) => {
             </Box>
             <Box>
               <FormLabel>
-                <InputGroup>
+                <InputGroup
+                  display={"flex"}
+                  flexDirection={"column"}
+                  h={"60px"}
+                >
                   <InputLeftElement pointerEvents="none">
-                    <AiOutlineMail />
+                    <IconButton
+                      aria-label="Email-icon"
+                      variant="unstyled"
+                      fontSize="xl"
+                      // size={"50px"}
+                      // color="gray.300"
+                      icon={<TfiEmail />}
+                    />
                   </InputLeftElement>
                   <Input
                     h={"30px"}
                     w={"full"}
                     position={"relative"}
+                    id={"email"}
                     mt={"7px"}
                     border={"none"}
                     name={"email"}
@@ -135,7 +201,7 @@ const Register: React.FC<Props> = ({ setActiveLogin, smallerThan600 }) => {
                       border: "none",
                     }}
                     style={{
-                      borderBottom: "2px solid black",
+                      borderBottom: "1px solid black",
                       borderRadius: "0", // Ajusta el radio de las esquinas a cero
                       outline: "none",
                     }}
@@ -149,15 +215,25 @@ const Register: React.FC<Props> = ({ setActiveLogin, smallerThan600 }) => {
             </Box>
             <Box>
               <FormLabel>
-                <InputGroup>
+                <InputGroup
+                  display={"flex"}
+                  flexDirection={"column"}
+                  h={"60px"}
+                >
                   <InputLeftElement pointerEvents="none">
-                    <SlLock />
+                    <IconButton
+                      aria-label="Password-icon"
+                      variant="unstyled"
+                      fontSize="2xl"
+                      icon={<PiLockLight />}
+                    />
                   </InputLeftElement>
                   <Input
                     h={"30px"}
                     w={"full"}
                     position={"relative"}
                     mt={"7px"}
+                    id={"password"}
                     border={"none"}
                     name={"password"}
                     value={formData.password}
@@ -170,20 +246,32 @@ const Register: React.FC<Props> = ({ setActiveLogin, smallerThan600 }) => {
                       border: "none",
                     }}
                     style={{
-                      borderBottom: "2px solid black",
+                      borderBottom: "1px solid black",
                       borderRadius: "0", // Ajusta el radio de las esquinas a cero
                       outline: "none",
                     }}
                     placeholder={"PASSWORD"}
                   />
+                  <FormErrorMessage>
+                    {errors.password && errors.password}
+                  </FormErrorMessage>
                 </InputGroup>
               </FormLabel>
             </Box>
             <Box>
               <FormLabel>
-                <InputGroup>
+                <InputGroup
+                  display={"flex"}
+                  flexDirection={"column"}
+                  h={"60px"}
+                >
                   <InputLeftElement pointerEvents="none">
-                    <SlLock />
+                    <IconButton
+                      aria-label="Password-icon"
+                      variant="unstyled"
+                      fontSize="2xl"
+                      icon={<PiLockLight />}
+                    />
                   </InputLeftElement>
                   <Input
                     h={"30px"}
@@ -191,8 +279,9 @@ const Register: React.FC<Props> = ({ setActiveLogin, smallerThan600 }) => {
                     position={"relative"}
                     mt={"7px"}
                     border={"none"}
-                    name={"password"}
-                    value={formData.password}
+                    id={"confirmPassword"}
+                    name={"confirmPassword"}
+                    value={formData.confirmPassword}
                     onChange={handleChange}
                     _hover={{
                       backgroundColor: "transparent",
@@ -202,12 +291,15 @@ const Register: React.FC<Props> = ({ setActiveLogin, smallerThan600 }) => {
                       border: "none",
                     }}
                     style={{
-                      borderBottom: "2px solid black",
+                      borderBottom: "1px solid black",
                       borderRadius: "0", // Ajusta el radio de las esquinas a cero
                       outline: "none",
                     }}
                     placeholder={"CONFIRM PASSWORD"}
                   />
+                  <FormErrorMessage>
+                    {errors.confirmPassword && errors.confirmPassword}
+                  </FormErrorMessage>
                 </InputGroup>
               </FormLabel>
             </Box>
@@ -219,23 +311,40 @@ const Register: React.FC<Props> = ({ setActiveLogin, smallerThan600 }) => {
         h={"15vh"}
         w={"full"}
         // bg={"blue"}
-        mt={smallerThan600 ? "8vh" : "20px"}
+        mt={smallerThan600 ? "4vh" : "0"}
         flexDirection={"column"}
       >
         <Box>
-          <Center>CREATE ACCOUNT</Center>
+          <Center>
+            <Button
+              onClick={handleRegister}
+              border={"none"}
+              backgroundColor={"transparent"}
+              _hover={{
+                backgroundColor: "transparent",
+              }}
+              _focus={{
+                backgroundColor: "transparent",
+                border: "none",
+              }}
+            >
+              CREATE ACCOUNT
+            </Button>
+          </Center>
         </Box>
         <Box
           display={"flex"}
           flexDirection={"row"}
           h={"full"}
           w={"full"}
+          // bg={"red"}
+          // mt={smallerThan1400 ? 0 : "2vh"}
           justifyContent={"center"}
           alignItems={"center"}
-          position={"relative"}
-          bottom={-5}
+          // position={"relative"}
+          // top={smallerThan1400 ? 0 : 5}
         >
-          <Center>New customer?</Center>
+          <Center>Already have an account?</Center>
           <Center ml={"10px"}>
             <Button
               border={"none"}
@@ -254,7 +363,7 @@ const Register: React.FC<Props> = ({ setActiveLogin, smallerThan600 }) => {
               }}
               onClick={handleClick}
             >
-              START HERE
+              LOGIN HERE
             </Button>
           </Center>
         </Box>

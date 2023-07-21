@@ -3,6 +3,7 @@ import {
   Box,
   Button,
   Center,
+  IconButton,
   Input,
   InputGroup,
   InputLeftElement,
@@ -10,7 +11,8 @@ import {
 } from "@chakra-ui/react";
 import React, { useState, useEffect } from "react";
 import { FaRegUserCircle } from "react-icons/fa";
-import { SlLock } from "react-icons/sl";
+import { PiLockLight } from "react-icons/pi";
+import { PiUserCircleThin } from "react-icons/pi";
 
 export interface Props {
   setActiveLogin: React.Dispatch<React.SetStateAction<boolean>>;
@@ -25,12 +27,14 @@ const Login: React.FC<Props> = ({ setActiveLogin, smallerThan600 }) => {
   return (
     <Box
       display={"flex"}
-      h={"68vh"}
-      w={smallerThan600 ? "80vw" : "50vw"}
+      h={smallerThan600 ? "70vh" : "62vh"}
+      w={smallerThan600 ? "80vw" : "40vw"}
       bg={"#f2f2f2"}
       // border={"2px solid red"}
       flexDirection={"column"}
       mt={smallerThan600 ? "70vh" : 0}
+      mr={smallerThan600 ? 0 : "15px"}
+      mb={smallerThan600 ? "15px" : 0}
     >
       <Box
         display={"flex"}
@@ -38,17 +42,16 @@ const Login: React.FC<Props> = ({ setActiveLogin, smallerThan600 }) => {
         w={"full"}
         alignItems={"center"}
         justifyContent={"center"}
-        top={0}
         flexDirection={"column"}
       >
         <Box
           display={"flex"}
-          h={smallerThan600 ? "100px" : "200px"}
-          w={smallerThan600 ? "100px" : "200px"}
+          h={smallerThan600 ? "100px" : "180px"}
+          w={smallerThan600 ? "100px" : "180px"}
           borderRadius={"50%"}
           bg={"#a9a9a9"}
           position={"relative"}
-          bottom={smallerThan600 ? 12 : 12}
+          bottom={smallerThan600 ? 12 : 9}
         ></Box>
         <Box
           display={"flex"}
@@ -81,7 +84,12 @@ const Login: React.FC<Props> = ({ setActiveLogin, smallerThan600 }) => {
         >
           <InputGroup>
             <InputLeftElement pointerEvents="none">
-              <FaRegUserCircle />
+              <IconButton 
+                aria-label="User-icon"
+                variant="unstyled"
+                fontSize="2xl"
+                icon={<PiUserCircleThin />}
+              />
             </InputLeftElement>
             <Input
               h={"30px"}
@@ -97,7 +105,7 @@ const Login: React.FC<Props> = ({ setActiveLogin, smallerThan600 }) => {
                 border: "none",
               }}
               style={{
-                borderBottom: "2px solid black",
+                borderBottom: "1px solid black",
                 borderRadius: "0", // Ajusta el radio de las esquinas a cero
                 outline: "none",
               }}
@@ -106,7 +114,13 @@ const Login: React.FC<Props> = ({ setActiveLogin, smallerThan600 }) => {
           </InputGroup>
           <InputGroup display={"flex"} mt={"20px"}>
             <InputLeftElement pointerEvents="none">
-              <SlLock />
+              <IconButton 
+                aria-label="User-icon"
+                variant="unstyled"
+                fontSize="2xl"
+                border={"none"}
+                icon={<PiLockLight />}
+              />
             </InputLeftElement>
             <Input
               h={"30px"}
@@ -122,7 +136,7 @@ const Login: React.FC<Props> = ({ setActiveLogin, smallerThan600 }) => {
                 border: "none",
               }}
               style={{
-                borderBottom: "2px solid black",
+                borderBottom: "1px solid black",
                 borderRadius: "0", // Ajusta el radio de las esquinas a cero
                 outline: "none",
               }}
