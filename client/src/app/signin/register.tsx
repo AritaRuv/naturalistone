@@ -10,6 +10,7 @@ import {
   Input,
   InputGroup,
   InputLeftElement,
+  InputRightElement,
   SimpleGrid,
   Text,
   useMediaQuery,
@@ -24,6 +25,7 @@ import { useDispatch } from "react-redux";
 import { useAppDispatch } from "@/store/hooks";
 import { Register } from "@/store/login/typeLogin";
 import { registerUser } from "@/store/login/actionsLogin";
+import { BsEyeSlash } from "react-icons/bs";
 
 const Register: React.FC<Props> = ({ setActiveLogin, smallerThan600 }) => {
   const [smallerThan1400] = useMediaQuery("(max-width: 1400px)");
@@ -37,6 +39,8 @@ const Register: React.FC<Props> = ({ setActiveLogin, smallerThan600 }) => {
   });
   const [errors, setErrors] = useState<FormErrors>({});
   const [isFormInvalid, setIsFormInvalid] = useState(false);
+  const [showPassword, setShowPassword] = useState(false);
+  const [showConfirmPassword, setShowConfirmPassword] = useState(false);
 
   const handleChange = (event) => {
     // setErrors({});
@@ -74,6 +78,14 @@ const Register: React.FC<Props> = ({ setActiveLogin, smallerThan600 }) => {
   const handleClick = () => {
     setActiveLogin(true);
     setErrors({});
+  };
+
+  const handleShowPassword = () => {
+    setShowPassword(!showPassword);
+  };
+
+  const handleShowConfirmPassword = () => {
+    setShowConfirmPassword(!showConfirmPassword);
   };
 
   const handleRegister = () => {
@@ -265,11 +277,20 @@ const Register: React.FC<Props> = ({ setActiveLogin, smallerThan600 }) => {
                     }}
                     style={{
                       borderBottom: "1px solid black",
-                      borderRadius: "0", // Ajusta el radio de las esquinas a cero
+                      borderRadius: "0",
                       outline: "none",
                     }}
+                    type={showPassword ? "text" : "password"}
                     placeholder={"PASSWORD"}
                   />
+                  <InputRightElement
+                    aria-label="Password-icon"
+                    // variant="unstyled"
+                    fontSize="xl"
+                    onClick={handleShowPassword}
+                  >
+                    <BsEyeSlash />
+                  </InputRightElement>
                   <FormErrorMessage>
                     {errors.password && errors.password}
                   </FormErrorMessage>
@@ -299,6 +320,7 @@ const Register: React.FC<Props> = ({ setActiveLogin, smallerThan600 }) => {
                     fontSize={"sm"}
                     border={"none"}
                     id={"confirmPassword"}
+                    type={showConfirmPassword ? "text" : "password"}
                     name={"confirmPassword"}
                     value={formData.confirmPassword}
                     onChange={handleChange}
@@ -316,6 +338,14 @@ const Register: React.FC<Props> = ({ setActiveLogin, smallerThan600 }) => {
                     }}
                     placeholder={"CONFIRM PASSWORD"}
                   />
+                  <InputRightElement
+                    aria-label="Password-icon"
+                    // variant="unstyled"
+                    onClick={handleShowConfirmPassword}
+                    fontSize="xl"
+                  >
+                    <BsEyeSlash />
+                  </InputRightElement>
                   <FormErrorMessage>
                     {errors.confirmPassword && errors.confirmPassword}
                   </FormErrorMessage>

@@ -19,12 +19,14 @@ import {
   Input,
   InputGroup,
   InputLeftElement,
+  InputRightElement,
   useMediaQuery,
 } from "@chakra-ui/react";
 import React, { useState, useEffect } from "react";
 import { FaRegUserCircle } from "react-icons/fa";
 import { PiLockLight } from "react-icons/pi";
 import { PiUserCircleThin } from "react-icons/pi";
+import { BsEyeSlash } from "react-icons/bs";
 
 export interface Props {
   setActiveLogin: React.Dispatch<React.SetStateAction<boolean>>;
@@ -41,6 +43,7 @@ const Login: React.FC<Props> = ({ setActiveLogin, smallerThan600 }) => {
   const dispatch = useAppDispatch();
   const [errors, setErrors] = useState<FormErrorsLogin>({});
   const [isFormInvalid, setIsFormInvalid] = useState(false);
+  const [show, setShow] = useState(false);
 
   const handleChange = (event) => {
     // setErrors({});
@@ -79,6 +82,10 @@ const Login: React.FC<Props> = ({ setActiveLogin, smallerThan600 }) => {
       email: "",
       password: "",
     });
+  };
+
+  const handleShow = () => {
+    setShow(!show);
   };
 
   return (
@@ -143,87 +150,109 @@ const Login: React.FC<Props> = ({ setActiveLogin, smallerThan600 }) => {
           // bottom={5}
           flexDirection={"column"}
         >
-          <FormControl>
-            <FormLabel>
-              <InputGroup>
-                <InputLeftElement pointerEvents="none">
-                  <IconButton
-                    aria-label="User-icon"
-                    variant="unstyled"
-                    fontSize="xl"
-                    icon={<PiUserCircleThin />}
-                  />
-                </InputLeftElement>
-                <Input
-                  h={"25px"}
-                  w={"full"}
-                  position={"relative"}
-                  fontSize={"sm"}
-                  mt={"7px"}
-                  id={"email"}
-                  name={"email"}
-                  value={formData.email}
-                  border={"none"}
-                  onChange={handleChange}
-                  _hover={{
-                    backgroundColor: "transparent",
-                  }}
-                  _focus={{
-                    backgroundColor: "transparent",
-                    border: "none",
-                  }}
-                  style={{
-                    borderBottom: "1px solid black",
-                    borderRadius: "0", // Ajusta el radio de las esquinas a cero
-                    outline: "none",
-                  }}
-                  placeholder={"USERNAME"}
-                />
-                <FormErrorMessage>
-                  {errors.email && errors.email}
-                </FormErrorMessage>
-              </InputGroup>
-            </FormLabel>
-            <FormLabel>
-              <InputGroup display={"flex"} mt={"20px"}>
-                <InputLeftElement pointerEvents="none">
-                  <IconButton
-                    aria-label="User-icon"
-                    variant="unstyled"
-                    fontSize="xl"
+          <FormControl isInvalid={isFormInvalid}>
+            <Box>
+              <FormLabel>
+                <InputGroup
+                  display={"flex"}
+                  flexDirection={"column"}
+                  h={"60px"}
+                >
+                  <InputLeftElement pointerEvents="none">
+                    <IconButton
+                      aria-label="User-icon"
+                      variant="unstyled"
+                      fontSize="xl"
+                      icon={<PiUserCircleThin />}
+                    />
+                  </InputLeftElement>
+                  <Input
+                    h={"25px"}
+                    w={"full"}
+                    position={"relative"}
+                    fontSize={"sm"}
+                    mt={"7px"}
+                    id={"email"}
+                    name={"email"}
+                    value={formData.email}
                     border={"none"}
-                    icon={<PiLockLight />}
+                    onChange={handleChange}
+                    _hover={{
+                      backgroundColor: "transparent",
+                    }}
+                    _focus={{
+                      backgroundColor: "transparent",
+                      border: "none",
+                      borderColor: "green",
+                    }}
+                    style={{
+                      borderBottom: "1px solid black",
+                      borderRadius: "0", // Ajusta el radio de las esquinas a cero
+                      outline: "none",
+                    }}
+                    placeholder={"USERNAME"}
                   />
-                </InputLeftElement>
-                <Input
-                  h={"25px"}
-                  w={"full"}
-                  position={"relative"}
-                  mt={"7px"}
-                  fontSize={"sm"}
-                  name={"password"}
-                  value={formData.password}
-                  border={"none"}
-                  onChange={handleChange}
-                  _hover={{
-                    backgroundColor: "transparent",
-                  }}
-                  _focus={{
-                    backgroundColor: "transparent",
-                    border: "none",
-                  }}
-                  style={{
-                    borderBottom: "1px solid black",
-                    borderRadius: "0", // Ajusta el radio de las esquinas a cero
-                    outline: "none",
-                  }}
-                  placeholder={"PASSWORD"}
-                />
-                <FormErrorMessage>
-                  {errors.password && errors.password}
-                </FormErrorMessage>
-              </InputGroup>
-            </FormLabel>
+                  <FormErrorMessage>
+                    {errors.email && errors.email}
+                  </FormErrorMessage>
+                </InputGroup>
+              </FormLabel>
+            </Box>
+            <Box>
+              <FormLabel>
+                <InputGroup
+                  display={"flex"}
+                  flexDirection={"column"}
+                  h={"60px"}
+                >
+                  <InputLeftElement pointerEvents="none">
+                    <IconButton
+                      aria-label="User-icon"
+                      variant="unstyled"
+                      fontSize="xl"
+                      border={"none"}
+                      icon={<PiLockLight />}
+                    />
+                  </InputLeftElement>
+                  <Input
+                    h={"25px"}
+                    w={"full"}
+                    position={"relative"}
+                    mt={"7px"}
+                    fontSize={"sm"}
+                    type={show ? "text" : "password"}
+                    name={"password"}
+                    value={formData.password}
+                    border={"none"}
+                    onChange={handleChange}
+                    _hover={{
+                      backgroundColor: "transparent",
+                    }}
+                    _focus={{
+                      backgroundColor: "transparent",
+                      border: "none",
+                    }}
+                    style={{
+                      borderBottom: "1px solid black",
+                      borderRadius: "0", // Ajusta el radio de las esquinas a cero
+                      outline: "none",
+                    }}
+                    placeholder={"PASSWORD"}
+                  />
+                  <InputRightElement
+                    aria-label="Password-icon"
+                    // variant="unstyled"
+                    fontSize="xl"
+                    onClick={handleShow}
+                  >
+                    <BsEyeSlash />
+                  </InputRightElement>
+                  <FormErrorMessage>
+                    {errors.password && errors.password}
+                  </FormErrorMessage>
+                </InputGroup>
+              </FormLabel>
+            </Box>
           </FormControl>
         </Box>
       </Box>
