@@ -58,7 +58,7 @@ export default function Products() {
     });
     dispatch(fetchProductsFilters(filters))
   };
-  console.log(filters)
+
   return (
     <>
       <NavBar />

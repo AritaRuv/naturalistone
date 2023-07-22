@@ -26,7 +26,7 @@ const AddProductToCart: React.FC<AddProductToCartProps> = ({
       h={"20vh"}
       bg={"white"}
       flexDir={"column"}
-    >
+      >
       <ProductList data={productValues} ProdNameID={ProdNameID} />
     </Box>
   );
