@@ -6,8 +6,10 @@ import {
   getProducts,
   getMaterials,
   getProduct,
-  getDimension
+  getDimension,
+  getProductsFilters
 } from "../../api/apiProds"; // Importa tu función de solicitud a la API
+import { Filters } from "@/app/products/productFilters/types";
 
 export const fetchProducts = (material: string) => {
   return async (dispatch: Dispatch<ProductAction>) => {
@@ -92,6 +94,24 @@ export const fetchDimension = () => {
       dispatch({
         type: ProductActionTypes.FETCH_PRODUCTS_FAILURE,
         error: "Error al obtener los product materials",
+      });
+    }
+  };
+};
+
+export const fetchProductsFilters = (filters: Filters) => {
+  return async (dispatch: Dispatch<ProductAction>) => {
+    dispatch({ type: ProductActionTypes.FETCH_PRODUCTS_REQUEST });
+    try {
+      const products = await getProductsFilters(filters); 
+      dispatch({
+        type: ProductActionTypes.FETCH_PRODUCTS_FILTERS_SUCCESS,
+        payload: products,
+      });
+    } catch (error) {
+      dispatch({
+        type: ProductActionTypes.FETCH_PRODUCTS_FAILURE,
+        error: "Error al obtener los productos",
       });
     }
   };

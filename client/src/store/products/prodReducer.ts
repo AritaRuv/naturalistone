@@ -7,6 +7,7 @@ import {
 
 const initialState: ProductState = {
   products: [],
+  products_filters: [],
   productValues: {},
   materials: [],
   product: {},
@@ -32,6 +33,12 @@ const productReducer = (
         loading: false,
         products: action.payload,
       };
+    case ProductActionTypes.FETCH_PRODUCTS_FILTERS_SUCCESS:
+      return {
+        ...state,
+        loading: false,
+        products_filters: action.payload,
+      };
     case ProductActionTypes.FETCH_PRODUCTS_FAILURE:
       return {
         ...state,
@@ -47,7 +54,6 @@ const productReducer = (
           ...state.productValues,
           [key]: action.payload[key],
         },
-        // productsByProdNameID: action.payload.results as unknown  as ProductsByProdNameID[]
       };
     case ProductActionTypes.FETCH_MATERIALS:
       return {

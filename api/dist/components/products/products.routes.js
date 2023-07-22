@@ -8,4 +8,5 @@ productsRouter.get("/IDs", products_controller_1.getProductByIDS);
 productsRouter.get("/material", products_controller_1.getAllMaterials);
 productsRouter.get("/dimension", products_controller_1.getAllDimensionProperties);
 productsRouter.get("/id/:id", products_controller_1.getProductsValuesByProdNameID);
+productsRouter.get("/filters", products_controller_1.getProductsFilter);
 exports.default = productsRouter;

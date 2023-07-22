@@ -7,6 +7,7 @@ import { ProductState } from "@/store/products/typesProducts";
 import FiltersSize from "./filters_size";
 import FiltersType from "./filters_type";
 import FiltersFinish from "./filters_finish";
+import FiltersThickness from "./filters_thickness";
 import { FiltersState } from "./types";
 
 
@@ -24,13 +25,14 @@ const ProductsFilters: React.FC<FiltersState> = ({filters, setFilters, handleChe
 
   return (
     <>
-    <SimpleGrid w={'15vw'} p={'15px'} position={'fixed'} h={'73.5vh'} top={!is1200Screen ? '26vh' :'10vh'} spacingY={2} >
+    <SimpleGrid w={'15vw'} p={'15px'} position={'fixed'} h={'73.5vh'} top={'10vh'} spacingY={2} >
       {
         dimensions && (
           <>
             <FiltersType type={dimensions.Type} handleCheckboxChange={handleCheckboxChange}/>
             <FiltersSize size={dimensions.Size} handleCheckboxChange={handleCheckboxChange}/>
             <FiltersFinish finish={dimensions.Finish} handleCheckboxChange={handleCheckboxChange}/>
+            <FiltersThickness thickness={dimensions.Thickness} handleCheckboxChange={handleCheckboxChange}/>
           </>
         )
       }

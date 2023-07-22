@@ -10,7 +10,7 @@ import { useState } from "react";
 import FiltersDropDownMenu from "./productFilters/filters_dropDownMenu";
 import { useEffect } from "react";
 import { useAppDispatch, useAppSelector } from "@/store/hooks";
-import { fetchDimension } from "@/store/products/actionsProducts";
+import { fetchDimension, fetchProductsFilters } from "@/store/products/actionsProducts";
 import { ProductState } from "@/store/products/typesProducts";
 import { Filters } from "./productFilters/types";
 
@@ -31,7 +31,12 @@ export default function Products() {
 
   const [isSmallScreen] = useMediaQuery("(max-width: 1200px)");
   const [showMenu, setShowMenu] = useState("");
-  const [filters, setFilters] = useState<Filters>({});
+  const [filters, setFilters] = useState<Filters>({
+    type: [],
+    finish: [],
+    thickness: [],
+    size: [],
+  });
   
   const handleCheckboxChange = (filterName: string, value: string) => {
     setFilters((prevFilters) => {
@@ -51,9 +56,9 @@ export default function Products() {
       }
       return updatedFilters;
     });
+    dispatch(fetchProductsFilters(filters))
   };
   console.log(filters)
-
   return (
     <>
       <NavBar />
@@ -61,10 +66,10 @@ export default function Products() {
           {
             !isSmallScreen ? (
               <>
-                <MaterialFilter setFilters={setFilters} filters={filters} handleCheckboxChange={handleCheckboxChange}/>
+                {/* <MaterialFilter setFilters={setFilters} filters={filters} handleCheckboxChange={handleCheckboxChange}/> */}
                 <Box display={'flex'} flexDir={'row'} w={'100vw'}>
                   <ProductsFilters setFilters={setFilters} filters={filters} handleCheckboxChange={handleCheckboxChange}/>
-                  <ProductsContainer productsFilter={{color:'', material: ''}}/>
+                  <ProductsContainer {...filters} />
                 </Box>
               </> 
             ):(
@@ -76,7 +81,7 @@ export default function Products() {
                   )
                 }
                 <Box zIndex={2}>
-                  <ProductsContainer productsFilter={{color:'', material: ''}}/>
+                  <ProductsContainer {...filters} />
                 </Box>
               </>
             )

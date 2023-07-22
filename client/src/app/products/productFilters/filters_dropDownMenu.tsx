@@ -36,7 +36,7 @@ const FiltersDropDownMenu: React.FC<FilterButtonsProps> = ({ showMenu, materials
     <>
       <Box position={'relative'} zIndex={100} bg={'white'} >
       <SimpleGrid w={'100vw'} minH={'15vh'} columns={gridColumns} spacingY={4} p={'2%'} >
-        {
+        {/* {
           showMenu === 'Material' && (
             <>
             
@@ -62,7 +62,7 @@ const FiltersDropDownMenu: React.FC<FilterButtonsProps> = ({ showMenu, materials
               } 
             </>
           )
-        }
+        } */}
         {
           showMenu === 'Finish' && (
             <>
