@@ -1,20 +1,15 @@
 "use client";
 import { useEffect } from "react";
-import { SimpleGrid, useMediaQuery } from "@chakra-ui/react";
+import { FilterProps, SimpleGrid, useMediaQuery } from "@chakra-ui/react";
 import ProductCard from "../products/_productCard";
 import { fetchProductsHome } from "../../store/products/actionsProducts";
 import { ProductState } from "../../store/products/typesProducts";
 import { useAppDispatch, useAppSelector } from "../../store/hooks";
+import { FiltersHomeProps } from "./page";
 
-interface ComponentsProps {
-  productsFilter: {
-    colorId: string;
-    material: string;
-  };
-}
 
-const HomeProductContainer: React.FC<ComponentsProps> = ({
-  productsFilter,
+const HomeProductContainer: React.FC<FiltersHomeProps> = ({
+  productsFilter, setProductsFilter
 }) => {
   const [isSmallScreen] = useMediaQuery("(max-width: 950px)");
   const [isMediumScreen] = useMediaQuery("(max-width: 1280px)");
@@ -26,7 +21,6 @@ const HomeProductContainer: React.FC<ComponentsProps> = ({
     (state: { productReducer: ProductState }) => state.productReducer
   );
 
-  const homeProducts = products.slice(0, 4);
 
   let gridColumns = 4;
   if (isSmallScreen) {
@@ -35,10 +29,13 @@ const HomeProductContainer: React.FC<ComponentsProps> = ({
   if (isExtraSmallScreen) {
     gridColumns = 1;
   }
-
+  let homeProducts = products.slice(0,4)
+  
   useEffect(() => {
-    dispatch(fetchProductsHome(material, colorId));
-  }, [material, colorId]);
+    if(!products.length) dispatch(fetchProductsHome(material, colorId));
+  }, [products]);
+
+  console.log({products})
 
   return (
     <SimpleGrid
@@ -50,10 +47,12 @@ const HomeProductContainer: React.FC<ComponentsProps> = ({
       columns={gridColumns} // Establece el número de columnas dinámicamente
       bg={"#f2f2f2"}
     >
-      {homeProducts.length &&
-        homeProducts.map((prod) => {
-          return <ProductCard product={prod} key={prod.ProdNameID} />;
-        })}
+      {products.length ? (
+         homeProducts.map((prod, i) => {
+          return <ProductCard product={prod} key={i} />;
+        })
+      ) : ( null)
+       }
     </SimpleGrid>
   );
 };

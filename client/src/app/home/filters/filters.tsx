@@ -2,13 +2,10 @@
 import { Box, Stack, Text, useMediaQuery } from "@chakra-ui/react";
 import { FiltersMaterials } from "./filtersMaterial";
 import { FiltersColors } from "./filtersColors";
-import { ProductsFilter } from "../page";
+import { FiltersHomeProps } from "../page";
 
-export interface FiltersProps {
-  setProductsFilter: React.Dispatch<React.SetStateAction<ProductsFilter>>;
-}
 
-export function Filters({ setProductsFilter }: FiltersProps) {
+export function Filters({ setProductsFilter, productsFilter }: FiltersHomeProps ) {
   const [smallerThan550] = useMediaQuery("(max-width: 550px)");
 
   return (
@@ -23,8 +20,8 @@ export function Filters({ setProductsFilter }: FiltersProps) {
           justifyContent={"center"}
           flexDirection={"row"}
         >
-          <FiltersMaterials setProductsFilter={setProductsFilter} />
-          <FiltersColors setProductsFilter={setProductsFilter} />
+          <FiltersMaterials setProductsFilter={setProductsFilter} productsFilter={productsFilter} />
+          <FiltersColors setProductsFilter={setProductsFilter} productsFilter={productsFilter} />
         </Box>
       ) : (
         <Box
@@ -36,8 +33,8 @@ export function Filters({ setProductsFilter }: FiltersProps) {
           justifyContent={"center"}
           flexDirection={"column-reverse"}
         >
-          <FiltersMaterials setProductsFilter={setProductsFilter} />
-          <FiltersColors setProductsFilter={setProductsFilter} />
+          <FiltersMaterials setProductsFilter={setProductsFilter} productsFilter={productsFilter} />
+          <FiltersColors setProductsFilter={setProductsFilter} productsFilter={productsFilter} />
         </Box>
       )}
     </>

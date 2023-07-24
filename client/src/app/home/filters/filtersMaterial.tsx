@@ -1,15 +1,18 @@
 "use client";
 import { useAppDispatch, useAppSelector } from "@/store/hooks";
-import { fetchMaterials } from "@/store/products/actionsProducts";
+import { fetchMaterials, fetchProductsHome } from "@/store/products/actionsProducts";
 import { ProductState } from "@/store/products/typesProducts";
 import { Box, Select, Text, useMediaQuery } from "@chakra-ui/react";
 import { useEffect, useState } from "react";
 import { MdOutlineArrowDropDownCircle } from "react-icons/md";
-import { ProductsFilter } from "../page";
-import { FiltersProps } from "./filters";
+import { FiltersHomeProps } from "../page";
 
-export function FiltersMaterials({ setProductsFilter }: FiltersProps) {
+
+
+export function FiltersMaterials({ setProductsFilter, productsFilter }: FiltersHomeProps) {
+
   const dispatch = useAppDispatch();
+
   const { materials } = useAppSelector(
     (state: { productReducer: ProductState }) => state.productReducer
   );
@@ -22,11 +25,12 @@ export function FiltersMaterials({ setProductsFilter }: FiltersProps) {
   }, [smallerThan550]);
 
   const handleClick = (event) => {
-    console.log("soy event", event.target.value);
     setProductsFilter((prevState) => ({
       ...prevState,
       material: event.target.value,
     }));
+    dispatch(fetchProductsHome(event.target.value, productsFilter.colorId))
+    
   };
 
   useEffect(() => {
@@ -60,11 +64,11 @@ export function FiltersMaterials({ setProductsFilter }: FiltersProps) {
           w={"140px"}
           bg={"none"}
           border={"none"}
-          onClick={handleClick}
+          onChange={handleClick}
           icon={<MdOutlineArrowDropDownCircle />}
         >
-          {materials?.map((material) => (
-            <option value={material}>{material}</option>
+          {materials?.map((material, i) => (
+            <option value={material} key={i}>{material}</option>
           ))}
           {/* <option value="MATERIALS">MATERIALS</option>
           <option value="">Terrazzo</option>

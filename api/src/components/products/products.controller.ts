@@ -9,9 +9,8 @@ import { productDimensions } from "../../controllers/productDimensions";
 export async function getAllProducts(req: Request, res: Response) {
   try {
     const { material, colorId } = req.query;
-    console.log("material", material);
-    console.log("colorId", colorId);
-    const query = `SELECT Products.ProdNameID, ProdNames.Material, ProdNames.Naturali_ProdName, ProdNames.ProdNameID,
+
+    const query = `SELECT DISTINCT Products.ProdNameID, ProdNames.Material, ProdNames.Naturali_ProdName, ProdNames.ProdNameID,
                   Product_Colors.ColorID, Product_Colors.idColorProduct, Product_Colors.ProductID
                   FROM Products
                   LEFT JOIN ProdNames ON ProdNames.ProdNameID = Products.ProdNameID
