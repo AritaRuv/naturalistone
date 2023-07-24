@@ -12,7 +12,8 @@ const initialState: ProductState = {
   product: {},
   loading: false,
   error: null,
-  dimensions: null
+  dimensions: null,
+  product_images:[]
 };
 
 const productReducer = (
@@ -59,6 +60,17 @@ const productReducer = (
         ...state,
         dimensions: action.payload,
       };
+    case ProductActionTypes.FETCH_PRODUCT_IMAGES:
+      return {
+        ...state,
+        product_images: action.payload
+      }  
+
+    case ProductActionTypes.LOAD_PRODUCT:
+      return {
+        ...state,
+        product: action.payload
+      }  
     default:
       return state;
   }

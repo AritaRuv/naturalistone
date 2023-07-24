@@ -52,7 +52,6 @@ export default function Products() {
       return updatedFilters;
     });
   };
-  console.log(filters)
 
   return (
     <>

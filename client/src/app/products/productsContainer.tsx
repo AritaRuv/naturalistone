@@ -28,7 +28,7 @@ const ProductsContainer: React.FC<ComponentsProps> = ({
   const { products, loading, error } = useAppSelector(
     (state: { productReducer: ProductState }) => state.productReducer
   );
-
+    
   let gridColumns = 5;
   
   if(isLargeScreen ){

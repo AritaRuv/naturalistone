@@ -25,10 +25,16 @@ export interface ProductState {
   products: Product[];
   productValues: ProductData;
   materials: string[];
-  product: {};
+  product: Product | {};
   loading: boolean;
   error: string | null;
   dimensions: DimensionData | null;
+  product_images: ImageResponse[];
+}
+
+interface ImageResponse {
+  key: string;
+  url: string;
 }
 
 export enum ProductActionTypes {
@@ -38,6 +44,8 @@ export enum ProductActionTypes {
   FETCH_PRODUCTS_VALUES = "FETCH_PRODUCTS_VALUES",
   FETCH_MATERIALS = "FETCH_MATERIALS",
   FETCH_PRODUCT_BY_IDS = "FETCH_PRODUCT_BY_IDS",
+  FETCH_PRODUCT_IMAGES = "FETCH_PRODUCT_IMAGES",
+  LOAD_PRODUCT = "LOAD_PRODUCT",
   FETCH_DIMENSION= "FETCH_DIMENSION"
 }
 
@@ -75,6 +83,16 @@ export interface FetchProductAction {
   payload: {};
 }
 
+export interface FetchProductImages {
+  type: ProductActionTypes.FETCH_PRODUCT_IMAGES;
+  payload: ImageResponse[];
+}
+
+export interface LoadProduct {
+  type: ProductActionTypes.LOAD_PRODUCT;
+  payload: Product;
+}
+
 export type ProductAction =
   | FetchProductsRequestAction
   | FetchProductsSuccessAction
@@ -82,5 +100,7 @@ export type ProductAction =
   | FetchProductsDataAction
   | FetchMaterialsAction
   | FetchDimensionAction
+  | FetchProductImages
+  | LoadProduct
   | FetchProductAction;
 

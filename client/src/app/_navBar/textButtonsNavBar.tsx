@@ -1,5 +1,6 @@
 "use client";
 import { Box, Button } from "@chakra-ui/react";
+import Link from "next/link";
 
   interface TextButtonsNavBarProps {
     menuVisible: boolean;
@@ -18,7 +19,9 @@ import { Box, Button } from "@chakra-ui/react";
         zIndex={1}
         w={'24%'}>
         <Button fontSize="0.9rem" variant="unstyled" className="customButton"> NEW PRODUCTS </Button>
-        <Button fontSize="0.9rem" variant="unstyled" className="customButton"> PRODUCTS </Button>
+        <Link href={`/products`}>
+          <Button fontSize="0.9rem" variant="unstyled" className="customButton"> PRODUCTS </Button>
+        </Link>
         <Button fontSize="0.9rem" variant="unstyled" className="customButton"> SALE </Button>
     </Box>
     )

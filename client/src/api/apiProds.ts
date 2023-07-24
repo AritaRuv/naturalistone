@@ -65,3 +65,14 @@ export const getDimension = async () => {
     throw new Error("Error al obtener los dimension de la API");
   }
 };
+export const getProductImages = async (Material: string, Naturali_ProdName: string) => {
+  try {
+    const response = await axios.get(
+      `http://localhost:5000/api/S3/${Material}/${Naturali_ProdName}`
+    ); 
+    return response.data;
+  } catch (error) {
+    console.log(error);
+    throw new Error("Error al obtener los dimension de la API");
+  }
+};

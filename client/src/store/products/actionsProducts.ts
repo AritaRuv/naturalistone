@@ -1,12 +1,13 @@
 // actions.ts
 import { Dispatch } from "redux";
-import { ProductActionTypes, ProductAction } from "./typesProducts";
+import { ProductActionTypes, ProductAction, Product } from "./typesProducts";
 import {
   getProductValues,
   getProducts,
   getMaterials,
   getProduct,
-  getDimension
+  getDimension,
+  getProductImages
 } from "../../api/apiProds"; // Importa tu función de solicitud a la API
 
 export const fetchProducts = (material: string) => {
@@ -64,7 +65,7 @@ export const fetchMaterials = () => {
   };
 };
 
-export const fetchProduct = (ProductNameID: number, DimensionID) => {
+export const fetchProduct = (ProductNameID: number, DimensionID: number) => {
   return async (dispatch: Dispatch<ProductAction>) => {
     try {
       const product = await getProduct(ProductNameID, DimensionID);
@@ -93,6 +94,34 @@ export const fetchDimension = () => {
         type: ProductActionTypes.FETCH_PRODUCTS_FAILURE,
         error: "Error al obtener los product materials",
       });
+    }
+  };
+};
+
+export const fetchProductImages = (Material: string, Naturali_ProdName: string) => {
+  return async (dispatch: Dispatch<ProductAction>) => {
+    try {
+      const images = await getProductImages(Material, Naturali_ProdName);
+
+      dispatch({
+        type: ProductActionTypes.FETCH_PRODUCT_IMAGES,
+        payload: images,
+      });
+    } catch (error) {
+      console.error("Error al obtener el product images", error);
+    }
+  };
+};
+
+export const loadProduct = (product: Product) => {
+  return async (dispatch: Dispatch<ProductAction>) => {
+    try {
+      dispatch({
+        type: ProductActionTypes.LOAD_PRODUCT,
+        payload: product,
+      });
+    } catch (error) {
+      console.error("Error al guardar product", error);
     }
   };
 };

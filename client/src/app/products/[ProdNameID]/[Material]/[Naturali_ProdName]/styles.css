@@ -1,0 +1,25 @@
+.slick-prev,
+.slick-next {
+  width: 30px;
+  height: 30px;
+  background-color: transparent;
+  border-radius: 50%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  cursor: pointer;
+  z-index: 1;
+}
+
+/* Estilo para la flecha izquierda */
+.slick-prev {
+  left: 10px;
+}
+
+/* Estilo para la flecha derecha */
+.slick-next {
+  right: 10px;
+}
