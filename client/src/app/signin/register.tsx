@@ -14,6 +14,7 @@ import {
   SimpleGrid,
   Text,
   useMediaQuery,
+  useToast,
 } from "@chakra-ui/react";
 import { useState, useEffect } from "react";
 import { PiUserCircleThin } from "react-icons/pi";
@@ -24,15 +25,16 @@ import { FormErrors, validateCompletedInputs } from "@/utils/validateForms";
 import { useDispatch } from "react-redux";
 import { useAppDispatch } from "@/store/hooks";
 import { Register } from "@/store/login/typeLogin";
-import { registerUser } from "@/store/login/actionsLogin";
+// import { registerUser } from "@/store/login/actionsLogin";
 import { BsEyeSlash } from "react-icons/bs";
+import { postRegister } from "@/api/apiLogin";
 
 const Register: React.FC<Props> = ({ setActiveLogin, smallerThan600 }) => {
   const [smallerThan1400] = useMediaQuery("(max-width: 1400px)");
   // const [smallerThan600] = useMediaQuery("(max-width: 600px)");
   const dispatch = useAppDispatch();
   const [formData, setFormData] = useState<Register>({
-    username: "",
+    fullName: "",
     email: "",
     password: "",
     confirmPassword: "",
@@ -41,38 +43,24 @@ const Register: React.FC<Props> = ({ setActiveLogin, smallerThan600 }) => {
   const [isFormInvalid, setIsFormInvalid] = useState(false);
   const [showPassword, setShowPassword] = useState(false);
   const [showConfirmPassword, setShowConfirmPassword] = useState(false);
+  const [showErrors, setShowErrors] = useState(false);
 
   const handleChange = (event) => {
-    // setErrors({});
+    setErrors({});
     const name = event.target.name;
     const value = event.target.value;
+    const toast = useToast();
     setFormData({
       ...formData,
       [event.target.name]: event.target.value,
     });
-    const errors = validateCompletedInputs({
-      ...formData,
-      [name]: value,
-    });
-    // Comprobar si hay errores en el campo "username"
-    const isUsernameInvalid = !!errors.username;
-    // Comprobar si hay errores en el campo "email"
-    const isEmailInvalid = !!errors.email;
-    // Comprobar si hay errores en el campo "password"
-    const isPasswordInvalid = !!errors.password;
-    // Comprobar si hay errores en el campo "confirmPassword"
-    const isConfirmPasswordInvalid = !!errors.confirmPassword;
-
-    // Combinar todos los resultados para obtener isFormInvalid (true si hay errores en al menos un campo, false si no hay errores en ningún campo)
-    const formHasErrors =
-      isUsernameInvalid ||
-      isEmailInvalid ||
-      isPasswordInvalid ||
-      isConfirmPasswordInvalid;
-
-    // Establecer los errores y la propiedad isInvalid en el estado
-    setErrors(errors);
-    setIsFormInvalid(formHasErrors);
+    setErrors(
+      validateCompletedInputs({
+        ...formData,
+        [name]: value,
+      })
+    );
+    console.log("erros", errors);
   };
 
   const handleClick = () => {
@@ -89,9 +77,13 @@ const Register: React.FC<Props> = ({ setActiveLogin, smallerThan600 }) => {
   };
 
   const handleRegister = () => {
-    // dispatch(registerUser(formData));
+    setShowErrors(true);
+    if (Object.keys(errors).length) {
+      return;
+    }
+    postRegister(formData);
     setFormData({
-      username: "",
+      fullName: "",
       email: "",
       password: "",
       confirmPassword: "",
@@ -105,6 +97,8 @@ const Register: React.FC<Props> = ({ setActiveLogin, smallerThan600 }) => {
       h={smallerThan600 ? "60vh" : "68vh"}
       w={smallerThan600 ? "100vw" : "35vw"}
       bg={"#f2f2f2"}
+      maxH={"600px"}
+      minW={"350px"}
       flexDirection={"column"}
       mt={smallerThan600 ? "70vh" : 0}
       justifyContent={"center"}
@@ -139,221 +133,207 @@ const Register: React.FC<Props> = ({ setActiveLogin, smallerThan600 }) => {
         display={"flex"}
         alignItems={"center"}
         justifyItems={"center"}
+        flexDirection={"column"}
         // mt={"5vh"}
         // bg={"red"}
         // mt={smallerThan600 ? "50px" : "20px"}
         w={"80%"}
       >
-        <FormControl onSubmit={handleRegister} isInvalid={isFormInvalid}>
-          <SimpleGrid column={2}>
-            <Box>
-              <FormLabel htmlFor="username">
-                <InputGroup
-                  display={"flex"}
-                  flexDirection={"column"}
-                  h={"60px"}
-                >
-                  <InputLeftElement pointerEvents="none">
-                    <IconButton
-                      aria-label="User-icon"
-                      variant="unstyled"
-                      fontSize="xl"
-                      mb={"12px"}
-                      icon={<PiUserCircleThin />}
-                    />
-                  </InputLeftElement>
-                  <Input
-                    h={"25px"}
-                    w={"full"}
-                    position={"relative"}
-                    // mt={"7px"}
-                    id={"username"}
-                    name={"username"}
-                    fontSize={"sm"}
-                    value={formData.username}
-                    border={"none"}
-                    onChange={handleChange}
-                    _hover={{
-                      backgroundColor: "transparent",
-                      border: "none",
-                    }}
-                    _focus={{
-                      backgroundColor: "transparent",
-                      border: "none",
-                    }}
-                    style={{
-                      borderBottom: "1px solid black",
-                      borderRadius: "0", // Ajusta el radio de las esquinas a cero
-                      outline: "none",
-                    }}
-                    placeholder={"USERNAME"}
-                  />
-                  <FormErrorMessage>
-                    {errors.username && errors.username}
-                  </FormErrorMessage>
-                </InputGroup>
-              </FormLabel>
-            </Box>
-            <Box>
-              <FormLabel>
-                <InputGroup
-                  display={"flex"}
-                  flexDirection={"column"}
-                  h={"60px"}
-                >
-                  <InputLeftElement pointerEvents="none">
-                    <IconButton
-                      aria-label="Email-icon"
-                      variant="unstyled"
-                      fontSize="xl"
-                      // size={"50px"}
-                      // color="gray.300"
-                      icon={<TfiEmail />}
-                    />
-                  </InputLeftElement>
-                  <Input
-                    h={"25px"}
-                    w={"full"}
-                    position={"relative"}
-                    id={"email"}
-                    mt={"7px"}
-                    border={"none"}
-                    fontSize={"sm"}
-                    name={"email"}
-                    value={formData.email}
-                    onChange={handleChange}
-                    _hover={{
-                      backgroundColor: "transparent",
-                    }}
-                    _focus={{
-                      backgroundColor: "transparent",
-                      border: "none",
-                    }}
-                    style={{
-                      borderBottom: "1px solid black",
-                      borderRadius: "0", // Ajusta el radio de las esquinas a cero
-                      outline: "none",
-                    }}
-                    placeholder={"EMAIL"}
-                  />
-                  <FormErrorMessage>
+        {/* <FormControl onSubmit={handleRegister} isInvalid={isFormInvalid}> */}
+        {/* <SimpleGrid column={2}> */}
+        <Box display={"flex"} w={"full"}>
+          {/* <FormLabel htmlFor="fullName"> */}
+          <InputGroup display={"flex"} flexDirection={"column"} h={"60px"}>
+            <InputLeftElement pointerEvents="none">
+              <IconButton
+                aria-label="User-icon"
+                variant="unstyled"
+                fontSize="xl"
+                mb={"12px"}
+                icon={<PiUserCircleThin />}
+              />
+            </InputLeftElement>
+            <Input
+              h={"25px"}
+              w={"full"}
+              position={"relative"}
+              // mt={"7px"}
+              id={"fullName"}
+              name={"fullName"}
+              fontSize={"sm"}
+              value={formData.fullName}
+              border={"none"}
+              onChange={handleChange}
+              _focus={{
+                boxShadow: "0 0.5px 0.5px #f2f2f2 inset, 0 0 5px #f2f2f2",
+              }}
+              style={{
+                borderBottom: "1px solid black",
+                borderRadius: "0", // Ajusta el radio de las esquinas a cero
+                outline: "none",
+              }}
+              placeholder={"FULL NAME"}
+            />
+            {showErrors && (
+              <Text color={"red"} fontSize={"xs"} mt={"0.5vh"}>
+                {errors.fullName}
+              </Text>
+            )}
+            {/* <FormErrorMessage>
+                {errors.fullName && errors.fullName}
+              </FormErrorMessage> */}
+          </InputGroup>
+          {/* </FormLabel> */}
+        </Box>
+        <Box display={"flex"} w={"full"}>
+          {/* <FormLabel> */}
+          <InputGroup display={"flex"} flexDirection={"column"} h={"60px"}>
+            <InputLeftElement pointerEvents="none">
+              <IconButton
+                aria-label="Email-icon"
+                variant="unstyled"
+                fontSize="xl"
+                // size={"50px"}
+                // color="gray.300"
+                icon={<TfiEmail />}
+              />
+            </InputLeftElement>
+            <Input
+              h={"25px"}
+              w={"full"}
+              position={"relative"}
+              id={"email"}
+              mt={"7px"}
+              border={"none"}
+              fontSize={"sm"}
+              name={"email"}
+              value={formData.email}
+              onChange={handleChange}
+              _focus={{
+                boxShadow: "0 0.5px 0.5px #f2f2f2 inset, 0 0 5px #f2f2f2",
+              }}
+              style={{
+                borderBottom: "1px solid black",
+                borderRadius: "0", // Ajusta el radio de las esquinas a cero
+                outline: "none",
+              }}
+              placeholder={"E-MAIL"}
+            />
+            {showErrors && (
+              <Text color={"red"} fontSize={"xs"} mt={"0.5vh"}>
+                {errors.email}
+              </Text>
+            )}
+            {/* <FormErrorMessage>
                     {errors.email && errors.email}
-                  </FormErrorMessage>
-                </InputGroup>
-              </FormLabel>
-            </Box>
-            <Box>
-              <FormLabel>
-                <InputGroup
-                  display={"flex"}
-                  flexDirection={"column"}
-                  h={"60px"}
-                >
-                  <InputLeftElement pointerEvents="none">
-                    <IconButton
-                      aria-label="Password-icon"
-                      variant="unstyled"
-                      fontSize="xl"
-                      icon={<PiLockLight />}
-                    />
-                  </InputLeftElement>
-                  <Input
-                    h={"25px"}
-                    w={"full"}
-                    position={"relative"}
-                    mt={"7px"}
-                    id={"password"}
-                    border={"none"}
-                    fontSize={"sm"}
-                    name={"password"}
-                    value={formData.password}
-                    onChange={handleChange}
-                    _hover={{
-                      backgroundColor: "transparent",
-                    }}
-                    _focus={{
-                      backgroundColor: "transparent",
-                      border: "none",
-                    }}
-                    style={{
-                      borderBottom: "1px solid black",
-                      borderRadius: "0",
-                      outline: "none",
-                    }}
-                    type={showPassword ? "text" : "password"}
-                    placeholder={"PASSWORD"}
-                  />
-                  <InputRightElement
-                    aria-label="Password-icon"
-                    // variant="unstyled"
-                    fontSize="xl"
-                    onClick={handleShowPassword}
-                  >
-                    <BsEyeSlash />
-                  </InputRightElement>
-                  <FormErrorMessage>
+                  </FormErrorMessage> */}
+          </InputGroup>
+          {/* </FormLabel> */}
+        </Box>
+        <Box display={"flex"} w={"full"}>
+          {/* <FormLabel> */}
+          <InputGroup display={"flex"} flexDirection={"column"} h={"60px"}>
+            <InputLeftElement pointerEvents="none">
+              <IconButton
+                aria-label="Password-icon"
+                variant="unstyled"
+                fontSize="xl"
+                icon={<PiLockLight />}
+              />
+            </InputLeftElement>
+            <Input
+              h={"25px"}
+              w={"full"}
+              position={"relative"}
+              mt={"7px"}
+              id={"password"}
+              border={"none"}
+              fontSize={"sm"}
+              name={"password"}
+              value={formData.password}
+              onChange={handleChange}
+              _focus={{
+                boxShadow: "0 0.5px 0.5px #f2f2f2 inset, 0 0 5px #f2f2f2",
+              }}
+              style={{
+                borderBottom: "1px solid black",
+                borderRadius: "0",
+                outline: "none",
+              }}
+              type={showPassword ? "text" : "password"}
+              placeholder={"PASSWORD"}
+            />
+            <InputRightElement
+              aria-label="Password-icon"
+              // variant="unstyled"
+              fontSize="xl"
+              onClick={handleShowPassword}
+            >
+              <BsEyeSlash />
+            </InputRightElement>
+            {showErrors && (
+              <Text color={"red"} fontSize={"xs"} mt={"0.5vh"}>
+                {errors.password}
+              </Text>
+            )}
+
+            {/* <FormErrorMessage>
                     {errors.password && errors.password}
-                  </FormErrorMessage>
-                </InputGroup>
-              </FormLabel>
-            </Box>
-            <Box>
-              <FormLabel>
-                <InputGroup
-                  display={"flex"}
-                  flexDirection={"column"}
-                  h={"60px"}
-                >
-                  <InputLeftElement pointerEvents="none">
-                    <IconButton
-                      aria-label="Password-icon"
-                      variant="unstyled"
-                      fontSize="xl"
-                      icon={<PiLockLight />}
-                    />
-                  </InputLeftElement>
-                  <Input
-                    h={"25px"}
-                    w={"full"}
-                    position={"relative"}
-                    mt={"7px"}
-                    fontSize={"sm"}
-                    border={"none"}
-                    id={"confirmPassword"}
-                    type={showConfirmPassword ? "text" : "password"}
-                    name={"confirmPassword"}
-                    value={formData.confirmPassword}
-                    onChange={handleChange}
-                    _hover={{
-                      backgroundColor: "transparent",
-                    }}
-                    _focus={{
-                      backgroundColor: "transparent",
-                      border: "none",
-                    }}
-                    style={{
-                      borderBottom: "1px solid black",
-                      borderRadius: "0", // Ajusta el radio de las esquinas a cero
-                      outline: "none",
-                    }}
-                    placeholder={"CONFIRM PASSWORD"}
-                  />
-                  <InputRightElement
-                    aria-label="Password-icon"
-                    // variant="unstyled"
-                    onClick={handleShowConfirmPassword}
-                    fontSize="xl"
-                  >
-                    <BsEyeSlash />
-                  </InputRightElement>
-                  <FormErrorMessage>
-                    {errors.confirmPassword && errors.confirmPassword}
-                  </FormErrorMessage>
-                </InputGroup>
-              </FormLabel>
-            </Box>
-          </SimpleGrid>
-        </FormControl>
+                  </FormErrorMessage> */}
+          </InputGroup>
+          {/* </FormLabel> */}
+        </Box>
+        <Box display={"flex"} w={"full"}>
+          {/* <FormLabel> */}
+          <InputGroup display={"flex"} flexDirection={"column"} h={"60px"}>
+            <InputLeftElement pointerEvents="none">
+              <IconButton
+                aria-label="Password-icon"
+                variant="unstyled"
+                fontSize="xl"
+                icon={<PiLockLight />}
+              />
+            </InputLeftElement>
+            <Input
+              h={"25px"}
+              w={"full"}
+              position={"relative"}
+              mt={"7px"}
+              fontSize={"sm"}
+              border={"none"}
+              id={"confirmPassword"}
+              type={showConfirmPassword ? "text" : "password"}
+              name={"confirmPassword"}
+              value={formData.confirmPassword}
+              onChange={handleChange}
+              _focus={{
+                boxShadow: "0 0.5px 0.5px #f2f2f2 inset, 0 0 5px #f2f2f2",
+              }}
+              style={{
+                borderBottom: "1px solid black",
+                borderRadius: "0", // Ajusta el radio de las esquinas a cero
+                outline: "none",
+              }}
+              placeholder={"CONFIRM PASSWORD"}
+            />
+            <InputRightElement
+              aria-label="Password-icon"
+              // variant="unstyled"
+              onClick={handleShowConfirmPassword}
+              fontSize="xl"
+            >
+              <BsEyeSlash />
+            </InputRightElement>
+            {showErrors && (
+              <Text color={"red"} fontSize={"xs"} mt={"0.5vh"}>
+                {errors.confirmPassword}
+              </Text>
+            )}
+          </InputGroup>
+          {/* </FormLabel> */}
+        </Box>
+        {/* </SimpleGrid> */}
+        {/* </FormControl> */}
       </Box>
       <Box
         display={"flex"}
@@ -367,6 +347,7 @@ const Register: React.FC<Props> = ({ setActiveLogin, smallerThan600 }) => {
           <Center>
             <Button
               onClick={handleRegister}
+              fontWeight={"sm"}
               border={"none"}
               backgroundColor={"transparent"}
               _hover={{

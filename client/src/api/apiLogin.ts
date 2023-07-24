@@ -1,5 +1,8 @@
+"use server";
 import { Register, Signin } from "@/store/login/typeLogin";
 import axios from "axios";
+import { cookies } from "next/headers";
+// import { useRouter } from "next/navigation";
 
 export const postRegister = async (body: Register) => {
   try {
@@ -16,16 +19,44 @@ export const postRegister = async (body: Register) => {
 };
 
 export const postSignin = async (body: Signin) => {
+  const cookieStore = cookies();
+  // const router = useRouter();
   try {
-    const data = await axios.post(
+    const { data }: any = await axios.post(
       "http://localhost:5000/api/auth/signin",
       body
     );
 
-    return data
+    cookieStore.set({
+      name: "sessionId",
+      value: data.results.token,
+    });
+
+    // router.push("home");
+
+    return data;
   } catch (error) {
-    console.log(error) {
-      throw new Error("error in signin")
+    if (error) {
+      return error.response.data;
     }
+    console.log(error);
+  }
+};
+
+export const getUserInfo = async () => {
+  const cookieStore = cookies();
+  try {
+    const token: any = cookieStore.get("sessionId");
+    const response: any = await axios.get(
+      "http://localhost:5000/api/auth/userinfo",
+      {
+        headers: {
+          authorization: token.value,
+        },
+      }
+    );
+    return response.data;
+  } catch (error) {
+    console.log(error);
   }
 };

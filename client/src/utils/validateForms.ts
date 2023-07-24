@@ -2,7 +2,7 @@
 import { Register } from "@/store/login/typeLogin";
 
 export interface FormErrors {
-  username?: string;
+  fullName?: string;
   email?: string;
   password?: string;
   confirmPassword?: string;
@@ -18,22 +18,26 @@ export const validateCompletedInputs = (formData) => {
   const regexNoNumber = /^[a-zA-Z\s!"#$%&'()*+,./:;<=>?@\[\\\]^_`{|}~]*$/;
   const regexMore5Length = /^.{5,}$/;
   const regexEmail = /^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}$/i;
-
-  if (formData.username !== "") {
-    if (!regexNoNumber.test(formData.username)) {
-      errors.username = "Please enter a valid name";
+  if (formData.fullName === "") errors.fullName = "Please enter a full name";
+  if (formData.fullName !== "") {
+    if (!regexNoNumber.test(formData.fullName)) {
+      errors.fullName = "Please enter a valid name";
     }
   }
+  if (formData.email === "") errors.email = "Please enter a email";
   if (formData.email !== "") {
     if (!regexEmail.test(formData.email)) {
       errors.email = "Please enter a valid email";
     }
   }
+  if (formData.password === "") errors.password = "Please enter a password";
   if (formData.password !== "") {
     if (!regexMore5Length.test(formData.password)) {
       errors.password = "Please enter a valid password";
     }
   }
+  if (formData.confirmPassword === "")
+    errors.confirmPassword = "Please confirm password";
   if (formData.confirmPassword !== formData.password) {
     errors.confirmPassword = "confirmPassword is not equal to password";
   }
@@ -46,11 +50,13 @@ export const validateCompletedInputsLogin = (formData) => {
   const regexMore5Length = /^.{5,}$/;
   const regexEmail = /^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}$/i;
 
+  if (formData.email === "") errors.email = "Please enter a email";
   if (formData.email !== "") {
     if (!regexEmail.test(formData.email)) {
       errors.email = "Please enter a valid email";
     }
   }
+  if (formData.password === "") errors.password = "Please enter a password";
   if (formData.password !== "") {
     if (!regexMore5Length.test(formData.password)) {
       errors.password = "Please enter a valid password";

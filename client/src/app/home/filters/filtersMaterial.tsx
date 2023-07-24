@@ -22,11 +22,10 @@ export function FiltersMaterials({ setProductsFilter }: FiltersProps) {
   }, [smallerThan550]);
 
   const handleClick = (event) => {
-    console.log("soy event", event.target.value);
-    setProductsFilter((prevState) => ({
-      ...prevState,
+    setProductsFilter({
+      colorId: "",
       material: event.target.value,
-    }));
+    });
   };
 
   useEffect(() => {
@@ -63,15 +62,17 @@ export function FiltersMaterials({ setProductsFilter }: FiltersProps) {
           onClick={handleClick}
           icon={<MdOutlineArrowDropDownCircle />}
         >
-          {materials?.map((material) => (
-            <option value={material}>{material}</option>
+          {materials?.map((material, index) => (
+            <option key={index} value={material}>
+              {material}
+            </option>
           ))}
           {/* <option value="MATERIALS">MATERIALS</option>
-          <option value="">Terrazzo</option>
-          <option value="">Porcelain</option>
-          <option value="">Marble</option>
-          <option value="">Quartzite</option>
-          <option value="">Granite</option>
+          <option value="Terrazzo">Terrazzo</option>
+          <option value="Porcelain">Porcelain</option>
+          <option value="Marble">Marble</option>
+          <option value="Quartzite">Quartzite</option>
+          <option value="Granite">Granite</option>
           <option value="">Basalt</option> */}
         </Select>
       </Box>

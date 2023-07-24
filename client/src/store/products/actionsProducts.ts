@@ -10,10 +10,9 @@ import {
 
 export const fetchProductsHome = (material: string, colorId: string) => {
   return async (dispatch: Dispatch<ProductAction>) => {
-    // dispatch({ type: ProductActionTypes.FETCH_PRODUCTS_HOME_REQUEST });
+    dispatch({ type: ProductActionTypes.FETCH_PRODUCTS_HOME_REQUEST });
     try {
       const products = await getProductsHome(material, colorId); // Llama a tu función de solicitud a la AP
-      console.log("soy products", products);
       dispatch({
         type: ProductActionTypes.FETCH_PRODUCTS_HOME_SUCCESS,
         payload: products,

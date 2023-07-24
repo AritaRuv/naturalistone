@@ -1,14 +1,12 @@
 import { LoginAction, LoginActionsType, LoginState } from "./typeLogin";
 
 const initialState: LoginState = {
-  register: {
-    username: "",
-    email: "",
-    password: "",
-  },
-  signin: {
-    email: "",
-    password: "",
+  user: {
+    CustomerID: "",
+    Contact_Name: "",
+    Company: "",
+    Username: "",
+    Customer_LoginID: "",
   },
 };
 
@@ -17,16 +15,10 @@ const loginReducer = (
   action: LoginAction
 ): LoginState => {
   switch (action.type) {
-    case LoginActionsType.POST_REGISTER: {
+    case LoginActionsType.GET_USER_INFO: {
       return {
         ...state,
-        register: action.payload,
-      };
-    }
-    case LoginActionsType.POST_SIGNIN: {
-      return {
-        ...state,
-        signin: action.payload,
+        user: action.payload,
       };
     }
     default: {
