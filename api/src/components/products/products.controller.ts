@@ -8,21 +8,21 @@ import { productDimensions } from "../../controllers/productDimensions";
 
 export async function getAllProducts(req: Request, res: Response) {
   try {
-    const { material, colorId } = req.query;
+    const { material } = req.query;
     console.log("material", material);
-    console.log("colorId", colorId);
+    // console.log("colorId", colorId);
     const query = `SELECT Products.ProdNameID, ProdNames.Material, ProdNames.Naturali_ProdName, ProdNames.ProdNameID,
                   Product_Colors.ColorID, Product_Colors.idColorProduct, Product_Colors.ProductID
                   FROM Products
                   LEFT JOIN ProdNames ON ProdNames.ProdNameID = Products.ProdNameID
                   LEFT JOIN Product_Colors ON Product_Colors.ProductID = Products.ProdID
                   ${material ? `WHERE Material = "${material}"` : ``}
-                  ${
-                    colorId
-                      ? `${material ? "AND" : "WHERE"} ColorID = "${colorId}"`
-                      : ``
-                  }
                   `;
+    //                 ${
+    //   colorId
+    //     ? `${material ? "AND" : "WHERE"} ColorID = "${colorId}"`
+    //     : ``
+    // }
     // const query = `SELECT ProdNameID, Naturali_ProdName, Material
     //               FROM ProdNames
     //               ${material ? `WHERE Material = "${material}"` : ``}

@@ -1,10 +1,11 @@
+/* eslint-disable quotes */
 import mysqlConnection from "../../db";
 import { Response, Request, NextFunction } from "express";
 import { sign, verify } from "jsonwebtoken";
 import bcrypt from "bcrypt";
 
 export async function register(req: Request, res: Response) {
-  const { username, email, password } = req.body;
+  const { fullName, email, password } = req.body;
   try {
     mysqlConnection.beginTransaction(function (err) {
       if (err) {
@@ -13,7 +14,7 @@ export async function register(req: Request, res: Response) {
           .json({ success: false, msg: "error in post /register" });
       }
 
-      const _query = `INSERT INTO Customers (Company, Email) Values("${username}", "${email}")`;
+      const _query = `INSERT INTO Customers (Contact_Name, Email) Values("${fullName}", "${email}")`;
 
       mysqlConnection.query(_query, function (err, results, fields) {
         console.log("soy restuls1", results);
@@ -65,7 +66,8 @@ export async function register(req: Request, res: Response) {
 }
 
 export async function generateJWT(user = "", expiresAt = 0) {
-  const payload = { user };
+  const payload = user;
+  console.log("soy payload", payload);
   const SECRETKEY = process.env.SECRET_KEY;
 
   const options: any = {};
@@ -104,19 +106,64 @@ export async function validateJWT(
 export async function signIn(req: Request, res: Response) {
   const { email, password } = req.body;
 
-  const _query = `SELECT * FROM Customer_Login WHERE Username = "${email}" AND Password="${password}"`;
+  try {
+    const _query = `SELECT * FROM Customer_Login WHERE Username = "${email}" AND Password="${password}"`;
 
-  mysqlConnection.query(_query, async function (err, results) {
-    if (err) {
-      return res.status(400).json({ success: false, msg: "err in login" });
-    }
+    mysqlConnection.query(_query, async function (err, results) {
+      if (!results.length) {
+        return res
+          .status(400)
+          .json({ success: false, msg: "customer not found" });
+      }
 
-    const token = await generateJWT(results.insertId);
+      console.log("results", results);
 
-    return res.status(200).json({ success: true, results, token });
-  });
+      const token = await generateJWT(results[0].Customer_LoginID);
+
+      console.log("entree", token);
+
+      results[0].token = token;
+
+      return res.status(200).json({ success: true, results: results[0] });
+    });
+  } catch (error) {
+    console.log(error);
+    return res.status(500).json({ success: false, msg: "general error" });
+  }
 }
 
 export async function protectedRoute() {
   return "hola";
+}
+
+export async function userInfo(req: Request, res: Response) {
+  try {
+    const token = req.headers.authorization;
+
+    if (!token) {
+      return res.status(401).json({ success: false, msg: "no token" });
+    }
+
+    console.log("soy token,", token);
+
+    const validateToken = verify(token, process.env.SECRET_KEY);
+
+    console.log("soy validate", validateToken);
+
+    const query_ = `SELECT Customers.CustomerID, Customers.Contact_Name, Customers.Company, Customer_Login.Username,
+    Customer_Login.Customer_LoginID FROM Customers
+    LEFT JOIN Customer_Login ON Customer_Login.CustomerID = Customers.CustomerID
+    WHERE Customer_Login.Customer_LoginID = "${validateToken}"`;
+
+    mysqlConnection.query(query_, function (err, results) {
+      if (!results.length) {
+        return res.status(400).json({ success: false, msg: "User not found" });
+      }
+
+      return res.status(200).json({ success: true, data: results[0] });
+    });
+  } catch (error) {
+    console.log(error);
+    return res.status(400).json({ success: false, msg: "General error" });
+  }
 }
