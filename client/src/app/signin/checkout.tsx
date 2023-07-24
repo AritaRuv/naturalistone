@@ -8,6 +8,7 @@ const Checkout: React.FC<Props> = ({ setActiveLogin, smallerThan600 }) => {
       <Box
         display={"flex"}
         h={"68vh"}
+        maxH={"600px"}
         w={smallerThan600 ? "80%" : "25%"}
         flexDirection={"column"}
       >

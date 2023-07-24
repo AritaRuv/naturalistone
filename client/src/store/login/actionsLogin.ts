@@ -1,38 +1,54 @@
-import { postRegister, postSignin } from "@/api/apiLogin";
+import { getUserInfo, postRegister, postSignin } from "@/api/apiLogin";
 import { Dispatch } from "redux";
 import { LoginAction, LoginActionsType, Register, Signin } from "./typeLogin";
 
-export const registerUser = (body: Register) => {
-  return async function (dispatch: Dispatch<LoginAction>) {
-    // dispatch({ type: LoginActionsType.POST_REGISTER });
-
+export const userInfo = () => {
+  return async (dispatch: Dispatch<LoginAction>) => {
     try {
-      const response = await postRegister(body);
-      const data = response.data;
+      const { data } = await getUserInfo();
 
       dispatch({
-        type: LoginActionsType.POST_REGISTER,
+        type: LoginActionsType.GET_USER_INFO,
         payload: data,
       });
     } catch (error) {
       console.log(error);
-      throw new Error("Error in post_register");
+      throw new Error("Error in get user info");
     }
   };
 };
 
-export const signinUser = (body: Signin) => {
-  return async function (dispatch: Dispatch<LoginAction>) {
-    try {
-      const response = await postSignin(body);
-      const data = response.data;
-      dispatch({
-        type: LoginActionsType.POST_SIGNIN,
-        payload: data,
-      });
-    } catch (error) {
-      console.log(error);
-      throw new Error("Error in post_signin");
-    }
-  };
-};
+// export const registerUser = (body: Register) => {
+//   return async function (dispatch: Dispatch<LoginAction>) {
+//     // dispatch({ type: LoginActionsType.POST_REGISTER });
+
+//     try {
+//       const response = await postRegister(body);
+//       const data = response.data;
+
+//       dispatch({
+//         type: LoginActionsType.POST_REGISTER,
+//         payload: data,
+//       });
+//     } catch (error) {
+//       console.log(error);
+//       throw new Error("Error in post_register");
+//     }
+//   };
+// };
+
+// export const signinUser = (body: Signin) => {
+//   return async function (dispatch: Dispatch<LoginAction>) {
+//     try {
+//       const response = await postSignin(body);
+//       const data = response.data;
+//       dispatch({
+//         type: LoginActionsType.POST_SIGNIN,
+//         payload: data,
+//       });
+//     } catch (error) {
+//       console.log(error);
+//       throw new Error("Error in post_signin");
+//     }
+//   };
+// };

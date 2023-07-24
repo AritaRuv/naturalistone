@@ -16,12 +16,12 @@ export async function getAllProducts(req: Request, res: Response) {
                   LEFT JOIN ProdNames ON ProdNames.ProdNameID = Products.ProdNameID
                   LEFT JOIN Product_Colors ON Product_Colors.ProductID = Products.ProdID
                   ${material ? `WHERE Material = "${material}"` : ``}
-                  ${
-                    colorId
-                      ? `${material ? "AND" : "WHERE"} ColorID = "${colorId}"`
-                      : ``
-                  }
                   `;
+    //                 ${
+    //   colorId
+    //     ? `${material ? "AND" : "WHERE"} ColorID = "${colorId}"`
+    //     : ``
+    // }
     // const query = `SELECT ProdNameID, Naturali_ProdName, Material
     //               FROM ProdNames
     //               ${material ? `WHERE Material = "${material}"` : ``}

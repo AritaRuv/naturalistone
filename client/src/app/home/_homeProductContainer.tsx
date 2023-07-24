@@ -6,6 +6,8 @@ import { fetchProductsHome } from "../../store/products/actionsProducts";
 import { ProductState } from "../../store/products/typesProducts";
 import { useAppDispatch, useAppSelector } from "../../store/hooks";
 import { FiltersHomeProps } from "./page";
+import { LoginState } from "@/store/login/typeLogin";
+import { userInfo } from "@/store/login/actionsLogin";
 
 
 const HomeProductContainer: React.FC<FiltersHomeProps> = ({
@@ -16,6 +18,10 @@ const HomeProductContainer: React.FC<FiltersHomeProps> = ({
   const [isExtraSmallScreen] = useMediaQuery("(max-width: 480px)");
   const dispatch = useAppDispatch();
   const { material, colorId } = productsFilter;
+
+  const { user } = useAppSelector(
+    (state: { loginReducer: LoginState }) => state.loginReducer
+  );
 
   const { products, loading, error } = useAppSelector(
     (state: { productReducer: ProductState }) => state.productReducer

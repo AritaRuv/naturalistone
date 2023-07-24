@@ -1,6 +1,6 @@
 "use client";
 import { useAppDispatch } from "@/store/hooks";
-import { signinUser } from "@/store/login/actionsLogin";
+// import { signinUser } from "@/store/login/actionsLogin";
 import { Signin } from "@/store/login/typeLogin";
 import {
   FormErrors,
@@ -20,13 +20,17 @@ import {
   InputGroup,
   InputLeftElement,
   InputRightElement,
+  Text,
   useMediaQuery,
+  useToast,
 } from "@chakra-ui/react";
 import React, { useState, useEffect } from "react";
 import { FaRegUserCircle } from "react-icons/fa";
 import { PiLockLight } from "react-icons/pi";
 import { PiUserCircleThin } from "react-icons/pi";
 import { BsEyeSlash } from "react-icons/bs";
+import { postSignin } from "@/api/apiLogin";
+import { useRouter } from "next/navigation";
 
 export interface Props {
   setActiveLogin: React.Dispatch<React.SetStateAction<boolean>>;
@@ -39,11 +43,14 @@ const Login: React.FC<Props> = ({ setActiveLogin, smallerThan600 }) => {
     password: "",
   });
 
-  console.log("formdataaaaaaaaaaaa", formData);
+  // console.log("formdataaaaaaaaaaaa", formData);
   const dispatch = useAppDispatch();
   const [errors, setErrors] = useState<FormErrorsLogin>({});
   const [isFormInvalid, setIsFormInvalid] = useState(false);
   const [show, setShow] = useState(false);
+  const [showErrors, setShowErrors] = useState(false);
+  const toast = useToast();
+  const router = useRouter();
 
   const handleChange = (event) => {
     // setErrors({});
@@ -53,35 +60,39 @@ const Login: React.FC<Props> = ({ setActiveLogin, smallerThan600 }) => {
       ...formData,
       [event.target.name]: event.target.value,
     });
-    const errors = validateCompletedInputsLogin({
-      ...formData,
-      [name]: value,
-    });
-
-    // Comprobar si hay errores en el campo "email"
-    const isEmailInvalid = !!errors.email;
-    // Comprobar si hay errores en el campo "password"
-    const isPasswordInvalid = !!errors.password;
-
-    // Combinar todos los resultados para obtener isFormInvalid (true si hay errores en al menos un campo, false si no hay errores en ningún campo)
-    const formHasErrors: any = isEmailInvalid || isPasswordInvalid;
-    // Establecer los errores y la propiedad isInvalid en el estado
-    setErrors(errors);
-    setIsFormInvalid(formHasErrors);
+    setErrors(
+      validateCompletedInputsLogin({
+        ...formData,
+        [name]: value,
+      })
+    );
   };
-
-  console.log("errosss", errors);
 
   const handleClick = () => {
     setActiveLogin(false);
   };
 
-  const handleLogin = () => {
-    // dispatch(signinUser(formData));
+  const handleLogin = async () => {
+    setShowErrors(true);
+    if (Object.keys(errors).length) return;
+    const data: any = await postSignin(formData);
+    console.log("soy data", data);
+    if (data.success === false) {
+      return toast({
+        title: "Login",
+        description: "Incorrect username or password.",
+        status: "warning",
+        variant: "subtle",
+        duration: 4000,
+        isClosable: true,
+      });
+    }
+    router.push("/home");
     setFormData({
       email: "",
       password: "",
     });
+    return;
   };
 
   const handleShow = () => {
@@ -92,7 +103,9 @@ const Login: React.FC<Props> = ({ setActiveLogin, smallerThan600 }) => {
     <Box
       display={"flex"}
       h={smallerThan600 ? "60vh" : "68vh"}
+      maxH={"600px"}
       w={smallerThan600 ? "100vw" : "35vw"}
+      minW={"400px"}
       bg={"#f2f2f2"}
       // border={"2px solid red"}
       flexDirection={"column"}
@@ -116,7 +129,7 @@ const Login: React.FC<Props> = ({ setActiveLogin, smallerThan600 }) => {
           borderRadius={"50%"}
           bg={"#a9a9a9"}
           position={"relative"}
-          bottom={smallerThan600 ? 12 : 14}
+          bottom={smallerThan600 ? 12 : 8}
         ></Box>
         <Box
           display={"flex"}
@@ -150,110 +163,112 @@ const Login: React.FC<Props> = ({ setActiveLogin, smallerThan600 }) => {
           // bottom={5}
           flexDirection={"column"}
         >
-          <FormControl isInvalid={isFormInvalid}>
-            <Box>
-              <FormLabel>
-                <InputGroup
-                  display={"flex"}
-                  flexDirection={"column"}
-                  h={"60px"}
-                >
-                  <InputLeftElement pointerEvents="none">
-                    <IconButton
-                      aria-label="User-icon"
-                      variant="unstyled"
-                      fontSize="xl"
-                      icon={<PiUserCircleThin />}
-                    />
-                  </InputLeftElement>
-                  <Input
-                    h={"25px"}
-                    w={"full"}
-                    position={"relative"}
-                    fontSize={"sm"}
-                    mt={"7px"}
-                    id={"email"}
-                    name={"email"}
-                    value={formData.email}
-                    border={"none"}
-                    onChange={handleChange}
-                    _hover={{
-                      backgroundColor: "transparent",
-                    }}
-                    _focus={{
-                      backgroundColor: "transparent",
-                      border: "none",
-                      borderColor: "green",
-                    }}
-                    style={{
-                      borderBottom: "1px solid black",
-                      borderRadius: "0", // Ajusta el radio de las esquinas a cero
-                      outline: "none",
-                    }}
-                    placeholder={"USERNAME"}
-                  />
-                  <FormErrorMessage>
+          {/* <FormControl isInvalid={isFormInvalid}> */}
+          <Box display={"flex"} w={"full"}>
+            {/* <FormLabel> */}
+            <InputGroup display={"flex"} flexDirection={"column"} h={"60px"}>
+              <InputLeftElement pointerEvents="none">
+                <IconButton
+                  aria-label="User-icon"
+                  variant="unstyled"
+                  fontSize="xl"
+                  icon={<PiUserCircleThin />}
+                />
+              </InputLeftElement>
+              <Input
+                h={"25px"}
+                w={"full"}
+                position={"relative"}
+                fontSize={"sm"}
+                mt={"7px"}
+                id={"email"}
+                name={"email"}
+                value={formData.email}
+                border={"none"}
+                onChange={handleChange}
+                _hover={{
+                  backgroundColor: "transparent",
+                }}
+                _focus={{
+                  backgroundColor: "transparent",
+                  border: "none",
+                  borderColor: "green",
+                }}
+                style={{
+                  borderBottom: "1px solid black",
+                  borderRadius: "0", // Ajusta el radio de las esquinas a cero
+                  outline: "none",
+                }}
+                placeholder={"E-MAIL"}
+              />
+              {showErrors && (
+                <Text color={"red"} mt={"0.5vh"} fontSize={"xs"}>
+                  {errors.email}
+                </Text>
+              )}
+              {/* <FormErrorMessage>
                     {errors.email && errors.email}
-                  </FormErrorMessage>
-                </InputGroup>
-              </FormLabel>
-            </Box>
-            <Box>
-              <FormLabel>
-                <InputGroup
-                  display={"flex"}
-                  flexDirection={"column"}
-                  h={"60px"}
-                >
-                  <InputLeftElement pointerEvents="none">
-                    <IconButton
-                      aria-label="User-icon"
-                      variant="unstyled"
-                      fontSize="xl"
-                      border={"none"}
-                      icon={<PiLockLight />}
-                    />
-                  </InputLeftElement>
-                  <Input
-                    h={"25px"}
-                    w={"full"}
-                    position={"relative"}
-                    mt={"7px"}
-                    fontSize={"sm"}
-                    type={show ? "text" : "password"}
-                    name={"password"}
-                    value={formData.password}
-                    border={"none"}
-                    onChange={handleChange}
-                    _hover={{
-                      backgroundColor: "transparent",
-                    }}
-                    _focus={{
-                      backgroundColor: "transparent",
-                      border: "none",
-                    }}
-                    style={{
-                      borderBottom: "1px solid black",
-                      borderRadius: "0", // Ajusta el radio de las esquinas a cero
-                      outline: "none",
-                    }}
-                    placeholder={"PASSWORD"}
-                  />
-                  <InputRightElement
-                    aria-label="Password-icon"
-                    // variant="unstyled"
-                    fontSize="xl"
-                    onClick={handleShow}
-                  >
-                    <BsEyeSlash />
-                  </InputRightElement>
-                  <FormErrorMessage>
-                    {errors.password && errors.password}
-                  </FormErrorMessage>
-                </InputGroup>
-              </FormLabel>
-            </Box>
-          </FormControl>
+                  </FormErrorMessage> */}
+            </InputGroup>
+            {/* </FormLabel> */}
+          </Box>
+          <Box display={"flex"} w={"full"}>
+            {/* <FormLabel> */}
+            <InputGroup display={"flex"} flexDirection={"column"} h={"60px"}>
+              <InputLeftElement pointerEvents="none">
+                <IconButton
+                  aria-label="User-icon"
+                  variant="unstyled"
+                  fontSize="xl"
+                  border={"none"}
+                  icon={<PiLockLight />}
+                />
+              </InputLeftElement>
+              <Input
+                h={"25px"}
+                w={"full"}
+                position={"relative"}
+                mt={"7px"}
+                fontSize={"sm"}
+                type={show ? "text" : "password"}
+                name={"password"}
+                value={formData.password}
+                border={"none"}
+                onChange={handleChange}
+                _hover={{
+                  backgroundColor: "transparent",
+                }}
+                _focus={{
+                  backgroundColor: "transparent",
+                  border: "none",
+                }}
+                style={{
+                  borderBottom: "1px solid black",
+                  borderRadius: "0", // Ajusta el radio de las esquinas a cero
+                  outline: "none",
+                }}
+                placeholder={"PASSWORD"}
+              />
+              {showErrors && (
+                <Text color={"red"} mt={"0.5vh"} fontSize={"xs"}>
+                  {errors.password}
+                </Text>
+              )}
+              <InputRightElement
+                aria-label="Password-icon"
+                // variant="unstyled"
+                fontSize="xl"
+                onClick={handleShow}
+              >
+                <BsEyeSlash />
+              </InputRightElement>
+              {/* <FormErrorMessage>
+                {errors.password && errors.password}
+              </FormErrorMessage> */}
+            </InputGroup>
+            {/* </FormLabel> */}
+          </Box>
+          {/* </FormControl> */}
         </Box>
       </Box>
 
@@ -266,7 +281,23 @@ const Login: React.FC<Props> = ({ setActiveLogin, smallerThan600 }) => {
         flexDirection={"column"}
       >
         <Box>
-          <Center>LOGIN</Center>
+          <Center>
+            <Button
+              onClick={handleLogin}
+              fontWeight={"sm"}
+              border={"none"}
+              backgroundColor={"transparent"}
+              _hover={{
+                backgroundColor: "transparent",
+              }}
+              _focus={{
+                backgroundColor: "transparent",
+                border: "none",
+              }}
+            >
+              LOGIN
+            </Button>
+          </Center>
         </Box>
         <Box
           display={"flex"}

@@ -71,11 +71,11 @@ export function FiltersMaterials({ setProductsFilter, productsFilter }: FiltersH
             <option value={material} key={i}>{material}</option>
           ))}
           {/* <option value="MATERIALS">MATERIALS</option>
-          <option value="">Terrazzo</option>
-          <option value="">Porcelain</option>
-          <option value="">Marble</option>
-          <option value="">Quartzite</option>
-          <option value="">Granite</option>
+          <option value="Terrazzo">Terrazzo</option>
+          <option value="Porcelain">Porcelain</option>
+          <option value="Marble">Marble</option>
+          <option value="Quartzite">Quartzite</option>
+          <option value="Granite">Granite</option>
           <option value="">Basalt</option> */}
         </Select>
       </Box>

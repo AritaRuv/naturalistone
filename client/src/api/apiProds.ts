@@ -35,7 +35,6 @@ export const getMaterials = async () => {
       `http://localhost:5000/api/products/material`
     ); // Realiza la solicitud GET a la ruta /api/products de tu backend
 
-    console.log("entre aqui", response.data);
     return response.data;
   } catch (error) {
     console.log(error);
