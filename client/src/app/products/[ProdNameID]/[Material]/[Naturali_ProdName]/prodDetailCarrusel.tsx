@@ -19,7 +19,7 @@ export default function ProdDetailCarousel({params}) {
 
   const dispatch = useAppDispatch();
 
-  // const [smallerThan1200] = useMediaQuery("(max-width: 1200px)");
+  const [smallerThan1200] = useMediaQuery("(max-width: 1200px)");
   const [smallerThan740] = useMediaQuery("(max-width: 740px)");
 
   const [selectedItem, setSelectedItem] = useState(0);
@@ -36,7 +36,7 @@ export default function ProdDetailCarousel({params}) {
 
   const getConfigurableProps = () => ({
     showArrows: boolean('showArrows', true, tooglesGroupId),
-    showStatus: boolean('showStatus', true, tooglesGroupId),
+    showStatus: boolean('showStatus', false, tooglesGroupId),
     showIndicators: boolean('showIndicators', true, tooglesGroupId),
     infiniteLoop: boolean('infiniteLoop', true, tooglesGroupId),
     showThumbs: boolean('showThumbs', false, tooglesGroupId),
@@ -54,7 +54,6 @@ export default function ProdDetailCarousel({params}) {
     ariaLabel: text('ariaLabel', ariaLabel),
   });
 
-
   const imageStyle: React.CSSProperties = {
     width: '100%', // Ajusta el ancho de la imagen al 100% del contenedor 
     height: smallerThan740 ? '500px' : '300px',
@@ -62,12 +61,12 @@ export default function ProdDetailCarousel({params}) {
   };
 
   const thumbnailURLs  = useAppSelector((state: { productReducer: ProductState }) => state.productReducer.product_images);
-  console.log(thumbnailURLs)
+
   // Configuración para el carrusel de miniaturas
   const thumbnailSettings = {
     slidesToShow: 4, // Mostrar hasta 4 imágenes o la cantidad disponible
     slidesToScroll: 1,
-    infinite: thumbnailURLs.length > 3 ? true : false, // Habilitar desplazamiento solo si hay 4 o más imágenes
+    infinite: thumbnailURLs.length > 4 ? true : false, // Habilitar desplazamiento solo si hay 4 o más imágenes
   };
 
   const getThumbnailOpacity = (index) => {
@@ -76,7 +75,15 @@ export default function ProdDetailCarousel({params}) {
 
 
   return (
-    <Flex justifyContent="center" alignItems="center" w={!smallerThan740 ? '50%' : '100%'} minH={'300px'}>
+    <Flex justifyContent="center" alignItems="center" 
+      w={!smallerThan740 ? 
+            !smallerThan1200 ? 
+              '50%' 
+              : '100%' 
+            : '100%'
+        } 
+      pr={'1%'}  
+      minH={'300px'}>
       <Box w={!smallerThan740 ? '90%' : '100%'} minW={'520px'}>
 
         {/* Carrusel Grande */}
@@ -102,23 +109,38 @@ export default function ProdDetailCarousel({params}) {
 
          {/* Carrusel Chico */}     
         {
-          !smallerThan740 ?  
-        <Box mt={6} w={'100%'}  maxH={'120px'}>
-          <Slider {...thumbnailSettings}>
-            {thumbnailURLs.map((imageData, index) => (
-              <Box key={index} p={2} cursor="pointer" opacity={getThumbnailOpacity(index)}>
-                <img
-                  src={imageData.url}
-                  alt={`Thumbnail ${index}`}
-                  style={{ width: "200px", height: "100px", objectFit: "cover" }}
-                  onClick={() => setSelectedItem(index)}
-                />
-              </Box>
-            ))}
-          </Slider>
-        </Box>
-        :
-        null
+          !smallerThan740 ?  (
+            thumbnailURLs.length > 4 ? (
+              <Box mt={6} w={'100%'}  maxH={'120px'}>
+                <Slider {...thumbnailSettings}>
+                  {thumbnailURLs.map((imageData, index) => (
+                    <Box key={index} p={2} cursor="pointer" opacity={getThumbnailOpacity(index)}>
+                      <img
+                        src={imageData.url}
+                        alt={`Thumbnail ${index}`}
+                        style={{ width: "152px", height: "100px", objectFit: "cover" }}
+                        onClick={() => setSelectedItem(index)}
+                      />
+                    </Box>
+                  ))}
+                </Slider>
+              </Box>)
+            : (
+              <Box mt={6} w={'100%'} maxH={'120px'} display="flex" alignItems="flex-start">
+                {thumbnailURLs.map((imageData, index) => (
+                  <Box key={index} p={2} cursor="pointer" opacity={getThumbnailOpacity(index)}>
+                    <img
+                      src={imageData.url}
+                      alt={`Thumbnail ${index}`}
+                      style={{ width: "152px", height: "100px", objectFit: "cover" }}
+                      onClick={() => setSelectedItem(index)}
+                    />
+                  </Box>
+                ))}
+              </Box>)
+              )
+          :
+          null
         }
         {/* Carrusel Chico */}  
       </Box>

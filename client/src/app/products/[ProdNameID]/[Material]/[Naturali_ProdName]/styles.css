@@ -23,3 +23,12 @@
 .slick-next {
   right: 10px;
 }
+
+.carousel .control-dots .dot {
+  /* border-radius: 100% !important; */
+  width: 6px !important;
+  height: 6px !important;
+  background-color: whitesmoke !important;
+  box-shadow: none !important; /* Elimina la sombra */
+}
+

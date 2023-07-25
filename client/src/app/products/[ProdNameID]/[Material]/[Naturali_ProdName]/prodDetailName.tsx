@@ -12,9 +12,9 @@ export default function ProdDetailName({ params }) {
 
   return (
     <>
-      <Box  mt={'3%'} display={'flex'} flexDir={!smallerThan740 ? 'column' : 'row'}>
-        <Text fontSize={'1.5rem'} ml={'10px'} fontWeight={'semibold'}>{decodeURIComponent(Naturali_ProdName)}</Text>
-        <Text fontSize={!smallerThan740 ? '1.1rem' : '1.5rem'} ml={'8px'} fontWeight={'semibold'}>{Material}</Text>
+      <Box  mt={'3%'} display={'flex'} flexDir={'column'}>
+        <Text fontSize={'1rem'} ml={'10px'} fontWeight={'normal'}>{Material.toUpperCase()}</Text>
+        <Text fontSize={'1.5rem'} ml={'10px'} mb={'10px'} fontWeight={'semibold'}>{decodeURIComponent(Naturali_ProdName).toUpperCase()}</Text>
       </Box>
     </>
   );
