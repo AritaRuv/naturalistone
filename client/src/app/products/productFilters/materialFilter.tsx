@@ -1,11 +1,12 @@
 "use client";
-import { SimpleGrid, Checkbox, CheckboxGroup, Box, Text } from "@chakra-ui/react";
+import { SimpleGrid, Checkbox, Box, Text, Tooltip, CheckboxGroup } from "@chakra-ui/react";
 import { useEffect } from "react";
 import { useAppDispatch, useAppSelector } from "@/store/hooks";
 import { fetchMaterials } from "@/store/products/actionsProducts";
 import { ProductState } from "@/store/products/typesProducts";
+import { FiltersState } from "./types";
 
-const MaterialFilter: React.FC = () => {
+const MaterialFilter: React.FC<FiltersState> = ({filters, setFilters, handleCheckboxChange}) => {
   const { materials } = useAppSelector(
     (state: { productReducer: ProductState }) => state.productReducer
   );
@@ -17,32 +18,34 @@ const MaterialFilter: React.FC = () => {
 
   return (
     <SimpleGrid
-      spacingY={6}
+      h={'20vh'}
+      spacingY={4}
       py={"1%"}
-      px={ "10%"}
       w={"100%"}
-      placeItems={"center"}
-      columns={5} 
-      h={'28vh'}
+      columns={7} 
       pt={'6vh'}
       bg={"white"}
-      alignItems={'flex-start'}
-      border={'2px solid red'}
       position={'fixed'}
+      alignItems={'flex-start'}
+      display={'grid'}
+      flexDir={'row'}
     >
         {
           materials.map(mat => {
             return(
-            <Box key={mat} display={'flex'} justifyContent={'flex-start'} alignItems={'center'} w={'250px'}>
-              
+            <Box key={mat} display={'flex'} justifyContent={'flex-end'} alignItems={'flex-start'} w={'170px'}>
+                <Tooltip label={mat} isDisabled={mat.length > 15 ? false : true}>
+                  <Text mr={'10px'} textTransform={'uppercase'}  fontSize={'0.9rem'}>{mat.length > 15 ? mat.slice(0,13)+'...' : mat}</Text>
+                </Tooltip>
+                <Box display={'flex'} alignItems={'center'} h={'20px'}>
                 <Checkbox
                   colorScheme='whiteAlpha'
                   iconColor="orange"
                   borderColor={'blackAlpha.400'}
-                  //isChecked={selectedFinish.includes(finish)}
-                  //onChange={() => handleCheckboxChange(finish, setSelectedFinish)}
+                  onChange={() => handleCheckboxChange("materials", mat)}
                 />
-                <Text ml={'5px'} textTransform={'uppercase'}  fontSize={'0.9rem'}>{mat}</Text>
+                </Box>
+                
             </Box>)
           })
         }

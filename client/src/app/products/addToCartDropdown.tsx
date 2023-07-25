@@ -14,10 +14,8 @@ const AddProductToCart: React.FC<AddProductToCartProps> = ({
   ProdNameID,
   productValues,
 }) => {
-  useEffect(() => {
-    dispatch(fetchProductsValues({ ProdNameID }));
-  }, []);
-  console.log(productValues);
+
+
   return (
     <Box
       display={"flex"}
@@ -28,7 +26,7 @@ const AddProductToCart: React.FC<AddProductToCartProps> = ({
       h={"20vh"}
       bg={"white"}
       flexDir={"column"}
-    >
+      >
       <ProductList data={productValues} ProdNameID={ProdNameID} />
     </Box>
   );

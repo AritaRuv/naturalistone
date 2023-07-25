@@ -7,11 +7,13 @@ import {
 
 const initialState: ProductState = {
   products: [],
+  products_filters: [],
   productValues: {},
   materials: [],
   product: {},
   loading: false,
   error: null,
+  dimensions: null,
 };
 
 const productReducer = (
@@ -31,7 +33,13 @@ const productReducer = (
         loading: false,
         products: action.payload,
       };
-    case ProductActionTypes.FETCH_PRODUCTS_HOME_FAILURE:
+    case ProductActionTypes.FETCH_PRODUCTS_FILTERS_SUCCESS:
+      return {
+        ...state,
+        loading: false,
+        products_filters: action.payload,
+      };
+    case ProductActionTypes.FETCH_PRODUCTS_FAILURE:
       return {
         ...state,
         loading: false,
@@ -46,12 +54,16 @@ const productReducer = (
           ...state.productValues,
           [key]: action.payload[key],
         },
-        // productsByProdNameID: action.payload.results as unknown  as ProductsByProdNameID[]
       };
     case ProductActionTypes.FETCH_MATERIALS:
       return {
         ...state,
         materials: action.payload,
+      };
+    case ProductActionTypes.FETCH_DIMENSION:
+      return {
+        ...state,
+        dimensions: action.payload,
       };
     default:
       return state;

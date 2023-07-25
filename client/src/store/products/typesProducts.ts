@@ -14,13 +14,22 @@ export interface ProductData {
   };
 }
 
+export interface DimensionData {
+  Type: string[];
+  Size: string[];
+  Thickness: string[];
+  Finish: string[];
+}
+
 export interface ProductState {
   products: Product[];
+  products_filters: Product[];
   productValues: ProductData;
   materials: string[];
   product: {};
   loading: boolean;
   error: string | null;
+  dimensions: DimensionData | null;
 }
 
 export enum ProductActionTypes {
@@ -30,6 +39,8 @@ export enum ProductActionTypes {
   FETCH_PRODUCTS_VALUES = "FETCH_PRODUCTS_VALUES",
   FETCH_MATERIALS = "FETCH_MATERIALS",
   FETCH_PRODUCT_BY_IDS = "FETCH_PRODUCT_BY_IDS",
+  FETCH_DIMENSION = "FETCH_DIMENSION",
+  FETCH_PRODUCTS_FILTERS_SUCCESS = "FETCH_PRODUCTS_FILTERS_SUCCESS",
 }
 
 export interface FetchProductsHomeRequestAction {
@@ -38,6 +49,10 @@ export interface FetchProductsHomeRequestAction {
 
 export interface FetchProductsHomeSuccessAction {
   type: ProductActionTypes.FETCH_PRODUCTS_HOME_SUCCESS;
+  payload: Product[];
+}
+export interface FetchProductsFiltersSuccessAction {
+  type: ProductActionTypes.FETCH_PRODUCTS_FILTERS_SUCCESS;
   payload: Product[];
 }
 
@@ -56,6 +71,11 @@ export interface FetchMaterialsAction {
   payload: string[];
 }
 
+export interface FetchDimensionAction {
+  type: ProductActionTypes.FETCH_DIMENSION;
+  payload: DimensionData | null;
+}
+
 export interface FetchProductAction {
   type: ProductActionTypes.FETCH_PRODUCT_BY_IDS;
   payload: {};
@@ -64,8 +84,10 @@ export interface FetchProductAction {
 export type ProductAction =
   | FetchProductsHomeRequestAction
   | FetchProductsHomeSuccessAction
+  | FetchProductsFiltersSuccessAction
   | FetchProductsHomeFailureAction
   | FetchProductsDataAction
   | FetchMaterialsAction
+  | FetchDimensionAction
   | FetchProductAction;
 

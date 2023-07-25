@@ -12,7 +12,7 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.getCartProducts = exports.newCartEntry = void 0;
+exports.deleteCartProducts = exports.updateCartProducts = exports.getCartProducts = exports.newCartEntry = void 0;
 const db_1 = __importDefault(require("../../db"));
 function newCartEntry(req, res) {
     return __awaiter(this, void 0, void 0, function* () {
@@ -46,6 +46,18 @@ function newCartEntry(req, res) {
                             });
                             return;
                         }
+                        // Maneja el resultado undefined de la query, en caso de que la convinacion ProdNameID y DimensionID no 
+                        // exista en la db
+                        // ---------------------------------
+                        if (prodResults.length === 0) {
+                            console.log("El resultado de queryGetProdID es indefinido o vacío.");
+                            db_1.default.rollback(() => {
+                                console.log("Rollback realizado debido a un resultado indefinido o vacío en queryGetProdID");
+                                res.status(404).json({ error: "Producto no encontrado" });
+                            });
+                            return;
+                        }
+                        //----------------------------------
                         const product = prodResults[0];
                         const Quantity = 1;
                         const CustomerID = 1938;
@@ -127,3 +139,53 @@ function getCartProducts(req, res) {
     });
 }
 exports.getCartProducts = getCartProducts;
+function updateCartProducts(req, res) {
+    return __awaiter(this, void 0, void 0, function* () {
+        try {
+            const { Quantity, idCartEntry } = req.body;
+            console.log(req.body);
+            const query = `UPDATE NaturaliStone.Cart SET Quantity = ${Quantity} WHERE idCartEntry = ${idCartEntry}`;
+            db_1.default.query(query, (error, results, fields) => {
+                if (error) {
+                    throw error;
+                }
+                if (results.length === 0) {
+                    console.log(`Error en cart.update cartEntry: ${idCartEntry}`);
+                    res.status(404).json(`Error en cart.update cartEntry: ${idCartEntry}`);
+                }
+                else {
+                    console.log("Data OK");
+                    res.status(200).json(results);
+                }
+            });
+        }
+        catch (error) {
+            res.status(409).send(error);
+        }
+    });
+}
+exports.updateCartProducts = updateCartProducts;
+function deleteCartProducts(req, res) {
+    return __awaiter(this, void 0, void 0, function* () {
+        try {
+            const { idCartEntry } = req.params;
+            const query = `DELETE FROM Cart WHERE  idCartEntry = ${idCartEntry}`;
+            db_1.default.query(query, (error, results, fields) => {
+                if (error) {
+                    throw error;
+                }
+                if (results.length === 0) {
+                    res.status(200).json(`Error deleting cartEntry: ${idCartEntry}`);
+                }
+                else {
+                    console.log("Data OK");
+                    res.status(200).json(results);
+                }
+            });
+        }
+        catch (error) {
+            res.status(409).send(error);
+        }
+    });
+}
+exports.deleteCartProducts = deleteCartProducts;

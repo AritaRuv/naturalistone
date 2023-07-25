@@ -6,5 +6,7 @@ const productsRouter = (0, express_1.Router)();
 productsRouter.get("/", products_controller_1.getAllProducts);
 productsRouter.get("/IDs", products_controller_1.getProductByIDS);
 productsRouter.get("/material", products_controller_1.getAllMaterials);
-productsRouter.get("id/:id", products_controller_1.getProductsValuesByProdNameID);
+productsRouter.get("/dimension", products_controller_1.getAllDimensionProperties);
+productsRouter.get("/id/:id", products_controller_1.getProductsValuesByProdNameID);
+productsRouter.get("/filters", products_controller_1.getProductsFilter);
 exports.default = productsRouter;

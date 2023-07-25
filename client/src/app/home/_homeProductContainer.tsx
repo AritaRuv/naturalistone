@@ -53,11 +53,12 @@ const HomeProductContainer: React.FC<FiltersHomeProps> = ({
       columns={gridColumns} // Establece el número de columnas dinámicamente
       bg={"#f2f2f2"}
     >
-      {products.length
-        ? homeProducts.map((prod, i) => {
-            return <ProductCard product={prod} key={i} />;
-          })
-        : null}
+      {homeProducts.length &&
+        homeProducts.map((prod) => {
+          return (
+            <ProductCard product={prod} key={prod.ProdNameID} site={"home"} />
+          );
+        })}
     </SimpleGrid>
   );
 };

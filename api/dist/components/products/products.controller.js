@@ -12,7 +12,7 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.getAllMaterials = exports.getProductByIDS = exports.getProductsValuesByProdNameID = exports.getAllProducts = void 0;
+exports.getProductsFilter = exports.getAllDimensionProperties = exports.getAllMaterials = exports.getProductByIDS = exports.getProductsValuesByProdNameID = exports.getAllProducts = void 0;
 const db_1 = __importDefault(require("../../db"));
 const productDimensions_1 = require("../../controllers/productDimensions");
 function getAllProducts(req, res) {
@@ -125,6 +125,7 @@ function getProductByIDS(req, res) {
     });
 }
 exports.getProductByIDS = getProductByIDS;
+//Ruta para obtener listado de todos los nombres de materiales sin repetir
 function getAllMaterials(req, res) {
     return __awaiter(this, void 0, void 0, function* () {
         try {
@@ -155,3 +156,117 @@ function getAllMaterials(req, res) {
     });
 }
 exports.getAllMaterials = getAllMaterials;
+function getAllDimensionProperties(req, res) {
+    return __awaiter(this, void 0, void 0, function* () {
+        try {
+            const query = `
+      SELECT 
+        GROUP_CONCAT(DISTINCT Type SEPARATOR ', ') AS Types,
+        GROUP_CONCAT(DISTINCT Size SEPARATOR ', ') AS Sizes,
+        GROUP_CONCAT(DISTINCT Thickness SEPARATOR ', ') AS Thicknesses,
+        GROUP_CONCAT(DISTINCT Finish SEPARATOR ', ') AS Finishes
+      FROM Dimension;
+    `;
+            db_1.default.query(query, (error, results, fields) => {
+                if (error) {
+                    throw error;
+                }
+                if (results.length === 0) {
+                    console.log("Error en getAllDimensionProperties");
+                    res.status(404).json("No data");
+                }
+                else {
+                    const propertiesRowData = results[0];
+                    const dimensionProperties = {
+                        Type: propertiesRowData.Types.split(", ").map((type) => type.trim()),
+                        Size: propertiesRowData.Sizes.split(", ").map((size) => size.trim()),
+                        Thickness: propertiesRowData.Thicknesses.split(", ").map((thickness) => thickness.trim()),
+                        Finish: propertiesRowData.Finishes.split(", ").map((finish) => finish.trim()),
+                    };
+                    res.status(200).json(dimensionProperties);
+                }
+            });
+        }
+        catch (error) {
+            res.status(409).send(error);
+        }
+    });
+}
+exports.getAllDimensionProperties = getAllDimensionProperties;
+function getProductsFilter(req, res) {
+    return __awaiter(this, void 0, void 0, function* () {
+        try {
+            const { material, type, finish, size, thickness } = req.query;
+            console.log(req.query);
+            let query = 'SELECT DISTINCT pn.Naturali_ProdName, pn.Material, pn.ProdNameID  FROM ProdNames pn';
+            let whereClause = '';
+            const filters = req.query;
+            const splitValues = (value, separator) => {
+                console.log(value);
+                if (Array.isArray(value)) {
+                    return value;
+                }
+                return value ? value.split(separator) : [];
+            };
+            const materialValues = splitValues(material, ',');
+            if (materialValues.length > 0) {
+                whereClause += ' AND pn.Material IN (?)';
+                filters['material'] = materialValues;
+            }
+            const typeValues = splitValues(type, ',');
+            if (typeValues.length > 0) {
+                query += ' INNER JOIN Products p ON pn.ProdNameID = p.ProdNameID';
+                whereClause += ' AND p.DimensionID IN (SELECT DimensionID FROM Dimension WHERE Dimension.Type IN (?))';
+                filters['type'] = typeValues;
+            }
+            const finishValues = splitValues(finish, ',');
+            if (finishValues.length > 0) {
+                query += ' INNER JOIN Products p ON pn.ProdNameID = p.ProdNameID';
+                whereClause += ' AND p.dimensionID IN (SELECT DimensionID FROM Dimension WHERE Dimension.Finish IN (?))';
+                filters['finish'] = finishValues;
+            }
+            const sizeValues = splitValues(size, ',');
+            if (sizeValues.length > 0) {
+                query += ' INNER JOIN Products p ON pn.ProdNameID = p.ProdNameID';
+                whereClause += ' AND p.DimensionID IN (SELECT DimensionID FROM Dimension WHERE Dimension.Size IN (?))';
+                filters['size'] = sizeValues;
+            }
+            const thicknessValues = splitValues(thickness, ',');
+            if (thicknessValues.length > 0) {
+                query += ' INNER JOIN Products p ON pn.ProdNameID = p.ProdNameID';
+                whereClause += ' AND p.DimensionID IN (SELECT DimensionID FROM Dimension WHERE Dimension.Thickness IN (?))';
+                filters['thickness'] = thicknessValues;
+            }
+            if (whereClause) {
+                query += ' WHERE ' + whereClause.slice(5); // Removing the leading ' AND '
+            }
+            db_1.default.query(query, Object.values(filters).flatMap((value) => {
+                if (Array.isArray(value)) {
+                    return value; // Convert ParsedQs[] to string[]
+                }
+                else if (typeof value === "string") {
+                    return [value]; // Convert the single value to an array with one element
+                }
+                else {
+                    return []; // Return an empty array if the value is undefined or not a string
+                }
+            }), (error, results, fields) => {
+                if (error) {
+                    throw error;
+                }
+                if (results.length === 0) {
+                    console.log("Error in productsRoutes.get /");
+                    res.status(404).json("No products filters");
+                }
+                else {
+                    console.log("Data OK");
+                    res.status(200).json(results);
+                }
+            });
+        }
+        catch (error) {
+            res.status(409).send(error);
+        }
+    });
+}
+exports.getProductsFilter = getProductsFilter;

@@ -19,18 +19,24 @@ import { useAppSelector, useAppDispatch } from "@/store/hooks";
 import { CartState } from "@/store/cart/typesCart";
 import { fetchCart } from "@/store/cart/actionsCart";
 import ProductCardCart from "./cartProducts";
+import { useRouter } from "next/router";
 import './_navBar.css'
+import Link from "next/link";
 
   const CartButton: React.FC = () => {
 
     const { isOpen, onOpen, onClose } = useDisclosure()
     const { cart, loading, error } = useAppSelector((state: { cartReducer: CartState }) => state.cartReducer);
     const dispatch = useAppDispatch();
+    // const router = useRouter();
 
     useEffect(()=>{
       dispatch(fetchCart(1938))
     },[])
 
+    // const handleClickCheckout = () => {
+    //   router.push("/checkout");
+    // }
 
     return(
       <>
@@ -65,7 +71,9 @@ import './_navBar.css'
             </Box>
             <Box w={'100%'} h={'15%'} p={'5%'} display={'flex'} justifyContent={'space-between'} alignItems={'center'} flexDir={'column'}>
               <Text fontWeight={'semibold'}>SUB TOTAL: $XXXX</Text>
-              <Button fontSize="0.9rem" variant="unstyled" className="customButton"> CHECK OUT </Button>
+              <Link href={'/checkout'}>
+                <Button fontSize="0.9rem" variant="unstyled"  className="customButton"> CHECK OUT </Button>
+              </Link>
             </Box>
           </DrawerBody>
 
