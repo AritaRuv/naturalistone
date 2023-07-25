@@ -44,13 +44,6 @@ function sendInvoiceEmail(
     From: fromEmail,
     To: clientEmail,
     TemplateId: 31786965,
-    attachments: [
-      {
-        Name: "archivo.pdf",
-        Content: file,
-        ContentType: "application/pdf",
-      },
-    ],
     TemplateModel: {
       product_name: companyName,
       name: name_value, // "name_value"

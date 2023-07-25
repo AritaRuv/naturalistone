@@ -14,47 +14,58 @@ export async function register(req: Request, res: Response) {
           .json({ success: false, msg: "error in post /register" });
       }
 
-      const _query = `INSERT INTO Customers (Contact_Name, Email) Values("${fullName}", "${email}")`;
+      const query = `SELECT * FROM Customer_Login WHERE Username = "${email}"`;
 
-      mysqlConnection.query(_query, function (err, results, fields) {
-        console.log("soy restuls1", results);
-        if (err) {
-          res
+      mysqlConnection.query(query, function (err, results) {
+        if (results.length) {
+          console.log("soy reuslts", results);
+          return res
             .status(400)
-            .json({ success: false, msg: "error in create customer" });
-          return mysqlConnection.rollback(function (err) {
-            throw err;
-          });
+            .json({ success: false, msg: "Email already Exists" });
         }
-        const customerId = results.insertId;
 
-        const _query1 = `INSERT INTO Customer_Login (CustomerID, Username, Password) Values ("${customerId}", "${email}", "${password}")`;
+        const _query = `INSERT INTO Customers (Contact_Name, Email) Values("${fullName}", "${email}")`;
 
-        mysqlConnection.query(_query1, function (err, results, fields) {
+        mysqlConnection.query(_query, function (err, results, fields) {
+          console.log("soy restuls1", results);
           if (err) {
             res
               .status(400)
-              .json({ success: false, msg: "error in register user" });
+              .json({ success: false, msg: "error in create customer" });
             return mysqlConnection.rollback(function (err) {
               throw err;
             });
           }
+          const customerId = results.insertId;
 
-          return mysqlConnection.commit(function (err) {
+          const _query1 = `INSERT INTO Customer_Login (CustomerID, Username, Password) Values ("${customerId}", "${email}", "${password}")`;
+
+          mysqlConnection.query(_query1, function (err, results, fields) {
             if (err) {
               res
-                .status(500)
-                .json({ success: false, msg: "failed to register user" });
-              return mysqlConnection.rollback(function () {
+                .status(400)
+                .json({ success: false, msg: "error in register user" });
+              return mysqlConnection.rollback(function (err) {
                 throw err;
               });
             }
 
-            console.log("Register committed successfully");
+            mysqlConnection.commit(function (err) {
+              if (err) {
+                res
+                  .status(500)
+                  .json({ success: false, msg: "failed to register user" });
+                return mysqlConnection.rollback(function () {
+                  throw err;
+                });
+              }
 
-            res
-              .status(200)
-              .json({ success: true, msg: "user create successfully" });
+              console.log("Register committed successfully");
+
+              return res
+                .status(200)
+                .json({ success: true, msg: "user create successfully" });
+            });
           });
         });
       });
@@ -63,6 +74,19 @@ export async function register(req: Request, res: Response) {
     console.log(error);
     return res.status(500).json({ msg: "general_error" + error });
   }
+}
+
+function rollbackAndRespond(
+  res: Response,
+  statusCode: number,
+  message: string
+) {
+  mysqlConnection.rollback(function (err) {
+    if (err) {
+      console.error("Error rolling back transaction: ", err);
+    }
+    res.status(statusCode).json({ success: false, msg: message });
+  });
 }
 
 export async function generateJWT(user = "", expiresAt = 0) {

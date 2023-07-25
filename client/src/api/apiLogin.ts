@@ -10,11 +10,9 @@ export const postRegister = async (body: Register) => {
       "http://localhost:5000/api/auth/register",
       body
     );
-
     return data;
   } catch (error) {
-    console.log(error);
-    throw new Error("error in register user");
+    return error.response.data;
   }
 };
 
@@ -32,14 +30,9 @@ export const postSignin = async (body: Signin) => {
       value: data.results.token,
     });
 
-    // router.push("home");
-
     return data;
   } catch (error) {
-    if (error) {
-      return error.response.data;
-    }
-    console.log(error);
+    return error.response.data;
   }
 };
 

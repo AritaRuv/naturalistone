@@ -30,9 +30,7 @@ import { BsEyeSlash } from "react-icons/bs";
 import { postRegister } from "@/api/apiLogin";
 
 const Register: React.FC<Props> = ({ setActiveLogin, smallerThan600 }) => {
-  const [smallerThan1400] = useMediaQuery("(max-width: 1400px)");
   // const [smallerThan600] = useMediaQuery("(max-width: 600px)");
-  const dispatch = useAppDispatch();
   const [formData, setFormData] = useState<Register>({
     fullName: "",
     email: "",
@@ -43,13 +41,11 @@ const Register: React.FC<Props> = ({ setActiveLogin, smallerThan600 }) => {
   const [isFormInvalid, setIsFormInvalid] = useState(false);
   const [showPassword, setShowPassword] = useState(false);
   const [showConfirmPassword, setShowConfirmPassword] = useState(false);
+  const toast = useToast();
   const [showErrors, setShowErrors] = useState(false);
 
-  const handleChange = (event) => {
+  const handleChange = (event: any) => {
     setErrors({});
-    const name = event.target.name;
-    const value = event.target.value;
-    const toast = useToast();
     setFormData({
       ...formData,
       [event.target.name]: event.target.value,
@@ -57,10 +53,9 @@ const Register: React.FC<Props> = ({ setActiveLogin, smallerThan600 }) => {
     setErrors(
       validateCompletedInputs({
         ...formData,
-        [name]: value,
+        [event.target.name]: event.target.value,
       })
     );
-    console.log("erros", errors);
   };
 
   const handleClick = () => {
@@ -76,19 +71,39 @@ const Register: React.FC<Props> = ({ setActiveLogin, smallerThan600 }) => {
     setShowConfirmPassword(!showConfirmPassword);
   };
 
-  const handleRegister = () => {
+  const handleRegister = async () => {
     setShowErrors(true);
     if (Object.keys(errors).length) {
       return;
     }
-    postRegister(formData);
-    setFormData({
-      fullName: "",
-      email: "",
-      password: "",
-      confirmPassword: "",
-    });
+    await postRegister(formData);
+    // if (response.success === false) {
+    //   toast({
+    //     title: "Sign Up",
+    //     description: "Email already exists.",
+    //     status: "warning",
+    //     variant: "subtle",
+    //     duration: 4000,
+    //     isClosable: true,
+    //   });
+    //   return;
+    // }
+    // toast({
+    //   title: "Sign Up",
+    //   description: "Account has been created.",
+    //   status: "success",
+    //   variant: "subtle",
+    //   duration: 4000,
+    //   isClosable: true,
+    // });
+    // setFormData({
+    //   fullName: "",
+    //   email: "",
+    //   password: "",
+    //   confirmPassword: "",
+    // });
     setErrors({});
+    return;
   };
 
   return (
@@ -346,7 +361,7 @@ const Register: React.FC<Props> = ({ setActiveLogin, smallerThan600 }) => {
         <Box>
           <Center>
             <Button
-              onClick={handleRegister}
+              onClick={() => handleRegister}
               fontWeight={"sm"}
               border={"none"}
               backgroundColor={"transparent"}
