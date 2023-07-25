@@ -9,10 +9,12 @@ const products_routes_1 = __importDefault(require("./products/products.routes"))
 const cart_routes_1 = __importDefault(require("./cart/cart.routes"));
 const colors_routes_1 = __importDefault(require("./colors/colors.routes"));
 const auth_routes_1 = __importDefault(require("./auth/auth.routes"));
+const postmark_routes_1 = __importDefault(require("./postmark/postmark.routes"));
 const mainRouter = (0, express_1.Router)();
 mainRouter.use("/api/sales", sales_routes_1.default);
 mainRouter.use("/api/products", products_routes_1.default);
 mainRouter.use("/api/cart", cart_routes_1.default);
 mainRouter.use("/api/colors", colors_routes_1.default);
 mainRouter.use("/api/auth", auth_routes_1.default);
+mainRouter.use("/api/email", postmark_routes_1.default);
 exports.default = mainRouter;

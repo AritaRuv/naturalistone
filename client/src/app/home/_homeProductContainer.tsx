@@ -9,9 +9,9 @@ import { FiltersHomeProps } from "./page";
 import { LoginState } from "@/store/login/typeLogin";
 import { userInfo } from "@/store/login/actionsLogin";
 
-
 const HomeProductContainer: React.FC<FiltersHomeProps> = ({
-  productsFilter, setProductsFilter
+  productsFilter,
+  setProductsFilter,
 }) => {
   const [isSmallScreen] = useMediaQuery("(max-width: 950px)");
   const [isMediumScreen] = useMediaQuery("(max-width: 1280px)");
@@ -27,7 +27,6 @@ const HomeProductContainer: React.FC<FiltersHomeProps> = ({
     (state: { productReducer: ProductState }) => state.productReducer
   );
 
-
   let gridColumns = 4;
   if (isSmallScreen) {
     gridColumns = 2;
@@ -35,13 +34,14 @@ const HomeProductContainer: React.FC<FiltersHomeProps> = ({
   if (isExtraSmallScreen) {
     gridColumns = 1;
   }
-  let homeProducts = products.slice(0,4)
-  
+  const homeProducts = products.slice(0, 4);
+
   useEffect(() => {
-    if(!products.length) dispatch(fetchProductsHome(material, colorId));
+    dispatch(userInfo());
+    if (!products.length) dispatch(fetchProductsHome(material, colorId));
   }, [products]);
 
-  console.log({products})
+  console.log({ products });
 
   return (
     <SimpleGrid
@@ -53,12 +53,11 @@ const HomeProductContainer: React.FC<FiltersHomeProps> = ({
       columns={gridColumns} // Establece el número de columnas dinámicamente
       bg={"#f2f2f2"}
     >
-      {products.length ? (
-         homeProducts.map((prod, i) => {
-          return <ProductCard product={prod} key={i} />;
-        })
-      ) : ( null)
-       }
+      {products.length
+        ? homeProducts.map((prod, i) => {
+            return <ProductCard product={prod} key={i} />;
+          })
+        : null}
     </SimpleGrid>
   );
 };

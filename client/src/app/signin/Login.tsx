@@ -76,7 +76,6 @@ const Login: React.FC<Props> = ({ setActiveLogin, smallerThan600 }) => {
     setShowErrors(true);
     if (Object.keys(errors).length) return;
     const data: any = await postSignin(formData);
-    console.log("soy data", data);
     if (data.success === false) {
       return toast({
         title: "Login",
@@ -186,13 +185,8 @@ const Login: React.FC<Props> = ({ setActiveLogin, smallerThan600 }) => {
                 value={formData.email}
                 border={"none"}
                 onChange={handleChange}
-                _hover={{
-                  backgroundColor: "transparent",
-                }}
                 _focus={{
-                  backgroundColor: "transparent",
-                  border: "none",
-                  borderColor: "green",
+                  boxShadow: "0 0.5px 0.5px #f2f2f2 inset, 0 0 5px #f2f2f2",
                 }}
                 style={{
                   borderBottom: "1px solid black",
@@ -235,12 +229,8 @@ const Login: React.FC<Props> = ({ setActiveLogin, smallerThan600 }) => {
                 value={formData.password}
                 border={"none"}
                 onChange={handleChange}
-                _hover={{
-                  backgroundColor: "transparent",
-                }}
                 _focus={{
-                  backgroundColor: "transparent",
-                  border: "none",
+                  boxShadow: "0 0.5px 0.5px #f2f2f2 inset, 0 0 5px #f2f2f2",
                 }}
                 style={{
                   borderBottom: "1px solid black",
