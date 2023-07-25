@@ -19,7 +19,7 @@ export default function Profile() {
   return (
     <>
       <NavBar />
-      <Box px={'10vw'} py={'10vh'} display={'flex'} flexDir={'row'}>
+      <Box px={'5vw'} py={'10vh'} display={'flex'} flexDir={'row'} >
         <UserMenu setShowMenu={setShowMenu} showMenu={showMenu}/>
         <Box display={'flex'}>
         {

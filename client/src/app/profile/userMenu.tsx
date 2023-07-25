@@ -12,7 +12,7 @@ const UserMenu: React.FC<IShowMenu> = ({setShowMenu, showMenu}) => {
 
   return (
     <>
-      <Box display={'flex'} flexDir={'column'} w={'20vw'} maxW={'175px'} h={'60vh'} justifyContent={'space-between'}>
+      <Box display={'flex'} flexDir={'column'} w={'12vw'} h={'60vh'} justifyContent={'space-between'}>
         <UserBox/>
         <UserButtonsContainer setShowMenu={setShowMenu} showMenu={showMenu}/>
       </Box>
