@@ -11,6 +11,11 @@ export interface User {
   Company: string | null;
   Username: string;
   Customer_LoginID: string;
+  Phone?: string;
+  Address?: string;
+  State?: string;
+  Password?: string;
+  ZipCode?: string;
 }
 
 export interface Signin {

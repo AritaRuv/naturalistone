@@ -7,6 +7,11 @@ const initialState: LoginState = {
     Company: "",
     Username: "",
     Customer_LoginID: "",
+    Phone: "",
+    State: "",
+    Address: "",
+    Password: "",
+    ZipCode: "",
   },
 };
 

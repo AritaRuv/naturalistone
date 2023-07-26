@@ -174,8 +174,8 @@ export async function userInfo(req: Request, res: Response) {
 
     console.log("soy validate", validateToken);
 
-    const query_ = `SELECT Customers.CustomerID, Customers.Contact_Name, Customers.Company, Customer_Login.Username,
-    Customer_Login.Customer_LoginID FROM Customers
+    const query_ = `SELECT Customers.CustomerID, Customers.Contact_Name, Customers.Company, Customers.Phone, Customers.Address, 
+    Customers.State, Customers.ZipCode, Customer_Login.Username, Customer_Login.Customer_LoginID, Customer_Login.Password FROM Customers
     LEFT JOIN Customer_Login ON Customer_Login.CustomerID = Customers.CustomerID
     WHERE Customer_Login.Customer_LoginID = "${validateToken}"`;
 
