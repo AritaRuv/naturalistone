@@ -5,6 +5,7 @@ import { useState } from "react";
 import UserMenu from "./userMenu";
 import ProfileInfo from "./profileInfo";
 import SideCard from "./sideCard";
+import Projects from "./projects";
 
 export interface IShowMenu {
   setShowMenu: React.Dispatch<React.SetStateAction<string>>;
@@ -31,9 +32,9 @@ export default function Profile() {
           )
         }
                 {
-          showMenu === 'Address' && (
+          showMenu === 'Projects' && (
             <>
-              <ProfileInfo setShowMenu={setShowMenu} showMenu={showMenu}/>
+              <Projects setShowMenu={setShowMenu} showMenu={showMenu}/>
             </>
 
           )
