@@ -5,7 +5,7 @@ import {
   getProductsValuesByProdNameID,
   getAllMaterials,
   getAllDimensionProperties,
-  getProductsFilter
+  getProductsFilter,
   getCheckboxValidation,
 } from "./products.controller";
 
@@ -16,5 +16,6 @@ productsRouter.get("/IDs", getProductByIDS);
 productsRouter.get("/material", getAllMaterials);
 productsRouter.get("/dimension", getAllDimensionProperties);
 productsRouter.get("/id/:id", getProductsValuesByProdNameID);
+productsRouter.get("/valid/id/:id", getCheckboxValidation);
 
 export default productsRouter;

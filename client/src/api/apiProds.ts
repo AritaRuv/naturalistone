@@ -67,24 +67,24 @@ export const getDimension = async () => {
   }
 };
 
-export const getProductsFilters = async (filters: Filters) => {
-  try {
-    const materialParam = filters.material ? filters.material.join(',') : '';
-    const typeParam = filters.type ? filters.type.join(',') : '';
-    const finishParam = filters.finish ? filters.finish.join(',') : '';
-    const thicknessParam = filters.thickness ? filters.thickness.join(',') : '';
-    const sizeParam = filters.size ? filters.size.join(',') : '';
-    console.log('action', sizeParam)
-    const response = await axios.get(
-      `http://localhost:5000/api/products/filters?material=${materialParam}&type=${typeParam}&finish=${finishParam}&thickness=${thicknessParam}&size=${sizeParam}`
-    );
+// export const getProductsFilters = async (filters: Filters) => {
+//   try {
+//     const materialParam = filters.material ? filters.material.join(',') : '';
+//     const typeParam = filters.type ? filters.type.join(',') : '';
+//     const finishParam = filters.finish ? filters.finish.join(',') : '';
+//     const thicknessParam = filters.thickness ? filters.thickness.join(',') : '';
+//     const sizeParam = filters.size ? filters.size.join(',') : '';
 
-    return response.data;
-  } catch (error) {
-    console.log(error);
-    throw new Error("Error al obtener los productos de la API");
-  }
-};
+//     const response = await axios.get(
+//       `http://localhost:5000/api/products/filters?material=${materialParam}&type=${typeParam}&finish=${finishParam}&thickness=${thicknessParam}&size=${sizeParam}`
+//     );
+
+//     return response.data;
+//   } catch (error) {
+//     console.log(error);
+//     throw new Error("Error al obtener los productos de la API");
+//   }
+// };
 
 export const getProductImages = async (Material: string, Naturali_ProdName: string) => {
   try {

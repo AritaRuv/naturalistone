@@ -15,7 +15,7 @@ import AddSampleProductToCart from './addSampleToCartDropdown';
 const ProductCard: React.FC<{ product: Product, site:string }> = ({ product, site }) => {
 
   const dispatch = useAppDispatch();
-  console.log(site)
+
   const [isDropdownOpen, setIsDropdownOpen] = useState(false);
   const [disableBox, setDisableBox] = useState(false);
   const [showAddToCart, setShowAddToCart] = useState(false);

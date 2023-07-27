@@ -7,7 +7,7 @@ import {
   getMaterials,
   getProduct,
   getDimension,
-  getProductsFilters,
+  // getProductsFilters,
   getProductImages,
   getProductValuesValidation
 } from "../../api/apiProds"; // Importa tu función de solicitud a la API
@@ -101,23 +101,23 @@ export const fetchDimension = () => {
   };
 };
 
-export const fetchProductsFilters = (filters: Filters) => {
-  return async (dispatch: Dispatch<ProductAction>) => {
-    dispatch({ type: ProductActionTypes.FETCH_PRODUCTS_REQUEST });
-    try {
-      const products = await getProductsFilters(filters); 
-      dispatch({
-        type: ProductActionTypes.FETCH_PRODUCTS_FILTERS_SUCCESS,
-        payload: products,
-      });
-    } catch (error) {
-      dispatch({
-        type: ProductActionTypes.FETCH_PRODUCTS_FAILURE,
-        error: "Error al obtener los productos",
-      });
-    }
-  };
-};
+// export const fetchProductsFilters = (filters: Filters) => {
+//   return async (dispatch: Dispatch<ProductAction>) => {
+//     dispatch({ type: ProductActionTypes.FETCH_PRODUCTS_REQUEST });
+//     try {
+//       const products = await getProductsFilters(filters); 
+//       dispatch({
+//         type: ProductActionTypes.FETCH_PRODUCTS_FILTERS_SUCCESS,
+//         payload: products,
+//       });
+//     } catch (error) {
+//       dispatch({
+//         type: ProductActionTypes.FETCH_PRODUCTS_FAILURE,
+//         error: "Error al obtener los productos",
+//       });
+//     }
+//   };
+// };
 
 export const fetchProductImages = (Material: string, Naturali_ProdName: string) => {
   return async (dispatch: Dispatch<ProductAction>) => {

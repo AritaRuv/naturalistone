@@ -5,7 +5,7 @@ import ProductCard from "../products/_productCard";
 import { ProductState } from "../../store/products/typesProducts";
 import { useAppDispatch, useAppSelector } from "../../store/hooks";
 import { Filters } from "./productFilters/types";
-import { fetchProductsFilters } from "@/store/products/actionsProducts";
+// import { fetchProductsFilters } from "@/store/products/actionsProducts";
 
 
 const ProductsContainer: React.FC<Filters> = (filters) => {
@@ -38,7 +38,7 @@ const ProductsContainer: React.FC<Filters> = (filters) => {
   }
 
   useEffect(() => {
-    dispatch(fetchProductsFilters(filters));
+    // dispatch(fetchProductsFilters(filters));
   }, []);
 
   return (
