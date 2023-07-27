@@ -8,6 +8,7 @@ import {
 const initialState: ProductState = {
   products: [],
   productValues: {},
+  productValuesValidation: {},
   materials: [],
   product: {},
   loading: false,

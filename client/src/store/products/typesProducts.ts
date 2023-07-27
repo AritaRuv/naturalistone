@@ -24,6 +24,7 @@ export interface DimensionData {
 export interface ProductState {
   products: Product[];
   productValues: ProductData;
+  productValuesValidation: ProductData;
   materials: string[];
   product: Product | {};
   loading: boolean;
@@ -42,6 +43,7 @@ export enum ProductActionTypes {
   FETCH_PRODUCTS_SUCCESS = "FETCH_PRODUCTS_SUCCESS",
   FETCH_PRODUCTS_FAILURE = "FETCH_PRODUCTS_FAILURE",
   FETCH_PRODUCTS_VALUES = "FETCH_PRODUCTS_VALUES",
+  FETCH_PRODUCTS_VALUES_VALIDATION = "FETCH_PRODUCTS_VALUES_VALIDATION",
   FETCH_MATERIALS = "FETCH_MATERIALS",
   FETCH_PRODUCT_BY_IDS = "FETCH_PRODUCT_BY_IDS",
   FETCH_PRODUCT_IMAGES = "FETCH_PRODUCT_IMAGES",
@@ -65,6 +67,10 @@ export interface FetchProductsFailureAction {
 
 export interface FetchProductsDataAction {
   type: ProductActionTypes.FETCH_PRODUCTS_VALUES;
+  payload: ProductData;
+}
+export interface FetchProductsDataValidationAction {
+  type: ProductActionTypes.FETCH_PRODUCTS_VALUES_VALIDATION;
   payload: ProductData;
 }
 
@@ -98,6 +104,7 @@ export type ProductAction =
   | FetchProductsSuccessAction
   | FetchProductsFailureAction
   | FetchProductsDataAction
+  | FetchProductsDataValidationAction
   | FetchMaterialsAction
   | FetchDimensionAction
   | FetchProductImages

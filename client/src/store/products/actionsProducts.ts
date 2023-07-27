@@ -7,7 +7,8 @@ import {
   getMaterials,
   getProduct,
   getDimension,
-  getProductImages
+  getProductImages,
+  getProductValuesValidation
 } from "../../api/apiProds"; // Importa tu función de solicitud a la API
 
 export const fetchProducts = (material: string) => {
@@ -122,6 +123,25 @@ export const loadProduct = (product: Product) => {
       });
     } catch (error) {
       console.error("Error al guardar product", error);
+    }
+  };
+};
+
+
+export const fetchProductsValuesValidation = (finish: string, size: string, thickness:string, ProdNameID:number ) => {
+  return async (dispatch: Dispatch<ProductAction>) => {
+    try {
+
+      const productValuesValidation = await getProductValuesValidation(finish, size, thickness, ProdNameID); // Llama a tu función de solicitud a la API
+      dispatch({
+        type: ProductActionTypes.FETCH_PRODUCTS_VALUES_VALIDATION,
+        payload: productValuesValidation,
+      });
+    } catch (error) {
+      dispatch({
+        type: ProductActionTypes.FETCH_PRODUCTS_FAILURE,
+        error: "Error al obtener los product values",
+      });
     }
   };
 };

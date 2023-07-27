@@ -1,7 +1,10 @@
 import { Box, Checkbox, CheckboxGroup, HStack, VStack, Text, Button } from '@chakra-ui/react';
-import { useState } from 'react';
-import { useAppDispatch } from '@/store/hooks';
+import { useState, useEffect } from 'react';
+import { useAppDispatch, useAppSelector } from '@/store/hooks';
 import { postCart } from '@/store/cart/actionsCart';
+import { fetchProductsValuesValidation } from '@/store/products/actionsProducts';
+import { ProductState } from '@/store/products/typesProducts';
+
 
 interface ProductListProps {
   data: {
@@ -20,16 +23,26 @@ const ProductList: React.FC<ProductListProps> = ({ data, ProdNameID}) => {
   const dispatch = useAppDispatch();
 
   const { size, thickness, finish, prodNameID } = data[ProdNameID];
-  
+
+  const { productValuesValidation } = useAppSelector((state: { productReducer: ProductState }) => state.productReducer);
+
   const [selectedSize, setSelectedSize] = useState<string>('');
   const [selectedThickness, setSelectedThickness] = useState<string>('');
   const [selectedFinish, setSelectedFinish] = useState<string>('');
 
-  const handleCheckboxChange = (value: string, setState: React.Dispatch<React.SetStateAction<string>>) => {
+  const handleCheckboxChange = (value: string, setState: React.Dispatch<React.SetStateAction<string>>, name:string) => {
     setState(prevState => prevState === value ? '' : value);
+    if(name === 'finish'){
+      dispatch(fetchProductsValuesValidation(value, selectedSize, selectedThickness, prodNameID))
+    }
+    if(name === 'size'){
+      dispatch(fetchProductsValuesValidation(selectedFinish, value, selectedThickness, prodNameID))
+    }
+    if(name === 'thickness'){
+      dispatch(fetchProductsValuesValidation(selectedFinish, selectedSize, value, prodNameID))
+    }
   };
-
-  //maneja los checkboxes para controlar que solo 1 este clickeado a la vez
+  // console.log({productValuesValidation})
 
   const handleAddToCart = async () => {
     const bodyCust = {
@@ -44,9 +57,7 @@ const ProductList: React.FC<ProductListProps> = ({ data, ProdNameID}) => {
     setSelectedSize('')
     setSelectedThickness('')
     setSelectedFinish('')
-      //ahoramismo estoy intentando que la logica general funcione. Voy a necesitar agregar logica para controlar los chcekcbox
-      // ya que en este momento admite convinaciones inexistentes. Al clickear 1 checkbox filtra los demas x resultados existentes 
-      //o algo por el estilo. 
+
     }
   
   return (
@@ -64,7 +75,7 @@ const ProductList: React.FC<ProductListProps> = ({ data, ProdNameID}) => {
                   iconColor="orange"
                   borderColor={'blackAlpha.400'}
                   isChecked={selectedFinish === finish}
-                  onChange={() => handleCheckboxChange(finish, setSelectedFinish)}
+                  onChange={() => handleCheckboxChange(finish, setSelectedFinish, 'finish')}
                 />
               </Box>
             ))}
@@ -82,7 +93,7 @@ const ProductList: React.FC<ProductListProps> = ({ data, ProdNameID}) => {
                   iconColor="orange"
                   borderColor={'blackAlpha.400'}
                   isChecked={selectedSize === size}
-                  onChange={() => handleCheckboxChange(size, setSelectedSize)}
+                  onChange={() => handleCheckboxChange(size, setSelectedSize, 'size')}
                 />
               </Box>
             ))}
@@ -100,7 +111,7 @@ const ProductList: React.FC<ProductListProps> = ({ data, ProdNameID}) => {
                   iconColor="orange"
                   borderColor={'blackAlpha.400'}
                   isChecked={selectedThickness === thickness}
-                  onChange={() => handleCheckboxChange(thickness, setSelectedThickness)}
+                  onChange={() => handleCheckboxChange(thickness, setSelectedThickness, 'thickness')}
                 />
               </Box>
             ))}

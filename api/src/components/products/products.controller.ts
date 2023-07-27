@@ -4,6 +4,7 @@ import express, { Request, Response } from "express";
 import mysqlConnection from "../../db";
 import { RowDataPacket, FieldPacket } from "mysql2";
 import { productDimensions } from "../../controllers/productDimensions";
+import { productDimensionsCheckboxes } from "../../controllers/productDimensionsCheckboxes";
 
 export async function getAllProducts(req: Request, res: Response) {
   try {
@@ -72,7 +73,8 @@ export async function getProductsValuesByProdNameID(
           res.status(404).json("No products");
         } else {
           console.log("Data OK");
-          const transformedResults = productDimensions(results);
+
+          const transformedResults = productDimensions(results);  
           res.status(200).json(transformedResults);
         }
       }
@@ -177,3 +179,58 @@ export async function getAllDimensionProperties(req: Request, res: Response) {
   }
 }
 
+export async function getCheckboxValidation(
+  req: Request,
+  res: Response
+) {
+  try {
+
+    const prodNameID = req.params.id;
+    const finish = req.query.finish?.toString() || ''; // Ensure finish is of type string
+    const thickness = req.query.thickness?.toString() || ''; // Ensure thickness is of type string
+    const size = req.query.size?.toString() || ''; // Ensure size is of type string
+    
+    const query = `
+      SELECT
+        Products.ProdID,
+        Products.SalePrice,
+        Products.DimensionID,
+        Products.ProdNameID,
+        ProdNames.Naturali_ProdName,
+        Dimension.Finish,
+        Dimension.Size,
+        Dimension.Thickness
+      FROM
+        NaturaliStone.Products
+      LEFT JOIN
+        ProdNames ON ProdNames.ProdNameID = Products.ProdNameID
+      LEFT JOIN
+        Dimension ON Dimension.DimensionID = Products.DimensionID
+      WHERE
+        Products.ProdNameID = ?;
+    `;
+
+    mysqlConnection.query(
+      query,
+      [prodNameID],
+      (error: MysqlError, results: RowDataPacket[], fields: FieldInfo[]) => {
+        if (error) {
+          throw error;
+        }
+        if (results.length === 0) {
+          console.log("Error en productsRoutes.get /id/:id");
+          res.status(404).json("No products");
+        } else {
+          console.log("Data OK");
+          
+          const filteredProducts = productDimensionsCheckboxes(finish, size, thickness, results)
+          const transformedResults = productDimensions(filteredProducts);  
+          console.log(transformedResults)
+          res.status(200).json(transformedResults);
+        }
+      }
+    );
+  } catch (error) {
+    res.status(409).send(error);
+  }
+}

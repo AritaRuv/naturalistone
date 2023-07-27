@@ -15,7 +15,7 @@ import AddSampleProductToCart from './addSampleToCartDropdown';
 const ProductCard: React.FC<{ product: Product, site:string }> = ({ product, site }) => {
 
   const dispatch = useAppDispatch();
-
+  console.log(site)
   const [isDropdownOpen, setIsDropdownOpen] = useState(false);
   const [disableBox, setDisableBox] = useState(false);
   const [showAddToCart, setShowAddToCart] = useState(false);
@@ -102,11 +102,11 @@ const ProductCard: React.FC<{ product: Product, site:string }> = ({ product, sit
             w={'260px'}
             zIndex={10}
             className="custom-popover"
-            bg={!showAddToCart ? 'rgba(210, 210, 210, 0.7)' : 'white'}
+            bg={!showAddToCart ? 'rgba(210, 210, 210, 0.7)' : (site === 'products' ? 'rgba(210, 210, 210, 0.7)' : 'white')}
             borderBottomEndRadius={'md'}
             borderBottomStartRadius={'md'}
           >
-            <Box pt={'2%'}>
+            <Box pt={'2%'} bg={!showAddToCart ? 'rgba(210, 210, 210, 0.7)' : (site === 'products' ? 'rgba(210, 210, 210, 0.7)' : 'white')}>
               <Center mt={'5%'} flexDir={'column'} h={'40px'}>
                 <Text fontSize={'0.6rem'} textTransform={'uppercase'}>
                   {Material}

@@ -76,3 +76,17 @@ export const getProductImages = async (Material: string, Naturali_ProdName: stri
     throw new Error("Error al obtener los dimension de la API");
   }
 };
+
+export const getProductValuesValidation = async ( finish:string, size:string, thickness:string, ProdNameID: number ) => {
+  try {
+
+    const response = await axios.get(
+      `http://localhost:5000/api/products/valid/id/${ProdNameID}?finish=${finish}&size=${size}&thickness=${thickness}`
+    );
+
+    return response.data;
+  } catch (error) {
+    console.log(error);
+    throw new Error("Error al obtener los product values de la API");
+  }
+};
