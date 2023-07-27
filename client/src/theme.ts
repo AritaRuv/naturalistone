@@ -7,8 +7,8 @@ const theme = extendTheme({
     //   },
     // },
     fonts: {
-        heading: "Roboto, sans-serif",
-        body: "Roboto, sans-serif",
+      heading: "Roboto, sans-serif",
+      body: "Roboto, sans-serif",
       },
     // Otros ajustes y estilos personalizados...
   });

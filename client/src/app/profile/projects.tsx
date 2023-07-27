@@ -1,28 +1,50 @@
 'use client'
-import { Avatar, Box, useMediaQuery, Text } from "@chakra-ui/react";
+import { Avatar, Box, Button, Text, Grid, SimpleGrid } from "@chakra-ui/react";
 import { IShowMenu } from "./page";
-import SideCard from "./sideCard";
+import ProjectCard from "./projectCard";
 
 
-const ProfileInfo: React.FC<IShowMenu> = ({setShowMenu, showMenu}) => {
-  
+const Projects: React.FC<IShowMenu> = ({setShowMenu, showMenu}) => {
+  const arrayProjects = [
+    {name:'Nombre del Proyecto1', color: 'orange.100'},
+    {name:'Nombre del Proyecto2', color: 'gray.100'},
+    {name:'Nombre del Proyecto4', color: 'orange.100'},
+    {name:'Nombre del Proyecto3', color: 'gray.300'},
+  ]
+  const handleClick = () => {}
   return (
     <>
-    <Box pl={'5vw'} pt={'5vh'} w={'80vw'}>
-      <Text textTransform={'uppercase'} fontSize={'1.9rem'}>PROFILE</Text>
-      <Box w={'62vw'} mt={'2vh'} display={'flex'} flexDir={'row'} justifyContent={'space-between'}>       
-        <Box border={'2px solid'} rounded={'sm'} borderColor={'gray.200'} w={'40vw'} h={'50vh'}>
-        </Box>
-        <SideCard/>
+    <Box pl={'5vw'}  w={'70vw'} onClick={handleClick}>
+      <Box display={'flex'} flexDir={'row'} justifyContent={'space-between'} alignItems={'baseline'}>
+        <Text textTransform={'uppercase'} textAlign={'start'} fontSize={'1.5rem'} fontWeight={'thin'}>PROJECTS DASHBOARD</Text>
+        <Button h={'3vh'} display={'flex'} variant={'unstyled'} fontWeight={'light'} fontSize={'0.8rem'} textAlign={'end'}>+ ADD PROJECT</Button>
       </Box>
-      {/* <
-     
-      <Box display={'flex'} flexDir={'column'} pl={'5vw'} h={'70vh'} justifyContent={'space-evenly'} border={'2px solid red'}>
-       
-    </Box> */}
+      <Box mt={'2vh'} display={'flex'} flexDir={'row'} justifyContent={'space-between'}>       
+        <Grid 
+        gap={3}
+        border={'2px solid'}
+        templateRows='repeat(3, 1fr)'
+        templateColumns='repeat(3, 1fr)' 
+        rounded={'sm'} 
+        paddingY={'2vh'} 
+        paddingX={'2vw'} 
+        borderColor={'gray.200'} 
+        w={'65vw'} 
+        h={'75vh'}>
+          {
+            arrayProjects.map((proj,i)=>{
+              return(
+                <ProjectCard project={proj} id={i}/>
+              )
+            })
+          }
+        </Grid>
+      </Box>
   </Box>
 
 
     </>
   );
 }
+
+export default Projects
