@@ -8,12 +8,32 @@ import SideCard from "./sideCard";
 import { useAppDispatch, useAppSelector } from "@/store/hooks";
 import { LoginState, User } from "@/store/login/typeLogin";
 import { userInfo } from "../../store/login/actionsLogin";
+import AddressInfo from "./addressInfo";
+
+export interface IFormData {
+  customerId: string;
+  fullName: string;
+  company: string;
+  email: string;
+  phone: string;
+  state: string;
+  address: string;
+  password: string;
+  zipCode: string;
+  billingAddress: string;
+  billingState: string;
+  city: string;
+  companyPosition: string;
+}
 
 export interface IShowMenu {
   setShowMenu?: React.Dispatch<React.SetStateAction<string>>;
   showMenu?: string;
   user?: User;
   isSmallThan750?: boolean;
+  formData: IFormData;
+  setFormData: React.Dispatch<React.SetStateAction<IFormData>>;
+  handleChange?: React.ChangeEvent<HTMLInputElement>;
 }
 
 export default function Profile() {
@@ -21,6 +41,29 @@ export default function Profile() {
   const [showMenu, setShowMenu] = useState<string>("");
   const dispatch = useAppDispatch();
   const [isSmallThan750] = useMediaQuery("(max-width: 750px)");
+  const [formData, setFormData] = useState({
+    customerId: "",
+    fullName: "",
+    company: "",
+    email: "",
+    phone: "",
+    state: "",
+    address: "",
+    password: "",
+    zipCode: "",
+    billingAddress: "",
+    billingState: "",
+    city: "",
+    companyPosition: "",
+  });
+
+  const handleChange = (event) => {
+    const { name, value } = event.target;
+    setFormData({
+      ...formData,
+      [name]: value,
+    });
+  };
 
   const { user } = useAppSelector(
     (state: { loginReducer: LoginState }) => state.loginReducer
@@ -35,7 +78,7 @@ export default function Profile() {
       <NavBar />
       <Box
         px={"5vw"}
-        py={isSmallThan750 ? "4vh" : "10vh"}
+        py={isSmallThan750 ? 0 : "10vh"}
         display={"flex"}
         flexDir={isSmallThan750 ? "column" : "row"}
       >
@@ -43,6 +86,9 @@ export default function Profile() {
           setShowMenu={setShowMenu}
           showMenu={showMenu}
           isSmallThan750={isSmallThan750}
+          user={user}
+          formData={formData}
+          setFormData={setFormData}
         />
         <Box display={"flex"}>
           {showMenu === "Profile" && (
@@ -52,16 +98,21 @@ export default function Profile() {
                 showMenu={showMenu}
                 user={user}
                 isSmallThan750={isSmallThan750}
+                formData={formData}
+                setFormData={setFormData}
+                handleChange={handleChange}
               />
             </>
           )}
           {showMenu === "Address" && (
             <>
-              {/* <ProfileInfo
+              <AddressInfo
                 setShowMenu={setShowMenu}
                 showMenu={showMenu}
                 user={user}
-              /> */}
+                formData={formData}
+                setFormData={setFormData}
+              />
             </>
           )}
         </Box>

@@ -4,6 +4,8 @@ import { IShowMenu } from "./page";
 import React from "react";
 
 const SideCard: React.FC<IShowMenu> = ({ isSmallThan750 }) => {
+  const [isSmallThan1000] = useMediaQuery("(max-width: 1000px)");
+
   return (
     <>
       <Box
@@ -12,12 +14,13 @@ const SideCard: React.FC<IShowMenu> = ({ isSmallThan750 }) => {
         border={"2px solid"}
         rounded={"sm"}
         borderColor={"gray.200"}
-        w={"21vw"}
-        minW={"200px"}
+        // w={"21vw"}
+        w={"300px"}
+        minW={"250px"}
         p={"2vh"}
-        h={"15vh"}
-        mt={isSmallThan750 ? "5vh" : 0}
-        ml={isSmallThan750 ? "10vh" : 0}
+        h={"120px"}
+        mt={isSmallThan1000 ? "5vh" : 0}
+        ml={isSmallThan1000 ? "5vh" : 0}
       >
         <Text textTransform={"uppercase"} fontSize={"0.9rem"}>
           SUBSCRIBE!
@@ -42,4 +45,3 @@ const SideCard: React.FC<IShowMenu> = ({ isSmallThan750 }) => {
 };
 
 export default SideCard;
-

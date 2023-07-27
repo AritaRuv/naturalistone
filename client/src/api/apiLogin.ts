@@ -1,5 +1,6 @@
 "use server";
-import { Register, Signin } from "@/store/login/typeLogin";
+import { IFormData } from "@/app/profile/page";
+import { Register, Signin, User } from "@/store/login/typeLogin";
 import axios from "axios";
 import { cookies } from "next/headers";
 // import { useRouter } from "next/navigation";
@@ -49,6 +50,23 @@ export const getUserInfo = async () => {
       }
     );
     return response.data;
+  } catch (error) {
+    console.log(error);
+  }
+};
+
+export const updateUser = async (body: IFormData) => {
+  const cookieStore = cookies();
+  try {
+    const token: any = cookieStore.get("sessionId");
+
+    const response = await axios.patch("http://localhost:5000/api/auth", body, {
+      headers: {
+        authorization: token.value,
+      },
+    });
+
+    return response;
   } catch (error) {
     console.log(error);
   }

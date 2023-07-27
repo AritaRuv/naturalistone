@@ -16,6 +16,10 @@ export interface User {
   State?: string;
   Password?: string;
   ZipCode?: string;
+  Billing_Address?: string;
+  Billing_State?: string;
+  City?: string;
+  Company_Position?: string;
 }
 
 export interface Signin {
@@ -31,6 +35,7 @@ export interface LoginState {
 export enum LoginActionsType {
   POST_SIGNIN = "POST_SIGNIN",
   GET_USER_INFO = "GET_USER_INFO",
+  UPDATE_USER = "UPDATE_USER",
 }
 
 export interface PostSigninActions {
@@ -43,4 +48,12 @@ export interface GetUserInfoActions {
   payload: User;
 }
 
-export type LoginAction = PostSigninActions | GetUserInfoActions;
+export interface UpdateUserInfoActions {
+  type: LoginActionsType.UPDATE_USER;
+  payload: User;
+}
+
+export type LoginAction =
+  | PostSigninActions
+  | GetUserInfoActions
+  | UpdateUserInfoActions;

@@ -7,24 +7,14 @@ import {
   InputGroup,
   Input,
   InputRightElement,
-  Button,
-  useEditableControls,
-  ButtonGroup,
-  IconButton,
-  Flex,
-  Editable,
-  EditablePreview,
-  EditableInput,
 } from "@chakra-ui/react";
 import { IShowMenu } from "./page";
 import SideCard from "./sideCard";
 import { useState } from "react";
 import { BsEyeSlash } from "react-icons/bs";
-import { updateUser } from "@/api/apiLogin";
-import { CheckIcon, CloseIcon, EditIcon } from "@chakra-ui/icons";
 import { UpdateCustomer } from "./modalUpdateUser";
 
-const ProfileInfo: React.FC<IShowMenu> = ({
+const AddressInfo: React.FC<IShowMenu> = ({
   setShowMenu,
   showMenu,
   user,
@@ -33,12 +23,7 @@ const ProfileInfo: React.FC<IShowMenu> = ({
   setFormData,
   handleChange,
 }) => {
-  const [showPassword, setShowPassword] = useState(false);
   const [isSmallThan1000] = useMediaQuery("(max-width: 1000px)");
-
-  const handleShowPassword = () => {
-    setShowPassword(!showPassword);
-  };
 
   return (
     <>
@@ -54,7 +39,7 @@ const ProfileInfo: React.FC<IShowMenu> = ({
           fontSize={"1.9rem"}
           ml={isSmallThan750 ? "2vw" : 0}
         >
-          PROFILE
+          ADDRESS INFO
         </Text>
         <Box
           w={"65vw"}
@@ -88,7 +73,7 @@ const ProfileInfo: React.FC<IShowMenu> = ({
               // p={"10px"}
             >
               <Box>
-                <Text fontSize={"md"}>PROFILE SETTINGS</Text>
+                <Text fontSize={"md"}>ADDRESS</Text>
               </Box>
               <Box
                 display={"flex"}
@@ -101,13 +86,13 @@ const ProfileInfo: React.FC<IShowMenu> = ({
                   display={"flex"}
                   w={"full"}
                   flexDirection={"column"}
-                  pt={"20px"}
+                  pt={"10px"}
                   // bg={"yellow"}
                 >
                   {/* <FormLabel htmlFor="fullName"> */}
                   <Box pl={"10px"}>
                     <Text fontSize={"sm"} color={"#646464"}>
-                      FULL NAME
+                      ADDRESS
                     </Text>
                   </Box>
                   <InputGroup
@@ -122,57 +107,10 @@ const ProfileInfo: React.FC<IShowMenu> = ({
                       h={"25px"}
                       w={"80%"}
                       position={"relative"}
-                      id={"fullName"}
-                      name={"fullName"}
+                      id={"address"}
+                      name={"address"}
                       fontSize={"sm"}
-                      value={user?.Contact_Name}
-                      border={"none"}
-                      _focus={{
-                        boxShadow:
-                          "0 0.5px 0.5px #f2f2f2 inset, 0 0 5px #f2f2f2",
-                      }}
-                      style={{
-                        borderBottom: "1px solid black",
-                        borderRadius: "0", // Ajusta el radio de las esquinas a cero
-                        outline: "none",
-                      }}
-                    />
-                    <UpdateCustomer
-                      title={"Full Name"}
-                      value={user?.Contact_Name}
-                      handleChange={handleChange}
-                      formData={formData}
-                      setFormData={setFormData}
-                    />
-                  </InputGroup>
-                </Box>
-                <Box
-                  display={"flex"}
-                  w={"full"}
-                  flexDirection={"column"}
-                  pt={"20px"}
-                >
-                  {/* <FormLabel htmlFor="fullName"> */}
-                  <Box pl={"10px"}>
-                    <Text fontSize={"sm"} color={"#646464"}>
-                      PHONE
-                    </Text>
-                  </Box>
-                  <InputGroup
-                    pt={"5px"}
-                    display={"flex"}
-                    flexDirection={"column"}
-                    h={"60px"}
-                    pl={"10px"}
-                  >
-                    <Input
-                      h={"25px"}
-                      w={"80%"}
-                      position={"relative"}
-                      id={"phone"}
-                      name={"phone"}
-                      fontSize={"sm"}
-                      value={user?.Phone}
+                      value={user?.Address}
                       border={"none"}
                       // onChange={handleChange}
                       _focus={{
@@ -186,8 +124,56 @@ const ProfileInfo: React.FC<IShowMenu> = ({
                       }}
                     />
                     <UpdateCustomer
-                      title={"Phone"}
-                      value={user?.Phone}
+                      title={"Address"}
+                      value={user?.Address}
+                      handleChange={handleChange}
+                      formData={formData}
+                      setFormData={setFormData}
+                    />
+                  </InputGroup>
+                </Box>
+                <Box
+                  display={"flex"}
+                  w={"full"}
+                  flexDirection={"column"}
+                  pt={"10px"}
+                >
+                  {/* <FormLabel htmlFor="fullName"> */}
+                  <Box pl={"10px"}>
+                    <Text fontSize={"sm"} color={"#646464"}>
+                      STATE
+                    </Text>
+                  </Box>
+                  <InputGroup
+                    pt={"5px"}
+                    display={"flex"}
+                    flexDirection={"column"}
+                    h={"60px"}
+                    pl={"10px"}
+                  >
+                    <Input
+                      h={"25px"}
+                      w={"80%"}
+                      position={"relative"}
+                      id={"state"}
+                      name={"state"}
+                      fontSize={"sm"}
+                      value={user?.State}
+                      border={"none"}
+                      // onChange={handleChange}
+                      _focus={{
+                        boxShadow:
+                          "0 0.5px 0.5px #f2f2f2 inset, 0 0 5px #f2f2f2",
+                      }}
+                      style={{
+                        borderBottom: "1px solid black",
+                        borderRadius: "0", // Ajusta el radio de las esquinas a cero
+                        outline: "none",
+                      }}
+                    />
+                    <UpdateCustomer
+                      title={"State"}
+                      value={user?.State}
                       handleChange={handleChange}
                       formData={formData}
                       setFormData={setFormData}
@@ -203,13 +189,13 @@ const ProfileInfo: React.FC<IShowMenu> = ({
                   display={"flex"}
                   w={"full"}
                   flexDirection={"column"}
-                  pt={"20px"}
+                  pt={"10px"}
                   // bg={"yellow"}
                 >
                   {/* <FormLabel htmlFor="fullName"> */}
                   <Box pl={"10px"}>
                     <Text fontSize={"sm"} color={"#646464"}>
-                      COMPANY
+                      CITY
                     </Text>
                   </Box>
                   <InputGroup
@@ -224,10 +210,10 @@ const ProfileInfo: React.FC<IShowMenu> = ({
                       h={"25px"}
                       w={"80%"}
                       position={"relative"}
-                      id={"company"}
-                      name={"company"}
+                      id={"city"}
+                      name={"city"}
                       fontSize={"sm"}
-                      value={user?.Company}
+                      value={user?.City}
                       border={"none"}
                       // onChange={handleChange}
                       _focus={{
@@ -241,8 +227,8 @@ const ProfileInfo: React.FC<IShowMenu> = ({
                       }}
                     />
                     <UpdateCustomer
-                      title={"Company"}
-                      value={user?.Company}
+                      title={"City"}
+                      value={user?.City}
                       handleChange={handleChange}
                       formData={formData}
                       setFormData={setFormData}
@@ -253,12 +239,12 @@ const ProfileInfo: React.FC<IShowMenu> = ({
                   display={"flex"}
                   w={"full"}
                   flexDirection={"column"}
-                  pt={"20px"}
+                  pt={"10px"}
                 >
                   {/* <FormLabel htmlFor="fullName"> */}
                   <Box pl={"10px"}>
                     <Text fontSize={"sm"} color={"#646464"}>
-                      COMPANY ROLE
+                      ZIP CODE
                     </Text>
                   </Box>
                   <InputGroup
@@ -272,10 +258,10 @@ const ProfileInfo: React.FC<IShowMenu> = ({
                       h={"25px"}
                       w={"80%"}
                       position={"relative"}
-                      id={"CompanyPosition"}
-                      name={"CompanyPosition"}
+                      id={"zipCode"}
+                      name={"zipCode"}
                       fontSize={"sm"}
-                      value={user?.Company_Position}
+                      value={user?.ZipCode}
                       border={"none"}
                       // onChange={handleChange}
                       _focus={{
@@ -289,8 +275,8 @@ const ProfileInfo: React.FC<IShowMenu> = ({
                       }}
                     />
                     <UpdateCustomer
-                      title={"Company Position"}
-                      value={user?.Company_Position}
+                      title={"Zip Code"}
+                      value={user?.ZipCode}
                       handleChange={handleChange}
                       formData={formData}
                       setFormData={setFormData}
@@ -299,16 +285,9 @@ const ProfileInfo: React.FC<IShowMenu> = ({
                 </Box>
               </Box>
             </Box>
-            <Box
-              display={"flex"}
-              h={"95%"}
-              w={"95%"}
-              flexDirection={"column"}
-              mt={"10px"}
-              // bg={"yellow"}
-            >
+            <Box display={"flex"} h={"95%"} w={"95%"} flexDirection={"column"}>
               <Box>
-                <Text fontSize={"md"}>SECURITY</Text>
+                <Text fontSize={"md"}>COMPANY ADDRESS</Text>
               </Box>
               <Box
                 display={"flex"}
@@ -318,13 +297,13 @@ const ProfileInfo: React.FC<IShowMenu> = ({
                   display={"flex"}
                   w={"full"}
                   flexDirection={"column"}
-                  pt={"20px"}
+                  pt={"10px"}
                   // bg={"yellow"}
                 >
                   {/* <FormLabel htmlFor="fullName"> */}
                   <Box pl={"10px"}>
                     <Text fontSize={"sm"} color={"#646464"}>
-                      EMAIL
+                      BILLING ADDRESS
                     </Text>
                   </Box>
                   <InputGroup
@@ -339,10 +318,10 @@ const ProfileInfo: React.FC<IShowMenu> = ({
                       h={"25px"}
                       w={"80%"}
                       position={"relative"}
-                      id={"email"}
-                      name={"email"}
+                      id={"billingAddress"}
+                      name={"billingAddress"}
                       fontSize={"sm"}
-                      value={user?.Username}
+                      value={user?.Billing_Address}
                       border={"none"}
                       // onChange={handleChange}
                       _focus={{
@@ -356,8 +335,8 @@ const ProfileInfo: React.FC<IShowMenu> = ({
                       }}
                     />
                     <UpdateCustomer
-                      title={"Email"}
-                      value={user?.Username}
+                      title={"Billing Address"}
+                      value={user?.Billing_Address}
                       handleChange={handleChange}
                       formData={formData}
                       setFormData={setFormData}
@@ -368,11 +347,11 @@ const ProfileInfo: React.FC<IShowMenu> = ({
                   display={"flex"}
                   w={"full"}
                   flexDirection={"column"}
-                  pt={"20px"}
+                  pt={"10px"}
                 >
                   <Box pl={"10px"}>
                     <Text fontSize={"sm"} color={"#646464"}>
-                      PASSWORD
+                      BILLING STATE
                     </Text>
                   </Box>
                   <InputGroup
@@ -386,12 +365,11 @@ const ProfileInfo: React.FC<IShowMenu> = ({
                       h={"25px"}
                       w={"80%"}
                       position={"relative"}
-                      id={"password"}
-                      name={"password"}
+                      id={"billingState"}
+                      name={"billingState"}
                       fontSize={"sm"}
-                      value={user?.Password}
+                      value={user?.Billing_State}
                       border={"none"}
-                      type={showPassword ? "type" : "password"}
                       // onChange={handleChange}
                       _focus={{
                         boxShadow:
@@ -403,17 +381,9 @@ const ProfileInfo: React.FC<IShowMenu> = ({
                         outline: "none",
                       }}
                     />
-                    <InputRightElement
-                      aria-label="Password-icon"
-                      // variant="unstyled"
-                      fontSize="xl"
-                      onClick={handleShowPassword}
-                    >
-                      <BsEyeSlash />
-                    </InputRightElement>
                     <UpdateCustomer
-                      title={"Password"}
-                      value={user?.Password}
+                      title={"Billing State"}
+                      value={user?.Billing_State}
                       handleChange={handleChange}
                       formData={formData}
                       setFormData={setFormData}
@@ -423,16 +393,10 @@ const ProfileInfo: React.FC<IShowMenu> = ({
               </Box>
             </Box>
           </Box>
-          <SideCard isSmallThan750={isSmallThan750} />
         </Box>
-        {/* <
-     
-      <Box display={'flex'} flexDir={'column'} pl={'5vw'} h={'70vh'} justifyContent={'space-evenly'} border={'2px solid red'}>
-       
-    </Box> */}
       </Box>
     </>
   );
 };
 
-export default ProfileInfo;
+export default AddressInfo;

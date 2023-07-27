@@ -10,18 +10,21 @@ const UserMenu: React.FC<IShowMenu> = ({
   setShowMenu,
   showMenu,
   isSmallThan750,
+  user,
 }) => {
   return (
     <>
       <Box
         display={"flex"}
         flexDir={"column"}
-        w={"12vw"}
-        h={isSmallThan750 ? "10vh" : "60vh"}
+        w={"220px"}
+        h={"60vh"}
         // bg={"blue"}
-        justifyContent={"space-between"}
+        justifyContent={"flex-start"}
+        hidden={isSmallThan750 ? true : false}
+        alignItems={"flex-end"}
       >
-        <UserBox />
+        <UserBox user={user} />
         <UserButtonsContainer
           setShowMenu={setShowMenu}
           showMenu={showMenu}

@@ -12,6 +12,10 @@ const initialState: LoginState = {
     Address: "",
     Password: "",
     ZipCode: "",
+    Billing_Address: "",
+    Billing_State: "",
+    City: "",
+    Company_Position: "",
   },
 };
 
@@ -21,6 +25,12 @@ const loginReducer = (
 ): LoginState => {
   switch (action.type) {
     case LoginActionsType.GET_USER_INFO: {
+      return {
+        ...state,
+        user: action.payload,
+      };
+    }
+    case LoginActionsType.UPDATE_USER: {
       return {
         ...state,
         user: action.payload,
