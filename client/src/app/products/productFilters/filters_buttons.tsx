@@ -5,9 +5,9 @@ import { FilterButtonsProps } from "./types";
 
 const FilterButtons: React.FC<FilterButtonsProps> = ({filters, setFilters, setShowMenu, showMenu }) => {
 
-  const [is550Screen] = useMediaQuery("(max-width: 1200px)");
+  const [is550Screen] = useMediaQuery("(max-width: 550px)");
   
-  let gridColumns= 5
+  let gridColumns= 4
   if(is550Screen) gridColumns = 1
 
   const handleButton = (name: string) => {
@@ -20,7 +20,6 @@ const FilterButtons: React.FC<FilterButtonsProps> = ({filters, setFilters, setSh
   };
 
   const filters_buttons = [
-    {name: 'Material'},
     {name: 'Type'},
     {name: 'Thickness'},
     {name: 'Finish'},
@@ -28,7 +27,7 @@ const FilterButtons: React.FC<FilterButtonsProps> = ({filters, setFilters, setSh
   ]
   return (
     <>
-      <SimpleGrid p="15px" bg={'white'} columns={gridColumns} position={'relative'} zIndex={100}>
+      <SimpleGrid p="15px" w={'100vw'} bg={'white'} columns={gridColumns} position={'relative'} zIndex={100}>
         {
           filters_buttons.map((button, i) => {
             return(

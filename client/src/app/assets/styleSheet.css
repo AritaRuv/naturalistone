@@ -9,3 +9,7 @@
     outline: none;
     box-shadow: unset;
     }
+
+.custom-icon {
+  stroke-width: 0.2; /* Ejemplo: reducir el ancho de las líneas del icono */
+}

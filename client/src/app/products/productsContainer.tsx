@@ -2,20 +2,14 @@
 import { useEffect } from "react";
 import { SimpleGrid, useMediaQuery } from "@chakra-ui/react";
 import ProductCard from "../products/_productCard";
-import { fetchProducts } from "../../store/products/actionsProducts";
 import { ProductState } from "../../store/products/typesProducts";
 import { useAppDispatch, useAppSelector } from "../../store/hooks";
+import { Filters } from "./productFilters/types";
+import { fetchProductsFilters } from "@/store/products/actionsProducts";
 
-interface ComponentsProps {
-  productsFilter: {
-    color: string;
-    material: string;
-  };
-}
 
-const ProductsContainer: React.FC<ComponentsProps> = ({
-  productsFilter,
-}) => {
+const ProductsContainer: React.FC<Filters> = (filters) => {
+  
   const [isExtraSmallScreen] = useMediaQuery("(max-width: 550px)");
   const [isSmallScreen] = useMediaQuery("(max-width: 1000px)");
   const [is1200Screen] = useMediaQuery("(max-width: 1200px)");
@@ -23,9 +17,8 @@ const ProductsContainer: React.FC<ComponentsProps> = ({
   const [isLargeScreen] = useMediaQuery("(max-width: 1600px)");
 
   const dispatch = useAppDispatch();
-  const { material, color } = productsFilter;
 
-  const { products, loading, error } = useAppSelector(
+  const { products_filters, loading, error } = useAppSelector(
     (state: { productReducer: ProductState }) => state.productReducer
   );
     
@@ -45,15 +38,15 @@ const ProductsContainer: React.FC<ComponentsProps> = ({
   }
 
   useEffect(() => {
-    dispatch(fetchProducts(material));
-  }, [material]);
+    dispatch(fetchProductsFilters(filters));
+  }, []);
 
   return (
     <SimpleGrid
       zIndex={1}
       position={'fixed'}
       left={!is1200Screen ? '15vw' : 0}
-      top={!is1200Screen ? '26vh' :'15vh'}
+      top={'10vh'}
       spacingY={6}
       py={"2%"}
       w={is1200Screen ? '100vw' :'85vw'}
@@ -63,8 +56,8 @@ const ProductsContainer: React.FC<ComponentsProps> = ({
       overflow={'auto'}
 
     >
-      {products.length &&
-        products.map((prod) => {
+      {products_filters.length !== 0 &&
+        products_filters.slice(0,20).map((prod) => {
           return <ProductCard product={prod} key={prod.ProdNameID} site={'products'} />;
         })}
     </SimpleGrid>
