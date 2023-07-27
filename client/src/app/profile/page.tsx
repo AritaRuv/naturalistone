@@ -1,44 +1,44 @@
-'use client'
-import { Box, useMediaQuery } from "@chakra-ui/react";
+"use client";
+import { Box } from "@chakra-ui/react";
 import NavBar from "../_navBar/_navBar";
-import { useState } from "react";
+import { useContext } from "react";
 import UserMenu from "./userMenu";
 import ProfileInfo from "./profileInfo";
-import SideCard from "./sideCard";
 import Projects from "./projects";
+import { AppContext } from "../appContext";
 
 export interface IShowMenu {
-  setShowMenu: React.Dispatch<React.SetStateAction<string>>;
-  showMenu: string;
+  setShowMenu?: React.Dispatch<React.SetStateAction<string>>;
+  showMenu?: string;
+  site?: string
 }
 
 export default function Profile() {
-  
-  const [isSmallScreen] = useMediaQuery("(max-width: 1200px)");
-  const [showMenu, setShowMenu] = useState<string>("");
+
+  const appContext = useContext(AppContext);
   
   return (
     <>
       <NavBar />
-      <Box px={'5vw'} py={'10vh'} display={'flex'} flexDir={'row'} >
-        <UserMenu setShowMenu={setShowMenu} showMenu={showMenu}/>
-        <Box display={'flex'}>
-        {
-          showMenu === 'Profile' && (
-            <>
-              <ProfileInfo setShowMenu={setShowMenu} showMenu={showMenu}/>
-            </>
+      <Box px={"5vw"} py={"10vh"} display={"flex"} flexDir={"row"} >
+        <UserMenu/>
+        <Box display={"flex"}>
+          {
+            appContext?.showMenu === "profile" && (
+              <>
+                <ProfileInfo setShowMenu={appContext?.setShowMenu} showMenu={appContext?.showMenu}/>
+              </>
 
-          )
-        }
-                {
-          showMenu === 'Projects' && (
-            <>
-              <Projects setShowMenu={setShowMenu} showMenu={showMenu}/>
-            </>
+            )
+          }
+          {
+            appContext?.showMenu === "projects" && (
+              <>
+                <Projects setShowMenu={appContext?.setShowMenu} showMenu={appContext?.showMenu}/>
+              </>
 
-          )
-        }        
+            )
+          }        
         </Box>
 
       </Box>

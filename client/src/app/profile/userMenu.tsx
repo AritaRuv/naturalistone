@@ -1,23 +1,21 @@
-'use client'
-import { Avatar, Box, useMediaQuery, Text } from "@chakra-ui/react";
-import NavBar from "../_navBar/_navBar";
-import { useState } from "react";
+"use client";
+import { Box } from "@chakra-ui/react";
 import UserBox from "./userBox";
 import UserButtonsContainer from "./userButtonsContainer";
 import { IShowMenu } from "./page";
 
 
-const UserMenu: React.FC<IShowMenu> = ({setShowMenu, showMenu}) => {
+const UserMenu: React.FC<IShowMenu> = () => {
   
 
   return (
     <>
-      <Box display={'flex'} flexDir={'column'} w={'12vw'} minW={'170px'} h={'60vh'} justifyContent={'space-between'}>
+      <Box display={"flex"} flexDir={"column"} w={"12vw"} minW={"170px"} h={"60vh"} justifyContent={"space-between"}>
         <UserBox/>
-        <UserButtonsContainer setShowMenu={setShowMenu} showMenu={showMenu}/>
+        <UserButtonsContainer/>
       </Box>
     </>
   );
-}
+};
 
-export default UserMenu
+export default UserMenu;
