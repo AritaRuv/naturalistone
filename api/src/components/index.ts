@@ -5,6 +5,7 @@ import cartRouter from "./cart/cart.routes";
 import colorsRouter from "./colors/colors.routes";
 import authRouter from "./auth/auth.routes";
 import postmarkRouter from "./postmark/postmark.routes";
+import favoritesRouter from "./favorites/favorites.routes";
 const mainRouter = Router();
 
 mainRouter.use("/api/sales", salesRouter);
@@ -13,5 +14,6 @@ mainRouter.use("/api/cart", cartRouter);
 mainRouter.use("/api/colors", colorsRouter);
 mainRouter.use("/api/auth", authRouter);
 mainRouter.use("/api/email", postmarkRouter);
+mainRouter.use("/api/favorites", favoritesRouter);
 
 export default mainRouter;

@@ -1,10 +1,7 @@
 "use client";
-import { Avatar, Box, useMediaQuery, Text } from "@chakra-ui/react";
-import { useState } from "react";
+import { Avatar, Box, Text } from "@chakra-ui/react";
 
-export default function UserBox({ user }) {
-  const [isSmallScreen] = useMediaQuery("(max-width: 1200px)");
-  const [showMenu, setShowMenu] = useState("");
+export default function UserBox() {
 
   return (
     <>
@@ -23,8 +20,8 @@ export default function UserBox({ user }) {
           justifyContent={"center"}
           ml={"10px"}
         >
-          <Text fontWeight={"thin"}>Hey, Eduardooo</Text>
-          <Text fontWeight={"normal"}>{user?.Contact_Name}!</Text>
+          <Text fontWeight={"thin"}>Hey, </Text>
+          <Text fontWeight={"normal"}>Eduardo!</Text>
         </Box>
       </Box>
     </>

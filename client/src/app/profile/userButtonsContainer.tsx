@@ -1,35 +1,24 @@
 "use client";
 import {
-  Avatar,
   Box,
-  useMediaQuery,
   Button,
-  SimpleGrid,
-  HStack,
   VStack,
 } from "@chakra-ui/react";
-import NavBar from "../_navBar/_navBar";
-import { useState } from "react";
-import UserBox from "./userBox";
 import { IShowMenu } from "./page";
 import Link from "next/link";
 import { AppContext } from "../appContext";
 import { useContext } from "react";
 
 const UserButtonsContainer: React.FC<IShowMenu> = ({
-  showMenu,
-  setShowMenu,
-  isSmallThan750,
   site,
 }) => {
-  const [isSmallScreen] = useMediaQuery("(max-width: 1200px)");
+
 
   const appContext = useContext(AppContext);
 
   const handleClick = (e) => {
     const { name } = e.target;
     appContext?.setShowMenu(name);
-    setShowMenu && setShowMenu(name);
   };
 
   const userButtonsArray = [
@@ -54,8 +43,8 @@ const UserButtonsContainer: React.FC<IShowMenu> = ({
                     site === "navbar"
                       ? "unset"
                       : appContext?.showMenu === button.name
-                      ? "3px solid black"
-                      : "unset"
+                        ? "3px solid black"
+                        : "unset"
                   }
                   _hover={{
                     fontWeight: "semibold",

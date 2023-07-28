@@ -18,7 +18,7 @@ const productDimensions_1 = require("../../controllers/productDimensions");
 function getAllProducts(req, res) {
     return __awaiter(this, void 0, void 0, function* () {
         try {
-            const { material, colorId } = req.query;
+            const { material } = req.query;
             const query = `SELECT DISTINCT Products.ProdNameID, ProdNames.Material, ProdNames.Naturali_ProdName, ProdNames.ProdNameID,
                   Product_Colors.ColorID, Product_Colors.idColorProduct, Product_Colors.ProductID
                   FROM Products
@@ -35,7 +35,7 @@ function getAllProducts(req, res) {
             //               FROM ProdNames
             //               ${material ? `WHERE Material = "${material}"` : ``}
             //                 `;
-            db_1.default.query(query, (error, results, fields) => {
+            db_1.default.query(query, (error, results) => {
                 if (error) {
                     throw error;
                 }
@@ -78,7 +78,7 @@ function getProductsValuesByProdNameID(req, res) {
       WHERE
         Products.ProdNameID = ?;
     `;
-            db_1.default.query(query, [prodNameID], (error, results, fields) => {
+            db_1.default.query(query, [prodNameID], (error, results) => {
                 if (error) {
                     throw error;
                 }
@@ -105,7 +105,7 @@ function getProductByIDS(req, res) {
         try {
             const { ProdNameID, DimensionID } = req.query;
             const query = `SELECT * FROM NaturaliStone.Products where Products.ProdNameID = ${ProdNameID} AND Products.DimensionID = ${DimensionID};`;
-            db_1.default.query(query, (error, results, fields) => {
+            db_1.default.query(query, (error, results) => {
                 if (error) {
                     throw error;
                 }
@@ -132,7 +132,7 @@ function getAllMaterials(req, res) {
             const query = `SELECT GROUP_CONCAT(DISTINCT ProdNames.Material SEPARATOR ', ') AS Materials
                     FROM ProdNames;
                     `;
-            db_1.default.query(query, (error, results, fields) => {
+            db_1.default.query(query, (error, results) => {
                 if (error) {
                     throw error;
                 }
@@ -167,7 +167,7 @@ function getAllDimensionProperties(req, res) {
         GROUP_CONCAT(DISTINCT Finish SEPARATOR ', ') AS Finishes
       FROM Dimension;
     `;
-            db_1.default.query(query, (error, results, fields) => {
+            db_1.default.query(query, (error, results) => {
                 if (error) {
                     throw error;
                 }
@@ -202,7 +202,6 @@ function getProductsFilter(req, res) {
             let whereClause = '';
             const filters = req.query;
             const splitValues = (value, separator) => {
-                console.log(value);
                 if (Array.isArray(value)) {
                     return value;
                 }
@@ -250,7 +249,7 @@ function getProductsFilter(req, res) {
                 else {
                     return []; // Return an empty array if the value is undefined or not a string
                 }
-            }), (error, results, fields) => {
+            }), (error, results) => {
                 if (error) {
                     throw error;
                 }

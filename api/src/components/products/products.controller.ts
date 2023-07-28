@@ -1,15 +1,14 @@
 /* eslint-disable indent */
 /* eslint-disable quotes */
-import { FieldInfo, MysqlError } from "mysql";
-import express, { Request, Response } from "express";
+import { MysqlError } from "mysql";
+import { Request, Response } from "express";
 import mysqlConnection from "../../db";
-import { RowDataPacket, FieldPacket } from "mysql2";
+import { RowDataPacket } from "mysql2";
 import { productDimensions } from "../../controllers/productDimensions";
-import { rmSync } from "fs";
 
 export async function getAllProducts(req: Request, res: Response) {
   try {
-    const { material, colorId } = req.query;
+    const { material } = req.query;
 
     const query = `SELECT DISTINCT Products.ProdNameID, ProdNames.Material, ProdNames.Naturali_ProdName, ProdNames.ProdNameID,
                   Product_Colors.ColorID, Product_Colors.idColorProduct, Product_Colors.ProductID
@@ -30,7 +29,7 @@ export async function getAllProducts(req: Request, res: Response) {
 
     mysqlConnection.query(
       query,
-      (error: MysqlError, results: RowDataPacket[], fields: FieldPacket[]) => {
+      (error: MysqlError, results: RowDataPacket[]) => {
         if (error) {
           throw error;
         }
@@ -78,7 +77,7 @@ export async function getProductsValuesByProdNameID(
     mysqlConnection.query(
       query,
       [prodNameID],
-      (error: MysqlError, results: RowDataPacket[], fields: FieldInfo[]) => {
+      (error: MysqlError, results: RowDataPacket[]) => {
         if (error) {
           throw error;
         }
@@ -105,7 +104,7 @@ export async function getProductByIDS(req: Request, res: Response) {
 
     mysqlConnection.query(
       query,
-      (error: MysqlError, results: RowDataPacket[], fields: FieldPacket[]) => {
+      (error: MysqlError, results: RowDataPacket[]) => {
         if (error) {
           throw error;
         }
@@ -131,7 +130,7 @@ export async function getAllMaterials(req: Request, res: Response) {
 
     mysqlConnection.query(
       query,
-      (error: MysqlError, results: RowDataPacket[], fields: FieldPacket[]) => {
+      (error: MysqlError, results: RowDataPacket[]) => {
         if (error) {
           throw error;
         }
@@ -168,7 +167,7 @@ export async function getAllDimensionProperties(req: Request, res: Response) {
 
     mysqlConnection.query(
       query,
-      (error: MysqlError, results: RowDataPacket[], fields: FieldPacket[]) => {
+      (error: MysqlError, results: RowDataPacket[]) => {
         if (error) {
           throw error;
         }
@@ -196,20 +195,19 @@ export async function getAllDimensionProperties(req: Request, res: Response) {
 export async function getProductsFilter(req: Request, res: Response) {
   try {
     const { material, type, finish, size, thickness } = req.query;
-    console.log(req.query)
+    console.log(req.query);
     let query = 'SELECT DISTINCT pn.Naturali_ProdName, pn.Material, pn.ProdNameID  FROM ProdNames pn';
 
     let whereClause = '';
     const filters: {
-      material?: string | string[] ;
+      material?: string | string[]  ;
       type?: string | string[];
       finish?: string | string[];
       size?: string | string[];
       thickness?: string | string[];
     } = req.query;
     
-    const splitValues = (value: string | string[] | undefined, separator: string): string[] => {
-      console.log(value)
+    const splitValues = (value: string | string[] | undefined | any, separator: string): string[] => {
       if (Array.isArray(value)) {
         return value;
       }
@@ -265,7 +263,7 @@ export async function getProductsFilter(req: Request, res: Response) {
           return []; // Return an empty array if the value is undefined or not a string
         }
       }),
-      (error: MysqlError | null, results: RowDataPacket[], fields: FieldInfo[]) => {
+      (error: MysqlError | null, results: RowDataPacket[]) => {
         if (error) {
           throw error;
         }
