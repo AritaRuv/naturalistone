@@ -11,12 +11,8 @@ export default function UserBox({ user }) {
       <Box
         display={"flex"}
         flexDir={"row"}
-        // justifyContent={"space-between"}
-        bg={"green"}
         alignItems={"flex-start"}
-        // w={"200px"}
         h={"70px"}
-        // maxW={"200px"}
       >
         <Avatar size={"lg"} />
         <Box

@@ -19,7 +19,6 @@ const UserMenu: React.FC<IShowMenu> = ({
         flexDir={"column"}
         w={"220px"}
         h={"60vh"}
-        bg={"yellow"}
         justifyContent={"flex-start"}
         hidden={isSmallThan750 ? true : false}
         // alignItems={"flex-end"}
