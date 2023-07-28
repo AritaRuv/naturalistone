@@ -44,7 +44,7 @@ const UserButtonsContainer: React.FC<IShowMenu> = ({
   //NOS EVITAMOS REPETIR CODIGO
   return (
     <>
-      <VStack h={"45vh"} spacing={5} alignItems={"flex-start"} w={"10vw"}>
+      <VStack h={"45vh"} spacing={5} alignItems={"flex-start"} w={"10vw"} bg={"blue"} mt={"10px"}>
         {userButtonsArray.map((button, i) => {
           return (
             <Box key={i}>

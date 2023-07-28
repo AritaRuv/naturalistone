@@ -19,10 +19,10 @@ const UserMenu: React.FC<IShowMenu> = ({
         flexDir={"column"}
         w={"220px"}
         h={"60vh"}
-        // bg={"blue"}
+        bg={"yellow"}
         justifyContent={"flex-start"}
         hidden={isSmallThan750 ? true : false}
-        alignItems={"flex-end"}
+        // alignItems={"flex-end"}
       >
         <UserBox user={user} />
         <UserButtonsContainer

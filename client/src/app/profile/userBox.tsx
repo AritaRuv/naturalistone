@@ -11,22 +11,23 @@ export default function UserBox({ user }) {
       <Box
         display={"flex"}
         flexDir={"row"}
-        justifyContent={"space-between"}
-        // bg={"green"}
-        w={"200px"}
+        // justifyContent={"space-between"}
+        bg={"green"}
+        alignItems={"flex-start"}
+        // w={"200px"}
         h={"70px"}
-        maxW={"200px"}
+        // maxW={"200px"}
       >
         <Avatar size={"lg"} />
         <Box
           // mr={"2vh"}
           display={"flex"}
           flexDir={"column"}
-          alignContent={"flex-end"}
-          justifyContent={"end"}
+          alignContent={"center"}
+          justifyContent={"center"}
           ml={"10px"}
         >
-          <Text fontWeight={"thin"}>Hey,</Text>
+          <Text fontWeight={"thin"}>Hey, Eduardooo</Text>
           <Text fontWeight={"normal"}>{user?.Contact_Name}!</Text>
         </Box>
       </Box>
