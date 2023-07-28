@@ -4,11 +4,11 @@ import { CartActionTypes, CartAction } from "./typesCart";
 import { addToCart, deleteCartProd, getCart, updateCartProd } from '../../api/apiCart'; // Importa tu función de solicitud a la API
 
 export interface bodyCart {
-  size: string;
+  size: string | null;
   thickness:string;
   finish:string;
   ProdNameID: number;
-  customerID: number
+  customerID: number;
 }
 
 export interface bodyCartUpdate {

@@ -10,8 +10,11 @@ import { useAppDispatch } from '@/store/hooks';
 import { IoIosCloseCircle } from 'react-icons/io';
 
 const ProductCardCart: React.FC<{ product: ProductCart }> = ({ product }) => {
+  
   const { CustomerID, Finish, Material, Naturali_ProdName, Quantity, SalePrice, Size, Thickness, Type, idCartEntry } = product;
+  
   const URL = `https://naturalistone-images.s3.amazonaws.com/${Material}/${Naturali_ProdName}/${Naturali_ProdName}_0.jpg`;
+  
   const [isExtraSmallScreen] = useMediaQuery("(max-width: 480px)");
   const [isExtraExtraSmallScreen] = useMediaQuery("(max-width: 400px)");
 
@@ -19,7 +22,7 @@ const ProductCardCart: React.FC<{ product: ProductCart }> = ({ product }) => {
   const fontTitle = isExtraExtraSmallScreen ? '0.9rem' : '1.2rem';
 
   const [quantity, setQuantity] = useState(Quantity);
-  let totalPrice= Number(quantity)*  Number(SalePrice)
+  let price = Number(SalePrice)
   const dispatch = useAppDispatch();
 
   const decreaseQuantity = () => {
@@ -116,8 +119,8 @@ const ProductCardCart: React.FC<{ product: ProductCart }> = ({ product }) => {
           </Box>
           <Box>
             <Box display={'flex'} justifyContent={'space-between'}>
-              <Text textTransform={'uppercase'} fontSize={fontSubTitle}>Price</Text>
-              <Text textTransform={'uppercase'} fontSize={fontSubTitle}>${totalPrice}</Text>
+              <Text textTransform={'uppercase'} fontSize={fontSubTitle}>Price sqf</Text>
+              <Text textTransform={'uppercase'} fontSize={fontSubTitle}>${price}</Text>
             </Box>
             <Box display={'flex'} justifyContent={'space-between'}>
               <Text textTransform={'uppercase'} fontSize={fontSubTitle}>Quantity</Text>

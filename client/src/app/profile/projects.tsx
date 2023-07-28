@@ -1,48 +1,58 @@
-"use client";
-import {  Box, Button, Text, Grid } from "@chakra-ui/react";
+'use client'
+import { Avatar, Box, Button, Text, Grid, SimpleGrid, useDisclosure, useMediaQuery } from "@chakra-ui/react";
 import { IShowMenu } from "./page";
 import ProjectCard from "./projectCard";
+import { useEffect } from "react";
+import { useAppDispatch, useAppSelector } from "@/store/hooks";
+import { fetchProjectsCustomer } from "@/store/projects/actionsProjects";
+import { ProjectsState } from "@/store/projects/typeProjects";
+import { CreateNewProject } from "./addProjectModal";
 
 
-const Projects: React.FC<IShowMenu> = () => {
-  const arrayProjects = [
-    {name:"Nombre del Proyecto1", color: "orange.100"},
-    {name:"Nombre del Proyecto2", color: "gray.100"},
-    {name:"Nombre del Proyecto4", color: "orange.100"},
-    {name:"Nombre del Proyecto3", color: "gray.300"},
-  ];
- 
+const Projects: React.FC<IShowMenu> = ({setShowMenu, showMenu}) => {
+
+  const customerProjects  = useAppSelector((state: { projectsReducer: ProjectsState }) => state.projectsReducer.customerProjects);
+  
+
+  const [isSmallerThan1520] = useMediaQuery("(max-width: 1520px)");
+
+  const CustomerID = 1938
+  const dispatch = useAppDispatch();
+
+  useEffect(() => {
+    dispatch(fetchProjectsCustomer(CustomerID));
+  }, []);
+
+  const handleClick = () => {}
   return (
     <>
-      <Box pl={"5vw"}  w={"70vw"}>
-        <Box display={"flex"} flexDir={"row"} justifyContent={"space-between"} alignItems={"baseline"}>
-          <Text textTransform={"uppercase"} textAlign={"start"} fontSize={"1.5rem"} fontWeight={"thin"}>PROJECTS DASHBOARD</Text>
-          <Button h={"3vh"} display={"flex"} variant={"unstyled"} fontWeight={"light"} fontSize={"0.8rem"} textAlign={"end"}>+ ADD PROJECT</Button>
-        </Box>
-        <Box mt={"2vh"} display={"flex"} flexDir={"row"} justifyContent={"space-between"}>       
-          <Grid 
-            gap={3}
-            border={"2px solid"}
-            templateRows='repeat(3, 1fr)'
-            templateColumns='repeat(3, 1fr)' 
-            rounded={"sm"} 
-            paddingY={"2vh"} 
-            paddingX={"2vw"} 
-            borderColor={"gray.200"} 
-            w={"65vw"} 
-            h={"75vh"}>
-            {
-              arrayProjects.map((proj,i)=>{
-                return(
-                  <ProjectCard project={proj} id={i}/>
-                );
-              })
-            }
-          </Grid>
-        </Box>
+    <Box pl={'5vw'}  w={'70vw'} onClick={handleClick}>
+      <Box display={'flex'} flexDir={'row'} justifyContent={'space-between'} alignItems={'baseline'}>
+        <Text textTransform={'uppercase'} textAlign={'start'} fontSize={'1.5rem'} fontWeight={'thin'}>PROJECTS DASHBOARD</Text>
+        <CreateNewProject CustomerID={CustomerID}/>
       </Box>
-
-
+      <Box mt={'2vh'} display={'flex'} flexDir={'row'} justifyContent={'space-between'}>       
+        <Grid 
+        gap={3}
+        border={'2px solid'}
+        templateRows='repeat(3, 1fr)'
+        templateColumns='repeat(3, 1fr)' 
+        rounded={'sm'} 
+        paddingY={'2vh'} 
+        paddingX={'2vw'} 
+        borderColor={'gray.200'} 
+        w={'65vw'} 
+        h={'75vh'}>
+          {
+            customerProjects.map((proj,i)=>{
+              return(
+                <ProjectCard project={proj} id={i}/>
+              )
+            })
+          }
+        </Grid>
+      </Box>
+  </Box>
     </>
   );
 };

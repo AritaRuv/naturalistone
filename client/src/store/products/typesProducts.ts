@@ -25,11 +25,18 @@ export interface ProductState {
   products: Product[];
   products_filters: Product[];
   productValues: ProductData;
+  productValuesValidation: ProductData;
   materials: string[];
-  product: {};
+  product: Product | {};
   loading: boolean;
   error: string | null;
   dimensions: DimensionData | null;
+  product_images: ImageResponse[];
+}
+
+interface ImageResponse {
+  key: string;
+  url: string;
 }
 
 export enum ProductActionTypes {
@@ -37,8 +44,11 @@ export enum ProductActionTypes {
   FETCH_PRODUCTS_HOME_SUCCESS = "FETCH_PRODUCTS_HOME_SUCCESS",
   FETCH_PRODUCTS_HOME_FAILURE = "FETCH_PRODUCTS_HOME_FAILURE",
   FETCH_PRODUCTS_VALUES = "FETCH_PRODUCTS_VALUES",
+  FETCH_PRODUCTS_VALUES_VALIDATION = "FETCH_PRODUCTS_VALUES_VALIDATION",
   FETCH_MATERIALS = "FETCH_MATERIALS",
   FETCH_PRODUCT_BY_IDS = "FETCH_PRODUCT_BY_IDS",
+  FETCH_PRODUCT_IMAGES = "FETCH_PRODUCT_IMAGES",
+  LOAD_PRODUCT = "LOAD_PRODUCT",
   FETCH_DIMENSION = "FETCH_DIMENSION",
   FETCH_PRODUCTS_FILTERS_SUCCESS = "FETCH_PRODUCTS_FILTERS_SUCCESS",
 }
@@ -65,6 +75,10 @@ export interface FetchProductsDataAction {
   type: ProductActionTypes.FETCH_PRODUCTS_VALUES;
   payload: ProductData;
 }
+export interface FetchProductsDataValidationAction {
+  type: ProductActionTypes.FETCH_PRODUCTS_VALUES_VALIDATION;
+  payload: ProductData;
+}
 
 export interface FetchMaterialsAction {
   type: ProductActionTypes.FETCH_MATERIALS;
@@ -81,13 +95,26 @@ export interface FetchProductAction {
   payload: {};
 }
 
+export interface FetchProductImages {
+  type: ProductActionTypes.FETCH_PRODUCT_IMAGES;
+  payload: ImageResponse[];
+}
+
+export interface LoadProduct {
+  type: ProductActionTypes.LOAD_PRODUCT;
+  payload: Product;
+}
+
 export type ProductAction =
   | FetchProductsHomeRequestAction
   | FetchProductsHomeSuccessAction
   | FetchProductsFiltersSuccessAction
   | FetchProductsHomeFailureAction
   | FetchProductsDataAction
+  | FetchProductsDataValidationAction
   | FetchMaterialsAction
   | FetchDimensionAction
+  | FetchProductImages
+  | LoadProduct
   | FetchProductAction;
 
