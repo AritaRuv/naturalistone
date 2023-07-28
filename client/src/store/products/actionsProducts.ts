@@ -3,27 +3,26 @@ import { Dispatch } from "redux";
 import { ProductActionTypes, ProductAction } from "./typesProducts";
 import {
   getProductValues,
-  getProducts,
+  getProductsHome,
   getMaterials,
   getProduct,
   getDimension,
-  getProductsFilters
+  getProductsFilters,
 } from "../../api/apiProds"; // Importa tu función de solicitud a la API
 import { Filters } from "@/app/products/productFilters/types";
 
-export const fetchProducts = (material: string) => {
+export const fetchProductsHome = (material: string, colorId: string) => {
   return async (dispatch: Dispatch<ProductAction>) => {
-    dispatch({ type: ProductActionTypes.FETCH_PRODUCTS_REQUEST });
+    dispatch({ type: ProductActionTypes.FETCH_PRODUCTS_HOME_REQUEST });
     try {
-      const products = await getProducts(material); // Llama a tu función de solicitud a la AP
-
+      const products = await getProductsHome(material, colorId); // Llama a tu función de solicitud a la AP
       dispatch({
-        type: ProductActionTypes.FETCH_PRODUCTS_SUCCESS,
+        type: ProductActionTypes.FETCH_PRODUCTS_HOME_SUCCESS,
         payload: products,
       });
     } catch (error) {
       dispatch({
-        type: ProductActionTypes.FETCH_PRODUCTS_FAILURE,
+        type: ProductActionTypes.FETCH_PRODUCTS_HOME_FAILURE,
         error: "Error al obtener los productos",
       });
     }
@@ -41,7 +40,7 @@ export const fetchProductsValues = ({ ProdNameID }) => {
       });
     } catch (error) {
       dispatch({
-        type: ProductActionTypes.FETCH_PRODUCTS_FAILURE,
+        type: ProductActionTypes.FETCH_PRODUCTS_HOME_FAILURE,
         error: "Error al obtener los product values",
       });
     }
@@ -50,7 +49,7 @@ export const fetchProductsValues = ({ ProdNameID }) => {
 
 export const fetchMaterials = () => {
   return async (dispatch: Dispatch<ProductAction>) => {
-    dispatch({ type: ProductActionTypes.FETCH_PRODUCTS_REQUEST });
+    // dispatch({ type: ProductActionTypes.FETCH_PRODUCTS_HOME_REQUEST });
     try {
       const data = await getMaterials(); // Llama a tu función de solicitud a la API
       dispatch({
@@ -59,7 +58,7 @@ export const fetchMaterials = () => {
       });
     } catch (error) {
       dispatch({
-        type: ProductActionTypes.FETCH_PRODUCTS_FAILURE,
+        type: ProductActionTypes.FETCH_PRODUCTS_HOME_FAILURE,
         error: "Error al obtener los product materials",
       });
     }
@@ -103,7 +102,7 @@ export const fetchProductsFilters = (filters: Filters) => {
   return async (dispatch: Dispatch<ProductAction>) => {
     dispatch({ type: ProductActionTypes.FETCH_PRODUCTS_REQUEST });
     try {
-      const products = await getProductsFilters(filters); 
+      const products = await getProductsFilters(filters);
       dispatch({
         type: ProductActionTypes.FETCH_PRODUCTS_FILTERS_SUCCESS,
         payload: products,

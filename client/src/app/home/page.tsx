@@ -19,14 +19,19 @@ const cards = [
   },
 ];
 
-export interface ProductsFilter {
-  color: string;
+export interface ProductsHomeFilterProps {
+  colorId: string ;
   material: string;
 }
 
+export interface FiltersHomeProps {
+  setProductsFilter: React.Dispatch<React.SetStateAction<ProductsHomeFilterProps>>;
+  productsFilter: ProductsHomeFilterProps
+}
+
 export default function Home() {
-  const [productsFilter, setProductsFilter] = useState<ProductsFilter>({
-    color: "",
+  const [productsFilter, setProductsFilter] = useState<ProductsHomeFilterProps>({
+    colorId: "" ,
     material: "",
   });
 
@@ -45,8 +50,8 @@ export default function Home() {
           "https://cdn.coverr.co/videos/coverr-bathroom-in-a-mobile-home-3685/1080p.mp4"
         }
       />
-      <HomeProductContainer productsFilter={productsFilter} />
-      <Filters setProductsFilter={setProductsFilter} />
+      <HomeProductContainer productsFilter={productsFilter} setProductsFilter={setProductsFilter} />
+      <Filters setProductsFilter={setProductsFilter} productsFilter={productsFilter} />
     </>
   );
 }

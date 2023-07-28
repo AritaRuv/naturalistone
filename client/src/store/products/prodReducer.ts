@@ -13,7 +13,7 @@ const initialState: ProductState = {
   product: {},
   loading: false,
   error: null,
-  dimensions: null
+  dimensions: null,
 };
 
 const productReducer = (
@@ -21,13 +21,13 @@ const productReducer = (
   action: ProductAction
 ): ProductState => {
   switch (action.type) {
-    case ProductActionTypes.FETCH_PRODUCTS_REQUEST:
+    case ProductActionTypes.FETCH_PRODUCTS_HOME_REQUEST:
       return {
         ...state,
         loading: true,
         error: null,
       };
-    case ProductActionTypes.FETCH_PRODUCTS_SUCCESS:
+    case ProductActionTypes.FETCH_PRODUCTS_HOME_SUCCESS:
       return {
         ...state,
         loading: false,

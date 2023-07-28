@@ -33,22 +33,22 @@ export interface ProductState {
 }
 
 export enum ProductActionTypes {
-  FETCH_PRODUCTS_REQUEST = "FETCH_PRODUCTS_REQUEST",
-  FETCH_PRODUCTS_SUCCESS = "FETCH_PRODUCTS_SUCCESS",
-  FETCH_PRODUCTS_FAILURE = "FETCH_PRODUCTS_FAILURE",
+  FETCH_PRODUCTS_HOME_REQUEST = "FETCH_PRODUCTS_HOME_REQUEST",
+  FETCH_PRODUCTS_HOME_SUCCESS = "FETCH_PRODUCTS_HOME_SUCCESS",
+  FETCH_PRODUCTS_HOME_FAILURE = "FETCH_PRODUCTS_HOME_FAILURE",
   FETCH_PRODUCTS_VALUES = "FETCH_PRODUCTS_VALUES",
   FETCH_MATERIALS = "FETCH_MATERIALS",
   FETCH_PRODUCT_BY_IDS = "FETCH_PRODUCT_BY_IDS",
-  FETCH_DIMENSION= "FETCH_DIMENSION",
-  FETCH_PRODUCTS_FILTERS_SUCCESS="FETCH_PRODUCTS_FILTERS_SUCCESS"
+  FETCH_DIMENSION = "FETCH_DIMENSION",
+  FETCH_PRODUCTS_FILTERS_SUCCESS = "FETCH_PRODUCTS_FILTERS_SUCCESS",
 }
 
-export interface FetchProductsRequestAction {
-  type: ProductActionTypes.FETCH_PRODUCTS_REQUEST;
+export interface FetchProductsHomeRequestAction {
+  type: ProductActionTypes.FETCH_PRODUCTS_HOME_REQUEST;
 }
 
-export interface FetchProductsSuccessAction {
-  type: ProductActionTypes.FETCH_PRODUCTS_SUCCESS;
+export interface FetchProductsHomeSuccessAction {
+  type: ProductActionTypes.FETCH_PRODUCTS_HOME_SUCCESS;
   payload: Product[];
 }
 export interface FetchProductsFiltersSuccessAction {
@@ -56,8 +56,8 @@ export interface FetchProductsFiltersSuccessAction {
   payload: Product[];
 }
 
-export interface FetchProductsFailureAction {
-  type: ProductActionTypes.FETCH_PRODUCTS_FAILURE;
+export interface FetchProductsHomeFailureAction {
+  type: ProductActionTypes.FETCH_PRODUCTS_HOME_FAILURE;
   error: string;
 }
 
@@ -82,10 +82,10 @@ export interface FetchProductAction {
 }
 
 export type ProductAction =
-  | FetchProductsRequestAction
-  | FetchProductsSuccessAction
+  | FetchProductsHomeRequestAction
+  | FetchProductsHomeSuccessAction
   | FetchProductsFiltersSuccessAction
-  | FetchProductsFailureAction
+  | FetchProductsHomeFailureAction
   | FetchProductsDataAction
   | FetchMaterialsAction
   | FetchDimensionAction

@@ -18,11 +18,23 @@ const productDimensions_1 = require("../../controllers/productDimensions");
 function getAllProducts(req, res) {
     return __awaiter(this, void 0, void 0, function* () {
         try {
-            const { material } = req.query;
-            const query = `SELECT ProdNameID, Naturali_ProdName, Material    
-                  FROM ProdNames
+            const { material, colorId } = req.query;
+            const query = `SELECT DISTINCT Products.ProdNameID, ProdNames.Material, ProdNames.Naturali_ProdName, ProdNames.ProdNameID,
+                  Product_Colors.ColorID, Product_Colors.idColorProduct, Product_Colors.ProductID
+                  FROM Products
+                  LEFT JOIN ProdNames ON ProdNames.ProdNameID = Products.ProdNameID
+                  LEFT JOIN Product_Colors ON Product_Colors.ProductID = Products.ProdID
                   ${material ? `WHERE Material = "${material}"` : ``}
-                    `;
+                  `;
+            //                 ${
+            //   colorId
+            //     ? `${material ? "AND" : "WHERE"} ColorID = "${colorId}"`
+            //     : ``
+            // }
+            // const query = `SELECT ProdNameID, Naturali_ProdName, Material
+            //               FROM ProdNames
+            //               ${material ? `WHERE Material = "${material}"` : ``}
+            //                 `;
             db_1.default.query(query, (error, results, fields) => {
                 if (error) {
                     throw error;

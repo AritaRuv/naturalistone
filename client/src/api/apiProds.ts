@@ -3,11 +3,10 @@
 import { Filters } from "@/app/products/productFilters/types";
 import axios from "axios";
 
-export const getProducts = async (material: string) => {
+export const getProductsHome = async (material: string, colorId: string) => {
   try {
-    console.log("material in api", material);
     const response = await axios.get(
-      `http://localhost:5000/api/products?material=${material}`
+      `http://localhost:5000/api/products?material=${material}&colorId=${colorId}`
     ); // Realiza la solicitud GET a la ruta /api/products de tu backend
 
     return response.data;
@@ -17,9 +16,8 @@ export const getProducts = async (material: string) => {
   }
 };
 
-export const getProductValues = async ( ProdNameID: number ) => {
+export const getProductValues = async (ProdNameID: number) => {
   try {
-
     const response = await axios.get(
       `http://localhost:5000/api/products/id/${ProdNameID}`
     );
@@ -59,7 +57,7 @@ export const getDimension = async () => {
   try {
     const response = await axios.get(
       `http://localhost:5000/api/products/dimension`
-    ); 
+    );
     return response.data;
   } catch (error) {
     console.log(error);
@@ -69,12 +67,12 @@ export const getDimension = async () => {
 
 export const getProductsFilters = async (filters: Filters) => {
   try {
-    const materialParam = filters.material ? filters.material.join(',') : '';
-    const typeParam = filters.type ? filters.type.join(',') : '';
-    const finishParam = filters.finish ? filters.finish.join(',') : '';
-    const thicknessParam = filters.thickness ? filters.thickness.join(',') : '';
-    const sizeParam = filters.size ? filters.size.join(',') : '';
-    console.log('action', sizeParam)
+    const materialParam = filters.material ? filters.material.join(",") : "";
+    const typeParam = filters.type ? filters.type.join(",") : "";
+    const finishParam = filters.finish ? filters.finish.join(",") : "";
+    const thicknessParam = filters.thickness ? filters.thickness.join(",") : "";
+    const sizeParam = filters.size ? filters.size.join(",") : "";
+    console.log("action", sizeParam);
     const response = await axios.get(
       `http://localhost:5000/api/products/filters?material=${materialParam}&type=${typeParam}&finish=${finishParam}&thickness=${thicknessParam}&size=${sizeParam}`
     );
@@ -85,3 +83,4 @@ export const getProductsFilters = async (filters: Filters) => {
     throw new Error("Error al obtener los productos de la API");
   }
 };
+

@@ -2,12 +2,18 @@
 import { fetchColors } from "@/store/colors/actionsColors";
 import { ColorsState } from "@/store/colors/typeColors";
 import { useAppDispatch, useAppSelector } from "@/store/hooks";
-import { fetchMaterials } from "@/store/products/actionsProducts";
-import { ProductState } from "@/store/products/typesProducts";
+import {
+  fetchMaterials,
+  fetchProductsHome,
+} from "@/store/products/actionsProducts";
 import { Box, Button, Center, Heading, useMediaQuery } from "@chakra-ui/react";
 import { useEffect, useState } from "react";
+import { FiltersHomeProps } from "../page";
 
-export function FiltersColors() {
+export function FiltersColors({
+  setProductsFilter,
+  productsFilter,
+}: FiltersHomeProps) {
   const dispatch = useAppDispatch();
   const [color, setColor] = useState("gray.500");
   // const colors = ["black", "white.500", "gray.500", "green.500", "blue.600"];
@@ -23,7 +29,7 @@ export function FiltersColors() {
   const homeColors = colors.slice(0, 5);
 
   useEffect(() => {
-    dispatch(fetchColors());
+    if (!homeColors.length) dispatch(fetchColors());
   }, []);
 
   useEffect(() => {
@@ -32,8 +38,19 @@ export function FiltersColors() {
   }, [smallerThan550]);
 
   const handleClick = (index) => {
+    console.log(homeColors[index].Color);
     setActiveButton(index);
     setColor(homeColors[index].Color);
+    setProductsFilter((prevState) => ({
+      ...prevState,
+      colorId: homeColors[index].ColorID.toString(),
+    }));
+    dispatch(
+      fetchProductsHome(
+        productsFilter.material,
+        homeColors[index].ColorID.toString()
+      )
+    );
   };
 
   return (
@@ -90,9 +107,7 @@ export function FiltersColors() {
                 boxShadow={"0px 2px 4px rgba(0, 0, 0, 0.8)"}
                 _active={{ borderColor: "black" }}
                 _hover={{ background: c.Color }}
-                onClick={() => {
-                  handleClick(index);
-                }}
+                onClick={() => handleClick(index)}
               ></Button>
             ))}
           </Box>
