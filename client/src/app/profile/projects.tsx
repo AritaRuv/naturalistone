@@ -4,17 +4,17 @@ import { IShowMenu } from "./page";
 import ProjectCard from "./projectCard";
 
 
-const Projects: React.FC<IShowMenu> = ({setShowMenu, showMenu}) => {
+const Projects: React.FC<IShowMenu> = () => {
   const arrayProjects = [
     {name:"Nombre del Proyecto1", color: "orange.100"},
     {name:"Nombre del Proyecto2", color: "gray.100"},
     {name:"Nombre del Proyecto4", color: "orange.100"},
     {name:"Nombre del Proyecto3", color: "gray.300"},
   ];
-  const handleClick = () => {};
+ 
   return (
     <>
-      <Box pl={"5vw"}  w={"70vw"} onClick={handleClick}>
+      <Box pl={"5vw"}  w={"70vw"}>
         <Box display={"flex"} flexDir={"row"} justifyContent={"space-between"} alignItems={"baseline"}>
           <Text textTransform={"uppercase"} textAlign={"start"} fontSize={"1.5rem"} fontWeight={"thin"}>PROJECTS DASHBOARD</Text>
           <Button h={"3vh"} display={"flex"} variant={"unstyled"} fontWeight={"light"} fontSize={"0.8rem"} textAlign={"end"}>+ ADD PROJECT</Button>

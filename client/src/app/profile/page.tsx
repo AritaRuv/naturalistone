@@ -35,7 +35,7 @@ export interface IShowMenu {
   isSmallThan750?: boolean;
   formData: IFormData;
   setFormData: React.Dispatch<React.SetStateAction<IFormData>>;
-  handleChange?: React.ChangeEvent<HTMLInputElement>;
+  handleChange?: React.ChangeEvent<HTMLInputElement> | any;
 }
 
 export default function Profile() {
