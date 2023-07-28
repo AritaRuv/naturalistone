@@ -1,13 +1,15 @@
 // actions.ts
 import { Dispatch } from "redux";
-import { ProductActionTypes, ProductAction } from "./typesProducts";
+import { ProductActionTypes, ProductAction, Product } from "./typesProducts";
 import {
   getProductValues,
   getProductsHome,
   getMaterials,
   getProduct,
   getDimension,
-  getProductsFilters,
+  // getProductsFilters,
+  getProductImages,
+  getProductValuesValidation
 } from "../../api/apiProds"; // Importa tu función de solicitud a la API
 import { Filters } from "@/app/products/productFilters/types";
 
@@ -65,7 +67,7 @@ export const fetchMaterials = () => {
   };
 };
 
-export const fetchProduct = (ProductNameID: number, DimensionID) => {
+export const fetchProduct = (ProductNameID: number, DimensionID: number) => {
   return async (dispatch: Dispatch<ProductAction>) => {
     try {
       const product = await getProduct(ProductNameID, DimensionID);
@@ -98,19 +100,66 @@ export const fetchDimension = () => {
   };
 };
 
-export const fetchProductsFilters = (filters: Filters) => {
+// export const fetchProductsFilters = (filters: Filters) => {
+//   return async (dispatch: Dispatch<ProductAction>) => {
+//     dispatch({ type: ProductActionTypes.FETCH_PRODUCTS_REQUEST });
+//     try {
+//       const products = await getProductsFilters(filters); 
+//       dispatch({
+//         type: ProductActionTypes.FETCH_PRODUCTS_FILTERS_SUCCESS,
+//         payload: products,
+//       });
+//     } catch (error) {
+//       dispatch({
+//         type: ProductActionTypes.FETCH_PRODUCTS_FAILURE,
+//         error: "Error al obtener los productos",
+//       });
+//     }
+//   };
+// };
+
+export const fetchProductImages = (Material: string, Naturali_ProdName: string) => {
   return async (dispatch: Dispatch<ProductAction>) => {
-    dispatch({ type: ProductActionTypes.FETCH_PRODUCTS_REQUEST });
     try {
-      const products = await getProductsFilters(filters);
+      const images = await getProductImages(Material, Naturali_ProdName);
+
       dispatch({
-        type: ProductActionTypes.FETCH_PRODUCTS_FILTERS_SUCCESS,
-        payload: products,
+        type: ProductActionTypes.FETCH_PRODUCT_IMAGES,
+        payload: images,
+      });
+    } catch (error) {
+      console.error("Error al obtener el product images", error);
+    }
+  };
+};
+
+export const loadProduct = (product: Product) => {
+  return async (dispatch: Dispatch<ProductAction>) => {
+    try {
+      dispatch({
+        type: ProductActionTypes.LOAD_PRODUCT,
+        payload: product,
+      });
+    } catch (error) {
+      console.error("Error al guardar product", error);
+    }
+  };
+};
+
+
+export const fetchProductsValuesValidation = (finish: string, size: string, thickness:string, ProdNameID:number ) => {
+  return async (dispatch: Dispatch<ProductAction>) => {
+    try {
+
+      const productValuesValidation = await getProductValuesValidation(finish, size, thickness, ProdNameID);// Llama a tu función de solicitud a la API
+      dispatch({
+        type: ProductActionTypes.FETCH_PRODUCTS_VALUES_VALIDATION,
+        payload: productValuesValidation,
       });
     } catch (error) {
       dispatch({
         type: ProductActionTypes.FETCH_PRODUCTS_FAILURE,
-        error: "Error al obtener los productos",
+        error: "Error al obtener los product values",
       });
     }
   };

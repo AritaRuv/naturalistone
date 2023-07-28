@@ -6,6 +6,7 @@ import mysqlConnection from "../../db";
 import { RowDataPacket, FieldPacket } from "mysql2";
 import { productDimensions } from "../../controllers/productDimensions";
 import { rmSync } from "fs";
+import { productDimensionsCheckboxes } from "../../controllers/productDimensionsCheckboxes";
 
 export async function getAllProducts(req: Request, res: Response) {
   try {
@@ -194,87 +195,142 @@ export async function getAllDimensionProperties(req: Request, res: Response) {
 
 
 export async function getProductsFilter(req: Request, res: Response) {
-  try {
-    const { material, type, finish, size, thickness } = req.query;
-    console.log(req.query)
-    let query = 'SELECT DISTINCT pn.Naturali_ProdName, pn.Material, pn.ProdNameID  FROM ProdNames pn';
+  // try {
+  //   const { material, type, finish, size, thickness } = req.query;
+  //   console.log(req.query)
+  //   let query = 'SELECT DISTINCT pn.Naturali_ProdName, pn.Material, pn.ProdNameID  FROM ProdNames pn';
 
-    let whereClause = '';
-    const filters: {
-      material?: string | string[] ;
-      type?: string | string[];
-      finish?: string | string[];
-      size?: string | string[];
-      thickness?: string | string[];
-    } = req.query;
+  //   let whereClause = '';
+  //   const filters: {
+  //     material?: string | string[] ;
+  //     type?: string | string[];
+  //     finish?: string | string[];
+  //     size?: string | string[];
+  //     thickness?: string | string[];
+  //   } = req.query;
     
-    const splitValues = (value: string | string[] | undefined, separator: string): string[] => {
-      console.log(value)
-      if (Array.isArray(value)) {
-        return value;
-      }
-      return value ? value.split(separator) : [];
-    };
+  //   const splitValues = (value: string | string[] | undefined, separator: string): string[] => {
+  //     console.log(value)
+  //     if (Array.isArray(value)) {
+  //       return value;
+  //     }
+  //     return value ? value.split(separator) : [];
+  //   };
 
-    const materialValues = splitValues(material, ',');
-    if (materialValues.length > 0) {
-      whereClause += ' AND pn.Material IN (?)';
-      filters['material'] = materialValues;
-    }
+  //   const materialValues = splitValues(material, ',');
+  //   if (materialValues.length > 0) {
+  //     whereClause += ' AND pn.Material IN (?)';
+  //     filters['material'] = materialValues;
+  //   }
 
-    const typeValues = splitValues(type, ',');
-    if (typeValues.length > 0) {
-      query += ' INNER JOIN Products p ON pn.ProdNameID = p.ProdNameID';
-      whereClause += ' AND p.DimensionID IN (SELECT DimensionID FROM Dimension WHERE Dimension.Type IN (?))';
-      filters['type'] = typeValues;
-    }
+  //   const typeValues = splitValues(type, ',');
+  //   if (typeValues.length > 0) {
+  //     query += ' INNER JOIN Products p ON pn.ProdNameID = p.ProdNameID';
+  //     whereClause += ' AND p.DimensionID IN (SELECT DimensionID FROM Dimension WHERE Dimension.Type IN (?))';
+  //     filters['type'] = typeValues;
+  //   }
 
-    const finishValues = splitValues(finish, ',');
-    if (finishValues.length > 0) {
-      query += ' INNER JOIN Products p ON pn.ProdNameID = p.ProdNameID';
-      whereClause += ' AND p.dimensionID IN (SELECT DimensionID FROM Dimension WHERE Dimension.Finish IN (?))';
-      filters['finish'] = finishValues;
-    }
+  //   const finishValues = splitValues(finish, ',');
+  //   if (finishValues.length > 0) {
+  //     query += ' INNER JOIN Products p ON pn.ProdNameID = p.ProdNameID';
+  //     whereClause += ' AND p.dimensionID IN (SELECT DimensionID FROM Dimension WHERE Dimension.Finish IN (?))';
+  //     filters['finish'] = finishValues;
+  //   }
 
-    const sizeValues = splitValues(size, ',');
-    if (sizeValues.length > 0) {
-      query += ' INNER JOIN Products p ON pn.ProdNameID = p.ProdNameID';
-      whereClause += ' AND p.DimensionID IN (SELECT DimensionID FROM Dimension WHERE Dimension.Size IN (?))';
-      filters['size'] = sizeValues;
-    }
+  //   const sizeValues = splitValues(size, ',');
+  //   if (sizeValues.length > 0) {
+  //     query += ' INNER JOIN Products p ON pn.ProdNameID = p.ProdNameID';
+  //     whereClause += ' AND p.DimensionID IN (SELECT DimensionID FROM Dimension WHERE Dimension.Size IN (?))';
+  //     filters['size'] = sizeValues;
+  //   }
 
-    const thicknessValues = splitValues(thickness, ',');
-    if (thicknessValues.length > 0) {
-      query += ' INNER JOIN Products p ON pn.ProdNameID = p.ProdNameID';
-      whereClause += ' AND p.DimensionID IN (SELECT DimensionID FROM Dimension WHERE Dimension.Thickness IN (?))';
-      filters['thickness'] = thicknessValues;
-    }
+  //   const thicknessValues = splitValues(thickness, ',');
+  //   if (thicknessValues.length > 0) {
+  //     query += ' INNER JOIN Products p ON pn.ProdNameID = p.ProdNameID';
+  //     whereClause += ' AND p.DimensionID IN (SELECT DimensionID FROM Dimension WHERE Dimension.Thickness IN (?))';
+  //     filters['thickness'] = thicknessValues;
+  //   }
 
-    if (whereClause) {
-      query += ' WHERE ' + whereClause.slice(5); // Removing the leading ' AND '
-    }
+  //   if (whereClause) {
+  //     query += ' WHERE ' + whereClause.slice(5); // Removing the leading ' AND '
+  //   }
+
+  //   mysqlConnection.query(
+  //     query,
+  //     Object.values(filters).flatMap((value) => {
+  //       if (Array.isArray(value)) {
+  //         return value as string[]; // Convert ParsedQs[] to string[]
+  //       } else if (typeof value === "string") {
+  //         return [value]; // Convert the single value to an array with one element
+  //       } else {
+  //         return []; // Return an empty array if the value is undefined or not a string
+  //       }
+  //     }),
+  //     (error: MysqlError | null, results: RowDataPacket[], fields: FieldInfo[]) => {
+  //       if (error) {
+  //         throw error;
+  //       }
+  //       if (results.length === 0) {
+  //         console.log("Error in productsRoutes.get /");
+  //         res.status(404).json("No products filters");
+  //       } else {
+  //         console.log("Data OK");
+  //         res.status(200).json(results);
+  //       }
+  //     }
+  //   );
+  // } catch (error) {
+  //   res.status(409).send(error);
+  // }
+}
+
+export async function getCheckboxValidation(
+  req: Request,
+  res: Response
+) {
+  try {
+
+    const prodNameID = req.params.id;
+    const finish = req.query.finish?.toString() || ''; // Ensure finish is of type string
+    const thickness = req.query.thickness?.toString() || ''; // Ensure thickness is of type string
+    const size = req.query.size?.toString() || ''; // Ensure size is of type string
+    
+    const query = `
+      SELECT
+        Products.ProdID,
+        Products.SalePrice,
+        Products.DimensionID,
+        Products.ProdNameID,
+        ProdNames.Naturali_ProdName,
+        Dimension.Finish,
+        Dimension.Size,
+        Dimension.Thickness
+      FROM
+        NaturaliStone.Products
+      LEFT JOIN
+        ProdNames ON ProdNames.ProdNameID = Products.ProdNameID
+      LEFT JOIN
+        Dimension ON Dimension.DimensionID = Products.DimensionID
+      WHERE
+        Products.ProdNameID = ?;
+    `;
 
     mysqlConnection.query(
       query,
-      Object.values(filters).flatMap((value) => {
-        if (Array.isArray(value)) {
-          return value as string[]; // Convert ParsedQs[] to string[]
-        } else if (typeof value === "string") {
-          return [value]; // Convert the single value to an array with one element
-        } else {
-          return []; // Return an empty array if the value is undefined or not a string
-        }
-      }),
-      (error: MysqlError | null, results: RowDataPacket[], fields: FieldInfo[]) => {
+      [prodNameID],
+      (error: MysqlError, results: RowDataPacket[], fields: FieldInfo[]) => {
         if (error) {
           throw error;
         }
         if (results.length === 0) {
-          console.log("Error in productsRoutes.get /");
-          res.status(404).json("No products filters");
+          console.log("Error en productsRoutes.get /id/:id");
+          res.status(404).json("No products");
         } else {
           console.log("Data OK");
-          res.status(200).json(results);
+          
+          const filteredProducts = productDimensionsCheckboxes(finish, size, thickness, results)
+          const transformedResults = productDimensions(filteredProducts);  
+          res.status(200).json(transformedResults);
         }
       }
     );

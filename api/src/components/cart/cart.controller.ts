@@ -139,7 +139,7 @@ export async function getCartProducts(req: Request, res: Response) {
 export async function updateCartProducts(req: Request, res: Response){
   try {
     const { Quantity, idCartEntry } = req.body
-    console.log(req.body)
+    
     const query = `UPDATE NaturaliStone.Cart SET Quantity = ${Quantity} WHERE idCartEntry = ${idCartEntry}`;
 
     mysqlConnection.query(
