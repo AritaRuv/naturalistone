@@ -1,7 +1,7 @@
 "use client";
 
 import { Box, useMediaQuery } from "@chakra-ui/react";
-import React, { useState } from 'react';
+import React, { useState } from "react";
 import Logo from "./logo";
 import TextButtonsNavBar from "./textButtonsNavBar";
 import IconButtonsNavBar from "./iconButtonsNavBar";
@@ -12,23 +12,22 @@ import CartButton from "./cartButton";
 
 const NavBar: React.FC = () => {
 
-  const [menuVisible, setMenuVisible] = useState(true)
-  const [hover, setHover] = useState(false)
-  const [active, setActive] = useState(false)
-
+  const [menuVisible, setMenuVisible] = useState(true);
+  const [hover, setHover] = useState(false);
+  const [active, setActive] = useState(false);
   const [smallerThan1200] = useMediaQuery("(max-width: 1200px)");
   const [smallerThan740] = useMediaQuery("(max-width: 740px)");
 
   const handleMenu =() => {
-    setMenuVisible(!menuVisible)
-    setActive(true)
-  }
+    setMenuVisible(!menuVisible);
+    setActive(true);
+  };
 
   const handleHome =() => {
-    setMenuVisible(true)
-    setHover(false)
-    setActive(false)
-  }
+    setMenuVisible(true);
+    setHover(false);
+    setActive(false);
+  };
 
   const handleMouseEnter = () => {
     setHover(true);
@@ -39,29 +38,25 @@ const NavBar: React.FC = () => {
     setHover(false);
   };
 
-  const handleActive = () => {
-    setActive(!active)
-  }
-
   return(
     <>
       {
         !smallerThan1200 ? (
-          <Box display={'flex'} flexDir={'column'} position={'relative'}>
+          <Box display={"flex"} flexDir={"column"} position={"relative"}>
             <Box 
               bg={active ? "white" : hover ? "white" : "none"}
               onMouseEnter={handleMouseEnter}
               onMouseLeave={handleMouseLeave}
               id={"navbar"}
-              w={'100%'} 
-              h={'6vh'} 
-              minH={'60px'} 
-              maxH={'80px'} 
-              display={'flex'} 
-              flexDir={'row'}
+              w={"100%"} 
+              h={"6vh"} 
+              minH={"60px"} 
+              maxH={"80px"} 
+              display={"flex"} 
+              flexDir={"row"}
               zIndex={1}
-              justifyContent={'space-between'} 
-              px={'4%'}
+              justifyContent={"space-between"} 
+              px={"4%"}
             >
               <Logo />
               {
@@ -69,7 +64,7 @@ const NavBar: React.FC = () => {
                   <TextButtonsNavBar menuVisible={menuVisible}/>
                 )
               }
-              <Box display={'flex'} flexDir={'row'} w={'16%'} justifyContent={'space-between'} alignItems="center">
+              <Box display={"flex"} flexDir={"row"} w={"16%"} justifyContent={"space-between"} alignItems="center">
                 <IconButtonsNavBar/>
                 <Menu handleMenu={handleMenu}/>
               </Box>
@@ -77,7 +72,7 @@ const NavBar: React.FC = () => {
             </Box>
             {
               !menuVisible && (
-                  <DropDownMenu handleHome={handleHome} active={active}/>
+                <DropDownMenu handleHome={handleHome} active={active}/>
               )
             }
           </Box>
@@ -87,16 +82,16 @@ const NavBar: React.FC = () => {
             (
               <Box 
                 id={"navbar"}
-                display={'flex'} 
-                flexDir={'row'}
-                w={'100%'} 
-                h={'6vh'} 
-                minH={'60px'} 
-                maxH={'80px'}
+                display={"flex"} 
+                flexDir={"row"}
+                w={"100%"} 
+                h={"6vh"} 
+                minH={"60px"} 
+                maxH={"80px"}
                 zIndex={1}
-                alignItems={'center'}  
-                justifyContent={'space-between'} 
-                px={'4%'}
+                alignItems={"center"}  
+                justifyContent={"space-between"} 
+                px={"4%"}
               >
                 <MenuDrawer handleHome={handleHome} smallerThan740={smallerThan740}/>
                 <Logo/>
@@ -105,16 +100,16 @@ const NavBar: React.FC = () => {
             ):(
               <Box
                 id={"navbar"}
-                display={'flex'} 
-                flexDir={'row'}
-                w={'100%'} 
-                h={'6vh'} 
+                display={"flex"} 
+                flexDir={"row"}
+                w={"100%"} 
+                h={"6vh"} 
                 zIndex={1}
-                minH={'60px'} 
-                maxH={'80px'}
-                alignItems={'center'}  
-                justifyContent={'space-between'} 
-                px={'4%'}
+                minH={"60px"} 
+                maxH={"80px"}
+                alignItems={"center"}  
+                justifyContent={"space-between"} 
+                px={"4%"}
               >
                 <MenuDrawer handleHome={handleHome} smallerThan740={smallerThan740}/>
                 <Logo/>
@@ -124,7 +119,7 @@ const NavBar: React.FC = () => {
       }
 
     </>
-  )
-}
+  );
+};
 
 export default NavBar;

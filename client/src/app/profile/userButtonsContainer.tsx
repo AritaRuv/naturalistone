@@ -12,52 +12,70 @@ import NavBar from "../_navBar/_navBar";
 import { useState } from "react";
 import UserBox from "./userBox";
 import { IShowMenu } from "./page";
+import Link from "next/link";
+import { AppContext } from "../appContext";
+import { useContext } from "react";
 
 const UserButtonsContainer: React.FC<IShowMenu> = ({
   showMenu,
   setShowMenu,
   isSmallThan750,
+  site,
 }) => {
   const [isSmallScreen] = useMediaQuery("(max-width: 1200px)");
 
+  const appContext = useContext(AppContext);
+
   const handleClick = (e) => {
     const { name } = e.target;
-    setShowMenu(name);
+    appContext?.setShowMenu(name);
+    setShowMenu && setShowMenu(name);
   };
 
-  const buttons = ["Profile", "Address", "Projects", "Favorites", "Log out"];
+  const userButtonsArray = [
+    { name: "profile" },
+    { name: "address" },
+    { name: "projects" },
+    { name: "favorites" },
+    { name: "log out" },
+  ];
+
   //CUANDO SE ADAPTE EL COMPONENTE SE DEBE CREAR UN UNICO BOTON Y LUEGO MAPEAR UN ARRAY DE OBJETOS PARA CADA BOTON Y REEMPLAZAR LAS VARIABLES, CON ELLO
   //NOS EVITAMOS REPETIR CODIGO
   return (
     <>
-      <VStack
-        h={isSmallThan750 ? "5vh" : "50vh"}
-        spacing={5}
-        alignItems={"flex-start"}
-        w={isSmallThan750 ? "95vw" : "10vw"}
-        flexDirection={"column"}
-        mt={"20px"}
-        // bg={"red"}
-      >
-        {buttons.length
-          ? buttons.map((element) => (
-              <Button
-                borderLeft={showMenu === element ? "3px solid black" : "unset"}
-                rounded={0}
-                h={"4vh"}
-                // mt={isSmallThan750 ? "5vh" : 0}
-                onClick={handleClick}
-                pl={"1vw"}
-                fontSize="0.8rem"
-                variant="unstyled"
-                fontWeight={"normal"}
-                name={element}
-              >
-                {" "}
-                {element}{" "}
-              </Button>
-            ))
-          : ""}
+      <VStack h={"45vh"} spacing={5} alignItems={"flex-start"} w={"10vw"}>
+        {userButtonsArray.map((button, i) => {
+          return (
+            <Box key={i}>
+              <Link href={site === "navbar" ? "/profile" : ""}>
+                <Button
+                  borderLeft={
+                    site === "navbar"
+                      ? "unset"
+                      : appContext?.showMenu === button.name
+                      ? "3px solid black"
+                      : "unset"
+                  }
+                  _hover={{
+                    fontWeight: "semibold",
+                  }}
+                  rounded={0}
+                  h={"4vh"}
+                  onClick={handleClick}
+                  pl={"1vw"}
+                  fontSize="0.8rem"
+                  variant="unstyled"
+                  fontWeight={"normal"}
+                  name={button.name}
+                  textTransform={"uppercase"}
+                >
+                  {button.name}
+                </Button>
+              </Link>
+            </Box>
+          );
+        })}
       </VStack>
     </>
   );

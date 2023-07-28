@@ -1,10 +1,11 @@
 "use client";
 import { Box, useMediaQuery } from "@chakra-ui/react";
 import NavBar from "../_navBar/_navBar";
-import { useEffect, useState } from "react";
+import { useEffect, useContext, useState } from "react";
 import UserMenu from "./userMenu";
 import ProfileInfo from "./profileInfo";
-import SideCard from "./sideCard";
+import Projects from "./projects";
+import { AppContext } from "../appContext";
 import { useAppDispatch, useAppSelector } from "@/store/hooks";
 import { LoginState, User } from "@/store/login/typeLogin";
 import { userInfo } from "../../store/login/actionsLogin";
@@ -29,6 +30,7 @@ export interface IFormData {
 export interface IShowMenu {
   setShowMenu?: React.Dispatch<React.SetStateAction<string>>;
   showMenu?: string;
+  site?: string;
   user?: User;
   isSmallThan750?: boolean;
   formData: IFormData;
@@ -37,6 +39,8 @@ export interface IShowMenu {
 }
 
 export default function Profile() {
+  const appContext = useContext(AppContext);
+
   const [isSmallScreen] = useMediaQuery("(max-width: 1200px)");
   const [showMenu, setShowMenu] = useState<string>("");
   const dispatch = useAppDispatch();
@@ -91,11 +95,11 @@ export default function Profile() {
           setFormData={setFormData}
         />
         <Box display={"flex"}>
-          {showMenu === "Profile" && (
+          {appContext?.showMenu === "profile" && (
             <>
               <ProfileInfo
-                setShowMenu={setShowMenu}
-                showMenu={showMenu}
+                setShowMenu={appContext?.setShowMenu}
+                showMenu={appContext?.showMenu}
                 user={user}
                 isSmallThan750={isSmallThan750}
                 formData={formData}
@@ -104,14 +108,22 @@ export default function Profile() {
               />
             </>
           )}
-          {showMenu === "Address" && (
+          {appContext?.showMenu === "address" && (
             <>
               <AddressInfo
-                setShowMenu={setShowMenu}
-                showMenu={showMenu}
+                setShowMenu={appContext?.setShowMenu}
+                showMenu={appContext?.showMenu}
                 user={user}
                 formData={formData}
                 setFormData={setFormData}
+              />
+            </>
+          )}
+          {appContext?.showMenu === "projects" && (
+            <>
+              <Projects
+                setShowMenu={appContext?.setShowMenu}
+                showMenu={appContext?.showMenu}
               />
             </>
           )}

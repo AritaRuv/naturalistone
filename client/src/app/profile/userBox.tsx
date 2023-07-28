@@ -27,10 +27,9 @@ export default function UserBox({ user }) {
           ml={"10px"}
         >
           <Text fontWeight={"thin"}>Hey,</Text>
-          <Text fontWeight={"normal"}>{user.Contact_Name}!</Text>
+          <Text fontWeight={"normal"}>{user?.Contact_Name}!</Text>
         </Box>
       </Box>
     </>
   );
 }
-
