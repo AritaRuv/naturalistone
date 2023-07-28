@@ -106,7 +106,7 @@ const ProfileInfo: React.FC<IShowMenu> = ({
                 >
                   {/* <FormLabel htmlFor="fullName"> */}
                   <Box pl={"10px"}>
-                    <Text fontSize={"sm"} color={"#646464"}>
+                    <Text fontSize={"xs"} color={"#646464"}>
                       FULL NAME
                     </Text>
                   </Box>
@@ -139,6 +139,8 @@ const ProfileInfo: React.FC<IShowMenu> = ({
                     />
                     <UpdateCustomer
                       title={"Full Name"}
+                      id={"fullName"}
+                      name={"fullName"}
                       value={user?.Contact_Name}
                       handleChange={handleChange}
                       formData={formData}
@@ -154,7 +156,7 @@ const ProfileInfo: React.FC<IShowMenu> = ({
                 >
                   {/* <FormLabel htmlFor="fullName"> */}
                   <Box pl={"10px"}>
-                    <Text fontSize={"sm"} color={"#646464"}>
+                    <Text fontSize={"xs"} color={"#646464"}>
                       PHONE
                     </Text>
                   </Box>
@@ -187,6 +189,8 @@ const ProfileInfo: React.FC<IShowMenu> = ({
                     />
                     <UpdateCustomer
                       title={"Phone"}
+                      id={"phone"}
+                      name={"phone"}
                       value={user?.Phone}
                       handleChange={handleChange}
                       formData={formData}
@@ -208,7 +212,7 @@ const ProfileInfo: React.FC<IShowMenu> = ({
                 >
                   {/* <FormLabel htmlFor="fullName"> */}
                   <Box pl={"10px"}>
-                    <Text fontSize={"sm"} color={"#646464"}>
+                    <Text fontSize={"xs"} color={"#646464"}>
                       COMPANY
                     </Text>
                   </Box>
@@ -242,6 +246,8 @@ const ProfileInfo: React.FC<IShowMenu> = ({
                     />
                     <UpdateCustomer
                       title={"Company"}
+                      id={"company"}
+                      name={"company"}
                       value={user?.Company}
                       handleChange={handleChange}
                       formData={formData}
@@ -257,7 +263,7 @@ const ProfileInfo: React.FC<IShowMenu> = ({
                 >
                   {/* <FormLabel htmlFor="fullName"> */}
                   <Box pl={"10px"}>
-                    <Text fontSize={"sm"} color={"#646464"}>
+                    <Text fontSize={"xs"} color={"#646464"}>
                       COMPANY ROLE
                     </Text>
                   </Box>
@@ -272,8 +278,8 @@ const ProfileInfo: React.FC<IShowMenu> = ({
                       h={"25px"}
                       w={"80%"}
                       position={"relative"}
-                      id={"CompanyPosition"}
-                      name={"CompanyPosition"}
+                      id={"companyPosition"}
+                      name={"companyPosition"}
                       fontSize={"sm"}
                       value={user?.Company_Position}
                       border={"none"}
@@ -290,6 +296,8 @@ const ProfileInfo: React.FC<IShowMenu> = ({
                     />
                     <UpdateCustomer
                       title={"Company Position"}
+                      id={"companyPosition"}
+                      name={"companyPosition"}
                       value={user?.Company_Position}
                       handleChange={handleChange}
                       formData={formData}
@@ -323,7 +331,7 @@ const ProfileInfo: React.FC<IShowMenu> = ({
                 >
                   {/* <FormLabel htmlFor="fullName"> */}
                   <Box pl={"10px"}>
-                    <Text fontSize={"sm"} color={"#646464"}>
+                    <Text fontSize={"xs"} color={"#646464"}>
                       EMAIL
                     </Text>
                   </Box>
@@ -357,6 +365,8 @@ const ProfileInfo: React.FC<IShowMenu> = ({
                     />
                     <UpdateCustomer
                       title={"Email"}
+                      id={"email"}
+                      name={"email"}
                       value={user?.Username}
                       handleChange={handleChange}
                       formData={formData}
@@ -371,7 +381,7 @@ const ProfileInfo: React.FC<IShowMenu> = ({
                   pt={"20px"}
                 >
                   <Box pl={"10px"}>
-                    <Text fontSize={"sm"} color={"#646464"}>
+                    <Text fontSize={"xs"} color={"#646464"}>
                       PASSWORD
                     </Text>
                   </Box>
@@ -413,6 +423,8 @@ const ProfileInfo: React.FC<IShowMenu> = ({
                     </InputRightElement>
                     <UpdateCustomer
                       title={"Password"}
+                      id={"password"}
+                      name={"password"}
                       value={user?.Password}
                       handleChange={handleChange}
                       formData={formData}

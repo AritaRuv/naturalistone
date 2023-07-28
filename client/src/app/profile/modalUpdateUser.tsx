@@ -27,6 +27,8 @@ export function UpdateCustomer({
   handleChange,
   formData,
   setFormData,
+  name,
+  id,
 }) {
   const [errors, setErrors] = useState({});
   const toast = useToast();
@@ -60,6 +62,8 @@ export function UpdateCustomer({
     dispatch(patchUser(formData));
   };
 
+  console.log("formdata", formData);
+
   return (
     <>
       <Box>
@@ -78,7 +82,7 @@ export function UpdateCustomer({
           }}
           onClick={onOpen}
         >
-          <Text fontSize={"sm"} color={"#646464"}>
+          <Text fontSize={"xs"} color={"#646464"}>
             Edit
           </Text>
         </Button>
@@ -116,11 +120,11 @@ export function UpdateCustomer({
                 h={"40px"}
                 w={"70%"}
                 position={"relative"}
-                id={"phone"}
-                name={"phone"}
+                id={id}
+                name={name}
                 fontSize={"sm"}
                 mr={"30px"}
-                value={value}
+                defaultValue={value}
                 border={"none"}
                 onChange={handleChange}
                 _focus={{

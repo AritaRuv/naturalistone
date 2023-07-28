@@ -86,12 +86,12 @@ const AddressInfo: React.FC<IShowMenu> = ({
                   display={"flex"}
                   w={"full"}
                   flexDirection={"column"}
-                  pt={"10px"}
+                  pt={"20px"}
                   // bg={"yellow"}
                 >
                   {/* <FormLabel htmlFor="fullName"> */}
                   <Box pl={"10px"}>
-                    <Text fontSize={"sm"} color={"#646464"}>
+                    <Text fontSize={"xs"} color={"#646464"}>
                       ADDRESS
                     </Text>
                   </Box>
@@ -125,6 +125,8 @@ const AddressInfo: React.FC<IShowMenu> = ({
                     />
                     <UpdateCustomer
                       title={"Address"}
+                      id={"address"}
+                      name={"address"}
                       value={user?.Address}
                       handleChange={handleChange}
                       formData={formData}
@@ -136,11 +138,11 @@ const AddressInfo: React.FC<IShowMenu> = ({
                   display={"flex"}
                   w={"full"}
                   flexDirection={"column"}
-                  pt={"10px"}
+                  pt={"20px"}
                 >
                   {/* <FormLabel htmlFor="fullName"> */}
                   <Box pl={"10px"}>
-                    <Text fontSize={"sm"} color={"#646464"}>
+                    <Text fontSize={"xs"} color={"#646464"}>
                       STATE
                     </Text>
                   </Box>
@@ -173,6 +175,8 @@ const AddressInfo: React.FC<IShowMenu> = ({
                     />
                     <UpdateCustomer
                       title={"State"}
+                      id={"state"}
+                      name={"state"}
                       value={user?.State}
                       handleChange={handleChange}
                       formData={formData}
@@ -189,12 +193,12 @@ const AddressInfo: React.FC<IShowMenu> = ({
                   display={"flex"}
                   w={"full"}
                   flexDirection={"column"}
-                  pt={"10px"}
+                  pt={"20px"}
                   // bg={"yellow"}
                 >
                   {/* <FormLabel htmlFor="fullName"> */}
                   <Box pl={"10px"}>
-                    <Text fontSize={"sm"} color={"#646464"}>
+                    <Text fontSize={"xs"} color={"#646464"}>
                       CITY
                     </Text>
                   </Box>
@@ -228,6 +232,8 @@ const AddressInfo: React.FC<IShowMenu> = ({
                     />
                     <UpdateCustomer
                       title={"City"}
+                      id={"city"}
+                      name={"city"}
                       value={user?.City}
                       handleChange={handleChange}
                       formData={formData}
@@ -239,11 +245,11 @@ const AddressInfo: React.FC<IShowMenu> = ({
                   display={"flex"}
                   w={"full"}
                   flexDirection={"column"}
-                  pt={"10px"}
+                  pt={"20px"}
                 >
                   {/* <FormLabel htmlFor="fullName"> */}
                   <Box pl={"10px"}>
-                    <Text fontSize={"sm"} color={"#646464"}>
+                    <Text fontSize={"xs"} color={"#646464"}>
                       ZIP CODE
                     </Text>
                   </Box>
@@ -276,6 +282,8 @@ const AddressInfo: React.FC<IShowMenu> = ({
                     />
                     <UpdateCustomer
                       title={"Zip Code"}
+                      id={"zipCode"}
+                      name={"zipCode"}
                       value={user?.ZipCode}
                       handleChange={handleChange}
                       formData={formData}
@@ -285,7 +293,13 @@ const AddressInfo: React.FC<IShowMenu> = ({
                 </Box>
               </Box>
             </Box>
-            <Box display={"flex"} h={"95%"} w={"95%"} flexDirection={"column"}>
+            <Box
+              display={"flex"}
+              h={"95%"}
+              w={"95%"}
+              flexDirection={"column"}
+              pt={"20px"}
+            >
               <Box>
                 <Text fontSize={"md"}>COMPANY ADDRESS</Text>
               </Box>
@@ -297,12 +311,12 @@ const AddressInfo: React.FC<IShowMenu> = ({
                   display={"flex"}
                   w={"full"}
                   flexDirection={"column"}
-                  pt={"10px"}
+                  pt={"20px"}
                   // bg={"yellow"}
                 >
                   {/* <FormLabel htmlFor="fullName"> */}
                   <Box pl={"10px"}>
-                    <Text fontSize={"sm"} color={"#646464"}>
+                    <Text fontSize={"xs"} color={"#646464"}>
                       BILLING ADDRESS
                     </Text>
                   </Box>
@@ -336,6 +350,8 @@ const AddressInfo: React.FC<IShowMenu> = ({
                     />
                     <UpdateCustomer
                       title={"Billing Address"}
+                      id={"billingAddress"}
+                      name={"billingAddress"}
                       value={user?.Billing_Address}
                       handleChange={handleChange}
                       formData={formData}
@@ -347,10 +363,10 @@ const AddressInfo: React.FC<IShowMenu> = ({
                   display={"flex"}
                   w={"full"}
                   flexDirection={"column"}
-                  pt={"10px"}
+                  pt={"20px"}
                 >
                   <Box pl={"10px"}>
-                    <Text fontSize={"sm"} color={"#646464"}>
+                    <Text fontSize={"xs"} color={"#646464"}>
                       BILLING STATE
                     </Text>
                   </Box>
@@ -383,6 +399,8 @@ const AddressInfo: React.FC<IShowMenu> = ({
                     />
                     <UpdateCustomer
                       title={"Billing State"}
+                      id={"billingState"}
+                      name={"billingState"}
                       value={user?.Billing_State}
                       handleChange={handleChange}
                       formData={formData}

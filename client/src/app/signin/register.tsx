@@ -76,32 +76,32 @@ const Register: React.FC<Props> = ({ setActiveLogin, smallerThan600 }) => {
     if (Object.keys(errors).length) {
       return;
     }
-    await postRegister(formData);
-    // if (response.success === false) {
-    //   toast({
-    //     title: "Sign Up",
-    //     description: "Email already exists.",
-    //     status: "warning",
-    //     variant: "subtle",
-    //     duration: 4000,
-    //     isClosable: true,
-    //   });
-    //   return;
-    // }
-    // toast({
-    //   title: "Sign Up",
-    //   description: "Account has been created.",
-    //   status: "success",
-    //   variant: "subtle",
-    //   duration: 4000,
-    //   isClosable: true,
-    // });
-    // setFormData({
-    //   fullName: "",
-    //   email: "",
-    //   password: "",
-    //   confirmPassword: "",
-    // });
+    const response = await postRegister(formData);
+    if (response.success === false) {
+      toast({
+        title: "Sign Up",
+        description: "Email already exists.",
+        status: "warning",
+        variant: "subtle",
+        duration: 4000,
+        isClosable: true,
+      });
+      return;
+    }
+    toast({
+      title: "Sign Up",
+      description: "Account has been created.",
+      status: "success",
+      variant: "subtle",
+      duration: 4000,
+      isClosable: true,
+    });
+    setFormData({
+      fullName: "",
+      email: "",
+      password: "",
+      confirmPassword: "",
+    });
     setErrors({});
     return;
   };
@@ -361,7 +361,7 @@ const Register: React.FC<Props> = ({ setActiveLogin, smallerThan600 }) => {
         <Box>
           <Center>
             <Button
-              onClick={() => handleRegister}
+              onClick={handleRegister}
               fontWeight={"sm"}
               border={"none"}
               backgroundColor={"transparent"}

@@ -1,6 +1,5 @@
 "use client";
 import { useAppDispatch } from "@/store/hooks";
-// import { signinUser } from "@/store/login/actionsLogin";
 import { Signin } from "@/store/login/typeLogin";
 import {
   FormErrors,
@@ -25,7 +24,6 @@ import {
   useToast,
 } from "@chakra-ui/react";
 import React, { useState, useEffect } from "react";
-import { FaRegUserCircle } from "react-icons/fa";
 import { PiLockLight } from "react-icons/pi";
 import { PiUserCircleThin } from "react-icons/pi";
 import { BsEyeSlash } from "react-icons/bs";
@@ -43,7 +41,6 @@ const Login: React.FC<Props> = ({ setActiveLogin, smallerThan600 }) => {
     password: "",
   });
 
-  // console.log("formdataaaaaaaaaaaa", formData);
   const dispatch = useAppDispatch();
   const [errors, setErrors] = useState<FormErrorsLogin>({});
   const [isFormInvalid, setIsFormInvalid] = useState(false);
