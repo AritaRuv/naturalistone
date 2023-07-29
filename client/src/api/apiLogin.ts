@@ -1,9 +1,7 @@
-"use server";
 import { IFormData } from "@/app/profile/page";
 import { Register, Signin, User } from "@/store/login/typeLogin";
 import axios from "axios";
-import { cookies } from "next/headers";
-// import { useRouter } from "next/navigation";
+import Cookies from "js-cookie";
 
 export const postRegister = async (body: Register) => {
   try {
@@ -18,18 +16,13 @@ export const postRegister = async (body: Register) => {
 };
 
 export const postSignin = async (body: Signin) => {
-  const cookieStore = cookies();
-  // const router = useRouter();
   try {
     const { data }: any = await axios.post(
       "http://localhost:5000/api/auth/signin",
       body
     );
 
-    cookieStore.set({
-      name: "sessionId",
-      value: data.results.token,
-    });
+    Cookies.set("sessionId", data.results.token, { expires: 7});
 
     return data;
   } catch (error) {
@@ -38,14 +31,13 @@ export const postSignin = async (body: Signin) => {
 };
 
 export const getUserInfo = async () => {
-  const cookieStore = cookies();
   try {
-    const token: any = cookieStore.get("sessionId");
+    const token: any = Cookies.get("sessionId");
     const response: any = await axios.get(
       "http://localhost:5000/api/auth/userinfo",
       {
         headers: {
-          authorization: token.value,
+          authorization: token,
         },
       }
     );
@@ -56,13 +48,12 @@ export const getUserInfo = async () => {
 };
 
 export const updateUser = async (body: IFormData) => {
-  const cookieStore = cookies();
   try {
-    const token: any = cookieStore.get("sessionId");
+    const token: any = Cookies.get("sessionId");
 
     const response = await axios.patch("http://localhost:5000/api/auth", body, {
       headers: {
-        authorization: token.value,
+        authorization: token,
       },
     });
 

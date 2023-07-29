@@ -72,7 +72,6 @@ export default function Profile() {
   const { user } = useAppSelector(
     (state: { loginReducer: LoginState }) => state.loginReducer
   );
-  console.log("soy user", user);
   useEffect(() => {
     dispatch(userInfo());
   }, []);

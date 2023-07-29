@@ -36,6 +36,12 @@ const loginReducer = (
         user: action.payload,
       };
     }
+    // case LoginActionsType.POST_REGISTER: {
+    //   return {
+    //     ...state,
+    //     user: action.payload,
+    //   },
+    // }
     default: {
       return state;
     }

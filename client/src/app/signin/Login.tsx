@@ -27,7 +27,7 @@ import React, { useState, useEffect } from "react";
 import { PiLockLight } from "react-icons/pi";
 import { PiUserCircleThin } from "react-icons/pi";
 import { BsEyeSlash } from "react-icons/bs";
-import { postSignin } from "@/api/apiLogin";
+import { postRegister, postSignin } from "@/api/apiLogin";
 import { useRouter } from "next/navigation";
 
 export interface Props {

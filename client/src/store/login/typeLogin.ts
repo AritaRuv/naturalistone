@@ -36,6 +36,7 @@ export enum LoginActionsType {
   POST_SIGNIN = "POST_SIGNIN",
   GET_USER_INFO = "GET_USER_INFO",
   UPDATE_USER = "UPDATE_USER",
+  POST_REGISTER = "POST_REGISTER",
 }
 
 export interface PostSigninActions {
@@ -53,7 +54,13 @@ export interface UpdateUserInfoActions {
   payload: User;
 }
 
+export interface RegisterUserInfoActions {
+  type: LoginActionsType.POST_REGISTER;
+  payload: object;
+}
+
 export type LoginAction =
   | PostSigninActions
   | GetUserInfoActions
-  | UpdateUserInfoActions;
+  | UpdateUserInfoActions
+  | RegisterUserInfoActions;

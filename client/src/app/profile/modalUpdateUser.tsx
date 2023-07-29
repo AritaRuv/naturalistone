@@ -62,8 +62,6 @@ export function UpdateCustomer({
     dispatch(patchUser(formData));
   };
 
-  console.log("formdata", formData);
-
   return (
     <>
       <Box>

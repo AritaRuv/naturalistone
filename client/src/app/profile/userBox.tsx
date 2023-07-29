@@ -23,7 +23,7 @@ export default function UserBox({ user }) {
           justifyContent={"center"}
           ml={"10px"}
         >
-          <Text fontWeight={"thin"}>Hey, Eduardooo</Text>
+          <Text fontWeight={"thin"}>Hey,</Text>
           <Text fontWeight={"normal"}>{user?.Contact_Name}!</Text>
         </Box>
       </Box>
