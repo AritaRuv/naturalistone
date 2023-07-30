@@ -8,6 +8,7 @@ import { ProjectsState } from "@/store/projects/typeProjects";
 import { CreateNewProject } from "./addProjectModal";
 
 const Projects: React.FC<IShowMenu> = ({ setShowMenu, showMenu }) => {
+  
   const customerProjects = useAppSelector((state: { projectsReducer: ProjectsState }) => state.projectsReducer.customerProjects);
 
   const [isSmallerThan1520] = useMediaQuery("(max-width: 1520px)");
@@ -55,3 +56,5 @@ const Projects: React.FC<IShowMenu> = ({ setShowMenu, showMenu }) => {
     </>
   );
 }
+
+export default Projects;

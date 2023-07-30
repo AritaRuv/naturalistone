@@ -1,6 +1,6 @@
 /* eslint-disable indent */
 /* eslint-disable quotes */
-import { MysqlError } from "mysql";
+import { FieldInfo, MysqlError } from "mysql";
 import { Request, Response } from "express";
 import mysqlConnection from "../../db";
 import { RowDataPacket } from "mysql2";
@@ -289,15 +289,6 @@ export async function getCheckboxValidation(
 
     mysqlConnection.query(
       query,
-      Object.values(filters).flatMap((value) => {
-        if (Array.isArray(value)) {
-          return value as string[]; // Convert ParsedQs[] to string[]
-        } else if (typeof value === "string") {
-          return [value]; // Convert the single value to an array with one element
-        } else {
-          return []; // Return an empty array if the value is undefined or not a string
-        }
-      }),
       (error: MysqlError | null, results: RowDataPacket[],) => {
         if (error) {
           throw error;
