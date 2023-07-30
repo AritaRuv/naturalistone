@@ -17,5 +17,6 @@ productsRouter.get("/material", getAllMaterials);
 productsRouter.get("/dimension", getAllDimensionProperties);
 productsRouter.get("/id/:id", getProductsValuesByProdNameID);
 productsRouter.get("/valid/id/:id", getCheckboxValidation);
+productsRouter.get("/filters", getProductsFilter);
 
 export default productsRouter;

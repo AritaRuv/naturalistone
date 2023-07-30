@@ -1,15 +1,15 @@
-import React from 'react';
-import { Box, IconButton, Button, Text, Center } from '@chakra-ui/react';
-import NextImage from 'next/image';
-import { useState } from 'react';
-import { PiCaretDownThin } from 'react-icons/pi';
-import '../assets/styleSheet.css';
-import { Product, ProductState } from '@/store/products/typesProducts';
-import AddProductToCart from './addToCartDropdown';
-import { useAppDispatch, useAppSelector } from '@/store/hooks';
-import { fetchProductsValues, loadProduct } from '@/store/products/actionsProducts';
-import Link from 'next/link';
-import AddSampleProductToCart from './addSampleToCartDropdown';
+import React from "react";
+import { Box, IconButton, Button, Text, Center } from "@chakra-ui/react";
+import NextImage from "next/image";
+import { useState } from "react";
+import { PiCaretDownThin } from "react-icons/pi";
+import "../assets/styleSheet.css";
+import { Product, ProductState } from "@/store/products/typesProducts";
+import AddProductToCart from "./addToCartDropdown";
+import { useAppDispatch, useAppSelector } from "@/store/hooks";
+import { fetchProductsValues, loadProduct } from "@/store/products/actionsProducts";
+import Link from "next/link";
+import AddSampleProductToCart from "./addSampleToCartDropdown";
 
 
 const ProductCard: React.FC<{ product: Product; site: string }> = ({
@@ -24,9 +24,9 @@ const ProductCard: React.FC<{ product: Product; site: string }> = ({
 
   const [showAddSampleToCart, setShowAddSmapleToCart] = useState(false);
 
-  const { Naturali_ProdName, Material, ProdNameID  } = product
+  const { Naturali_ProdName, Material, ProdNameID  } = product;
 
-  const URL = `https://naturalistone-images.s3.amazonaws.com/${Material}/${Naturali_ProdName}/${Naturali_ProdName}_0.jpg`
+  const URL = `https://naturalistone-images.s3.amazonaws.com/${Material}/${Naturali_ProdName}/${Naturali_ProdName}_0.jpg`;
 
   const { productValues } = useAppSelector(
     (state: { productReducer: ProductState }) => state.productReducer
@@ -35,7 +35,7 @@ const ProductCard: React.FC<{ product: Product; site: string }> = ({
   const handleMouseEnter = () => {
     setIsDropdownOpen(true);
     setDisableBox(true);
-    if (!productValues.hasOwnProperty(ProdNameID)) {
+    if (!(ProdNameID in productValues)) {
       dispatch(fetchProductsValues({ ProdNameID }));
     }
   };
@@ -43,8 +43,8 @@ const ProductCard: React.FC<{ product: Product; site: string }> = ({
   const handleMouseLeave = () => {
     setIsDropdownOpen(false);
     setDisableBox(false);
-    setShowAddToCart(false)
-    setShowAddSmapleToCart(false)
+    setShowAddToCart(false);
+    setShowAddSmapleToCart(false);
   };
 
   const handleAddProductToCart = () => {
@@ -56,8 +56,8 @@ const ProductCard: React.FC<{ product: Product; site: string }> = ({
   };
 
   const handleClickCard = () => {
-    dispatch(loadProduct(product))
-  }
+    dispatch(loadProduct(product));
+  };
 
   return (
     <Box position="relative" zIndex={2}>
@@ -106,13 +106,13 @@ const ProductCard: React.FC<{ product: Product; site: string }> = ({
             w={"260px"}
             zIndex={10}
             className="custom-popover"
-            bg={!showAddToCart ? 'rgba(210, 210, 210, 0.7)' : (site === 'products' ? 'rgba(210, 210, 210, 0.7)' : 'white')}
-            borderBottomEndRadius={'md'}
-            borderBottomStartRadius={'md'}
+            bg={!showAddToCart ? "rgba(210, 210, 210, 0.7)" : (site === "products" ? "rgba(210, 210, 210, 0.7)" : "white")}
+            borderBottomEndRadius={"md"}
+            borderBottomStartRadius={"md"}
           >
-            <Box pt={'2%'} bg={!showAddToCart ? 'rgba(210, 210, 210, 0.7)' : (site === 'products' ? 'rgba(210, 210, 210, 0.7)' : 'white')}>
-              <Center mt={'5%'} flexDir={'column'} h={'40px'}>
-                <Text fontSize={'0.6rem'} textTransform={'uppercase'}>
+            <Box pt={"2%"} bg={!showAddToCart ? "rgba(210, 210, 210, 0.7)" : (site === "products" ? "rgba(210, 210, 210, 0.7)" : "white")}>
+              <Center mt={"5%"} flexDir={"column"} h={"40px"}>
+                <Text fontSize={"0.6rem"} textTransform={"uppercase"}>
                   {Material}
                 </Text>
                 <Button
@@ -124,38 +124,38 @@ const ProductCard: React.FC<{ product: Product; site: string }> = ({
                 </Button>
               </Center>
               { 
-              !showAddToCart && !showAddSampleToCart ?
-              <Box display={'flex'} justifyContent={'space-between'} px={'8%'}>
-                <Button
-                  fontSize={'0.6rem'}
-                  fontWeight={'light'}
-                  variant={'unstyled'}
-                  _hover={{
-                    fontWeight: 'semibold',
-                  }}
-                  onClick={handleAddSampleToCart}
-                >
+                !showAddToCart && !showAddSampleToCart ?
+                  <Box display={"flex"} justifyContent={"space-between"} px={"8%"}>
+                    <Button
+                      fontSize={"0.6rem"}
+                      fontWeight={"light"}
+                      variant={"unstyled"}
+                      _hover={{
+                        fontWeight: "semibold",
+                      }}
+                      onClick={handleAddSampleToCart}
+                    >
                   ORDER SAMPLE
-                </Button>
-                <Button
-                  fontSize={'0.6rem'}
-                  fontWeight={'light'}
-                  variant={'unstyled'}
-                  _hover={{
-                    fontWeight: 'semibold',
-                  }}
-                  onClick={handleAddProductToCart}
-                >
+                    </Button>
+                    <Button
+                      fontSize={"0.6rem"}
+                      fontWeight={"light"}
+                      variant={"unstyled"}
+                      _hover={{
+                        fontWeight: "semibold",
+                      }}
+                      onClick={handleAddProductToCart}
+                    >
                   ADD TO CART
-                </Button>
-              </Box>
-              :
-              showAddToCart ?
-                <AddProductToCart ProdNameID={ProdNameID} productValues={productValues}/>
-                :
-              showAddSampleToCart ?  
-                <AddSampleProductToCart ProdNameID={ProdNameID} productValues={productValues}/>
-                : null
+                    </Button>
+                  </Box>
+                  :
+                  showAddToCart ?
+                    <AddProductToCart ProdNameID={ProdNameID} productValues={productValues}/>
+                    :
+                    showAddSampleToCart ?  
+                      <AddSampleProductToCart ProdNameID={ProdNameID} productValues={productValues}/>
+                      : null
               }
             </Box>
           </Box>

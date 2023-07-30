@@ -6,7 +6,6 @@ import mysqlConnection from "../../db";
 import { RowDataPacket } from "mysql2";
 import { productDimensions } from "../../controllers/productDimensions";
 import { productDimensionsCheckboxes } from "../../controllers/productDimensionsCheckboxes";
-import { rmSync } from "fs";
 
 export async function getAllProducts(req: Request, res: Response) {
   try {
@@ -215,7 +214,32 @@ export async function getProductsFilter(req: Request, res: Response) {
       }
       return value ? value.split(separator) : [];
     };
+    const materialValues = splitValues(material, ',');
+    if (materialValues.length > 0) {
+      whereClause += ' AND pn.Material IN (?)';
+      filters['material'] = materialValues;
+    }
 
+    const typeValues = splitValues(type, ',');
+    if (typeValues.length > 0) {
+      query += ' INNER JOIN Products p ON pn.ProdNameID = p.ProdNameID';
+      whereClause += ' AND p.DimensionID IN (SELECT DimensionID FROM Dimension WHERE type IN (?))';
+      filters['type'] = typeValues;
+    }
+
+    const finishValues = splitValues(finish, ',');
+    if (finishValues.length > 0) {
+      query += ' INNER JOIN Products p ON pn.ProdNameID = p.ProdNameID';
+      whereClause += ' AND p.dimensionID IN (SELECT DimensionID FROM Dimension WHERE finish IN (?))';
+      filters['finish'] = finishValues;
+    }
+
+    const sizeValues = splitValues(size, ',');
+    if (sizeValues.length > 0) {
+      query += ' INNER JOIN Products p ON pn.ProdNameID = p.ProdNameID';
+      whereClause += ' AND p.DimensionID IN (SELECT DimensionID FROM Dimension WHERE size IN (?))';
+      filters['size'] = sizeValues;
+    }
     const thicknessValues = splitValues(thickness, ',');
     if (thicknessValues.length > 0) {
       query += ' INNER JOIN Products p ON pn.ProdNameID = p.ProdNameID';
@@ -238,7 +262,7 @@ export async function getProductsFilter(req: Request, res: Response) {
           return []; // Return an empty array if the value is undefined or not a string
         }
       }),
-      (error: MysqlError | null, results: RowDataPacket[], fields: FieldInfo[]) => {
+      (error: MysqlError | null, results: RowDataPacket[]) => {
         if (error) {
           throw error;
         }
@@ -262,7 +286,7 @@ export async function getCheckboxValidation(
 ) {
   try {
 
-    const prodNameID = req.params.id;
+    //const prodNameID = req.params.id;
     const finish = req.query.finish?.toString() || ''; // Ensure finish is of type string
     const thickness = req.query.thickness?.toString() || ''; // Ensure thickness is of type string
     const size = req.query.size?.toString() || ''; // Ensure size is of type string
@@ -299,7 +323,7 @@ export async function getCheckboxValidation(
         } else {
           console.log("Data OK");
           
-          const filteredProducts = productDimensionsCheckboxes(finish, size, thickness, results)
+          const filteredProducts = productDimensionsCheckboxes(finish, size, thickness, results);
           const transformedResults = productDimensions(filteredProducts);  
           res.status(200).json(transformedResults);
         }
