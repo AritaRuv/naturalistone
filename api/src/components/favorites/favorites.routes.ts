@@ -5,6 +5,6 @@ import {
 
 const favoritesRouter: Router = Router();
 
-favoritesRouter.get("/", getAllFavorites);
+favoritesRouter.get("/get_all/:customer_id", getAllFavorites);
 
 export default favoritesRouter;

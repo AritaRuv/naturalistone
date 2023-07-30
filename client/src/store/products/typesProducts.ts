@@ -27,7 +27,7 @@ export interface ProductState {
   productValues: ProductData;
   productValuesValidation: ProductData;
   materials: string[];
-  product: Product | {};
+  product: Product | null;
   loading: boolean;
   error: string | null;
   dimensions: DimensionData | null;
@@ -40,9 +40,10 @@ interface ImageResponse {
 }
 
 export enum ProductActionTypes {
-  FETCH_PRODUCTS_HOME_REQUEST = "FETCH_PRODUCTS_HOME_REQUEST",
+  FETCH_PRODUCTS_REQUEST = "FETCH_PRODUCTS_REQUEST",
+  FETCH_PRODUCTS_SUCCESS = "FETCH_PRODUCTS_HOME_SUCCESS",
+  FETCH_PRODUCTS_FAILURE = "FETCH_PRODUCTS_FAILURE",
   FETCH_PRODUCTS_HOME_SUCCESS = "FETCH_PRODUCTS_HOME_SUCCESS",
-  FETCH_PRODUCTS_HOME_FAILURE = "FETCH_PRODUCTS_HOME_FAILURE",
   FETCH_PRODUCTS_VALUES = "FETCH_PRODUCTS_VALUES",
   FETCH_PRODUCTS_VALUES_VALIDATION = "FETCH_PRODUCTS_VALUES_VALIDATION",
   FETCH_MATERIALS = "FETCH_MATERIALS",
@@ -53,8 +54,8 @@ export enum ProductActionTypes {
   FETCH_PRODUCTS_FILTERS_SUCCESS = "FETCH_PRODUCTS_FILTERS_SUCCESS",
 }
 
-export interface FetchProductsHomeRequestAction {
-  type: ProductActionTypes.FETCH_PRODUCTS_HOME_REQUEST;
+export interface FetchProductsRequestAction {
+  type: ProductActionTypes.FETCH_PRODUCTS_REQUEST;
 }
 
 export interface FetchProductsHomeSuccessAction {
@@ -66,8 +67,8 @@ export interface FetchProductsFiltersSuccessAction {
   payload: Product[];
 }
 
-export interface FetchProductsHomeFailureAction {
-  type: ProductActionTypes.FETCH_PRODUCTS_HOME_FAILURE;
+export interface FetchProductsFailureAction {
+  type: ProductActionTypes.FETCH_PRODUCTS_FAILURE;
   error: string;
 }
 
@@ -92,7 +93,7 @@ export interface FetchDimensionAction {
 
 export interface FetchProductAction {
   type: ProductActionTypes.FETCH_PRODUCT_BY_IDS;
-  payload: {};
+  payload: Product[];
 }
 
 export interface FetchProductImages {
@@ -106,10 +107,10 @@ export interface LoadProduct {
 }
 
 export type ProductAction =
-  | FetchProductsHomeRequestAction
+  | FetchProductsRequestAction
+  | FetchProductsFailureAction
   | FetchProductsHomeSuccessAction
   | FetchProductsFiltersSuccessAction
-  | FetchProductsHomeFailureAction
   | FetchProductsDataAction
   | FetchProductsDataValidationAction
   | FetchMaterialsAction

@@ -1,5 +1,5 @@
 
-'use client'
+"use client";
 import { Box, useMediaQuery } from "@chakra-ui/react";
 import NavBar from "../_navBar/_navBar";
 import MaterialFilter from "./productFilters/materialFilter";
@@ -23,11 +23,11 @@ export default function Products() {
   const { materials } = useAppSelector(
     (state: { productReducer: ProductState }) => state.productReducer
   );
-  const dispatch = useAppDispatch()
+  const dispatch = useAppDispatch();
   
   useEffect(()=>{
-    dispatch(fetchDimension())
-  },[])
+    dispatch(fetchDimension());
+  },[]);
 
   const [isSmallScreen] = useMediaQuery("(max-width: 1200px)");
   const [showMenu, setShowMenu] = useState("");
@@ -41,8 +41,8 @@ export default function Products() {
   const handleCheckboxChange = (filterName: string, value: string) => {
     setFilters((prevFilters) => {
       const updatedFilters = { ...prevFilters };
-  
-      if (!updatedFilters.hasOwnProperty(filterName)) {
+      
+      if (!(filterName in updatedFilters)) {
         updatedFilters[filterName] = [];
       }
       const isValueSelected = updatedFilters[filterName].includes(value);
@@ -56,36 +56,36 @@ export default function Products() {
       }
       return updatedFilters;
     });
-    dispatch(fetchProductsFilters(filters))
+    dispatch(fetchProductsFilters(filters));
   };
 
   return (
     <>
       <NavBar />
-        <Box h={'93vh'}>
-          {
-            !isSmallScreen ? (
-              <>
-                {/* <MaterialFilter setFilters={setFilters} filters={filters} handleCheckboxChange={handleCheckboxChange}/> */}
-                <Box display={'flex'} flexDir={'row'} w={'100vw'}>
-                  <ProductsFilters setFilters={setFilters} filters={filters} handleCheckboxChange={handleCheckboxChange}/>
-                  <ProductsContainer {...filters} />
-                </Box>
-              </> 
-            ):(
-              <>
-                <FilterButtons setFilters={setFilters} filters={filters} setShowMenu={setShowMenu} showMenu={showMenu}/>
-                {
-                  showMenu !== '' && (
-                    <FiltersDropDownMenu setShowMenu={setShowMenu} showMenu={showMenu} finish={dimensions?.Finish} size={dimensions?.Size} materials={materials} thickness={dimensions?.Thickness} type={dimensions?.Type}/>              
-                  )
-                }
-                <Box zIndex={2}>
-                  <ProductsContainer {...filters} />
-                </Box>
-              </>
-            )
-          }
+      <Box h={"93vh"}>
+        {
+          !isSmallScreen ? (
+            <>
+              {/* <MaterialFilter setFilters={setFilters} filters={filters} handleCheckboxChange={handleCheckboxChange}/> */}
+              <Box display={"flex"} flexDir={"row"} w={"100vw"}>
+                <ProductsFilters setFilters={setFilters} filters={filters} handleCheckboxChange={handleCheckboxChange}/>
+                <ProductsContainer {...filters} />
+              </Box>
+            </> 
+          ):(
+            <>
+              <FilterButtons setFilters={setFilters} filters={filters} setShowMenu={setShowMenu} showMenu={showMenu}/>
+              {
+                showMenu !== "" && (
+                  <FiltersDropDownMenu setShowMenu={setShowMenu} showMenu={showMenu} finish={dimensions?.Finish} size={dimensions?.Size} materials={materials} thickness={dimensions?.Thickness} type={dimensions?.Type}/>              
+                )
+              }
+              <Box zIndex={2}>
+                <ProductsContainer {...filters} />
+              </Box>
+            </>
+          )
+        }
         
       </Box>
     </>

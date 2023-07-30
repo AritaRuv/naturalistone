@@ -22,7 +22,9 @@ const AddProductToCart: React.FC<AddProductToCartProps> = ({
       w={"260px"}
       h={"20vh"}
       flexDir={"column"}
-      >
+      position={"relative"}
+      zIndex={10}
+    >
       <ProductList data={productValues} ProdNameID={ProdNameID} />
     </Box>
   );
