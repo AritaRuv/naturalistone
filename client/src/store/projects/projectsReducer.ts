@@ -3,7 +3,16 @@ import { ProjectsAction, ProjectsActionsType, ProjectsState } from './typeProjec
 
 
 const initialState: ProjectsState = {
-  customerProjects: [], 
+  customerProjects: [],
+  project: {
+    idProjects: 0,
+    ProjectName: '',
+    CustomerID: 0,
+    Shipping_Address: '',
+    Shipping_ZipCode: '',
+    Shipping_State: '',
+    Shipping_City: ''
+  } 
 };
 
 const projectsReducer = (
@@ -20,6 +29,11 @@ const projectsReducer = (
       return {
         ...state,
         customerProjects: action.payload,
+      };
+    case ProjectsActionsType.FETCH_PROJECT:
+      return {
+        ...state,
+        project: action.payload,
       };
     default:
       return state;

@@ -1,7 +1,7 @@
 // actions.ts
 import { Dispatch } from "redux";
 import { ProjectsAction, ProjectsActionsType } from './typeProjects';
-import { createProject, getProjects } from "@/api/apiProjects";
+import { createProject, getProject, getProjects } from "@/api/apiProjects";
 
 export interface bodyProject {
   ProjectName: string;
@@ -44,6 +44,21 @@ export const postCustomerProject = (CustomerID: number, bodyCart:bodyProject) =>
       });
     } catch (error) {
       console.error(`Error al obtener los projectos del Customer: ${CustomerID}`, error);
+    }
+  };
+};
+
+export const fetchProjectByID = (projectID: number) => {
+  return async (dispatch: Dispatch<ProjectsAction>) => {
+    try {
+
+      const project = await getProject(projectID);
+      dispatch({
+        type: ProjectsActionsType.FETCH_PROJECT,
+        payload: project,
+      });
+    } catch (error) {
+      console.error(`Error al obtener el projecto: ${projectID}`, error);
     }
   };
 };
