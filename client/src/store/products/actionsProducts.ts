@@ -100,7 +100,7 @@ export const fetchDimension = () => {
   };
 };
 
-// export const fetchProductsFilters = (filters: Filters) => {
+export const fetchProductsFilters = (filters: Filters) => {
 //   return async (dispatch: Dispatch<ProductAction>) => {
 //     dispatch({ type: ProductActionTypes.FETCH_PRODUCTS_REQUEST });
 //     try {
@@ -116,7 +116,7 @@ export const fetchDimension = () => {
 //       });
 //     }
 //   };
-// };
+};
 
 export const fetchProductImages = (Material: string, Naturali_ProdName: string) => {
   return async (dispatch: Dispatch<ProductAction>) => {

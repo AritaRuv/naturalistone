@@ -18,8 +18,8 @@ export async function getProjectsByCustomer(req: Request, res: Response) {
           throw error;
         }
         if (results.length === 0) {
-          console.log("Error en productsRoutes.get /");
-          res.status(404).json("No products");
+          console.log("Error en projectRoutes.get /");
+          res.status(404).json("No projects");
         } else {
           console.log("Data OK");
           res.status(200).json(results);
@@ -41,13 +41,39 @@ export async function postNewProject(req: Request, res: Response) {
     mysqlConnection.query(query, projectValues, (error: MysqlError, results: RowDataPacket[], insertFields: FieldInfo[]) => {
       if(error) throw error;
       if(results.length == 0) {
-          console.log('Error en salesRoutes.get /create-project/:customerID')
+          console.log('Error en projectRoutes.post /create-project/:customerID')
           res.status(200).json([]);
       } else {
           console.log('Project created successfully')
           res.status(200).json(results);
       }
     });
+  } catch (error) {
+    res.status(409).send(error);
+  }
+}
+
+export async function getProjectByID(req: Request, res: Response) {
+  try {
+    const { id } = req.params;
+    const query = `SELECT * FROM Projects WHERE idProjects = ${id};`
+                    
+
+    mysqlConnection.query(
+      query,
+      (error: MysqlError, results: RowDataPacket, fields: FieldPacket) => {
+        if (error) {
+          throw error;
+        }
+        if (results.length === 0) {
+          console.log("Error en projectRoutes.get /");
+          res.status(404).json("No project");
+        } else {
+          console.log("Data OK");
+          res.status(200).json(results[0]);
+        }
+      }
+    );
   } catch (error) {
     res.status(409).send(error);
   }
