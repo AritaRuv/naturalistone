@@ -192,7 +192,6 @@ export async function getAllDimensionProperties(req: Request, res: Response) {
   }
 }
 
-
 export async function getProductsFilter(req: Request, res: Response) {
   try {
     const { material, type, finish, size, thickness } = req.query;
@@ -286,49 +285,49 @@ export async function getCheckboxValidation(
 ) {
   try {
 
-    //const prodNameID = req.params.id;
-    const finish = req.query.finish?.toString() || ''; // Ensure finish is of type string
-    const thickness = req.query.thickness?.toString() || ''; // Ensure thickness is of type string
-    const size = req.query.size?.toString() || ''; // Ensure size is of type string
+    // //const prodNameID = req.params.id;
+    // const finish = req.query.finish?.toString() || ''; // Ensure finish is of type string
+    // const thickness = req.query.thickness?.toString() || ''; // Ensure thickness is of type string
+    // const size = req.query.size?.toString() || ''; // Ensure size is of type string
     
-    const query = `
-      SELECT
-        Products.ProdID,
-        Products.SalePrice,
-        Products.DimensionID,
-        Products.ProdNameID,
-        ProdNames.Naturali_ProdName,
-        Dimension.Finish,
-        Dimension.Size,
-        Dimension.Thickness
-      FROM
-        NaturaliStone.Products
-      LEFT JOIN
-        ProdNames ON ProdNames.ProdNameID = Products.ProdNameID
-      LEFT JOIN
-        Dimension ON Dimension.DimensionID = Products.DimensionID
-      WHERE
-        Products.ProdNameID = ?;
-    `;
+    // const query = `
+    //   SELECT
+    //     Products.ProdID,
+    //     Products.SalePrice,
+    //     Products.DimensionID,
+    //     Products.ProdNameID,
+    //     ProdNames.Naturali_ProdName,
+    //     Dimension.Finish,
+    //     Dimension.Size,
+    //     Dimension.Thickness
+    //   FROM
+    //     NaturaliStone.Products
+    //   LEFT JOIN
+    //     ProdNames ON ProdNames.ProdNameID = Products.ProdNameID
+    //   LEFT JOIN
+    //     Dimension ON Dimension.DimensionID = Products.DimensionID
+    //   WHERE
+    //     Products.ProdNameID = ?;
+    // `;
 
-    mysqlConnection.query(
-      query,
-      (error: MysqlError | null, results: RowDataPacket[],) => {
-        if (error) {
-          throw error;
-        }
-        if (results.length === 0) {
-          console.log("Error en productsRoutes.get /id/:id");
-          res.status(404).json("No products");
-        } else {
-          console.log("Data OK");
+    // mysqlConnection.query(
+    //   query,
+    //   (error: MysqlError | null, results: RowDataPacket[],) => {
+    //     if (error) {
+    //       throw error;
+    //     }
+    //     if (results.length === 0) {
+    //       console.log("Error en productsRoutes.get /id/:id");
+    //       res.status(404).json("No products");
+    //     } else {
+    //       console.log("Data OK");
           
-          const filteredProducts = productDimensionsCheckboxes(finish, size, thickness, results);
-          const transformedResults = productDimensions(filteredProducts);  
-          res.status(200).json(transformedResults);
-        }
-      }
-    );
+    //       const filteredProducts = productDimensionsCheckboxes(finish, size, thickness, results);
+    //       const transformedResults = productDimensions(filteredProducts);  
+    //       res.status(200).json(transformedResults);
+    //     }
+    //   }
+    // );
   } catch (error) {
     res.status(409).send(error);
   }

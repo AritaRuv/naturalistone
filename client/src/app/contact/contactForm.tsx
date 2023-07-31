@@ -38,8 +38,6 @@ const ContactForm: React.FC = () => {
     );
   };
 
-  console.log("erros", errors);
-
   const handleClick = async () => {
     setShowErrors(true);
     if (Object.keys(errors).length) return;
@@ -56,44 +54,18 @@ const ContactForm: React.FC = () => {
 
   return (
     <>
-      <Box h={"100vh"} w={smallerThan640 ? "100vw" : "35vw"} bg={"#f2f2f2"}>
+      <Box h={"100vh"}>
         <Box
-          // h={"30vh"}
-          w={"full"}
-          display={"flex"}
-          justifyContent={"flex-start"}
-          alignItems={"center"}
-          flexDirection={"column"}
-          // gap={"10px"}
-          // bg={"blue"}
-        >
-          <Box display={"flex"} w={"90%"}>
-            <Text fontSize={"md"}>
-              Contact us here to discover the beauty of being attended in a
-              Naturalistone way.
-            </Text>
-          </Box>
-          <Box display={"flex"} w={"90%"} mt={"2vh"}>
-            <Text fontSize={"md"}>
-              You are invited to our showroom to see and feel the nicest array
-              of material collections.
-            </Text>
-          </Box>
-        </Box>
-        <Box
-          // bg={"yellow"}
-          h={"full"}
-          w={"full"}
           display={"flex"}
           justifyContent={"flex-start"}
           alignItems={"center"}
           flexDirection={"column"}
           pt={"2vh"}
         >
-          <Box w={"90%"} h={"full"} flexDirection={"column"}>
-            <Box w={"full"} display={"flex"} flexDirection={"row"}>
-              <Text fontSize={"md"} color={"#646464"}>
-                Name
+          <Box h={"full"} flexDirection={"column"}>
+            <Box w={"full"} display={"flex"} flexDirection={"row"} alignItems={"baseline"}>
+              <Text fontSize={"sm"} color={"#646464"}>
+                NAME
               </Text>
               <Text color={"gray"} fontSize={"sm"} pl={"1vh"} pt={"0.3vh"}>
                 (required)
@@ -285,7 +257,6 @@ const ContactForm: React.FC = () => {
                   h={"63px"}
                 >
                   <Input
-                    // h={"15vh"}
                     id={"message"}
                     name={"message"}
                     value={formData.message}

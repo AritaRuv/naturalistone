@@ -15,7 +15,6 @@ Object.defineProperty(exports, "__esModule", { value: true });
 exports.getCheckboxValidation = exports.getProductsFilter = exports.getAllDimensionProperties = exports.getAllMaterials = exports.getProductByIDS = exports.getProductsValuesByProdNameID = exports.getAllProducts = void 0;
 const db_1 = __importDefault(require("../../db"));
 const productDimensions_1 = require("../../controllers/productDimensions");
-const productDimensionsCheckboxes_1 = require("../../controllers/productDimensionsCheckboxes");
 function getAllProducts(req, res) {
     return __awaiter(this, void 0, void 0, function* () {
         try {
@@ -270,47 +269,48 @@ function getProductsFilter(req, res) {
 }
 exports.getProductsFilter = getProductsFilter;
 function getCheckboxValidation(req, res) {
-    var _a, _b, _c;
     return __awaiter(this, void 0, void 0, function* () {
         try {
-            //const prodNameID = req.params.id;
-            const finish = ((_a = req.query.finish) === null || _a === void 0 ? void 0 : _a.toString()) || ''; // Ensure finish is of type string
-            const thickness = ((_b = req.query.thickness) === null || _b === void 0 ? void 0 : _b.toString()) || ''; // Ensure thickness is of type string
-            const size = ((_c = req.query.size) === null || _c === void 0 ? void 0 : _c.toString()) || ''; // Ensure size is of type string
-            const query = `
-      SELECT
-        Products.ProdID,
-        Products.SalePrice,
-        Products.DimensionID,
-        Products.ProdNameID,
-        ProdNames.Naturali_ProdName,
-        Dimension.Finish,
-        Dimension.Size,
-        Dimension.Thickness
-      FROM
-        NaturaliStone.Products
-      LEFT JOIN
-        ProdNames ON ProdNames.ProdNameID = Products.ProdNameID
-      LEFT JOIN
-        Dimension ON Dimension.DimensionID = Products.DimensionID
-      WHERE
-        Products.ProdNameID = ?;
-    `;
-            db_1.default.query(query, (error, results) => {
-                if (error) {
-                    throw error;
-                }
-                if (results.length === 0) {
-                    console.log("Error en productsRoutes.get /id/:id");
-                    res.status(404).json("No products");
-                }
-                else {
-                    console.log("Data OK");
-                    const filteredProducts = (0, productDimensionsCheckboxes_1.productDimensionsCheckboxes)(finish, size, thickness, results);
-                    const transformedResults = (0, productDimensions_1.productDimensions)(filteredProducts);
-                    res.status(200).json(transformedResults);
-                }
-            });
+            // //const prodNameID = req.params.id;
+            // const finish = req.query.finish?.toString() || ''; // Ensure finish is of type string
+            // const thickness = req.query.thickness?.toString() || ''; // Ensure thickness is of type string
+            // const size = req.query.size?.toString() || ''; // Ensure size is of type string
+            // const query = `
+            //   SELECT
+            //     Products.ProdID,
+            //     Products.SalePrice,
+            //     Products.DimensionID,
+            //     Products.ProdNameID,
+            //     ProdNames.Naturali_ProdName,
+            //     Dimension.Finish,
+            //     Dimension.Size,
+            //     Dimension.Thickness
+            //   FROM
+            //     NaturaliStone.Products
+            //   LEFT JOIN
+            //     ProdNames ON ProdNames.ProdNameID = Products.ProdNameID
+            //   LEFT JOIN
+            //     Dimension ON Dimension.DimensionID = Products.DimensionID
+            //   WHERE
+            //     Products.ProdNameID = ?;
+            // `;
+            // mysqlConnection.query(
+            //   query,
+            //   (error: MysqlError | null, results: RowDataPacket[],) => {
+            //     if (error) {
+            //       throw error;
+            //     }
+            //     if (results.length === 0) {
+            //       console.log("Error en productsRoutes.get /id/:id");
+            //       res.status(404).json("No products");
+            //     } else {
+            //       console.log("Data OK");
+            //       const filteredProducts = productDimensionsCheckboxes(finish, size, thickness, results);
+            //       const transformedResults = productDimensions(filteredProducts);  
+            //       res.status(200).json(transformedResults);
+            //     }
+            //   }
+            // );
         }
         catch (error) {
             res.status(409).send(error);

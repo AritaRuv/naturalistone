@@ -12,9 +12,7 @@ export const userInfo = () => {
   return async (dispatch: Dispatch<LoginAction>) => {
     try {
       const { data } = await getUserInfo();
-
-      console.log("soy data", data);
-
+      
       dispatch({
         type: LoginActionsType.GET_USER_INFO,
         payload: data,
