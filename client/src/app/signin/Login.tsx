@@ -1,29 +1,22 @@
 "use client";
-import { useAppDispatch } from "@/store/hooks";
 import { Signin } from "@/store/login/typeLogin";
 import {
-  FormErrors,
   FormErrorsLogin,
-  validateCompletedInputs,
   validateCompletedInputsLogin,
 } from "@/utils/validateForms";
 import {
   Box,
   Button,
   Center,
-  FormControl,
-  FormErrorMessage,
-  FormLabel,
   IconButton,
   Input,
   InputGroup,
   InputLeftElement,
   InputRightElement,
   Text,
-  useMediaQuery,
   useToast,
 } from "@chakra-ui/react";
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
 import { PiLockLight } from "react-icons/pi";
 import { PiUserCircleThin } from "react-icons/pi";
 import { BsEyeSlash } from "react-icons/bs";
@@ -41,16 +34,14 @@ const Login: React.FC<Props> = ({ setActiveLogin, smallerThan600 }) => {
     password: "",
   });
 
-  const dispatch = useAppDispatch();
+
   const [errors, setErrors] = useState<FormErrorsLogin>({});
-  const [isFormInvalid, setIsFormInvalid] = useState(false);
   const [show, setShow] = useState(false);
   const [showErrors, setShowErrors] = useState(false);
   const toast = useToast();
   const router = useRouter();
 
   const handleChange = (event) => {
-    // setErrors({});
     const name = event.target.name;
     const value = event.target.value;
     setFormData({

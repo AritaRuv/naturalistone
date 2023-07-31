@@ -39,9 +39,9 @@ export interface IShowMenu {
 }
 
 export default function Profile() {
+
   const appContext = useContext(AppContext);
 
-  const [isSmallScreen] = useMediaQuery("(max-width: 1200px)");
   const [showMenu, setShowMenu] = useState<string>("");
   const dispatch = useAppDispatch();
   const [isSmallThan750] = useMediaQuery("(max-width: 750px)");
@@ -72,7 +72,7 @@ export default function Profile() {
   const { user } = useAppSelector(
     (state: { loginReducer: LoginState }) => state.loginReducer
   );
-  console.log("soy user", user);
+  
   useEffect(() => {
     dispatch(userInfo());
   }, []);

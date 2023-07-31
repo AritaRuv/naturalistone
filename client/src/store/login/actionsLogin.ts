@@ -1,11 +1,9 @@
 import {
   getUserInfo,
-  postRegister,
-  postSignin,
   updateUser,
 } from "@/api/apiLogin";
 import { Dispatch } from "redux";
-import { LoginAction, LoginActionsType, Register, Signin } from "./typeLogin";
+import { LoginAction, LoginActionsType } from "./typeLogin";
 import { IFormData } from "@/app/profile/page";
 
 export const userInfo = () => {

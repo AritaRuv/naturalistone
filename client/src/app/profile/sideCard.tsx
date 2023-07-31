@@ -14,13 +14,12 @@ const SideCard: React.FC<IShowMenu> = () => {
         border={"2px solid"}
         rounded={"sm"}
         borderColor={"gray.200"}
-        // w={"21vw"}
         w={"300px"}
         minW={"250px"}
         p={"2vh"}
         h={"120px"}
         mt={isSmallThan1000 ? "5vh" : 0}
-        ml={isSmallThan1000 ? "5vh" : 0}
+        ml={isSmallThan1000 ? "5vh" : "0.8vw"}
       >
         <Text textTransform={"uppercase"} fontSize={"0.9rem"}>
           SUBSCRIBE!

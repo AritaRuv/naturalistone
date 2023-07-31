@@ -4,8 +4,7 @@ import {
   Button,
   Input,
   InputGroup,
-  Text,
-  useMediaQuery,
+  Text
 } from "@chakra-ui/react";
 import React, { useState } from "react";
 import { PostEmailToNaturali } from "@/api/apiPostmark";
@@ -13,7 +12,7 @@ import { EmailNaturali } from "@/utils/types";
 import { validateInputsFormEmail } from "@/utils/validateForms";
 
 const ContactForm: React.FC = () => {
-  const [smallerThan640] = useMediaQuery("(max-width: 640px)");
+ 
   const [formData, setFormData] = useState<EmailNaturali>({
     firstName: "",
     lastName: "",

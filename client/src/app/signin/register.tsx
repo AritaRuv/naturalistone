@@ -3,34 +3,26 @@ import {
   Box,
   Button,
   Center,
-  FormControl,
-  FormErrorMessage,
-  FormLabel,
   IconButton,
   Input,
   InputGroup,
   InputLeftElement,
   InputRightElement,
-  SimpleGrid,
   Text,
-  useMediaQuery,
   useToast,
 } from "@chakra-ui/react";
-import { useState, useEffect } from "react";
+import { useState } from "react";
 import { PiUserCircleThin } from "react-icons/pi";
 import { PiLockLight } from "react-icons/pi";
 import { TfiEmail } from "react-icons/tfi";
 import { Props } from "./Login";
 import { FormErrors, validateCompletedInputs } from "@/utils/validateForms";
-import { useDispatch } from "react-redux";
-import { useAppDispatch } from "@/store/hooks";
 import { Register } from "@/store/login/typeLogin";
-// import { registerUser } from "@/store/login/actionsLogin";
 import { BsEyeSlash } from "react-icons/bs";
 import { postRegister } from "@/api/apiLogin";
 
 const Register: React.FC<Props> = ({ setActiveLogin, smallerThan600 }) => {
-  // const [smallerThan600] = useMediaQuery("(max-width: 600px)");
+
   const [formData, setFormData] = useState<Register>({
     fullName: "",
     email: "",
@@ -38,7 +30,6 @@ const Register: React.FC<Props> = ({ setActiveLogin, smallerThan600 }) => {
     confirmPassword: "",
   });
   const [errors, setErrors] = useState<FormErrors>({});
-  const [isFormInvalid, setIsFormInvalid] = useState(false);
   const [showPassword, setShowPassword] = useState(false);
   const [showConfirmPassword, setShowConfirmPassword] = useState(false);
   const toast = useToast();
