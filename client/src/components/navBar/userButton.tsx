@@ -13,8 +13,8 @@ import {
 } from "@chakra-ui/react";
 import { PiUserCircleThin } from "react-icons/pi";
 import "./_navBar.css";
-import UserBox from "../profile/userBox";
-import UserButtonsContainer from "../profile/userButtonsContainer";
+import UserBox from "@/app/profile/userBox";
+import UserButtonsContainer from "@/app/profile/userButtonsContainer";
 
 const UserButton: React.FC = () => {
 

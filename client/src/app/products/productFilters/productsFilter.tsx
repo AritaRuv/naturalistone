@@ -16,28 +16,28 @@ const ProductsFilters: React.FC<FiltersState> = ({filters, setFilters, handleChe
   const { dimensions } = useAppSelector(
     (state: { productReducer: ProductState }) => state.productReducer
   );
-  const dispatch = useAppDispatch()
+  const dispatch = useAppDispatch();
   const [is1200Screen] = useMediaQuery("(max-width: 1200px)");
 
   useEffect(()=>{
-    dispatch(fetchDimension())
-  },[])
+    dispatch(fetchDimension());
+  },[]);
 
   return (
     <>
-    <SimpleGrid w={'15vw'} p={'15px'} position={'fixed'} h={'73.5vh'} top={'10vh'} spacingY={2} >
-      {
-        dimensions && (
-          <>
-            <FiltersType type={dimensions.Type} handleCheckboxChange={handleCheckboxChange}/>
-            <FiltersSize size={dimensions.Size} handleCheckboxChange={handleCheckboxChange}/>
-            <FiltersFinish finish={dimensions.Finish} handleCheckboxChange={handleCheckboxChange}/>
-            <FiltersThickness thickness={dimensions.Thickness} handleCheckboxChange={handleCheckboxChange}/>
-          </>
-        )
-      }
+      <SimpleGrid w={"15vw"} p={"15px"} position={"fixed"} h={"73.5vh"} top={"10vh"} spacingY={2} >
+        {
+          dimensions && (
+            <>
+              <FiltersType type={dimensions.Type} handleCheckboxChange={handleCheckboxChange}/>
+              <FiltersSize size={dimensions.Size} handleCheckboxChange={handleCheckboxChange}/>
+              <FiltersFinish finish={dimensions.Finish} handleCheckboxChange={handleCheckboxChange}/>
+              <FiltersThickness thickness={dimensions.Thickness} handleCheckboxChange={handleCheckboxChange}/>
+            </>
+          )
+        }
       
-    </SimpleGrid>
+      </SimpleGrid>
     </>
   );
 };

@@ -1,6 +1,5 @@
 "use client";
 import { Box, useMediaQuery } from "@chakra-ui/react";
-import NavBar from "../_navBar/_navBar";
 import { useEffect, useContext, useState } from "react";
 import UserMenu from "./userMenu";
 import ProfileInfo from "./profileInfo";
@@ -79,7 +78,6 @@ export default function Profile() {
 
   return (
     <>
-      <NavBar />
       <Box
         px={"5vw"}
         py={isSmallThan750 ? 0 : "10vh"}

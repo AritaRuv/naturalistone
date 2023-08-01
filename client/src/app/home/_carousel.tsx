@@ -1,22 +1,16 @@
 "use client";
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
 import {
   Box,
   Center,
   IconButton,
-  useBreakpointValue,
   Text,
-  Button,
-  useMediaQuery,
+  Button
 } from "@chakra-ui/react";
-// Here we have used react-icons package for the icons
-import { BiLeftArrowAlt, BiRightArrowAlt } from "react-icons/bi";
-// And react-slick as our Carousel Lib
 import Slider from "react-slick";
-import { PiCaretDownThin } from "react-icons/pi";
 import { IoIosArrowDown } from "react-icons/io";
 
-export default function Carousel({ mt, items, hidden }) {
+export default function Carousel({ mt, items }) {
   // As we have used custom buttons, we need a reference variable to
   // change the state
   const [slider, setSlider] = React.useState<Slider | null>(null);
@@ -101,7 +95,7 @@ export default function Carousel({ mt, items, hidden }) {
                   ml={"48vw"}
                   mb={"5vh"}
                   color={"black"}
-                  bg={'none'}
+                  bg={"none"}
                 ></IconButton>
               </Box>
               {isDropdownOpen && (

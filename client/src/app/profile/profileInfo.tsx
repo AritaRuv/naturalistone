@@ -85,7 +85,6 @@ const ProfileInfo: React.FC<IShowMenu> = ({
                   w={"full"}
                   flexDirection={"column"}
                   pt={"20px"}
-                  // bg={"yellow"}
                 >
                   {/* <FormLabel htmlFor="fullName"> */}
                   <Box pl={"10px"}>
@@ -98,7 +97,6 @@ const ProfileInfo: React.FC<IShowMenu> = ({
                     display={"flex"}
                     flexDirection={"column"}
                     h={"60px"}
-                    // bg={"green"}
                     pl={"10px"}
                   >
                     <Input

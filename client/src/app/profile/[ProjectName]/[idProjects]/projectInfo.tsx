@@ -22,11 +22,11 @@ const ProjecteInfo = ({params}) => {
   
   return (
     <>
-      <Box pl={"4.5vw"} pt={"6vh"}  w={"25vw"} h={"91vh"}>
+      <Box pl={"4.5vw"} pt={"5vh"} w={"25vw"} h={"91vh"}>
         <Link href={"/profile"}>
           <Button h={"3vh"} display={"flex"} variant={"unstyled"} fontWeight={"light"} fontSize={"0.7rem"} textAlign={"end"}>← BACK</Button>
         </Link>
-        <Text fontSize={"1.2rem"} fontWeight={"normal"}>{ProjectName?.toUpperCase()}</Text>
+        <Text fontSize={"1.2rem"} fontWeight={"normal"} w={"15vw"}>{ProjectName?.toUpperCase()}</Text>
         <VStack pl={"2vw"} pt={"2vh"} alignItems={"flex-start"} mt={"5vh"}>
           <Box>
             <Text borderLeft={"2px solid black"} pl={"1vh"} fontSize={"0.9rem"} fontWeight={"semibold"}>PROYECT INFORMATION</Text>

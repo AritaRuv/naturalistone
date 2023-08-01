@@ -1,8 +1,6 @@
-import { useDisclosure, Modal, ModalOverlay, ModalContent, ModalHeader, ModalCloseButton, ModalBody, ModalFooter, Button } from "@chakra-ui/react"
-import { TbBuildingCommunity } from "react-icons/tb";
+import { useDisclosure, Modal, ModalOverlay, ModalContent, ModalHeader, ModalCloseButton, ModalBody, ModalFooter, Button } from "@chakra-ui/react";
 import { useState } from "react";
-import { validateCompletedInputsProject, validateEmptyInputsProjects } from '../assets/validateForm'
-import { useToast } from "@chakra-ui/react";
+import { validateCompletedInputsProject } from "../assets/validateForm";
 import CreateProjectForm from "./createProjectForm";
 import { postCustomerProject } from "@/store/projects/actionsProjects";
 import { useAppDispatch } from "@/store/hooks";
@@ -10,18 +8,16 @@ import { useAppDispatch } from "@/store/hooks";
 
 export function CreateNewProject({CustomerID}) {
 
-  const toast = useToast()
-  const toastId = 'error-toast'
-  const [errors, setErrors] = useState({})
-  const { isOpen, onOpen, onClose } = useDisclosure()
-  const [changeInput, setChangeInput] = useState(false)
+  const [errors, setErrors] = useState({});
+  const { isOpen, onOpen, onClose } = useDisclosure();
+  const [changeInput, setChangeInput] = useState(false);
   const [formData, setFormData] = useState({
-    ProjectName: '',
+    ProjectName: "",
     CustomerID: CustomerID,
-    Shipping_State: '',
-    Shipping_ZipCode: '',
-    Shipping_City: '',
-    Shipping_Address: ''
+    Shipping_State: "",
+    Shipping_ZipCode: "",
+    Shipping_City: "",
+    Shipping_Address: ""
   });
 
   const dispatch = useAppDispatch();
@@ -41,57 +37,57 @@ export function CreateNewProject({CustomerID}) {
     //       isClosable: true,
     //       }))
     // }}else{
-      dispatch(postCustomerProject(CustomerID, formData));
-      setErrors({})
-      handleClose()
+    dispatch(postCustomerProject(CustomerID, formData));
+    setErrors({});
+    handleClose();
     // } 
-  }
+  };
 
 
   const handleClose = () => {
     setFormData({
-        ProjectName: '',
-        CustomerID: CustomerID,
-        Shipping_State: '',
-        Shipping_ZipCode: '',
-        Shipping_City: '',
-        Shipping_Address: ''
-    })
-    setChangeInput(false)
-    setErrors({})
-    onClose()
-  }
+      ProjectName: "",
+      CustomerID: CustomerID,
+      Shipping_State: "",
+      Shipping_ZipCode: "",
+      Shipping_City: "",
+      Shipping_Address: ""
+    });
+    setChangeInput(false);
+    setErrors({});
+    onClose();
+  };
 
   return (
     <>
       <Button 
-        h={'3vh'} 
-        display={'flex'} 
-        variant={'unstyled'} 
-        fontWeight={'light'} 
-        fontSize={'0.8rem'}
-        textAlign={'end'}
+        h={"3vh"} 
+        display={"flex"} 
+        variant={"unstyled"} 
+        fontWeight={"light"} 
+        fontSize={"0.8rem"}
+        textAlign={"end"}
         onClick={onOpen}
-        >+ ADD PROJECT</Button>
-      <Modal size={'xl'} isOpen={isOpen} onClose={()=>handleClose()} motionPreset='slideInRight'>
+      >+ ADD PROJECT</Button>
+      <Modal size={"xl"} isOpen={isOpen} onClose={()=>handleClose()} motionPreset='slideInRight'>
         <ModalOverlay/>
         <ModalContent
-        bg={'whitesmoke'}
-        border={'1px solid'}
-        borderColor={'grey'}>
-          <ModalHeader textAlign={'start'} fontSize={'1.2rem'} fontWeight={'thin'} pt={'5%'} pl={'5%'}>CREATE PROJECT</ModalHeader>
+          bg={"whitesmoke"}
+          border={"1px solid"}
+          borderColor={"grey"}>
+          <ModalHeader textAlign={"start"} fontSize={"1.2rem"} fontWeight={"thin"} pt={"5%"} pl={"5%"}>CREATE PROJECT</ModalHeader>
           <ModalCloseButton onClick={()=>handleClose()} />
-            <ModalBody >
-              <CreateProjectForm formData={formData} setFormData={setFormData} errors={errors}
-               setErrors={setErrors} validateCompletedInputsProject={validateCompletedInputsProject} setChangeInput={setChangeInput}/>
-            </ModalBody>
-            <ModalFooter>
-              <Button className="customButton" variant={'unstyled'}fontSize={'0.9rem'} fontWeight={'thin'} pb={'1%'} pr={'1%'} onClick={()=>handleSubmit()}>
+          <ModalBody >
+            <CreateProjectForm formData={formData} setFormData={setFormData} errors={errors}
+              setErrors={setErrors} validateCompletedInputsProject={validateCompletedInputsProject} setChangeInput={setChangeInput}/>
+          </ModalBody>
+          <ModalFooter>
+            <Button className="customButton" variant={"unstyled"}fontSize={"0.9rem"} fontWeight={"thin"} pb={"1%"} pr={"1%"} onClick={()=>handleSubmit()}>
                 SUBMIT
-              </Button>
-              </ModalFooter>
-            </ModalContent>
-          </Modal>
-        </>
-      )
-    }
+            </Button>
+          </ModalFooter>
+        </ModalContent>
+      </Modal>
+    </>
+  );
+}

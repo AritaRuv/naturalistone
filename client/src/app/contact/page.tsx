@@ -1,6 +1,5 @@
 "use client";
 import { Box, Text, Divider, Icon } from "@chakra-ui/react";
-import NavBar from "../_navBar/_navBar";
 import NaturaliMap from "./googleMaps";
 import { ContactImage } from "./contactImage";
 import { SocialMediaContainer } from "./socialMedia";
@@ -11,7 +10,6 @@ export const Contact = () => {
 
   return (
     <>
-      <NavBar />
       <Box>
         <ContactImage />
       </Box>

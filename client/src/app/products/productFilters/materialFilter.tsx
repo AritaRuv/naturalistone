@@ -10,45 +10,45 @@ const MaterialFilter: React.FC<FiltersState> = ({filters, setFilters, handleChec
   const { materials } = useAppSelector(
     (state: { productReducer: ProductState }) => state.productReducer
   );
-  const dispatch = useAppDispatch()
+  const dispatch = useAppDispatch();
   
   useEffect(()=>{
-    dispatch(fetchMaterials())
-  },[])
+    dispatch(fetchMaterials());
+  },[]);
 
   return (
     <SimpleGrid
-      h={'20vh'}
+      h={"20vh"}
       spacingY={4}
       py={"1%"}
       w={"100%"}
       columns={7} 
-      pt={'6vh'}
+      pt={"6vh"}
       bg={"white"}
-      position={'fixed'}
-      alignItems={'flex-start'}
-      display={'grid'}
-      flexDir={'row'}
+      position={"fixed"}
+      alignItems={"flex-start"}
+      display={"grid"}
+      flexDir={"row"}
     >
-        {
-          materials.map(mat => {
-            return(
-            <Box key={mat} display={'flex'} justifyContent={'flex-end'} alignItems={'flex-start'} w={'170px'}>
-                <Tooltip label={mat} isDisabled={mat.length > 15 ? false : true}>
-                  <Text mr={'10px'} textTransform={'uppercase'}  fontSize={'0.9rem'}>{mat.length > 15 ? mat.slice(0,13)+'...' : mat}</Text>
-                </Tooltip>
-                <Box display={'flex'} alignItems={'center'} h={'20px'}>
+      {
+        materials.map(mat => {
+          return(
+            <Box key={mat} display={"flex"} justifyContent={"flex-end"} alignItems={"flex-start"} w={"170px"}>
+              <Tooltip label={mat} isDisabled={mat.length > 15 ? false : true}>
+                <Text mr={"10px"} textTransform={"uppercase"}  fontSize={"0.9rem"}>{mat.length > 15 ? mat.slice(0,13)+"..." : mat}</Text>
+              </Tooltip>
+              <Box display={"flex"} alignItems={"center"} h={"20px"}>
                 <Checkbox
                   colorScheme='whiteAlpha'
                   iconColor="orange"
-                  borderColor={'blackAlpha.400'}
+                  borderColor={"blackAlpha.400"}
                   onChange={() => handleCheckboxChange("materials", mat)}
                 />
-                </Box>
+              </Box>
                 
-            </Box>)
-          })
-        }
+            </Box>);
+        })
+      }
     </SimpleGrid>
   );
 };

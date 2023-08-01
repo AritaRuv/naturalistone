@@ -1,5 +1,5 @@
 "use client";
-import React, { useEffect, useRef} from "react";
+import React, { useEffect} from "react";
 import {
   Box, 
   IconButton,
@@ -25,7 +25,7 @@ import Link from "next/link";
 const CartButton: React.FC = () => {
 
   const { isOpen, onOpen, onClose } = useDisclosure();
-  const { cart, loading, error } = useAppSelector((state: { cartReducer: CartState }) => state.cartReducer);
+  const { cart } = useAppSelector((state: { cartReducer: CartState }) => state.cartReducer);
   const dispatch = useAppDispatch();
   // const router = useRouter();
 

@@ -1,7 +1,7 @@
 "use client";
 import { useEffect } from "react";
 import { SimpleGrid, useMediaQuery } from "@chakra-ui/react";
-import ProductCard from "../products/_productCard";
+import ProductCard from "../../components/productCard/_productCard";
 import { ProductState } from "../../store/products/typesProducts";
 import { useAppDispatch, useAppSelector } from "../../store/hooks";
 import { Filters } from "./productFilters/types";
