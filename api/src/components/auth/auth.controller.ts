@@ -4,14 +4,14 @@ import { Response, Request, NextFunction } from "express";
 import { sign, verify } from "jsonwebtoken";
 import bcrypt from "bcrypt";
 
-export async function register(req: Request, res: Response) {
+export async function signUp(req: Request, res: Response) {
   const { fullName, email, password } = req.body;
   try {
     mysqlConnection.beginTransaction(function (err) {
       if (err) {
         return res
           .status(400)
-          .json({ success: false, msg: "error in post /register" });
+          .json({ success: false, msg: "error in post /signup" });
       }
 
       const query = `SELECT * FROM Customer_Login WHERE Username = "${email}"`;
@@ -44,7 +44,7 @@ export async function register(req: Request, res: Response) {
             if (err) {
               res
                 .status(400)
-                .json({ success: false, msg: "error in register user" });
+                .json({ success: false, msg: "error in signup user" });
               return mysqlConnection.rollback(function (err) {
                 throw err;
               });
@@ -54,13 +54,13 @@ export async function register(req: Request, res: Response) {
               if (err) {
                 res
                   .status(500)
-                  .json({ success: false, msg: "failed to register user" });
+                  .json({ success: false, msg: "failed to signup user" });
                 return mysqlConnection.rollback(function () {
                   throw err;
                 });
               }
 
-              console.log("Register committed successfully");
+              console.log("SignUp committed successfully");
 
               return res
                 .status(200)

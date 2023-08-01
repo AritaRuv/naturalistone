@@ -1,7 +1,7 @@
 import express from "express";
 import {
   protectedRoute,
-  register,
+  signUp,
   signIn,
   validateJWT,
   userInfo,
@@ -10,7 +10,7 @@ import {
 
 const authRouter = express.Router();
 
-authRouter.post("/register", register);
+authRouter.post("/signup", signUp);
 authRouter.post("/signin", signIn);
 authRouter.get("/userinfo", userInfo);
 authRouter.patch("/", validateJWT, updateUser);
