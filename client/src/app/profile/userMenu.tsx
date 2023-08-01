@@ -1,7 +1,5 @@
 "use client";
-import { Avatar, Box, useMediaQuery, Text } from "@chakra-ui/react";
-import NavBar from "../_navBar/_navBar";
-import { useState } from "react";
+import { Box} from "@chakra-ui/react";
 import UserBox from "./userBox";
 import UserButtonsContainer from "./userButtonsContainer";
 import { IShowMenu } from "./page";

@@ -1,15 +1,15 @@
 /* eslint-disable indent */
 /* eslint-disable quotes */
 import { FieldInfo, MysqlError } from "mysql";
-import express, { Request, Response } from "express";
+import { Request, Response } from "express";
 import mysqlConnection from "../../db";
-import { RowDataPacket, FieldPacket } from "mysql2";
+import { RowDataPacket } from "mysql2";
 import { productDimensions } from "../../controllers/productDimensions";
-import { rmSync } from "fs";
+import { productDimensionsCheckboxes } from "../../controllers/productDimensionsCheckboxes";
 
 export async function getAllProducts(req: Request, res: Response) {
   try {
-    const { material, colorId } = req.query;
+    const { material } = req.query;
 
     const query = `SELECT DISTINCT Products.ProdNameID, ProdNames.Material, ProdNames.Naturali_ProdName, ProdNames.ProdNameID,
                   Product_Colors.ColorID, Product_Colors.idColorProduct, Product_Colors.ProductID
@@ -30,7 +30,7 @@ export async function getAllProducts(req: Request, res: Response) {
 
     mysqlConnection.query(
       query,
-      (error: MysqlError, results: RowDataPacket[], fields: FieldPacket[]) => {
+      (error: MysqlError, results: RowDataPacket[]) => {
         if (error) {
           throw error;
         }
@@ -78,7 +78,7 @@ export async function getProductsValuesByProdNameID(
     mysqlConnection.query(
       query,
       [prodNameID],
-      (error: MysqlError, results: RowDataPacket[], fields: FieldInfo[]) => {
+      (error: MysqlError, results: RowDataPacket[]) => {
         if (error) {
           throw error;
         }
@@ -105,7 +105,7 @@ export async function getProductByIDS(req: Request, res: Response) {
 
     mysqlConnection.query(
       query,
-      (error: MysqlError, results: RowDataPacket[], fields: FieldPacket[]) => {
+      (error: MysqlError, results: RowDataPacket[]) => {
         if (error) {
           throw error;
         }
@@ -131,7 +131,7 @@ export async function getAllMaterials(req: Request, res: Response) {
 
     mysqlConnection.query(
       query,
-      (error: MysqlError, results: RowDataPacket[], fields: FieldPacket[]) => {
+      (error: MysqlError, results: RowDataPacket[]) => {
         if (error) {
           throw error;
         }
@@ -168,7 +168,7 @@ export async function getAllDimensionProperties(req: Request, res: Response) {
 
     mysqlConnection.query(
       query,
-      (error: MysqlError, results: RowDataPacket[], fields: FieldPacket[]) => {
+      (error: MysqlError, results: RowDataPacket[]) => {
         if (error) {
           throw error;
         }
@@ -192,11 +192,10 @@ export async function getAllDimensionProperties(req: Request, res: Response) {
   }
 }
 
-
 export async function getProductsFilter(req: Request, res: Response) {
   try {
     const { material, type, finish, size, thickness } = req.query;
-    console.log(req.query)
+
     let query = 'SELECT DISTINCT pn.Naturali_ProdName, pn.Material, pn.ProdNameID  FROM ProdNames pn';
 
     let whereClause = '';
@@ -208,14 +207,12 @@ export async function getProductsFilter(req: Request, res: Response) {
       thickness?: string | string[];
     } = req.query;
     
-    const splitValues = (value: string | string[] | undefined, separator: string): string[] => {
-      console.log(value)
+    const splitValues = (value: string | string[] | undefined | any, separator: string): string[] => {
       if (Array.isArray(value)) {
         return value;
       }
       return value ? value.split(separator) : [];
     };
-
     const materialValues = splitValues(material, ',');
     if (materialValues.length > 0) {
       whereClause += ' AND pn.Material IN (?)';
@@ -225,24 +222,23 @@ export async function getProductsFilter(req: Request, res: Response) {
     const typeValues = splitValues(type, ',');
     if (typeValues.length > 0) {
       query += ' INNER JOIN Products p ON pn.ProdNameID = p.ProdNameID';
-      whereClause += ' AND p.DimensionID IN (SELECT DimensionID FROM Dimension WHERE Dimension.Type IN (?))';
+      whereClause += ' AND p.DimensionID IN (SELECT DimensionID FROM Dimension WHERE type IN (?))';
       filters['type'] = typeValues;
     }
 
     const finishValues = splitValues(finish, ',');
     if (finishValues.length > 0) {
       query += ' INNER JOIN Products p ON pn.ProdNameID = p.ProdNameID';
-      whereClause += ' AND p.dimensionID IN (SELECT DimensionID FROM Dimension WHERE Dimension.Finish IN (?))';
+      whereClause += ' AND p.dimensionID IN (SELECT DimensionID FROM Dimension WHERE finish IN (?))';
       filters['finish'] = finishValues;
     }
 
     const sizeValues = splitValues(size, ',');
     if (sizeValues.length > 0) {
       query += ' INNER JOIN Products p ON pn.ProdNameID = p.ProdNameID';
-      whereClause += ' AND p.DimensionID IN (SELECT DimensionID FROM Dimension WHERE Dimension.Size IN (?))';
+      whereClause += ' AND p.DimensionID IN (SELECT DimensionID FROM Dimension WHERE size IN (?))';
       filters['size'] = sizeValues;
     }
-
     const thicknessValues = splitValues(thickness, ',');
     if (thicknessValues.length > 0) {
       query += ' INNER JOIN Products p ON pn.ProdNameID = p.ProdNameID';
@@ -265,7 +261,7 @@ export async function getProductsFilter(req: Request, res: Response) {
           return []; // Return an empty array if the value is undefined or not a string
         }
       }),
-      (error: MysqlError | null, results: RowDataPacket[], fields: FieldInfo[]) => {
+      (error: MysqlError | null, results: RowDataPacket[]) => {
         if (error) {
           throw error;
         }
@@ -278,6 +274,60 @@ export async function getProductsFilter(req: Request, res: Response) {
         }
       }
     );
+  } catch (error) {
+    res.status(409).send(error);
+  }
+}
+
+export async function getCheckboxValidation(
+  req: Request,
+  res: Response
+) {
+  try {
+
+    // //const prodNameID = req.params.id;
+    // const finish = req.query.finish?.toString() || ''; // Ensure finish is of type string
+    // const thickness = req.query.thickness?.toString() || ''; // Ensure thickness is of type string
+    // const size = req.query.size?.toString() || ''; // Ensure size is of type string
+    
+    // const query = `
+    //   SELECT
+    //     Products.ProdID,
+    //     Products.SalePrice,
+    //     Products.DimensionID,
+    //     Products.ProdNameID,
+    //     ProdNames.Naturali_ProdName,
+    //     Dimension.Finish,
+    //     Dimension.Size,
+    //     Dimension.Thickness
+    //   FROM
+    //     NaturaliStone.Products
+    //   LEFT JOIN
+    //     ProdNames ON ProdNames.ProdNameID = Products.ProdNameID
+    //   LEFT JOIN
+    //     Dimension ON Dimension.DimensionID = Products.DimensionID
+    //   WHERE
+    //     Products.ProdNameID = ?;
+    // `;
+
+    // mysqlConnection.query(
+    //   query,
+    //   (error: MysqlError | null, results: RowDataPacket[],) => {
+    //     if (error) {
+    //       throw error;
+    //     }
+    //     if (results.length === 0) {
+    //       console.log("Error en productsRoutes.get /id/:id");
+    //       res.status(404).json("No products");
+    //     } else {
+    //       console.log("Data OK");
+          
+    //       const filteredProducts = productDimensionsCheckboxes(finish, size, thickness, results);
+    //       const transformedResults = productDimensions(filteredProducts);  
+    //       res.status(200).json(transformedResults);
+    //     }
+    //   }
+    // );
   } catch (error) {
     res.status(409).send(error);
   }

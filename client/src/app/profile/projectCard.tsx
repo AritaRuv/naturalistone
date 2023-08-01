@@ -1,15 +1,17 @@
 'use client'
 import { Avatar, Box, useMediaQuery, Text, Center } from "@chakra-ui/react";
+import Link from "next/link";
 
 
 const ProjectCard = ({project, id}) => {
-  
+
+const { ProjectName, idProjects } = project
   return (
-    <>
-      <Center key={id} w={'300px'} h={'160px'} bg={project.color} rounded={'sm'} p={'10%'}>
-        <Text textTransform={'uppercase'} fontWeight={'light'} textAlign={'center'} fontSize={'0.8rem'}>{project.name}</Text>
+    <Link href={`/profile/${ProjectName}/${idProjects}`}>
+      <Center key={id} w={'300px'} h={'160px'} bg={'orange.100'} rounded={'sm'} p={'10%'}>
+        <Text textTransform={'uppercase'} fontWeight={'light'} textAlign={'center'} fontSize={'0.8rem'}>{ProjectName}</Text>
       </Center>
-    </>
+    </Link>
   );
 }
 

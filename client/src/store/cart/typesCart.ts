@@ -12,13 +12,13 @@ export interface ProductCart {
     Material: string;
     }
   
-  export interface CartState {
+export interface CartState {
     cart: ProductCart[];
     loading: boolean;
     error: string | null;
   }
   
-  export enum CartActionTypes {
+export enum CartActionTypes {
     FETCH_CART_REQUEST = "FETCH_CART_REQUEST",
     FETCH_CART_SUCCESS = "FETCH_CART_SUCCESS",
     FETCH_CART_FAILURE = "FETCH_CART_FAILURE",
@@ -27,36 +27,36 @@ export interface ProductCart {
     DELETE_CART_PRODUCT = "DELETE_CART_PRODUCT"
   }
   
-  export interface FetchCartRequestAction {
+export interface FetchCartRequestAction {
     type: CartActionTypes.FETCH_CART_REQUEST;
   }
   
-  export interface FetchCartSuccessAction {
+export interface FetchCartSuccessAction {
     type: CartActionTypes.FETCH_CART_SUCCESS;
     payload: ProductCart[];
   }
   
-  export interface FetchCartFailureAction {
+export interface FetchCartFailureAction {
     type: CartActionTypes.FETCH_CART_FAILURE;
     error: string;
   }
   
-  export interface PostCartProductsAction {
+export interface PostCartProductsAction {
     type: CartActionTypes.POST_CART_PRODUCTS,
     payload: ProductCart[]
   }
 
-  export interface UpdateCartProductsAction {
+export interface UpdateCartProductsAction {
     type: CartActionTypes.UPDATE_CART_PRODUCTS,
     payload: ProductCart[]
   }
 
-  export interface DeleteCartProductAction {
+export interface DeleteCartProductAction {
     type: CartActionTypes.DELETE_CART_PRODUCT,
     payload: ProductCart[]
   }
 
-  export type CartAction =
+export type CartAction =
     | FetchCartRequestAction
     | FetchCartSuccessAction
     | FetchCartFailureAction

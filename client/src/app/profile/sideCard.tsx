@@ -1,9 +1,9 @@
 "use client";
-import { Avatar, Box, useMediaQuery, Text, Checkbox } from "@chakra-ui/react";
+import { Box, useMediaQuery, Text, Checkbox } from "@chakra-ui/react";
 import { IShowMenu } from "./page";
 import React from "react";
 
-const SideCard: React.FC<IShowMenu> = ({ isSmallThan750 }) => {
+const SideCard: React.FC<IShowMenu> = () => {
   const [isSmallThan1000] = useMediaQuery("(max-width: 1000px)");
 
   return (

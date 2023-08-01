@@ -5,6 +5,7 @@ import NaturaliMap from "./googleMaps";
 import { ContactImage } from "./contactImage";
 import { SocialMediaContainer } from "./socialMedia";
 import { PiCaretDoubleDownThin } from "react-icons/pi";
+import ContactForm from "./contactForm";
 
 export const Contact = () => {
   const [isSmallScreen] = useMediaQuery("(max-width: 1200px)");
@@ -29,6 +30,11 @@ export const Contact = () => {
           alignContent="center"
           aria-label="socialMediaButton"
         />
+        <Box display={"flex"} w={"65vw"} flexDir={"row"} justifyContent={"space-between"} mt={"10vh"}>
+          <ContactForm/>
+          <NaturaliMap/>
+        </Box>
+        
       </Box>
     </>
   );

@@ -143,7 +143,6 @@ function updateCartProducts(req, res) {
     return __awaiter(this, void 0, void 0, function* () {
         try {
             const { Quantity, idCartEntry } = req.body;
-            console.log(req.body);
             const query = `UPDATE NaturaliStone.Cart SET Quantity = ${Quantity} WHERE idCartEntry = ${idCartEntry}`;
             db_1.default.query(query, (error, results, fields) => {
                 if (error) {

@@ -25,26 +25,37 @@ export interface ProductState {
   products: Product[];
   products_filters: Product[];
   productValues: ProductData;
+  productValuesValidation: ProductData;
   materials: string[];
-  product: {};
+  product: Product | null;
   loading: boolean;
   error: string | null;
   dimensions: DimensionData | null;
+  product_images: ImageResponse[];
+}
+
+interface ImageResponse {
+  key: string;
+  url: string;
 }
 
 export enum ProductActionTypes {
-  FETCH_PRODUCTS_HOME_REQUEST = "FETCH_PRODUCTS_HOME_REQUEST",
+  FETCH_PRODUCTS_REQUEST = "FETCH_PRODUCTS_REQUEST",
+  FETCH_PRODUCTS_SUCCESS = "FETCH_PRODUCTS_HOME_SUCCESS",
+  FETCH_PRODUCTS_FAILURE = "FETCH_PRODUCTS_FAILURE",
   FETCH_PRODUCTS_HOME_SUCCESS = "FETCH_PRODUCTS_HOME_SUCCESS",
-  FETCH_PRODUCTS_HOME_FAILURE = "FETCH_PRODUCTS_HOME_FAILURE",
   FETCH_PRODUCTS_VALUES = "FETCH_PRODUCTS_VALUES",
+  FETCH_PRODUCTS_VALUES_VALIDATION = "FETCH_PRODUCTS_VALUES_VALIDATION",
   FETCH_MATERIALS = "FETCH_MATERIALS",
   FETCH_PRODUCT_BY_IDS = "FETCH_PRODUCT_BY_IDS",
+  FETCH_PRODUCT_IMAGES = "FETCH_PRODUCT_IMAGES",
+  LOAD_PRODUCT = "LOAD_PRODUCT",
   FETCH_DIMENSION = "FETCH_DIMENSION",
   FETCH_PRODUCTS_FILTERS_SUCCESS = "FETCH_PRODUCTS_FILTERS_SUCCESS",
 }
 
-export interface FetchProductsHomeRequestAction {
-  type: ProductActionTypes.FETCH_PRODUCTS_HOME_REQUEST;
+export interface FetchProductsRequestAction {
+  type: ProductActionTypes.FETCH_PRODUCTS_REQUEST;
 }
 
 export interface FetchProductsHomeSuccessAction {
@@ -56,13 +67,17 @@ export interface FetchProductsFiltersSuccessAction {
   payload: Product[];
 }
 
-export interface FetchProductsHomeFailureAction {
-  type: ProductActionTypes.FETCH_PRODUCTS_HOME_FAILURE;
+export interface FetchProductsFailureAction {
+  type: ProductActionTypes.FETCH_PRODUCTS_FAILURE;
   error: string;
 }
 
 export interface FetchProductsDataAction {
   type: ProductActionTypes.FETCH_PRODUCTS_VALUES;
+  payload: ProductData;
+}
+export interface FetchProductsDataValidationAction {
+  type: ProductActionTypes.FETCH_PRODUCTS_VALUES_VALIDATION;
   payload: ProductData;
 }
 
@@ -78,16 +93,29 @@ export interface FetchDimensionAction {
 
 export interface FetchProductAction {
   type: ProductActionTypes.FETCH_PRODUCT_BY_IDS;
-  payload: {};
+  payload: Product[];
+}
+
+export interface FetchProductImages {
+  type: ProductActionTypes.FETCH_PRODUCT_IMAGES;
+  payload: ImageResponse[];
+}
+
+export interface LoadProduct {
+  type: ProductActionTypes.LOAD_PRODUCT;
+  payload: Product;
 }
 
 export type ProductAction =
-  | FetchProductsHomeRequestAction
+  | FetchProductsRequestAction
+  | FetchProductsFailureAction
   | FetchProductsHomeSuccessAction
   | FetchProductsFiltersSuccessAction
-  | FetchProductsHomeFailureAction
   | FetchProductsDataAction
+  | FetchProductsDataValidationAction
   | FetchMaterialsAction
   | FetchDimensionAction
+  | FetchProductImages
+  | LoadProduct
   | FetchProductAction;
 

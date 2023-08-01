@@ -121,8 +121,10 @@ export default function Profile() {
           {appContext?.showMenu === "projects" && (
             <>
               <Projects
-                // setShowMenu={appContext?.setShowMenu}
-                // showMenu={appContext?.showMenu}
+                setShowMenu={appContext?.setShowMenu}
+                showMenu={appContext?.showMenu}
+                formData={formData}
+                setFormData={setFormData}
               />
             </>
           )}

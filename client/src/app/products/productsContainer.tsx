@@ -18,20 +18,20 @@ const ProductsContainer: React.FC<Filters> = (filters) => {
 
   const dispatch = useAppDispatch();
 
-  const { products_filters, loading, error } = useAppSelector(
+  const { products_filters } = useAppSelector(
     (state: { productReducer: ProductState }) => state.productReducer
   );
-
+    
   let gridColumns = 5;
   
   if(isLargeScreen ){
-    gridColumns = 4
+    gridColumns = 4;
   }
   if(isMediumScreen ){
-    gridColumns = 3
+    gridColumns = 3;
   }
   if (isSmallScreen) {
-    gridColumns = 2
+    gridColumns = 2;
   }
   if (isExtraSmallScreen) {
     gridColumns = 1;
@@ -44,21 +44,21 @@ const ProductsContainer: React.FC<Filters> = (filters) => {
   return (
     <SimpleGrid
       zIndex={1}
-      position={'fixed'}
-      left={!is1200Screen ? '15vw' : 0}
-      top={'10vh'}
-      spacingY={6}
+      position={"fixed"}
+      left={!is1200Screen ? "15vw" : 0}
+      top={"10vh"}
+      spacingY={"17vh"}
       py={"2%"}
-      w={is1200Screen ? '100vw' :'85vw'}
+      w={is1200Screen ? "100vw" :"85vw"}
       placeItems={"center"}
       columns={gridColumns} // Establece el número de columnas dinámicamente
-      h={'100%'}
-      overflow={'auto'}
+      h={"100%"}
+      overflow={"auto"}
 
     >
       {products_filters.length !== 0 &&
         products_filters.slice(0,20).map((prod) => {
-          return <ProductCard product={prod} key={prod.ProdNameID} site={'products'} />;
+          return <ProductCard product={prod} key={prod.ProdNameID} site={"products"} />;
         })}
     </SimpleGrid>
   );

@@ -12,13 +12,13 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.getProductsFilter = exports.getAllDimensionProperties = exports.getAllMaterials = exports.getProductByIDS = exports.getProductsValuesByProdNameID = exports.getAllProducts = void 0;
+exports.getCheckboxValidation = exports.getProductsFilter = exports.getAllDimensionProperties = exports.getAllMaterials = exports.getProductByIDS = exports.getProductsValuesByProdNameID = exports.getAllProducts = void 0;
 const db_1 = __importDefault(require("../../db"));
 const productDimensions_1 = require("../../controllers/productDimensions");
 function getAllProducts(req, res) {
     return __awaiter(this, void 0, void 0, function* () {
         try {
-            const { material, colorId } = req.query;
+            const { material } = req.query;
             const query = `SELECT DISTINCT Products.ProdNameID, ProdNames.Material, ProdNames.Naturali_ProdName, ProdNames.ProdNameID,
                   Product_Colors.ColorID, Product_Colors.idColorProduct, Product_Colors.ProductID
                   FROM Products
@@ -35,7 +35,7 @@ function getAllProducts(req, res) {
             //               FROM ProdNames
             //               ${material ? `WHERE Material = "${material}"` : ``}
             //                 `;
-            db_1.default.query(query, (error, results, fields) => {
+            db_1.default.query(query, (error, results) => {
                 if (error) {
                     throw error;
                 }
@@ -78,7 +78,7 @@ function getProductsValuesByProdNameID(req, res) {
       WHERE
         Products.ProdNameID = ?;
     `;
-            db_1.default.query(query, [prodNameID], (error, results, fields) => {
+            db_1.default.query(query, [prodNameID], (error, results) => {
                 if (error) {
                     throw error;
                 }
@@ -105,7 +105,7 @@ function getProductByIDS(req, res) {
         try {
             const { ProdNameID, DimensionID } = req.query;
             const query = `SELECT * FROM NaturaliStone.Products where Products.ProdNameID = ${ProdNameID} AND Products.DimensionID = ${DimensionID};`;
-            db_1.default.query(query, (error, results, fields) => {
+            db_1.default.query(query, (error, results) => {
                 if (error) {
                     throw error;
                 }
@@ -132,7 +132,7 @@ function getAllMaterials(req, res) {
             const query = `SELECT GROUP_CONCAT(DISTINCT ProdNames.Material SEPARATOR ', ') AS Materials
                     FROM ProdNames;
                     `;
-            db_1.default.query(query, (error, results, fields) => {
+            db_1.default.query(query, (error, results) => {
                 if (error) {
                     throw error;
                 }
@@ -167,7 +167,7 @@ function getAllDimensionProperties(req, res) {
         GROUP_CONCAT(DISTINCT Finish SEPARATOR ', ') AS Finishes
       FROM Dimension;
     `;
-            db_1.default.query(query, (error, results, fields) => {
+            db_1.default.query(query, (error, results) => {
                 if (error) {
                     throw error;
                 }
@@ -197,12 +197,10 @@ function getProductsFilter(req, res) {
     return __awaiter(this, void 0, void 0, function* () {
         try {
             const { material, type, finish, size, thickness } = req.query;
-            console.log(req.query);
             let query = 'SELECT DISTINCT pn.Naturali_ProdName, pn.Material, pn.ProdNameID  FROM ProdNames pn';
             let whereClause = '';
             const filters = req.query;
             const splitValues = (value, separator) => {
-                console.log(value);
                 if (Array.isArray(value)) {
                     return value;
                 }
@@ -216,19 +214,19 @@ function getProductsFilter(req, res) {
             const typeValues = splitValues(type, ',');
             if (typeValues.length > 0) {
                 query += ' INNER JOIN Products p ON pn.ProdNameID = p.ProdNameID';
-                whereClause += ' AND p.DimensionID IN (SELECT DimensionID FROM Dimension WHERE Dimension.Type IN (?))';
+                whereClause += ' AND p.DimensionID IN (SELECT DimensionID FROM Dimension WHERE type IN (?))';
                 filters['type'] = typeValues;
             }
             const finishValues = splitValues(finish, ',');
             if (finishValues.length > 0) {
                 query += ' INNER JOIN Products p ON pn.ProdNameID = p.ProdNameID';
-                whereClause += ' AND p.dimensionID IN (SELECT DimensionID FROM Dimension WHERE Dimension.Finish IN (?))';
+                whereClause += ' AND p.dimensionID IN (SELECT DimensionID FROM Dimension WHERE finish IN (?))';
                 filters['finish'] = finishValues;
             }
             const sizeValues = splitValues(size, ',');
             if (sizeValues.length > 0) {
                 query += ' INNER JOIN Products p ON pn.ProdNameID = p.ProdNameID';
-                whereClause += ' AND p.DimensionID IN (SELECT DimensionID FROM Dimension WHERE Dimension.Size IN (?))';
+                whereClause += ' AND p.DimensionID IN (SELECT DimensionID FROM Dimension WHERE size IN (?))';
                 filters['size'] = sizeValues;
             }
             const thicknessValues = splitValues(thickness, ',');
@@ -250,7 +248,7 @@ function getProductsFilter(req, res) {
                 else {
                     return []; // Return an empty array if the value is undefined or not a string
                 }
-            }), (error, results, fields) => {
+            }), (error, results) => {
                 if (error) {
                     throw error;
                 }
@@ -270,3 +268,53 @@ function getProductsFilter(req, res) {
     });
 }
 exports.getProductsFilter = getProductsFilter;
+function getCheckboxValidation(req, res) {
+    return __awaiter(this, void 0, void 0, function* () {
+        try {
+            // //const prodNameID = req.params.id;
+            // const finish = req.query.finish?.toString() || ''; // Ensure finish is of type string
+            // const thickness = req.query.thickness?.toString() || ''; // Ensure thickness is of type string
+            // const size = req.query.size?.toString() || ''; // Ensure size is of type string
+            // const query = `
+            //   SELECT
+            //     Products.ProdID,
+            //     Products.SalePrice,
+            //     Products.DimensionID,
+            //     Products.ProdNameID,
+            //     ProdNames.Naturali_ProdName,
+            //     Dimension.Finish,
+            //     Dimension.Size,
+            //     Dimension.Thickness
+            //   FROM
+            //     NaturaliStone.Products
+            //   LEFT JOIN
+            //     ProdNames ON ProdNames.ProdNameID = Products.ProdNameID
+            //   LEFT JOIN
+            //     Dimension ON Dimension.DimensionID = Products.DimensionID
+            //   WHERE
+            //     Products.ProdNameID = ?;
+            // `;
+            // mysqlConnection.query(
+            //   query,
+            //   (error: MysqlError | null, results: RowDataPacket[],) => {
+            //     if (error) {
+            //       throw error;
+            //     }
+            //     if (results.length === 0) {
+            //       console.log("Error en productsRoutes.get /id/:id");
+            //       res.status(404).json("No products");
+            //     } else {
+            //       console.log("Data OK");
+            //       const filteredProducts = productDimensionsCheckboxes(finish, size, thickness, results);
+            //       const transformedResults = productDimensions(filteredProducts);  
+            //       res.status(200).json(transformedResults);
+            //     }
+            //   }
+            // );
+        }
+        catch (error) {
+            res.status(409).send(error);
+        }
+    });
+}
+exports.getCheckboxValidation = getCheckboxValidation;

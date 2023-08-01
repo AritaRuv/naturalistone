@@ -1,14 +1,14 @@
 // actions.ts
 import { Dispatch } from "redux";
 import { CartActionTypes, CartAction } from "./typesCart";
-import { addToCart, deleteCartProd, getCart, updateCartProd } from '../../api/apiCart'; // Importa tu función de solicitud a la API
+import { addToCart, deleteCartProd, getCart, updateCartProd } from "../../api/apiCart"; // Importa tu función de solicitud a la API
 
 export interface bodyCart {
-  size: string;
+  size: string | null;
   thickness:string;
   finish:string;
   ProdNameID: number;
-  customerID: number
+  customerID: number;
 }
 
 export interface bodyCartUpdate {
@@ -48,10 +48,11 @@ export const postCart = (body: bodyCart) => {
 
   return async (dispatch: Dispatch<CartAction>) => {
 
-  dispatch({ type: CartActionTypes.FETCH_CART_REQUEST });
+    dispatch({ type: CartActionTypes.FETCH_CART_REQUEST });
     try {
+      // eslint-disable-next-line @typescript-eslint/no-unused-vars
       const res = await addToCart(body); 
-      const cart = await getCart(body.customerID)
+      const cart = await getCart(body.customerID);
 
       dispatch({
         type: CartActionTypes.POST_CART_PRODUCTS,
@@ -64,16 +65,17 @@ export const postCart = (body: bodyCart) => {
         error: "Error al obtener los productos",
       });
     }
-  }};
+  };};
 
 export const updateCart = (body: bodyCartUpdate) => {
 
   return async (dispatch: Dispatch<CartAction>) => {
 
-  dispatch({ type: CartActionTypes.FETCH_CART_REQUEST });
+    dispatch({ type: CartActionTypes.FETCH_CART_REQUEST });
     try {
+      // eslint-disable-next-line @typescript-eslint/no-unused-vars
       const res = await updateCartProd(body); 
-      const cart = await getCart(body.customerID)
+      const cart = await getCart(body.customerID);
 
       dispatch({
         type: CartActionTypes.UPDATE_CART_PRODUCTS,
@@ -86,17 +88,17 @@ export const updateCart = (body: bodyCartUpdate) => {
         error: "Error al obtener los productos del carrito",
       });
     }
-  }
   };
+};
 
 export const deleteCart = (idEntryCart:number, customerID:number) => {
 
   return async (dispatch: Dispatch<CartAction>) => {
 
-  dispatch({ type: CartActionTypes.FETCH_CART_REQUEST });
+    dispatch({ type: CartActionTypes.FETCH_CART_REQUEST });
     try {
       const res = await deleteCartProd(idEntryCart);
-      const cart = await getCart(customerID)
+      const cart = await getCart(customerID);
 
       dispatch({
         type: CartActionTypes.DELETE_CART_PRODUCT,
@@ -110,5 +112,5 @@ export const deleteCart = (idEntryCart:number, customerID:number) => {
         error: "Error al obtener los productos del carrito",
       });
     }
-  }
   };
+};
