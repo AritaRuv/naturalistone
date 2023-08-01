@@ -1,8 +1,9 @@
 "use client";
 import { Avatar, Box, useMediaQuery, Text } from "@chakra-ui/react";
 import { useState } from "react";
+import { IShowMenu } from "./page";
 
-export default function UserBox({ user }) {
+const UserBox: React.FC<IShowMenu> = ({ user }) => {
   const [isSmallScreen] = useMediaQuery("(max-width: 1200px)");
   const [showMenu, setShowMenu] = useState("");
 
@@ -29,4 +30,6 @@ export default function UserBox({ user }) {
       </Box>
     </>
   );
-}
+};
+
+export default UserBox;

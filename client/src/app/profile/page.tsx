@@ -28,21 +28,21 @@ export interface IFormData {
 }
 
 export interface IShowMenu {
-  setShowMenu?: React.Dispatch<React.SetStateAction<string>>;
-  showMenu?: string;
+  // setShowMenu?: React.Dispatch<React.SetStateAction<string>>;
+  // showMenu?: string;
   site?: string;
   user?: User;
   isSmallThan750?: boolean;
-  formData: IFormData;
-  setFormData: React.Dispatch<React.SetStateAction<IFormData>>;
-  handleChange?: React.ChangeEvent<HTMLInputElement>;
+  formData?: IFormData;
+  setFormData?: React.Dispatch<React.SetStateAction<IFormData>>;
+  handleChange?: (event: React.ChangeEvent<HTMLInputElement>) => void;
 }
 
 export default function Profile() {
   const appContext = useContext(AppContext);
 
   const [isSmallScreen] = useMediaQuery("(max-width: 1200px)");
-  const [showMenu, setShowMenu] = useState<string>("");
+  // const [showMenu, setShowMenu] = useState<string>("");
   const dispatch = useAppDispatch();
   const [isSmallThan750] = useMediaQuery("(max-width: 750px)");
   const [formData, setFormData] = useState({
@@ -86,8 +86,8 @@ export default function Profile() {
         flexDir={isSmallThan750 ? "column" : "row"}
       >
         <UserMenu
-          setShowMenu={setShowMenu}
-          showMenu={showMenu}
+          // setShowMenu={setShowMenu}
+          // showMenu={showMenu}
           isSmallThan750={isSmallThan750}
           user={user}
           formData={formData}
@@ -97,8 +97,8 @@ export default function Profile() {
           {appContext?.showMenu === "profile" && (
             <>
               <ProfileInfo
-                setShowMenu={appContext?.setShowMenu}
-                showMenu={appContext?.showMenu}
+                // setShowMenu={appContext?.setShowMenu}
+                // showMenu={appContext?.showMenu}
                 user={user}
                 isSmallThan750={isSmallThan750}
                 formData={formData}
@@ -110,8 +110,8 @@ export default function Profile() {
           {appContext?.showMenu === "address" && (
             <>
               <AddressInfo
-                setShowMenu={appContext?.setShowMenu}
-                showMenu={appContext?.showMenu}
+                // setShowMenu={appContext?.setShowMenu}
+                // showMenu={appContext?.showMenu}
                 user={user}
                 formData={formData}
                 setFormData={setFormData}
@@ -121,8 +121,8 @@ export default function Profile() {
           {appContext?.showMenu === "projects" && (
             <>
               <Projects
-                setShowMenu={appContext?.setShowMenu}
-                showMenu={appContext?.showMenu}
+                // setShowMenu={appContext?.setShowMenu}
+                // showMenu={appContext?.showMenu}
               />
             </>
           )}

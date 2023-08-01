@@ -1,12 +1,12 @@
 import { IFormData } from "@/app/profile/page";
-import { Register, Signin, User } from "@/store/login/typeLogin";
+import { SignUp, SignIn, User } from "@/store/login/typeLogin";
 import axios from "axios";
 import Cookies from "js-cookie";
 
-export const postRegister = async (body: Register) => {
+export const postSignUp = async (body: SignUp) => {
   try {
     const data = await axios.post(
-      "http://localhost:5000/api/auth/register",
+      "http://localhost:5000/api/auth/signup",
       body
     );
     return data;
@@ -15,7 +15,7 @@ export const postRegister = async (body: Register) => {
   }
 };
 
-export const postSignin = async (body: Signin) => {
+export const postSignin = async (body: SignIn) => {
   try {
     const { data }: any = await axios.post(
       "http://localhost:5000/api/auth/signin",

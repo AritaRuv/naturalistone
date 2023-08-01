@@ -13,7 +13,7 @@ import { fetchMaterials } from "@/store/products/actionsProducts";
 import { ProductState } from "@/store/products/typesProducts";
 import Login from "./Login";
 import Checkout from "./checkout";
-import Register from "./register";
+import SignUp from "./SignUp";
 import Footer from "./footer";
 
 const ContainerLogin: React.FC = () => {
@@ -37,7 +37,7 @@ const ContainerLogin: React.FC = () => {
             smallerThan600={smallerThan600}
           />
         ) : (
-          <Register
+          <SignUp
             setActiveLogin={setActiveLogin}
             smallerThan600={smallerThan600}
           />

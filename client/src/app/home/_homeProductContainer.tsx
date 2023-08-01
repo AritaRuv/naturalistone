@@ -41,8 +41,6 @@ const HomeProductContainer: React.FC<FiltersHomeProps> = ({
     if (!products.length) dispatch(fetchProductsHome(material, colorId));
   }, [products]);
 
-  console.log({ products });
-
   return (
     <SimpleGrid
       spacingY={6}

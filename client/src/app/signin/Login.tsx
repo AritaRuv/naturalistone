@@ -1,6 +1,6 @@
 "use client";
 import { useAppDispatch } from "@/store/hooks";
-import { Signin } from "@/store/login/typeLogin";
+import { SignIn } from "@/store/login/typeLogin";
 import {
   FormErrors,
   FormErrorsLogin,
@@ -27,7 +27,7 @@ import React, { useState, useEffect } from "react";
 import { PiLockLight } from "react-icons/pi";
 import { PiUserCircleThin } from "react-icons/pi";
 import { BsEyeSlash } from "react-icons/bs";
-import { postRegister, postSignin } from "@/api/apiLogin";
+import { postSignin } from "@/api/apiLogin";
 import { useRouter } from "next/navigation";
 
 export interface Props {
@@ -36,7 +36,7 @@ export interface Props {
 }
 
 const Login: React.FC<Props> = ({ setActiveLogin, smallerThan600 }) => {
-  const [formData, setFormData] = useState<Signin>({
+  const [formData, setFormData] = useState<SignIn>({
     email: "",
     password: "",
   });
@@ -131,18 +131,15 @@ const Login: React.FC<Props> = ({ setActiveLogin, smallerThan600 }) => {
           display={"flex"}
           position={"relative"}
           fontSize={"2xl"}
-          bottom={"30px"}
+          bottom={"10px"}
         >
-          <Center> LOGIN </Center>
+          <Center fontWeight={"thin"}> L O G I N </Center>
         </Box>
       </Box>
       <Box
         display={"flex"}
         h={"25vh"}
         w={"full"}
-        // bg={"yellow"}
-        // position={"relative"}
-        // top={"2vh"}
         alignItems={"center"}
         justifyContent={"center"}
         flexDirection={"column"}
@@ -151,17 +148,13 @@ const Login: React.FC<Props> = ({ setActiveLogin, smallerThan600 }) => {
           display={"flex"}
           h={"20vh"}
           w={"70%"}
-          // bg={"yellow"}
           alignItems={"center"}
           justifyContent={"center"}
           position={"relative"}
           top={smallerThan600 ? -1 : 2}
-          // bottom={5}
           flexDirection={"column"}
         >
-          {/* <FormControl isInvalid={isFormInvalid}> */}
           <Box display={"flex"} w={"full"}>
-            {/* <FormLabel> */}
             <InputGroup display={"flex"} flexDirection={"column"} h={"60px"}>
               <InputLeftElement pointerEvents="none">
                 <IconButton
@@ -197,14 +190,9 @@ const Login: React.FC<Props> = ({ setActiveLogin, smallerThan600 }) => {
                   {errors.email}
                 </Text>
               )}
-              {/* <FormErrorMessage>
-                    {errors.email && errors.email}
-                  </FormErrorMessage> */}
             </InputGroup>
-            {/* </FormLabel> */}
           </Box>
           <Box display={"flex"} w={"full"}>
-            {/* <FormLabel> */}
             <InputGroup display={"flex"} flexDirection={"column"} h={"60px"}>
               <InputLeftElement pointerEvents="none">
                 <IconButton
@@ -243,19 +231,13 @@ const Login: React.FC<Props> = ({ setActiveLogin, smallerThan600 }) => {
               )}
               <InputRightElement
                 aria-label="Password-icon"
-                // variant="unstyled"
                 fontSize="xl"
                 onClick={handleShow}
               >
                 <BsEyeSlash />
               </InputRightElement>
-              {/* <FormErrorMessage>
-                {errors.password && errors.password}
-              </FormErrorMessage> */}
             </InputGroup>
-            {/* </FormLabel> */}
           </Box>
-          {/* </FormControl> */}
         </Box>
       </Box>
 
@@ -263,7 +245,6 @@ const Login: React.FC<Props> = ({ setActiveLogin, smallerThan600 }) => {
         display={"flex"}
         h={"15vh"}
         w={"full"}
-        // bg={"blue"}
         mb={"2vh"}
         flexDirection={"column"}
       >
@@ -295,8 +276,6 @@ const Login: React.FC<Props> = ({ setActiveLogin, smallerThan600 }) => {
           alignItems={"flex-end"}
           color={"#6A6969"}
           fontWeight={300}
-          // position={"relative"}
-          // bottom={0}
         >
           <Center>New customer?</Center>
           <Center ml={"10px"}>

@@ -95,7 +95,6 @@ export const deleteCart = (idEntryCart:number, customerID:number) => {
 
   dispatch({ type: CartActionTypes.FETCH_CART_REQUEST });
     try {
-      console.log(idEntryCart)
       const res = await deleteCartProd(idEntryCart);
       const cart = await getCart(customerID)
 

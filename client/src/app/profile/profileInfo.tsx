@@ -25,8 +25,8 @@ import { CheckIcon, CloseIcon, EditIcon } from "@chakra-ui/icons";
 import { UpdateCustomer } from "./modalUpdateUser";
 
 const ProfileInfo: React.FC<IShowMenu> = ({
-  setShowMenu,
-  showMenu,
+  // setShowMenu,
+  // showMenu,
   user,
   isSmallThan750,
   formData,

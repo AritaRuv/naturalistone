@@ -4,7 +4,7 @@ import { IShowMenu } from "./page";
 import ProjectCard from "./projectCard";
 
 
-const Projects: React.FC<IShowMenu> = ({setShowMenu, showMenu}) => {
+const Projects: React.FC<IShowMenu> = () => {
   const arrayProjects = [
     {name:"Nombre del Proyecto1", color: "orange.100"},
     {name:"Nombre del Proyecto2", color: "gray.100"},

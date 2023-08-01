@@ -2,7 +2,7 @@
 import { Box, Button, Center } from "@chakra-ui/react";
 import { Props } from "./Login";
 
-const Checkout: React.FC<Props> = ({ setActiveLogin, smallerThan600 }) => {
+const Checkout: React.FC<Props> = ({ smallerThan600 }) => {
   return (
     <>
       <Box

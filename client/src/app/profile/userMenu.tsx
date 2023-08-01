@@ -7,8 +7,8 @@ import UserButtonsContainer from "./userButtonsContainer";
 import { IShowMenu } from "./page";
 
 const UserMenu: React.FC<IShowMenu> = ({
-  setShowMenu,
-  showMenu,
+  // setShowMenu,
+  // showMenu,
   isSmallThan750,
   user,
 }) => {
@@ -25,8 +25,8 @@ const UserMenu: React.FC<IShowMenu> = ({
       >
         <UserBox user={user} />
         <UserButtonsContainer
-          setShowMenu={setShowMenu}
-          showMenu={showMenu}
+          // setShowMenu={setShowMenu}
+          // showMenu={showMenu}
           isSmallThan750={isSmallThan750}
         />
       </Box>

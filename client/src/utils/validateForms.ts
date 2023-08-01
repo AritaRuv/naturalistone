@@ -1,5 +1,4 @@
 /* eslint-disable no-useless-escape */
-import { Register } from "@/store/login/typeLogin";
 import { EmailNaturali } from "./types";
 
 export interface FormErrors {

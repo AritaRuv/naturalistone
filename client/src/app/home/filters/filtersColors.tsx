@@ -38,7 +38,6 @@ export function FiltersColors({
   }, [smallerThan550]);
 
   const handleClick = (index) => {
-    console.log(homeColors[index].Color);
     setActiveButton(index);
     setColor(homeColors[index].Color);
     setProductsFilter((prevState) => ({

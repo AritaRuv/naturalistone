@@ -24,14 +24,14 @@ import { Props } from "./Login";
 import { FormErrors, validateCompletedInputs } from "@/utils/validateForms";
 import { useDispatch } from "react-redux";
 import { useAppDispatch } from "@/store/hooks";
-import { Register } from "@/store/login/typeLogin";
+import { SignUp } from "@/store/login/typeLogin";
 // import { registerUser } from "@/store/login/actionsLogin";
 import { BsEyeSlash } from "react-icons/bs";
-import { postRegister } from "@/api/apiLogin";
+import { postSignUp } from "@/api/apiLogin";
+import { HiOutlineMail } from "react-icons/hi";
 
-const Register: React.FC<Props> = ({ setActiveLogin, smallerThan600 }) => {
-  // const [smallerThan600] = useMediaQuery("(max-width: 600px)");
-  const [formData, setFormData] = useState<Register>({
+const SignUp: React.FC<Props> = ({ setActiveLogin, smallerThan600 }) => {
+  const [formData, setFormData] = useState<SignUp>({
     fullName: "",
     email: "",
     password: "",
@@ -76,7 +76,7 @@ const Register: React.FC<Props> = ({ setActiveLogin, smallerThan600 }) => {
     if (Object.keys(errors).length) {
       return;
     }
-    const response = await postRegister(formData);
+    const response = await postSignUp(formData);
     if (response.success === false) {
       toast({
         title: "Sign Up",
@@ -210,7 +210,7 @@ const Register: React.FC<Props> = ({ setActiveLogin, smallerThan600 }) => {
                 fontSize="xl"
                 // size={"50px"}
                 // color="gray.300"
-                icon={<TfiEmail />}
+                icon={<HiOutlineMail style={{ strokeWidth: 1 }}/>}
               />
             </InputLeftElement>
             <Input
@@ -425,4 +425,4 @@ const Register: React.FC<Props> = ({ setActiveLogin, smallerThan600 }) => {
   );
 };
 
-export default Register;
+export default SignUp;

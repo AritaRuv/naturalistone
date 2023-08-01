@@ -1,4 +1,4 @@
-export interface Register {
+export interface SignUp {
   fullName?: string | undefined;
   email: string;
   password: string;
@@ -8,7 +8,7 @@ export interface Register {
 export interface User {
   CustomerID: string;
   Contact_Name: string;
-  Company: string | null;
+  Company?: string;
   Username: string;
   Customer_LoginID: string;
   Phone?: string;
@@ -22,7 +22,7 @@ export interface User {
   Company_Position?: string;
 }
 
-export interface Signin {
+export interface SignIn {
   email: string;
   password: string;
   token?: string;
@@ -36,12 +36,11 @@ export enum LoginActionsType {
   POST_SIGNIN = "POST_SIGNIN",
   GET_USER_INFO = "GET_USER_INFO",
   UPDATE_USER = "UPDATE_USER",
-  POST_REGISTER = "POST_REGISTER",
 }
 
 export interface PostSigninActions {
   type: LoginActionsType.POST_SIGNIN;
-  payload: Signin;
+  payload: SignIn;
 }
 
 export interface GetUserInfoActions {
@@ -54,13 +53,7 @@ export interface UpdateUserInfoActions {
   payload: User;
 }
 
-export interface RegisterUserInfoActions {
-  type: LoginActionsType.POST_REGISTER;
-  payload: object;
-}
-
 export type LoginAction =
   | PostSigninActions
   | GetUserInfoActions
   | UpdateUserInfoActions
-  | RegisterUserInfoActions;

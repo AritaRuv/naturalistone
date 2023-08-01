@@ -38,8 +38,6 @@ const ContactForm: React.FC = () => {
     );
   };
 
-  console.log("erros", errors);
-
   const handleClick = async () => {
     setShowErrors(true);
     if (Object.keys(errors).length) return;

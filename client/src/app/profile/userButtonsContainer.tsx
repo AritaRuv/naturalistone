@@ -17,9 +17,8 @@ import { AppContext } from "../appContext";
 import { useContext } from "react";
 
 const UserButtonsContainer: React.FC<IShowMenu> = ({
-  showMenu,
-  setShowMenu,
-  isSmallThan750,
+  // showMenu,
+  // setShowMenu,
   site,
 }) => {
   const [isSmallScreen] = useMediaQuery("(max-width: 1200px)");
@@ -29,7 +28,6 @@ const UserButtonsContainer: React.FC<IShowMenu> = ({
   const handleClick = (e) => {
     const { name } = e.target;
     appContext?.setShowMenu(name);
-    setShowMenu && setShowMenu(name);
   };
 
   const userButtonsArray = [

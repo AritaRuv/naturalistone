@@ -9,14 +9,12 @@ import {
   InputRightElement,
 } from "@chakra-ui/react";
 import { IShowMenu } from "./page";
-import SideCard from "./sideCard";
-import { useState } from "react";
 import { BsEyeSlash } from "react-icons/bs";
 import { UpdateCustomer } from "./modalUpdateUser";
 
 const AddressInfo: React.FC<IShowMenu> = ({
-  setShowMenu,
-  showMenu,
+  // setShowMenu,
+  // showMenu,
   user,
   isSmallThan750,
   formData,
@@ -32,7 +30,6 @@ const AddressInfo: React.FC<IShowMenu> = ({
         w={isSmallThan750 ? "100vw" : "70vw"}
         ml={isSmallThan750 ? 0 : "5vw"}
         mt={isSmallThan750 ? "5vh" : 0}
-        // bg={"red"}
       >
         <Text
           textTransform={"uppercase"}
@@ -49,7 +46,6 @@ const AddressInfo: React.FC<IShowMenu> = ({
             isSmallThan1000 ? "column" : isSmallThan750 ? "column" : "row"
           }
           justifyContent={"space-between"}
-          // bg={"yellow"}
         >
           <Box
             border={"2px solid"}
