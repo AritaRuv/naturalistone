@@ -20,22 +20,42 @@ import { useState } from "react";
 import { useDispatch } from "react-redux";
 import { useAppDispatch } from "@/store/hooks";
 import { patchUser } from "@/store/login/actionsLogin";
+import { validateCompletedInputsProfile } from "@/utils/validateForms";
+import { ErrorsProfile } from "@/utils/types";
 
 export function UpdateCustomer({
   title,
   value,
-  handleChange,
   formData,
   setFormData,
   name,
   id,
 }) {
-  const [errors, setErrors] = useState({});
+  const [errors, setErrors] = useState<ErrorsProfile>({});
   const toast = useToast();
   const [isToastShowing, setIsToastShowing] = useState(false);
   const { isOpen, onOpen, onClose } = useDisclosure();
   const [changeInput, setChangeInput] = useState(false);
   const dispatch = useAppDispatch();
+  const [showErrors, setShowErrors] = useState(false);
+
+  const handleChange = (event) => {
+    // setErrors({});
+    const name = event.target.name;
+    const value = event.target.value;
+    setFormData({
+      ...formData,
+      [event.target.name]: event.target.value,
+    });
+    setErrors(
+      validateCompletedInputsProfile({
+        ...formData,
+        [name]: value,
+      })
+    );
+  };
+
+  console.log("erros", errors);
 
   const handleClose = () => {
     setFormData({
@@ -58,8 +78,14 @@ export function UpdateCustomer({
   };
 
   const handleSubmit = async () => {
-    onClose();
+    setShowErrors(true);
+    if (Object.values(errors[name]).length) {
+      return;
+    }
     dispatch(patchUser(formData));
+    setErrors({});
+    onClose();
+    return;
   };
 
   return (
@@ -94,7 +120,9 @@ export function UpdateCustomer({
         <ModalOverlay />
         <ModalContent
           w={"30vw"}
-          minW={"20vw"}
+          minW={"400px"}
+          h={"250px"}
+          // minH={"30vh"}
           border={"2px solid"}
           rounded={"sm"}
           borderColor={"gray.300"}
@@ -111,6 +139,7 @@ export function UpdateCustomer({
               display={"flex"}
               flexDirection={"column"}
               h={"50px"}
+              // bg={"red"}
               justifyContent={"center"}
               alignItems={"center"}
             >
@@ -135,11 +164,17 @@ export function UpdateCustomer({
                 }}
               />
             </InputGroup>
+            {showErrors && (
+              <Text color={"red"} fontSize={"xs"} ml={"50px"}>
+                {errors[name]}
+              </Text>
+            )}
           </ModalBody>
           <ModalFooter>
             <Button
               fontWeight={"sm"}
               border={"none"}
+              // bg={"yellow"}
               backgroundColor={"transparent"}
               _hover={{
                 backgroundColor: "transparent",
@@ -148,6 +183,7 @@ export function UpdateCustomer({
                 backgroundColor: "transparent",
                 border: "none",
               }}
+              mt={"5px"}
               mr={3}
               onClick={handleSubmit}
             >

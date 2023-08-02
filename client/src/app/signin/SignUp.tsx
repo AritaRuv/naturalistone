@@ -29,6 +29,7 @@ import { SignUp } from "@/store/login/typeLogin";
 import { BsEyeSlash } from "react-icons/bs";
 import { postSignUp } from "@/api/apiLogin";
 import { HiOutlineMail } from "react-icons/hi";
+import { useRouter } from "next/navigation";
 
 const SignUp: React.FC<Props> = ({ setActiveLogin, smallerThan600 }) => {
   const [formData, setFormData] = useState<SignUp>({
@@ -43,6 +44,8 @@ const SignUp: React.FC<Props> = ({ setActiveLogin, smallerThan600 }) => {
   const [showConfirmPassword, setShowConfirmPassword] = useState(false);
   const toast = useToast();
   const [showErrors, setShowErrors] = useState(false);
+  const [isToastShowing, setIsToastShowing] = useState(false);
+  const router = useRouter();
 
   const handleChange = (event: any) => {
     setErrors({});
@@ -77,33 +80,44 @@ const SignUp: React.FC<Props> = ({ setActiveLogin, smallerThan600 }) => {
       return;
     }
     const response = await postSignUp(formData);
+    console.log("soy response", response);
     if (response.success === false) {
-      toast({
-        title: "Sign Up",
-        description: "Email already exists.",
-        status: "warning",
-        variant: "subtle",
-        duration: 4000,
-        isClosable: true,
-      });
-      return;
+      if (!isToastShowing) {
+        setIsToastShowing(true);
+        return toast({
+          title: "Sign Up",
+          description: "Email already exists.",
+          status: "warning",
+          variant: "subtle",
+          duration: 4000,
+          isClosable: true,
+          onCloseComplete: () => setIsToastShowing(false),
+        });
+      }
     }
-    toast({
-      title: "Sign Up",
-      description: "Account has been created.",
-      status: "success",
-      variant: "subtle",
-      duration: 4000,
-      isClosable: true,
-    });
-    setFormData({
-      fullName: "",
-      email: "",
-      password: "",
-      confirmPassword: "",
-    });
-    setErrors({});
-    return;
+    if (response.success === true) {
+      if (!isToastShowing) {
+        setIsToastShowing(true);
+        toast({
+          title: "Sign Up",
+          description: "Account has been created.",
+          status: "success",
+          variant: "subtle",
+          duration: 4000,
+          isClosable: true,
+          onCloseComplete: () => setIsToastShowing(false),
+        });
+        setFormData({
+          fullName: "",
+          email: "",
+          password: "",
+          confirmPassword: "",
+        });
+        setErrors({});
+        router.push("/home");
+        return;
+      }
+    }
   };
 
   return (
@@ -210,7 +224,7 @@ const SignUp: React.FC<Props> = ({ setActiveLogin, smallerThan600 }) => {
                 fontSize="xl"
                 // size={"50px"}
                 // color="gray.300"
-                icon={<HiOutlineMail style={{ strokeWidth: 1 }}/>}
+                icon={<HiOutlineMail style={{ strokeWidth: 1 }} />}
               />
             </InputLeftElement>
             <Input

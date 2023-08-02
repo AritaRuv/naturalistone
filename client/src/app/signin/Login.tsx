@@ -48,6 +48,7 @@ const Login: React.FC<Props> = ({ setActiveLogin, smallerThan600 }) => {
   const [showErrors, setShowErrors] = useState(false);
   const toast = useToast();
   const router = useRouter();
+  const [isToastShowing, setIsToastShowing] = useState(false);
 
   const handleChange = (event) => {
     // setErrors({});
@@ -73,21 +74,44 @@ const Login: React.FC<Props> = ({ setActiveLogin, smallerThan600 }) => {
     setShowErrors(true);
     if (Object.keys(errors).length) return;
     const data: any = await postSignin(formData);
-    if (data.success === false) {
-      return toast({
-        title: "Login",
-        description: "Incorrect username or password.",
-        status: "warning",
-        variant: "subtle",
-        duration: 4000,
-        isClosable: true,
-      });
+    if (!isToastShowing) {
+      if (data.success === false) {
+        setIsToastShowing(true);
+        if (setIsToastShowing) {
+          return toast({
+            title: "Log in",
+            description: "Incorrect username or password.",
+            status: "warning",
+            variant: "subtle",
+            duration: 4000,
+            isClosable: true,
+            onCloseComplete: () => setIsToastShowing(false),
+          });
+        }
+      }
     }
-    router.push("/home");
-    setFormData({
-      email: "",
-      password: "",
-    });
+    if (!isToastShowing) {
+      if (data.success) {
+        setIsToastShowing(true);
+        if (setIsToastShowing) {
+          toast({
+            title: "Log in",
+            description: "Log in successfull.",
+            status: "success",
+            variant: "subtle",
+            duration: 4000,
+            isClosable: true,
+            onCloseComplete: () => setIsToastShowing(false),
+          });
+        }
+        router.push("/home");
+        setFormData({
+          email: "",
+          password: "",
+        });
+        return;
+      }
+    }
     return;
   };
 
@@ -112,28 +136,23 @@ const Login: React.FC<Props> = ({ setActiveLogin, smallerThan600 }) => {
       <Box
         display={"flex"}
         h={"30vh"}
-        // bg={"red"}
         w={"full"}
         alignItems={"center"}
-        justifyContent={"center"}
+        justifyContent={"flex-start"}
         flexDirection={"column"}
       >
         <Box
           display={"flex"}
+          mt={"-30px"}
           h={smallerThan600 ? "120px" : "160px"}
+          minH={smallerThan600 ? "120px" : "160px"}
           w={smallerThan600 ? "120px" : "160px"}
+          minW={smallerThan600 ? "120px" : "160px"}
           borderRadius={"50%"}
           bg={"#a9a9a9"}
-          position={"relative"}
-          bottom={smallerThan600 ? 12 : 8}
         ></Box>
-        <Box
-          display={"flex"}
-          position={"relative"}
-          fontSize={"2xl"}
-          bottom={"10px"}
-        >
-          <Center fontWeight={"thin"}> L O G I N </Center>
+        <Box display={"flex"} fontSize={"2xl"} mt={"3vh"}>
+          <Center fontWeight={"thin"}> LOG IN </Center>
         </Box>
       </Box>
       <Box
@@ -263,7 +282,7 @@ const Login: React.FC<Props> = ({ setActiveLogin, smallerThan600 }) => {
                 border: "none",
               }}
             >
-              LOGIN
+              LOG IN
             </Button>
           </Center>
         </Box>

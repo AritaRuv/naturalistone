@@ -6,3 +6,11 @@ export interface EmailNaturali {
   subject?: string;
   message?: string;
 }
+
+export interface ErrorsProfile {
+  fullName?: string;
+  email?: string;
+  password?: string;
+  phone?: string;
+  zipCode?: string;
+}

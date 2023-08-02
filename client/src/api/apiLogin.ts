@@ -5,10 +5,14 @@ import Cookies from "js-cookie";
 
 export const postSignUp = async (body: SignUp) => {
   try {
-    const data = await axios.post(
+    const { data } = await axios.post(
       "http://localhost:5000/api/auth/signup",
       body
     );
+    console.log("soy data", data);
+
+    Cookies.set("sessionId", data.data.token, { expires: 7 });
+
     return data;
   } catch (error) {
     return error.response.data;
@@ -22,7 +26,7 @@ export const postSignin = async (body: SignIn) => {
       body
     );
 
-    Cookies.set("sessionId", data.results.token, { expires: 7});
+    Cookies.set("sessionId", data.results.token, { expires: 7 });
 
     return data;
   } catch (error) {

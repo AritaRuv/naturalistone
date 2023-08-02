@@ -40,33 +40,48 @@ export async function signUp(req: Request, res: Response) {
 
           const _query1 = `INSERT INTO Customer_Login (CustomerID, Username, Password) Values ("${customerId}", "${email}", "${password}")`;
 
-          mysqlConnection.query(_query1, function (err, results, fields) {
-            if (err) {
-              res
-                .status(400)
-                .json({ success: false, msg: "error in signup user" });
-              return mysqlConnection.rollback(function (err) {
-                throw err;
-              });
-            }
-
-            mysqlConnection.commit(function (err) {
+          mysqlConnection.query(
+            _query1,
+            async function (err, results_customer_login, fields) {
               if (err) {
                 res
-                  .status(500)
-                  .json({ success: false, msg: "failed to signup user" });
-                return mysqlConnection.rollback(function () {
+                  .status(400)
+                  .json({ success: false, msg: "error in signup user" });
+                return mysqlConnection.rollback(function (err) {
                   throw err;
                 });
               }
 
-              console.log("SignUp committed successfully");
+              console.log("results_customer_login", results_customer_login);
 
-              return res
-                .status(200)
-                .json({ success: true, msg: "user create successfully" });
-            });
-          });
+              const token = await generateJWT(results_customer_login.insertId);
+
+              console.log("entree", token);
+
+              results_customer_login.token = token;
+
+              mysqlConnection.commit(function (err) {
+                if (err) {
+                  res
+                    .status(500)
+                    .json({ success: false, msg: "failed to signup user" });
+                  return mysqlConnection.rollback(function () {
+                    throw err;
+                  });
+                }
+
+                console.log("SignUp committed successfully");
+
+                return res
+                  .status(200)
+                  .json({
+                    success: true,
+                    msg: "user create successfully",
+                    data: results_customer_login,
+                  });
+              });
+            }
+          );
         });
       });
     });

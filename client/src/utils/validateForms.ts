@@ -6,6 +6,8 @@ export interface FormErrors {
   email?: string;
   password?: string;
   confirmPassword?: string;
+  phone?: string;
+  zipCode?: string;
 }
 
 export interface FormErrorsLogin {
@@ -91,6 +93,46 @@ export const validateInputsFormEmail = (formData) => {
   if (formData.subject === "") errors.subject = "Please enter a subject";
 
   if (formData.message === "") errors.message = "Please enter a message";
+
+  return errors;
+};
+
+export const validateCompletedInputsProfile = (formData) => {
+  const errors: FormErrors = {};
+  const regexNoNumber = /^[a-zA-Z\s!"#$%&'()*+,./:;<=>?@\[\\\]^_`{|}~]*$/;
+  const regexMore5Length = /^.{5,}$/;
+  const regexEmail = /^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}$/i;
+  const regexPhone = /^[+]?\d+$/;
+  if (formData.fullName === "") errors.fullName = "Please enter a full name";
+  if (formData.fullName !== "") {
+    if (!regexNoNumber.test(formData.fullName)) {
+      errors.fullName = "Please enter a valid name";
+    }
+  }
+  if (formData.email === "") errors.email = "Please enter a email";
+  if (formData.email !== "") {
+    if (!regexEmail.test(formData.email)) {
+      errors.email = "Please enter a valid email";
+    }
+  }
+  if (formData.password === "") errors.password = "Please enter a password";
+  if (formData.password !== "") {
+    if (!regexMore5Length.test(formData.password)) {
+      errors.password = "Please enter a valid password";
+    }
+  }
+  if (formData.phone === "") errors.phone = "Please enter a phone";
+  if (formData.phone !== "") {
+    if (regexPhone.test(formData.phone)) {
+      errors.phone = "Please enter a valid phone";
+    }
+  }
+  if (formData.zipCode === "") errors.zipCode = "Please enter a zipCode";
+  if (formData.zipCode !== "") {
+    if (regexPhone.test(formData.zipCode)) {
+      errors.zipCode = "Please enter a valid zipCode";
+    }
+  }
 
   return errors;
 };

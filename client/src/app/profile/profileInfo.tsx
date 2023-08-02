@@ -102,9 +102,7 @@ const ProfileInfo: React.FC<IShowMenu> = ({
                   w={"full"}
                   flexDirection={"column"}
                   pt={"20px"}
-                  // bg={"yellow"}
                 >
-                  {/* <FormLabel htmlFor="fullName"> */}
                   <Box pl={"10px"}>
                     <Text fontSize={"xs"} color={"#646464"}>
                       FULL NAME
@@ -115,7 +113,6 @@ const ProfileInfo: React.FC<IShowMenu> = ({
                     display={"flex"}
                     flexDirection={"column"}
                     h={"60px"}
-                    // bg={"green"}
                     pl={"10px"}
                   >
                     <Input
@@ -127,6 +124,7 @@ const ProfileInfo: React.FC<IShowMenu> = ({
                       fontSize={"sm"}
                       value={user?.Contact_Name}
                       border={"none"}
+                      isReadOnly={true}
                       _focus={{
                         boxShadow:
                           "0 0.5px 0.5px #f2f2f2 inset, 0 0 5px #f2f2f2",
@@ -142,7 +140,7 @@ const ProfileInfo: React.FC<IShowMenu> = ({
                       id={"fullName"}
                       name={"fullName"}
                       value={user?.Contact_Name}
-                      handleChange={handleChange}
+                      // handleChange={handleChange}
                       formData={formData}
                       setFormData={setFormData}
                     />
@@ -176,6 +174,7 @@ const ProfileInfo: React.FC<IShowMenu> = ({
                       fontSize={"sm"}
                       value={user?.Phone}
                       border={"none"}
+                      isReadOnly={true}
                       // onChange={handleChange}
                       _focus={{
                         boxShadow:
@@ -192,7 +191,7 @@ const ProfileInfo: React.FC<IShowMenu> = ({
                       id={"phone"}
                       name={"phone"}
                       value={user?.Phone}
-                      handleChange={handleChange}
+                      // handleChange={handleChange}
                       formData={formData}
                       setFormData={setFormData}
                     />
@@ -231,6 +230,7 @@ const ProfileInfo: React.FC<IShowMenu> = ({
                       id={"company"}
                       name={"company"}
                       fontSize={"sm"}
+                      isReadOnly={true}
                       value={user?.Company}
                       border={"none"}
                       // onChange={handleChange}
@@ -249,7 +249,7 @@ const ProfileInfo: React.FC<IShowMenu> = ({
                       id={"company"}
                       name={"company"}
                       value={user?.Company}
-                      handleChange={handleChange}
+                      // handleChange={handleChange}
                       formData={formData}
                       setFormData={setFormData}
                     />
@@ -281,6 +281,7 @@ const ProfileInfo: React.FC<IShowMenu> = ({
                       id={"companyPosition"}
                       name={"companyPosition"}
                       fontSize={"sm"}
+                      isReadOnly={true}
                       value={user?.Company_Position}
                       border={"none"}
                       // onChange={handleChange}
@@ -299,7 +300,7 @@ const ProfileInfo: React.FC<IShowMenu> = ({
                       id={"companyPosition"}
                       name={"companyPosition"}
                       value={user?.Company_Position}
-                      handleChange={handleChange}
+                      // handleChange={handleChange}
                       formData={formData}
                       setFormData={setFormData}
                     />
@@ -350,6 +351,7 @@ const ProfileInfo: React.FC<IShowMenu> = ({
                       id={"email"}
                       name={"email"}
                       fontSize={"sm"}
+                      isReadOnly={true}
                       value={user?.Username}
                       border={"none"}
                       // onChange={handleChange}
@@ -368,7 +370,7 @@ const ProfileInfo: React.FC<IShowMenu> = ({
                       id={"email"}
                       name={"email"}
                       value={user?.Username}
-                      handleChange={handleChange}
+                      // handleChange={handleChange}
                       formData={formData}
                       setFormData={setFormData}
                     />
@@ -399,6 +401,7 @@ const ProfileInfo: React.FC<IShowMenu> = ({
                       id={"password"}
                       name={"password"}
                       fontSize={"sm"}
+                      isReadOnly={true}
                       value={user?.Password}
                       border={"none"}
                       type={showPassword ? "type" : "password"}
@@ -426,7 +429,7 @@ const ProfileInfo: React.FC<IShowMenu> = ({
                       id={"password"}
                       name={"password"}
                       value={user?.Password}
-                      handleChange={handleChange}
+                      // handleChange={handleChange}
                       formData={formData}
                       setFormData={setFormData}
                     />
