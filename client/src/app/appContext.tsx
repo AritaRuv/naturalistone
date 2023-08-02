@@ -14,6 +14,7 @@ type ProvidersProps = {
   
 
 export const AppProvider: React.FC<ProvidersProps> = ({ children }) => {
+  
   const [showMenu, setShowMenu] = useState<string>("");
 
   const updateShowMenu = (menu: string) => {
