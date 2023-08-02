@@ -42,6 +42,7 @@
   }
   .menuDrawerButton:hover {
     font-weight: 600;
+    
   }
   /* .menuDrawerButton:hover {
     transform: translate(2px, -2px); /* Desplaza el texto hacia arriba a la derecha 
