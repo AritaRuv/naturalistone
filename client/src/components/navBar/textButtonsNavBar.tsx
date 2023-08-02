@@ -18,11 +18,15 @@ const TextButtonsNavBar: React.FC<TextButtonsNavBarProps> = ({menuVisible}) => {
       minW={"300px"}
       zIndex={1}
       w={"24%"}>
-      <Button fontSize="0.9rem" variant="unstyled" className="customButton"> NEW PRODUCTS </Button>
+      <Button 
+        fontSize="0.8rem" 
+        variant="unstyled" 
+        className="customButton"
+      > NEW PRODUCTS </Button>
       <Link href={"/products"}>
-        <Button fontSize="0.9rem" variant="unstyled" className="customButton"> PRODUCTS </Button>
+        <Button fontSize="0.8rem" variant="unstyled" className="customButton"> PRODUCTS </Button>
       </Link>
-      <Button fontSize="0.9rem" variant="unstyled" className="customButton"> SALE </Button>
+      <Button fontSize="0.8rem" variant="unstyled" className="customButton"> SALE </Button>
     </Box>
   );
 };

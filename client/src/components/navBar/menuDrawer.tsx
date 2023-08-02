@@ -25,6 +25,14 @@ interface MenuDrawerProps {
 const MenuDrawer: React.FC<MenuDrawerProps> = ({ handleHome, smallerThan740 }) => {
 
   const { isOpen, onOpen, onClose } = useDisclosure();
+  const buttons = [
+    {name: "home"},
+    {name: "profile"},
+    {name: "about us"},
+    {name: "showroom"},
+    {name: "our team"},
+    {name: "contact"},
+  ];
 
   return(
     <>
@@ -39,44 +47,30 @@ const MenuDrawer: React.FC<MenuDrawerProps> = ({ handleHome, smallerThan740 }) =
       </Box>  
       <Drawer
         isOpen={isOpen}
-        placement='left'
+        placement={"left"}
         onClose={onClose}
-        size={!smallerThan740 ? "sm" : "xs"}
+        size={smallerThan740 ? "full" : "md"}
       >
         <DrawerOverlay />
         <DrawerContent >
-          <DrawerCloseButton pt={"16px"}/>
-          <DrawerHeader>
+          <DrawerCloseButton/>
+          <DrawerHeader ml={"10px"}>
             <Logo/>
           </DrawerHeader>
-          <DrawerBody>
-            <Box display={"flex"} flexDir={"column"} h={!smallerThan740 ? "40vh" : "70vh"} justifyContent='space-between' alignItems={"flex-start"}>
-              <Divider borderColor="blackAlpha.500"/>
-              <Button pl={"2%"} fontSize="1rem" variant="unstyled" className="menuDrawerButton" onClick={handleHome} rightIcon={<ChevronRightIcon />}> HOME </Button>
-                
-              {
-                smallerThan740 &&(
+          <DrawerBody mt={"30px"}>
+            {
+              buttons.map(button => {
+                return(
                   <> 
-                    <Divider borderColor="blackAlpha.500"/>
-                    <Button pl={"2%"} fontSize="1rem" variant="unstyled" className="menuDrawerButton" rightIcon={<ChevronRightIcon />}> PROFILE </Button>
-                    <Divider borderColor="blackAlpha.500"/>
-                    <Button pl={"2%"} fontSize="1rem" variant="unstyled" className="menuDrawerButton" rightIcon={<ChevronRightIcon />}> FAVORITES </Button>
+                    <Box p={"10px"}>
+                      <Button textTransform={"uppercase"} pl={"2%"} fontSize={"sizes.menuButton"} variant="unstyled" className="menuDrawerButton" rightIcon={<ChevronRightIcon />}>{button.name}</Button>
+                      <Divider borderColor="gray.100"/>
+                    </Box>
                   </>
-                )}
-              <Divider borderColor="blackAlpha.500"/>
-              <Button pl={"2%"} fontSize="1rem" variant="unstyled" className="menuDrawerButton" rightIcon={<ChevronRightIcon />}> ABOUT US </Button>
-              <Divider borderColor="blackAlpha.500"/>
-              <Button pl={"2%"} fontSize="1rem" variant="unstyled" className="menuDrawerButton" rightIcon={<ChevronRightIcon />}> PROJECTS </Button>
-              <Divider borderColor="blackAlpha.500"/>
-              <Button pl={"2%"} fontSize="1rem" variant="unstyled" className="menuDrawerButton" rightIcon={<ChevronRightIcon />}> PRODUCTS </Button>
-              <Divider borderColor="blackAlpha.500"/>
-              <Button pl={"2%"} fontSize="1rem" variant="unstyled" className="menuDrawerButton" rightIcon={<ChevronRightIcon />}> SHOWS </Button>
-              <Divider borderColor="blackAlpha.500"/>
-              <Button pl={"2%"} fontSize="1rem" variant="unstyled" className="menuDrawerButton" rightIcon={<ChevronRightIcon />}> OUR TEAM </Button>
-              <Divider borderColor="blackAlpha.500"/>
-              <Button pl={"2%"} fontSize="1rem" variant="unstyled" className="menuDrawerButton" rightIcon={<ChevronRightIcon />}> CONTACT </Button>
-              <Divider borderColor="blackAlpha.500"/>
-            </Box>
+                );
+              })
+
+            }
           </DrawerBody>
           {/* <DrawerFooter>
             <Button variant='outline' mr={3} onClick={onClose}>
