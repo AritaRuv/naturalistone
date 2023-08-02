@@ -43,7 +43,6 @@ const AddressInfo: React.FC<IShowMenu> = ({
           flexDir={
             isSmallThan1000 ? "column" : isSmallThan750 ? "column" : "row"
           }
-          justifyContent={"space-between"}
         >
           <Box
             border={"2px solid"}
