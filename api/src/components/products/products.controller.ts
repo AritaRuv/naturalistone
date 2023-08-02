@@ -1,11 +1,11 @@
 /* eslint-disable indent */
 /* eslint-disable quotes */
-import { FieldInfo, MysqlError } from "mysql";
+import {  MysqlError } from "mysql";
 import { Request, Response } from "express";
 import mysqlConnection from "../../db";
 import { RowDataPacket } from "mysql2";
 import { productDimensions } from "../../controllers/productDimensions";
-import { productDimensionsCheckboxes } from "../../controllers/productDimensionsCheckboxes";
+//import { productDimensionsCheckboxes } from "../../controllers/productDimensionsCheckboxes";
 
 export async function getAllProducts(req: Request, res: Response) {
   try {

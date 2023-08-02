@@ -1,23 +1,16 @@
 "use client";
 import {
-  SimpleGrid,
-  Checkbox,
-  CheckboxGroup,
   Box,
-  Text,
   useMediaQuery,
 } from "@chakra-ui/react";
-import { useEffect, useState } from "react";
-import { useAppDispatch, useAppSelector } from "@/store/hooks";
-import { fetchMaterials } from "@/store/products/actionsProducts";
-import { ProductState } from "@/store/products/typesProducts";
+import { useState } from "react";
 import Login from "./Login";
 import Checkout from "./checkout";
 import SignUp from "./SignUp";
 import Footer from "./footer";
 
 const ContainerLogin: React.FC = () => {
-  const [isActive600, setIsActive600] = useState(false);
+
   const [activeLogin, setActiveLogin] = useState(true);
   const [smallerThan600] = useMediaQuery("(max-width: 600px)");
 

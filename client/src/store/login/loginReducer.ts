@@ -24,21 +24,21 @@ const loginReducer = (
   action: LoginAction
 ): LoginState => {
   switch (action.type) {
-    case LoginActionsType.GET_USER_INFO: {
-      return {
-        ...state,
-        user: action.payload,
-      };
-    }
-    case LoginActionsType.UPDATE_USER: {
-      return {
-        ...state,
-        user: action.payload,
-      };
-    }
-    default: {
-      return state;
-    }
+  case LoginActionsType.GET_USER_INFO: {
+    return {
+      ...state,
+      user: action.payload,
+    };
+  }
+  case LoginActionsType.UPDATE_USER: {
+    return {
+      ...state,
+      user: action.payload,
+    };
+  }
+  default: {
+    return state;
+  }
   }
 };
 

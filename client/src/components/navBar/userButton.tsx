@@ -13,8 +13,8 @@ import {
 } from "@chakra-ui/react";
 import { PiUserCircleThin } from "react-icons/pi";
 import "./_navBar.css";
-import UserBox from "../profile/userBox";
-import UserButtonsContainer from "../profile/userButtonsContainer";
+import UserBox from "@/app/profile/userBox";
+import UserButtonsContainer from "@/app/profile/userButtonsContainer";
 
 const UserButton: React.FC = () => {
 
@@ -26,7 +26,7 @@ const UserButton: React.FC = () => {
       <IconButton
         aria-label="Cart-icon"
         variant="unstyled"
-        fontSize="3xl"
+        fontSize="2xl"
         icon={<PiUserCircleThin/>}
         onClick={onOpen}
       />

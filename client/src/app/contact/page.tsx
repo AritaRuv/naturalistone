@@ -1,6 +1,5 @@
 "use client";
-import { Box, useMediaQuery, Text, Divider, Icon } from "@chakra-ui/react";
-import NavBar from "../_navBar/_navBar";
+import { Box, Text, Divider, Icon } from "@chakra-ui/react";
 import NaturaliMap from "./googleMaps";
 import { ContactImage } from "./contactImage";
 import { SocialMediaContainer } from "./socialMedia";
@@ -8,11 +7,9 @@ import { PiCaretDoubleDownThin } from "react-icons/pi";
 import ContactForm from "./contactForm";
 
 export const Contact = () => {
-  const [isSmallScreen] = useMediaQuery("(max-width: 1200px)");
 
   return (
     <>
-      <NavBar />
       <Box>
         <ContactImage />
       </Box>

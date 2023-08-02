@@ -1,13 +1,14 @@
 import React from "react";
 import { Box } from "@chakra-ui/react";
-import ProductList from "./productValuesList";
+import SampleProductList from "./sampleProductList";
 
-interface AddProductToCartProps {
+
+interface AddProductSampleToCartProps {
   ProdNameID: number;
   productValues: any;
 }
 
-const AddProductToCart: React.FC<AddProductToCartProps> = ({
+const AddSampleProductToCart: React.FC<AddProductSampleToCartProps> = ({
   ProdNameID,
   productValues,
 }) => {
@@ -21,14 +22,12 @@ const AddProductToCart: React.FC<AddProductToCartProps> = ({
       px={"2%"}
       w={"260px"}
       h={"20vh"}
+      bg={"white"}
       flexDir={"column"}
-      position={"relative"}
-      zIndex={10}
-      pt={"2vh"}
     >
-      <ProductList data={productValues} ProdNameID={ProdNameID} />
+      <SampleProductList ProdNameID={ProdNameID} data={productValues}/>
     </Box>
   );
 };
 
-export default AddProductToCart;
+export default AddSampleProductToCart;

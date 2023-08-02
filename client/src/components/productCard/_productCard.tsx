@@ -3,7 +3,7 @@ import { Box, IconButton, Button, Text, Center } from "@chakra-ui/react";
 import NextImage from "next/image";
 import { useState } from "react";
 import { PiCaretDownThin } from "react-icons/pi";
-import "../assets/styleSheet.css";
+import "../../app/assets/styleSheet.css";
 import { Product, ProductState } from "@/store/products/typesProducts";
 import AddProductToCart from "./addToCartDropdown";
 import { useAppDispatch, useAppSelector } from "@/store/hooks";

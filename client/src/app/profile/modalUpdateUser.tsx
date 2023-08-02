@@ -1,5 +1,4 @@
 import {
-  IconButton,
   useDisclosure,
   Modal,
   ModalOverlay,
@@ -15,9 +14,7 @@ import {
   Input,
   InputGroup,
 } from "@chakra-ui/react";
-import { HiUserAdd } from "react-icons/hi";
 import { useState } from "react";
-import { useDispatch } from "react-redux";
 import { useAppDispatch } from "@/store/hooks";
 import { patchUser } from "@/store/login/actionsLogin";
 import { validateCompletedInputsProfile } from "@/utils/validateForms";

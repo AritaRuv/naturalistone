@@ -1,6 +1,5 @@
 "use client";
 import { Box, useMediaQuery } from "@chakra-ui/react";
-import NavBar from "../_navBar/_navBar";
 import { useEffect, useContext, useState } from "react";
 import UserMenu from "./userMenu";
 import ProfileInfo from "./profileInfo";
@@ -39,6 +38,7 @@ export interface IShowMenu {
 }
 
 export default function Profile() {
+
   const appContext = useContext(AppContext);
 
   const [isSmallScreen] = useMediaQuery("(max-width: 1200px)");
@@ -78,7 +78,6 @@ export default function Profile() {
 
   return (
     <>
-      <NavBar />
       <Box
         px={"5vw"}
         py={isSmallThan750 ? 0 : "10vh"}
@@ -86,8 +85,6 @@ export default function Profile() {
         flexDir={isSmallThan750 ? "column" : "row"}
       >
         <UserMenu
-          // setShowMenu={setShowMenu}
-          // showMenu={showMenu}
           isSmallThan750={isSmallThan750}
           user={user}
           formData={formData}
@@ -97,8 +94,6 @@ export default function Profile() {
           {appContext?.showMenu === "profile" && (
             <>
               <ProfileInfo
-                // setShowMenu={appContext?.setShowMenu}
-                // showMenu={appContext?.showMenu}
                 user={user}
                 isSmallThan750={isSmallThan750}
                 formData={formData}
@@ -110,8 +105,6 @@ export default function Profile() {
           {appContext?.showMenu === "address" && (
             <>
               <AddressInfo
-                // setShowMenu={appContext?.setShowMenu}
-                // showMenu={appContext?.showMenu}
                 user={user}
                 formData={formData}
                 setFormData={setFormData}
@@ -121,8 +114,6 @@ export default function Profile() {
           {appContext?.showMenu === "projects" && (
             <>
               <Projects
-                setShowMenu={appContext?.setShowMenu}
-                showMenu={appContext?.showMenu}
                 formData={formData}
                 setFormData={setFormData}
               />

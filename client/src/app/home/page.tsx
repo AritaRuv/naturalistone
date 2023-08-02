@@ -1,6 +1,5 @@
 "use client";
 import HomeProductContainer from "@/app/home/_homeProductContainer";
-import NavBar from "../_navBar/_navBar";
 import Carousel from "./_carousel";
 import CarouselVideo from "./carouselVideo";
 import { Filters } from "./filters/filters";
@@ -37,7 +36,6 @@ export default function Home() {
 
   return (
     <>
-      <NavBar />
       <Carousel mt={"-10vh"} items={cards} hidden={false} />
       <CarouselVideo
         source={

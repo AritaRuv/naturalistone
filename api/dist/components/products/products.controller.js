@@ -15,6 +15,7 @@ Object.defineProperty(exports, "__esModule", { value: true });
 exports.getCheckboxValidation = exports.getProductsFilter = exports.getAllDimensionProperties = exports.getAllMaterials = exports.getProductByIDS = exports.getProductsValuesByProdNameID = exports.getAllProducts = void 0;
 const db_1 = __importDefault(require("../../db"));
 const productDimensions_1 = require("../../controllers/productDimensions");
+//import { productDimensionsCheckboxes } from "../../controllers/productDimensionsCheckboxes";
 function getAllProducts(req, res) {
     return __awaiter(this, void 0, void 0, function* () {
         try {

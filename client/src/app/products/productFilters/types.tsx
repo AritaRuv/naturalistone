@@ -6,11 +6,11 @@ export interface FilterButtonsProps {
     filters: Filters;
   }
 
-  export interface Filters {
+export interface Filters {
     [key: string]: string[];
   }
 
-  export interface UniqueFilter {
+export interface UniqueFilter {
     type?:  string[] 
     finish?:  string[];
     thickness?:  string[];
@@ -18,7 +18,7 @@ export interface FilterButtonsProps {
     handleCheckboxChange: (filterName: string, value: string) => void;
   }
   
-  export interface FiltersState {
+export interface FiltersState {
     setFilters: (filters: Filters) => void;
     filters: Filters;
     handleCheckboxChange: (filterName: string, value: string) => void;

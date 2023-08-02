@@ -1,17 +1,15 @@
 "use client";
 import { useEffect } from "react";
-import { FilterProps, SimpleGrid, useMediaQuery } from "@chakra-ui/react";
-import ProductCard from "../products/_productCard";
+import { SimpleGrid, useMediaQuery } from "@chakra-ui/react";
+import ProductCard from "../../components/productCard/_productCard";
 import { fetchProductsHome } from "../../store/products/actionsProducts";
 import { ProductState } from "../../store/products/typesProducts";
 import { useAppDispatch, useAppSelector } from "../../store/hooks";
 import { FiltersHomeProps } from "./page";
-import { LoginState } from "@/store/login/typeLogin";
 import { userInfo } from "@/store/login/actionsLogin";
 
 const HomeProductContainer: React.FC<FiltersHomeProps> = ({
   productsFilter,
-  setProductsFilter,
 }) => {
   const [isSmallScreen] = useMediaQuery("(max-width: 950px)");
   const [isMediumScreen] = useMediaQuery("(max-width: 1280px)");
@@ -19,11 +17,11 @@ const HomeProductContainer: React.FC<FiltersHomeProps> = ({
   const dispatch = useAppDispatch();
   const { material, colorId } = productsFilter;
 
-  const { user } = useAppSelector(
-    (state: { loginReducer: LoginState }) => state.loginReducer
-  );
+  // const { user } = useAppSelector(
+  //   (state: { loginReducer: LoginState }) => state.loginReducer
+  // );
 
-  const { products, loading, error } = useAppSelector(
+  const { products } = useAppSelector(
     (state: { productReducer: ProductState }) => state.productReducer
   );
 
@@ -43,12 +41,12 @@ const HomeProductContainer: React.FC<FiltersHomeProps> = ({
 
   return (
     <SimpleGrid
+      pt={"8vh"}
       spacingY={6}
-      py={"2%"}
       px={isMediumScreen && !isSmallScreen ? "5%" : "10%"}
       w={"100%"}
       placeItems={"center"}
-      columns={gridColumns} // Establece el número de columnas dinámicamente
+      columns={gridColumns} 
       bg={"#f2f2f2"}
     >
       {homeProducts.length &&

@@ -1,20 +1,16 @@
 "use client";
 import {
-  Avatar,
   Box,
   useMediaQuery,
   Text,
   InputGroup,
   Input,
-  InputRightElement,
 } from "@chakra-ui/react";
 import { IShowMenu } from "./page";
 import { BsEyeSlash } from "react-icons/bs";
 import { UpdateCustomer } from "./modalUpdateUser";
 
 const AddressInfo: React.FC<IShowMenu> = ({
-  // setShowMenu,
-  // showMenu,
   user,
   isSmallThan750,
   formData,
@@ -27,19 +23,21 @@ const AddressInfo: React.FC<IShowMenu> = ({
     <>
       <Box
         pl={isSmallThan750 ? 0 : "5vw"}
-        w={isSmallThan750 ? "100vw" : "70vw"}
+        w={isSmallThan750 ? "100vw" : "75vw"}
         ml={isSmallThan750 ? 0 : "5vw"}
         mt={isSmallThan750 ? "5vh" : 0}
+        h={"80vh"}
       >
         <Text
           textTransform={"uppercase"}
           fontSize={"1.9rem"}
-          ml={isSmallThan750 ? "2vw" : 0}
+          ml={"1vw"}
         >
-          ADDRESS INFO
+          ADDRESS
         </Text>
         <Box
-          w={"65vw"}
+          justifyContent={"flex-start"}
+          w={"70vw"}
           mt={"2vh"}
           display={"flex"}
           flexDir={
@@ -51,9 +49,9 @@ const AddressInfo: React.FC<IShowMenu> = ({
             border={"2px solid"}
             rounded={"sm"}
             borderColor={"gray.200"}
-            w={isSmallThan750 ? "100vw" : "40vw"}
+            w={isSmallThan750 ? "100vw" : "48vw"}
+            h={"70vh"}
             minW={"400px"}
-            h={"full"}
             display={"flex"}
             justifyContent={"center"}
             alignItems={"center"}
@@ -65,8 +63,6 @@ const AddressInfo: React.FC<IShowMenu> = ({
               h={"95%"}
               w={"95%"}
               flexDirection={"column"}
-              // pt={"20px"}
-              // p={"10px"}
             >
               <Box>
                 <Text fontSize={"md"}>ADDRESS</Text>
@@ -74,7 +70,6 @@ const AddressInfo: React.FC<IShowMenu> = ({
               <Box
                 display={"flex"}
                 flexDirection={isSmallThan750 ? "column" : "row"}
-                // bg={"blue"}
                 justifyContent={"center"}
                 alignItems={"center"}
               >
@@ -83,7 +78,6 @@ const AddressInfo: React.FC<IShowMenu> = ({
                   w={"full"}
                   flexDirection={"column"}
                   pt={"20px"}
-                  // bg={"yellow"}
                 >
                   {/* <FormLabel htmlFor="fullName"> */}
                   <Box pl={"10px"}>

@@ -1,5 +1,5 @@
 import { Box, Checkbox, CheckboxGroup, HStack, VStack, Text, Button } from "@chakra-ui/react";
-import { useState, useEffect } from "react";
+import { useState } from "react";
 import { useAppDispatch, useAppSelector } from "@/store/hooks";
 import { postCart } from "@/store/cart/actionsCart";
 import { fetchProductsValuesValidation } from "@/store/products/actionsProducts";

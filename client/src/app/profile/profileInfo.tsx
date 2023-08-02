@@ -1,32 +1,19 @@
 "use client";
 import {
-  Avatar,
   Box,
   useMediaQuery,
   Text,
   InputGroup,
   Input,
   InputRightElement,
-  Button,
-  useEditableControls,
-  ButtonGroup,
-  IconButton,
-  Flex,
-  Editable,
-  EditablePreview,
-  EditableInput,
 } from "@chakra-ui/react";
 import { IShowMenu } from "./page";
 import SideCard from "./sideCard";
 import { useState } from "react";
 import { BsEyeSlash } from "react-icons/bs";
-import { updateUser } from "@/api/apiLogin";
-import { CheckIcon, CloseIcon, EditIcon } from "@chakra-ui/icons";
 import { UpdateCustomer } from "./modalUpdateUser";
 
 const ProfileInfo: React.FC<IShowMenu> = ({
-  // setShowMenu,
-  // showMenu,
   user,
   isSmallThan750,
   formData,
@@ -44,35 +31,34 @@ const ProfileInfo: React.FC<IShowMenu> = ({
     <>
       <Box
         pl={isSmallThan750 ? 0 : "5vw"}
-        w={isSmallThan750 ? "100vw" : "70vw"}
+        w={isSmallThan750 ? "100vw" : "75vw"}
         ml={isSmallThan750 ? 0 : "5vw"}
         mt={isSmallThan750 ? "5vh" : 0}
-        // bg={"red"}
+        h={"80vh"}
       >
         <Text
           textTransform={"uppercase"}
           fontSize={"1.9rem"}
-          ml={isSmallThan750 ? "2vw" : 0}
+          ml={"1vw"}
         >
           PROFILE
         </Text>
         <Box
-          w={"65vw"}
+          justifyContent={"flex-start"}
+          w={"70vw"}
           mt={"2vh"}
           display={"flex"}
           flexDir={
             isSmallThan1000 ? "column" : isSmallThan750 ? "column" : "row"
           }
-          justifyContent={"space-between"}
-          // bg={"yellow"}
         >
           <Box
             border={"2px solid"}
             rounded={"sm"}
             borderColor={"gray.200"}
-            w={isSmallThan750 ? "100vw" : "40vw"}
+            w={isSmallThan750 ? "100vw" : "48vw"}
+            h={"70vh"}
             minW={"400px"}
-            h={"full"}
             display={"flex"}
             justifyContent={"center"}
             alignItems={"center"}
@@ -84,8 +70,6 @@ const ProfileInfo: React.FC<IShowMenu> = ({
               h={"95%"}
               w={"95%"}
               flexDirection={"column"}
-              // pt={"20px"}
-              // p={"10px"}
             >
               <Box>
                 <Text fontSize={"md"}>PROFILE SETTINGS</Text>
@@ -93,7 +77,6 @@ const ProfileInfo: React.FC<IShowMenu> = ({
               <Box
                 display={"flex"}
                 flexDirection={isSmallThan750 ? "column" : "row"}
-                // bg={"blue"}
                 justifyContent={"center"}
                 alignItems={"center"}
               >
@@ -314,7 +297,7 @@ const ProfileInfo: React.FC<IShowMenu> = ({
               w={"95%"}
               flexDirection={"column"}
               mt={"10px"}
-              // bg={"yellow"}
+              
             >
               <Box>
                 <Text fontSize={"md"}>SECURITY</Text>
@@ -438,13 +421,8 @@ const ProfileInfo: React.FC<IShowMenu> = ({
               </Box>
             </Box>
           </Box>
-          <SideCard isSmallThan750={isSmallThan750} />
+          <SideCard isSmallThan750={isSmallThan750}/>
         </Box>
-        {/* <
-     
-      <Box display={'flex'} flexDir={'column'} pl={'5vw'} h={'70vh'} justifyContent={'space-evenly'} border={'2px solid red'}>
-       
-    </Box> */}
       </Box>
     </>
   );
