@@ -26,7 +26,7 @@ const UserButton: React.FC = () => {
       <IconButton
         aria-label="Cart-icon"
         variant="unstyled"
-        fontSize="3xl"
+        fontSize="2xl"
         icon={<PiUserCircleThin/>}
         onClick={onOpen}
       />

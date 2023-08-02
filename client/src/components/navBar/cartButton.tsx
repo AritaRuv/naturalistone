@@ -27,22 +27,17 @@ const CartButton: React.FC = () => {
   const { isOpen, onOpen, onClose } = useDisclosure();
   const { cart } = useAppSelector((state: { cartReducer: CartState }) => state.cartReducer);
   const dispatch = useAppDispatch();
-  // const router = useRouter();
 
   useEffect(()=>{
     dispatch(fetchCart(1938));
   },[]);
-
-  // const handleClickCheckout = () => {
-  //   router.push("/checkout");
-  // }
 
   return(
     <>
       <IconButton
         aria-label="Cart-icon"
         variant="unstyled"
-        fontSize="3xl"
+        fontSize="2xl"
         icon={<PiShoppingCartThin/>}
         onClick={onOpen}
       />

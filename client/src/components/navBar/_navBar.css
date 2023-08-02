@@ -5,16 +5,20 @@
   text-decoration: none;
 }
 
+.customButton:hover {
+  font-weight: 600;
+}
+
 .customButton:hover::before {
   content: '';
   position: absolute;
   width: 40%; /* Ajusta el porcentaje para centrar la línea */
   height: 2px;
   background-color: black;
-  bottom: 0;
-  left: 25%; /* Ajusta el porcentaje para centrar la línea */
+  bottom: 3px;
+  left: 30%; /* Ajusta el porcentaje para centrar la línea */
   transform-origin: center;
-  animation: underline 0.3s ease forwards;
+  animation: underline 0.1s ease forwards;
 }
 
 @keyframes underline {
@@ -25,19 +29,22 @@
     transform: scaleX(1);
   }
   100% {
-    transform: scaleX(1);
+    transform: scaleX(2.5);
   }
 }
   
   .menuDrawerButton {
-    font-size: 1rem;
+    font-size: 0.8rem;
     width: 96%;
     display: flex;
     justify-content: space-between;
+    font-weight: normal;
   }
-  
   .menuDrawerButton:hover {
-    transform: translate(5px, -5px); /* Desplaza el texto hacia arriba a la derecha */
-    font-size: 1.1rem; /* Aumenta el tamaño de la fuente */
+    font-weight: 600;
   }
-  
+  /* .menuDrawerButton:hover {
+    transform: translate(2px, -2px); /* Desplaza el texto hacia arriba a la derecha 
+    font-size: 0.9rem; /* Aumenta el tamaño de la fuente 
+  }
+  */

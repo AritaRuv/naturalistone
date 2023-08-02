@@ -9,7 +9,7 @@ const Menu: React.FC<MenuProps> = ({handleMenu}) => {
     
   return(
     <Box minW={"30px"} zIndex={1} >
-      <Button fontSize="0.9rem" variant="unstyled" className="customButton" onClick={handleMenu}> MENU </Button>
+      <Button fontSize="0.8rem" variant="unstyled" className="customButton" onClick={handleMenu}> MENU </Button>
     </Box>
   );
 };
