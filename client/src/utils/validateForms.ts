@@ -8,6 +8,7 @@ export interface FormErrors {
   confirmPassword?: string;
   phone?: string;
   zipCode?: string;
+  billingZipCode?: string;
 }
 
 export interface FormErrorsLogin {
@@ -118,19 +119,26 @@ export const validateCompletedInputsProfile = (formData) => {
   if (formData.password === "") errors.password = "Please enter a password";
   if (formData.password !== "") {
     if (!regexMore5Length.test(formData.password)) {
-      errors.password = "Please enter a valid password";
+      errors.password = "Password must have more than 5 characters";
     }
   }
   if (formData.phone === "") errors.phone = "Please enter a phone";
   if (formData.phone !== "") {
-    if (regexPhone.test(formData.phone)) {
+    if (!regexPhone.test(formData.phone)) {
       errors.phone = "Please enter a valid phone";
     }
   }
   if (formData.zipCode === "") errors.zipCode = "Please enter a zipCode";
   if (formData.zipCode !== "") {
-    if (regexPhone.test(formData.zipCode)) {
+    if (!regexPhone.test(formData.zipCode)) {
       errors.zipCode = "Please enter a valid zipCode";
+    }
+  }
+  if (formData.billingZipCode === "")
+    errors.billingZipCode = "Please enter a zip code";
+  if (formData.billingZipCode !== "") {
+    if (!regexPhone.test(formData.billingZipCode)) {
+      errors.billingZipCode = "Please enter a valid zip code";
     }
   }
 

@@ -20,6 +20,8 @@ export interface User {
   Billing_State?: string;
   City?: string;
   Company_Position?: string;
+  Billing_ZipCode?: string;
+  Billing_City?: string;
 }
 
 export interface SignIn {
@@ -56,4 +58,4 @@ export interface UpdateUserInfoActions {
 export type LoginAction =
   | PostSigninActions
   | GetUserInfoActions
-  | UpdateUserInfoActions
+  | UpdateUserInfoActions;

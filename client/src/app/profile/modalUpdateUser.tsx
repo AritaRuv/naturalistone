@@ -75,12 +75,12 @@ export function UpdateCustomer({
   };
 
   const handleSubmit = async () => {
-    // setShowErrors(true);
-    // if (Object.values(errors[name]).length) {
-    //   return;
-    // }
+    setShowErrors(true);
+    if (errors && errors[name]?.length) {
+      return;
+    }
     dispatch(patchUser(formData));
-    // setErrors({});
+    setErrors({});
     onClose();
     return;
   };
@@ -161,11 +161,11 @@ export function UpdateCustomer({
                 }}
               />
             </InputGroup>
-            {/* {showErrors && (
+            {showErrors && (
               <Text color={"red"} fontSize={"xs"} ml={"50px"}>
                 {errors[name]}
               </Text>
-            )} */}
+            )}
           </ModalBody>
           <ModalFooter>
             <Button

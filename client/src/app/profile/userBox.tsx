@@ -25,7 +25,7 @@ const UserBox: React.FC<IShowMenu> = ({ user }) => {
           ml={"10px"}
         >
           <Text fontWeight={"thin"}>Hey,</Text>
-          <Text fontWeight={"normal"}>{user?.Contact_Name}!</Text>
+          <Text fontWeight={"normal"}>{user?.Contact_Name.split(" ")[0]}!</Text>
         </Box>
       </Box>
     </>
