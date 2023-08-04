@@ -6,9 +6,18 @@ import {
   fetchMaterials,
   fetchProductsHome,
 } from "@/store/products/actionsProducts";
-import { Box, Button, Center, Heading, useMediaQuery } from "@chakra-ui/react";
+import {
+  Box,
+  Button,
+  Center,
+  Heading,
+  IconButton,
+  useMediaQuery,
+  useToast,
+} from "@chakra-ui/react";
 import { useEffect, useState } from "react";
 import { FiltersHomeProps } from "../page";
+import { AiOutlineClear } from "react-icons/ai";
 
 export function FiltersColors({
   setProductsFilter,
@@ -16,12 +25,13 @@ export function FiltersColors({
 }: FiltersHomeProps) {
   const dispatch = useAppDispatch();
   const [color, setColor] = useState("gray.500");
-  // const colors = ["black", "white.500", "gray.500", "green.500", "blue.600"];
   const [activeButton, setActiveButton] = useState(null);
   const [smallerThan550] = useMediaQuery("(max-width: 550px)");
+  const [smallerThan950] = useMediaQuery("(max-width: 950px)");
   const [boxMarginRight, setBoxMarginRight] = useState("auto");
   const [boxMargin, setBoxMargin] = useState(false);
   const [boxMl, setBoxMl] = useState("auto");
+  const toast = useToast();
   const { colors } = useAppSelector(
     (state: { colorsReducer: ColorsState }) => state.colorsReducer
   );
@@ -37,19 +47,43 @@ export function FiltersColors({
     if (smallerThan550) setBoxMargin(true);
   }, [smallerThan550]);
 
-  const handleClick = (index) => {
+  const handleClick = async (index) => {
     setActiveButton(index);
     setColor(homeColors[index].Color);
     setProductsFilter((prevState) => ({
       ...prevState,
       colorId: homeColors[index].ColorID.toString(),
     }));
-    dispatch(
-      fetchProductsHome(
-        productsFilter.material,
-        homeColors[index].ColorID.toString()
-      )
-    );
+    try {
+      const products = await dispatch(
+        fetchProductsHome(
+          productsFilter.material,
+          homeColors[index].ColorID.toString()
+        )
+      );
+      if (!products) {
+        if (!toast.isActive("toastProductsId")) {
+          return toast({
+            id: "toastProductsId",
+            title: "Products not found",
+            duration: 4000,
+            status: "error",
+            isClosable: true,
+          });
+        }
+      }
+    } catch (error) {
+      console.log("error en dispatch", error);
+    }
+  };
+
+  const handleClear = () => {
+    setProductsFilter({
+      material: "",
+      colorId: "",
+    });
+    dispatch(fetchProductsHome("", ""));
+    setActiveButton(null);
   };
 
   return (
@@ -59,9 +93,10 @@ export function FiltersColors({
       h={"260px"}
       w={"390px"}
       // bg={"yellow"}
-      alignItems="flex-start"
+      alignItems="center"
       justifyContent={"center"}
       mr={boxMargin ? "0px" : "200px"}
+      flexDir={"row"}
     >
       <Box
         // bg={"red"}
@@ -75,7 +110,7 @@ export function FiltersColors({
         marginLeft={boxMargin ? "65px" : "0px"}
         // marginRight={"65px"}
       >
-        <Box w={"240px"} h={"4vh"} p={"2vw"}>
+        <Box w={"240px"} p={"22px"}>
           <Center>
             <Heading fontSize="xl" fontWeight={"light"}>
               COLORS
@@ -88,7 +123,9 @@ export function FiltersColors({
             flexDirection={"row"}
             justifyContent={"space-between"}
             w={"240px"}
+            h={"40px"}
             minW={"220px"}
+            // bg={"green"}
             // border={"2px solid red"}
           >
             {homeColors.map((c, index) => (
@@ -112,6 +149,22 @@ export function FiltersColors({
           </Box>
         </Center>
         <Center mt={"25px"}>Shop {color}</Center>
+      </Box>
+      <Box
+        w={"full"}
+        pl={"30px"}
+        // bg={"yellow"}
+        mt={smallerThan950 ? "20px" : 0}
+      >
+        <IconButton
+          aria-label="User-icon"
+          variant="unstyled"
+          fontSize="xl"
+          border={"none"}
+          title={"Clear filters"}
+          icon={<AiOutlineClear />}
+          onClick={handleClear}
+        ></IconButton>
       </Box>
     </Box>
   );

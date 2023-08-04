@@ -49,6 +49,227 @@ const AddressInfo: React.FC<IShowMenu> = ({
           >
             <Box display={"flex"} h={"95%"} w={"95%"} flexDirection={"column"}>
               <Box>
+                <Text fontSize={"md"}>BILLING ADDRESS</Text>
+              </Box>
+              <Box
+                display={"flex"}
+                flexDirection={isSmallThan750 ? "column" : "row"}
+              >
+                <Box
+                  display={"flex"}
+                  w={"full"}
+                  flexDirection={"column"}
+                  pt={"20px"}
+                  // bg={"yellow"}
+                >
+                  {/* <FormLabel htmlFor="fullName"> */}
+                  <Box pl={"10px"}>
+                    <Text fontSize={"xs"} color={"#646464"}>
+                      ADDRESS
+                    </Text>
+                  </Box>
+                  <InputGroup
+                    pt={"5px"}
+                    display={"flex"}
+                    flexDirection={"column"}
+                    h={"60px"}
+                    // bg={"green"}
+                    pl={"10px"}
+                  >
+                    <Input
+                      h={"25px"}
+                      w={"80%"}
+                      position={"relative"}
+                      id={"billingAddress"}
+                      name={"billingAddress"}
+                      fontSize={"sm"}
+                      isReadOnly={true}
+                      value={user?.Billing_Address}
+                      border={"none"}
+                      // onChange={handleChange}
+                      _focus={{
+                        boxShadow:
+                          "0 0.5px 0.5px #f2f2f2 inset, 0 0 5px #f2f2f2",
+                      }}
+                      style={{
+                        borderBottom: "1px solid black",
+                        borderRadius: "0", // Ajusta el radio de las esquinas a cero
+                        outline: "none",
+                      }}
+                    />
+                    <UpdateCustomer
+                      title={"Billing Address"}
+                      id={"billingAddress"}
+                      name={"billingAddress"}
+                      value={user?.Billing_Address}
+                      // handleChange={handleChange}
+                      formData={formData}
+                      setFormData={setFormData}
+                    />
+                  </InputGroup>
+                </Box>
+                <Box
+                  display={"flex"}
+                  w={"full"}
+                  flexDirection={"column"}
+                  pt={"20px"}
+                  // bg={"red"}
+                >
+                  <Box pl={"10px"}>
+                    <Text fontSize={"xs"} color={"#646464"}>
+                      STATE
+                    </Text>
+                  </Box>
+                  <InputGroup
+                    pt={"5px"}
+                    display={"flex"}
+                    flexDirection={"column"}
+                    h={"60px"}
+                    pl={"10px"}
+                  >
+                    <Input
+                      h={"25px"}
+                      w={"80%"}
+                      position={"relative"}
+                      id={"billingState"}
+                      name={"billingState"}
+                      fontSize={"sm"}
+                      isReadOnly={true}
+                      value={user?.Billing_State}
+                      border={"none"}
+                      // onChange={handleChange}
+                      _focus={{
+                        boxShadow:
+                          "0 0.5px 0.5px #f2f2f2 inset, 0 0 5px #f2f2f2",
+                      }}
+                      style={{
+                        borderBottom: "1px solid black",
+                        borderRadius: "0", // Ajusta el radio de las esquinas a cero
+                        outline: "none",
+                      }}
+                    />
+                    <UpdateCustomer
+                      title={"Billing State"}
+                      id={"billingState"}
+                      name={"billingState"}
+                      value={user?.Billing_State}
+                      // handleChange={handleChange}
+                      formData={formData}
+                      setFormData={setFormData}
+                    />
+                  </InputGroup>
+                </Box>
+              </Box>
+              <Box
+                display={"flex"}
+                flexDirection={isSmallThan750 ? "column" : "row"}
+              >
+                <Box
+                  display={"flex"}
+                  w={"full"}
+                  flexDirection={"column"}
+                  pt={"20px"}
+                  // bg={"red"}
+                >
+                  <Box pl={"10px"}>
+                    <Text fontSize={"xs"} color={"#646464"}>
+                      CITY
+                    </Text>
+                  </Box>
+                  <InputGroup
+                    pt={"5px"}
+                    display={"flex"}
+                    flexDirection={"column"}
+                    h={"60px"}
+                    pl={"10px"}
+                  >
+                    <Input
+                      h={"25px"}
+                      w={"80%"}
+                      position={"relative"}
+                      id={"billingCity"}
+                      name={"billingCity"}
+                      fontSize={"sm"}
+                      isReadOnly={true}
+                      value={user?.Billing_City}
+                      border={"none"}
+                      // onChange={handleChange}
+                      _focus={{
+                        boxShadow:
+                          "0 0.5px 0.5px #f2f2f2 inset, 0 0 5px #f2f2f2",
+                      }}
+                      style={{
+                        borderBottom: "1px solid black",
+                        borderRadius: "0", // Ajusta el radio de las esquinas a cero
+                        outline: "none",
+                      }}
+                    />
+                    <UpdateCustomer
+                      title={"Billing City"}
+                      id={"billingCity"}
+                      name={"billingCity"}
+                      value={user?.Billing_City}
+                      formData={formData}
+                      setFormData={setFormData}
+                    />
+                  </InputGroup>
+                </Box>
+                <Box
+                  display={"flex"}
+                  w={"full"}
+                  flexDirection={"column"}
+                  pt={"20px"}
+                  // bg={"yellow"}
+                >
+                  {/* <FormLabel htmlFor="fullName"> */}
+                  <Box pl={"10px"}>
+                    <Text fontSize={"xs"} color={"#646464"}>
+                      ZIP CODE
+                    </Text>
+                  </Box>
+                  <InputGroup
+                    pt={"5px"}
+                    display={"flex"}
+                    flexDirection={"column"}
+                    h={"60px"}
+                    // bg={"green"}
+                    pl={"10px"}
+                  >
+                    <Input
+                      h={"25px"}
+                      w={"80%"}
+                      position={"relative"}
+                      id={"billingZipCode"}
+                      name={"billingZipCode"}
+                      fontSize={"sm"}
+                      isReadOnly={true}
+                      value={user?.Billing_ZipCode}
+                      border={"none"}
+                      // onChange={handleChange}
+                      _focus={{
+                        boxShadow:
+                          "0 0.5px 0.5px #f2f2f2 inset, 0 0 5px #f2f2f2",
+                      }}
+                      style={{
+                        borderBottom: "1px solid black",
+                        borderRadius: "0", // Ajusta el radio de las esquinas a cero
+                        outline: "none",
+                      }}
+                    />
+                    <UpdateCustomer
+                      title={"Billing ZipCode"}
+                      id={"billingZipCode"}
+                      name={"billingZipCode"}
+                      value={user?.Billing_ZipCode}
+                      formData={formData}
+                      setFormData={setFormData}
+                    />
+                  </InputGroup>
+                </Box>
+              </Box>
+            </Box>
+            <Box display={"flex"} h={"95%"} w={"95%"} flexDirection={"column"}>
+              <Box>
                 <Text fontSize={"md"}>SHIPPING ADDRESS</Text>
               </Box>
               <Box
@@ -264,241 +485,6 @@ const AddressInfo: React.FC<IShowMenu> = ({
                       name={"zipCode"}
                       value={user?.ZipCode}
                       // handleChange={handleChange}
-                      formData={formData}
-                      setFormData={setFormData}
-                    />
-                  </InputGroup>
-                </Box>
-              </Box>
-            </Box>
-            <Box
-              display={"flex"}
-              h={"95%"}
-              w={"95%"}
-              flexDirection={"column"}
-              pt={"20px"}
-            >
-              <Box>
-                <Text fontSize={"md"}>BILLING ADDRESS</Text>
-              </Box>
-              <Box
-                display={"flex"}
-                flexDirection={isSmallThan750 ? "column" : "row"}
-              >
-                <Box
-                  display={"flex"}
-                  w={"full"}
-                  flexDirection={"column"}
-                  pt={"20px"}
-                  // bg={"yellow"}
-                >
-                  {/* <FormLabel htmlFor="fullName"> */}
-                  <Box pl={"10px"}>
-                    <Text fontSize={"xs"} color={"#646464"}>
-                      ADDRESS
-                    </Text>
-                  </Box>
-                  <InputGroup
-                    pt={"5px"}
-                    display={"flex"}
-                    flexDirection={"column"}
-                    h={"60px"}
-                    // bg={"green"}
-                    pl={"10px"}
-                  >
-                    <Input
-                      h={"25px"}
-                      w={"80%"}
-                      position={"relative"}
-                      id={"billingAddress"}
-                      name={"billingAddress"}
-                      fontSize={"sm"}
-                      isReadOnly={true}
-                      value={user?.Billing_Address}
-                      border={"none"}
-                      // onChange={handleChange}
-                      _focus={{
-                        boxShadow:
-                          "0 0.5px 0.5px #f2f2f2 inset, 0 0 5px #f2f2f2",
-                      }}
-                      style={{
-                        borderBottom: "1px solid black",
-                        borderRadius: "0", // Ajusta el radio de las esquinas a cero
-                        outline: "none",
-                      }}
-                    />
-                    <UpdateCustomer
-                      title={"Billing Address"}
-                      id={"billingAddress"}
-                      name={"billingAddress"}
-                      value={user?.Billing_Address}
-                      // handleChange={handleChange}
-                      formData={formData}
-                      setFormData={setFormData}
-                    />
-                  </InputGroup>
-                </Box>
-                <Box
-                  display={"flex"}
-                  w={"full"}
-                  flexDirection={"column"}
-                  pt={"20px"}
-                  // bg={"red"}
-                >
-                  <Box pl={"10px"}>
-                    <Text fontSize={"xs"} color={"#646464"}>
-                      STATE
-                    </Text>
-                  </Box>
-                  <InputGroup
-                    pt={"5px"}
-                    display={"flex"}
-                    flexDirection={"column"}
-                    h={"60px"}
-                    pl={"10px"}
-                  >
-                    <Input
-                      h={"25px"}
-                      w={"80%"}
-                      position={"relative"}
-                      id={"billingState"}
-                      name={"billingState"}
-                      fontSize={"sm"}
-                      isReadOnly={true}
-                      value={user?.Billing_State}
-                      border={"none"}
-                      // onChange={handleChange}
-                      _focus={{
-                        boxShadow:
-                          "0 0.5px 0.5px #f2f2f2 inset, 0 0 5px #f2f2f2",
-                      }}
-                      style={{
-                        borderBottom: "1px solid black",
-                        borderRadius: "0", // Ajusta el radio de las esquinas a cero
-                        outline: "none",
-                      }}
-                    />
-                    <UpdateCustomer
-                      title={"Billing State"}
-                      id={"billingState"}
-                      name={"billingState"}
-                      value={user?.Billing_State}
-                      // handleChange={handleChange}
-                      formData={formData}
-                      setFormData={setFormData}
-                    />
-                  </InputGroup>
-                </Box>
-              </Box>
-            </Box>
-            <Box
-              display={"flex"}
-              h={"95%"}
-              w={"95%"}
-              flexDirection={"column"}
-              pt={"20px"}
-            >
-              <Box
-                display={"flex"}
-                flexDirection={isSmallThan750 ? "column" : "row"}
-              >
-                <Box
-                  display={"flex"}
-                  w={"full"}
-                  flexDirection={"column"}
-                  pt={"20px"}
-                  // bg={"yellow"}
-                >
-                  {/* <FormLabel htmlFor="fullName"> */}
-                  <Box pl={"10px"}>
-                    <Text fontSize={"xs"} color={"#646464"}>
-                      ZIP CODE
-                    </Text>
-                  </Box>
-                  <InputGroup
-                    pt={"5px"}
-                    display={"flex"}
-                    flexDirection={"column"}
-                    h={"60px"}
-                    // bg={"green"}
-                    pl={"10px"}
-                  >
-                    <Input
-                      h={"25px"}
-                      w={"80%"}
-                      position={"relative"}
-                      id={"billingZipCode"}
-                      name={"billingZipCode"}
-                      fontSize={"sm"}
-                      isReadOnly={true}
-                      value={user?.Billing_ZipCode}
-                      border={"none"}
-                      // onChange={handleChange}
-                      _focus={{
-                        boxShadow:
-                          "0 0.5px 0.5px #f2f2f2 inset, 0 0 5px #f2f2f2",
-                      }}
-                      style={{
-                        borderBottom: "1px solid black",
-                        borderRadius: "0", // Ajusta el radio de las esquinas a cero
-                        outline: "none",
-                      }}
-                    />
-                    <UpdateCustomer
-                      title={"Billing ZipCode"}
-                      id={"billingZipCode"}
-                      name={"billingZipCode"}
-                      value={user?.Billing_ZipCode}
-                      formData={formData}
-                      setFormData={setFormData}
-                    />
-                  </InputGroup>
-                </Box>
-                <Box
-                  display={"flex"}
-                  w={"full"}
-                  flexDirection={"column"}
-                  pt={"20px"}
-                  // bg={"red"}
-                >
-                  <Box pl={"10px"}>
-                    <Text fontSize={"xs"} color={"#646464"}>
-                      CITY
-                    </Text>
-                  </Box>
-                  <InputGroup
-                    pt={"5px"}
-                    display={"flex"}
-                    flexDirection={"column"}
-                    h={"60px"}
-                    pl={"10px"}
-                  >
-                    <Input
-                      h={"25px"}
-                      w={"80%"}
-                      position={"relative"}
-                      id={"billingCity"}
-                      name={"billingCity"}
-                      fontSize={"sm"}
-                      isReadOnly={true}
-                      value={user?.Billing_City}
-                      border={"none"}
-                      // onChange={handleChange}
-                      _focus={{
-                        boxShadow:
-                          "0 0.5px 0.5px #f2f2f2 inset, 0 0 5px #f2f2f2",
-                      }}
-                      style={{
-                        borderBottom: "1px solid black",
-                        borderRadius: "0", // Ajusta el radio de las esquinas a cero
-                        outline: "none",
-                      }}
-                    />
-                    <UpdateCustomer
-                      title={"Billing City"}
-                      id={"billingCity"}
-                      name={"billingCity"}
-                      value={user?.Billing_City}
                       formData={formData}
                       setFormData={setFormData}
                     />

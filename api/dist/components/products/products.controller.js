@@ -19,23 +19,18 @@ const productDimensions_1 = require("../../controllers/productDimensions");
 function getAllProducts(req, res) {
     return __awaiter(this, void 0, void 0, function* () {
         try {
-            const { material } = req.query;
-            const query = `SELECT DISTINCT Products.ProdNameID, ProdNames.Material, ProdNames.Naturali_ProdName, ProdNames.ProdNameID,
-                  Product_Colors.ColorID, Product_Colors.idColorProduct, Product_Colors.ProductID
-                  FROM Products
-                  LEFT JOIN ProdNames ON ProdNames.ProdNameID = Products.ProdNameID
-                  LEFT JOIN Product_Colors ON Product_Colors.ProductID = Products.ProdID
-                  ${material ? `WHERE Material = "${material}"` : ``}
-                  `;
-            //                 ${
-            //   colorId
-            //     ? `${material ? "AND" : "WHERE"} ColorID = "${colorId}"`
-            //     : ``
-            // }
-            // const query = `SELECT ProdNameID, Naturali_ProdName, Material
-            //               FROM ProdNames
-            //               ${material ? `WHERE Material = "${material}"` : ``}
-            //                 `;
+            const { material, colorId } = req.query;
+            const query = `
+              SELECT DISTINCT Products.ProdNameID, ProdNames.Material, ProdNames.Naturali_ProdName, ProdNames.ProdNameID,
+              Product_Colors.ColorID, Product_Colors.idColorProduct, Product_Colors.ProductID
+              FROM Products
+              LEFT JOIN ProdNames ON ProdNames.ProdNameID = Products.ProdNameID
+              LEFT JOIN Product_Colors ON Product_Colors.ProductID = Products.ProdID
+              ${material ? `WHERE Material = "${material}"` : ""}
+              ${colorId
+                ? `${material ? "AND" : "WHERE"} ColorID = "${colorId}"`
+                : ""}
+              `;
             db_1.default.query(query, (error, results) => {
                 if (error) {
                     throw error;
@@ -198,8 +193,8 @@ function getProductsFilter(req, res) {
     return __awaiter(this, void 0, void 0, function* () {
         try {
             const { material, type, finish, size, thickness } = req.query;
-            let query = 'SELECT DISTINCT pn.Naturali_ProdName, pn.Material, pn.ProdNameID  FROM ProdNames pn';
-            let whereClause = '';
+            let query = "SELECT DISTINCT pn.Naturali_ProdName, pn.Material, pn.ProdNameID  FROM ProdNames pn";
+            let whereClause = "";
             const filters = req.query;
             const splitValues = (value, separator) => {
                 if (Array.isArray(value)) {
@@ -207,37 +202,41 @@ function getProductsFilter(req, res) {
                 }
                 return value ? value.split(separator) : [];
             };
-            const materialValues = splitValues(material, ',');
+            const materialValues = splitValues(material, ",");
             if (materialValues.length > 0) {
-                whereClause += ' AND pn.Material IN (?)';
-                filters['material'] = materialValues;
+                whereClause += " AND pn.Material IN (?)";
+                filters["material"] = materialValues;
             }
-            const typeValues = splitValues(type, ',');
+            const typeValues = splitValues(type, ",");
             if (typeValues.length > 0) {
-                query += ' INNER JOIN Products p ON pn.ProdNameID = p.ProdNameID';
-                whereClause += ' AND p.DimensionID IN (SELECT DimensionID FROM Dimension WHERE type IN (?))';
-                filters['type'] = typeValues;
+                query += " INNER JOIN Products p ON pn.ProdNameID = p.ProdNameID";
+                whereClause +=
+                    " AND p.DimensionID IN (SELECT DimensionID FROM Dimension WHERE type IN (?))";
+                filters["type"] = typeValues;
             }
-            const finishValues = splitValues(finish, ',');
+            const finishValues = splitValues(finish, ",");
             if (finishValues.length > 0) {
-                query += ' INNER JOIN Products p ON pn.ProdNameID = p.ProdNameID';
-                whereClause += ' AND p.dimensionID IN (SELECT DimensionID FROM Dimension WHERE finish IN (?))';
-                filters['finish'] = finishValues;
+                query += " INNER JOIN Products p ON pn.ProdNameID = p.ProdNameID";
+                whereClause +=
+                    " AND p.dimensionID IN (SELECT DimensionID FROM Dimension WHERE finish IN (?))";
+                filters["finish"] = finishValues;
             }
-            const sizeValues = splitValues(size, ',');
+            const sizeValues = splitValues(size, ",");
             if (sizeValues.length > 0) {
-                query += ' INNER JOIN Products p ON pn.ProdNameID = p.ProdNameID';
-                whereClause += ' AND p.DimensionID IN (SELECT DimensionID FROM Dimension WHERE size IN (?))';
-                filters['size'] = sizeValues;
+                query += " INNER JOIN Products p ON pn.ProdNameID = p.ProdNameID";
+                whereClause +=
+                    " AND p.DimensionID IN (SELECT DimensionID FROM Dimension WHERE size IN (?))";
+                filters["size"] = sizeValues;
             }
-            const thicknessValues = splitValues(thickness, ',');
+            const thicknessValues = splitValues(thickness, ",");
             if (thicknessValues.length > 0) {
-                query += ' INNER JOIN Products p ON pn.ProdNameID = p.ProdNameID';
-                whereClause += ' AND p.DimensionID IN (SELECT DimensionID FROM Dimension WHERE Dimension.Thickness IN (?))';
-                filters['thickness'] = thicknessValues;
+                query += " INNER JOIN Products p ON pn.ProdNameID = p.ProdNameID";
+                whereClause +=
+                    " AND p.DimensionID IN (SELECT DimensionID FROM Dimension WHERE Dimension.Thickness IN (?))";
+                filters["thickness"] = thicknessValues;
             }
             if (whereClause) {
-                query += ' WHERE ' + whereClause.slice(5); // Removing the leading ' AND '
+                query += " WHERE " + whereClause.slice(5); // Removing the leading ' AND '
             }
             db_1.default.query(query, Object.values(filters).flatMap((value) => {
                 if (Array.isArray(value)) {
@@ -307,7 +306,7 @@ function getCheckboxValidation(req, res) {
             //     } else {
             //       console.log("Data OK");
             //       const filteredProducts = productDimensionsCheckboxes(finish, size, thickness, results);
-            //       const transformedResults = productDimensions(filteredProducts);  
+            //       const transformedResults = productDimensions(filteredProducts);
             //       res.status(200).json(transformedResults);
             //     }
             //   }

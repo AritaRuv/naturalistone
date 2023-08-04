@@ -9,7 +9,7 @@ import {
   getDimension,
   getProductsFilters,
   getProductImages,
-  getProductValuesValidation
+  getProductValuesValidation,
 } from "../../api/apiProds"; // Importa tu función de solicitud a la API
 import { Filters } from "@/app/products/productFilters/types";
 
@@ -22,6 +22,7 @@ export const fetchProductsHome = (material: string, colorId: string) => {
         type: ProductActionTypes.FETCH_PRODUCTS_HOME_SUCCESS,
         payload: products,
       });
+      return products;
     } catch (error) {
       dispatch({
         type: ProductActionTypes.FETCH_PRODUCTS_FAILURE,
@@ -30,7 +31,6 @@ export const fetchProductsHome = (material: string, colorId: string) => {
     }
   };
 };
-
 
 export const fetchProductsValues = ({ ProdNameID }) => {
   return async (dispatch: Dispatch<ProductAction>) => {
@@ -105,7 +105,7 @@ export const fetchProductsFilters = (filters: Filters) => {
   return async (dispatch: Dispatch<ProductAction>) => {
     dispatch({ type: ProductActionTypes.FETCH_PRODUCTS_REQUEST });
     try {
-      const products = await getProductsFilters(filters); 
+      const products = await getProductsFilters(filters);
       dispatch({
         type: ProductActionTypes.FETCH_PRODUCTS_FILTERS_SUCCESS,
         payload: products,
@@ -119,7 +119,10 @@ export const fetchProductsFilters = (filters: Filters) => {
   };
 };
 
-export const fetchProductImages = (Material: string, Naturali_ProdName: string) => {
+export const fetchProductImages = (
+  Material: string,
+  Naturali_ProdName: string
+) => {
   return async (dispatch: Dispatch<ProductAction>) => {
     try {
       const images = await getProductImages(Material, Naturali_ProdName);
@@ -147,12 +150,20 @@ export const loadProduct = (product: Product) => {
   };
 };
 
-
-export const fetchProductsValuesValidation = (finish: string, size: string, thickness:string, ProdNameID:number ) => {
+export const fetchProductsValuesValidation = (
+  finish: string,
+  size: string,
+  thickness: string,
+  ProdNameID: number
+) => {
   return async (dispatch: Dispatch<ProductAction>) => {
     try {
-
-      const productValuesValidation = await getProductValuesValidation(finish, size, thickness, ProdNameID);// Llama a tu función de solicitud a la API
+      const productValuesValidation = await getProductValuesValidation(
+        finish,
+        size,
+        thickness,
+        ProdNameID
+      ); // Llama a tu función de solicitud a la API
       dispatch({
         type: ProductActionTypes.FETCH_PRODUCTS_VALUES_VALIDATION,
         payload: productValuesValidation,

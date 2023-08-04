@@ -1,3 +1,4 @@
+/* eslint-disable indent */
 import {
   useDisclosure,
   Modal,
@@ -52,8 +53,6 @@ export function UpdateCustomer({
     );
   };
 
-  console.log("erros", errors);
-
   const handleClose = () => {
     setFormData({
       customerId: "",
@@ -84,6 +83,41 @@ export function UpdateCustomer({
     onClose();
     return;
   };
+
+  function placeHolder(name) {
+    switch (name) {
+      case "fullName":
+        return "Jon Doe";
+        break;
+      case "password":
+        return "Password";
+        break;
+      case "phone":
+        return "+1 XXX XXX XXXX";
+      case "company":
+        return "Company";
+      case "companyPosition":
+        return "Company Role";
+      case "email":
+        return "Email";
+      case "billingAddress":
+        return "Address";
+      case "billingState":
+        return "State";
+      case "billingCity":
+        return "City";
+      case "billingZipCode":
+        return "Zip code";
+      case "address":
+        return "Address";
+      case "state":
+        return "State";
+      case "city":
+        return "City";
+      case "zipCode":
+        return "Zip code";
+    }
+  }
 
   return (
     <>
@@ -150,6 +184,7 @@ export function UpdateCustomer({
                 mr={"30px"}
                 defaultValue={value}
                 border={"none"}
+                placeholder={placeHolder(name)}
                 onChange={handleChange}
                 _focus={{
                   boxShadow: "0 0.5px 0.5px #f2f2f2 inset, 0 0 5px #f2f2f2",
