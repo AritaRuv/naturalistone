@@ -8,13 +8,13 @@ import { useState } from "react";
 import FiltersDropDownMenu from "../productFilters/filters_dropDownMenu";
 import { useEffect } from "react";
 import { useAppDispatch, useAppSelector } from "@/store/hooks";
-import { fetchDimension, fetchProductsFilters } from "@/store/products/actionsProducts";
+import { fetchDimension, fetchProductsByMaterial, fetchProductsFilters } from "@/store/products/actionsProducts";
 import { ProductState } from "@/store/products/typesProducts";
 import { Filters } from "../productFilters/types";
 
 
 export default function Products({params}) {
-  console.log(params);
+
   const { dimensions } = useAppSelector(
     (state: { productReducer: ProductState }) => state.productReducer
   );
@@ -25,6 +25,7 @@ export default function Products({params}) {
   
   useEffect(()=>{
     dispatch(fetchDimension());
+    dispatch(fetchProductsByMaterial(params.Material)); 
   },[]);
 
   const [isSmallScreen] = useMediaQuery("(max-width: 1200px)");

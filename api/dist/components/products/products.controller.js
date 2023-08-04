@@ -12,7 +12,7 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.getCheckboxValidation = exports.getProductsFilter = exports.getAllDimensionProperties = exports.getAllMaterials = exports.getProductByIDS = exports.getProductsValuesByProdNameID = exports.getAllProducts = void 0;
+exports.getAllProductsByMaterial = exports.getCheckboxValidation = exports.getProductsFilter = exports.getAllDimensionProperties = exports.getAllMaterials = exports.getProductByIDS = exports.getProductsValuesByProdNameID = exports.getAllProducts = void 0;
 const db_1 = __importDefault(require("../../db"));
 const productDimensions_1 = require("../../controllers/productDimensions");
 //import { productDimensionsCheckboxes } from "../../controllers/productDimensionsCheckboxes";
@@ -319,3 +319,31 @@ function getCheckboxValidation(req, res) {
     });
 }
 exports.getCheckboxValidation = getCheckboxValidation;
+function getAllProductsByMaterial(req, res) {
+    return __awaiter(this, void 0, void 0, function* () {
+        try {
+            const { material } = req.query;
+            const query = `SELECT ProdNames.Material, ProdNames.Naturali_ProdName, ProdNames.ProdNameID
+                  FROM ProdNames
+                  ${material ? `WHERE Material = "${material}"` : ``}
+                  `;
+            db_1.default.query(query, (error, results) => {
+                if (error) {
+                    throw error;
+                }
+                if (results.length === 0) {
+                    console.log("Error en productsRoutes.get /materialfilterby");
+                    res.status(404).json(`No products with material ${material}`);
+                }
+                else {
+                    console.log("Data OK");
+                    res.status(200).json(results);
+                }
+            });
+        }
+        catch (error) {
+            res.status(409).send(error);
+        }
+    });
+}
+exports.getAllProductsByMaterial = getAllProductsByMaterial;

@@ -10,4 +10,5 @@ productsRouter.get("/dimension", products_controller_1.getAllDimensionProperties
 productsRouter.get("/id/:id", products_controller_1.getProductsValuesByProdNameID);
 productsRouter.get("/valid/id/:id", products_controller_1.getCheckboxValidation);
 productsRouter.get("/filters", products_controller_1.getProductsFilter);
+productsRouter.get("/materialfilterby", products_controller_1.getAllProductsByMaterial);
 exports.default = productsRouter;

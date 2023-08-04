@@ -1,22 +1,19 @@
 "use client";
-import { useEffect } from "react";
-import { SimpleGrid, useMediaQuery } from "@chakra-ui/react";
+import { SimpleGrid, useMediaQuery, Box } from "@chakra-ui/react";
 import ProductCard from "../../components/productCard/_productCard";
 import { ProductState } from "../../store/products/typesProducts";
-import { useAppDispatch, useAppSelector } from "../../store/hooks";
+import { useAppSelector } from "../../store/hooks";
 import { Filters } from "./productFilters/types";
-import { fetchProductsFilters } from "@/store/products/actionsProducts";
 
 
-const ProductsContainer: React.FC<Filters> = (filters) => {
+
+const ProductsContainer: React.FC<Filters> = () => {
   
   const [isExtraSmallScreen] = useMediaQuery("(max-width: 550px)");
   const [isSmallScreen] = useMediaQuery("(max-width: 1000px)");
   const [is1200Screen] = useMediaQuery("(max-width: 1200px)");
   const [isMediumScreen] = useMediaQuery("(max-width: 1400px)");
-  const [isLargeScreen] = useMediaQuery("(max-width: 1600px)");
-
-  const dispatch = useAppDispatch();
+  const [isLargeScreen] = useMediaQuery("(max-width: 1650px)");
 
   const { products_filters } = useAppSelector(
     (state: { productReducer: ProductState }) => state.productReducer
@@ -37,28 +34,27 @@ const ProductsContainer: React.FC<Filters> = (filters) => {
     gridColumns = 1;
   }
 
-  useEffect(() => {
-    dispatch(fetchProductsFilters(filters));
-  }, []);
-
   return (
     <SimpleGrid
       zIndex={1}
       position={"fixed"}
-      left={!is1200Screen ? "15vw" : 0}
+      left={!is1200Screen ? "20vw" : 0}
       top={"10vh"}
-      spacingY={"17vh"}
+      spacingY={"10vh"}
       py={"2%"}
-      w={is1200Screen ? "100vw" :"85vw"}
-      placeItems={"center"}
+      w={is1200Screen ? "80vw" :"80vw"}
       columns={gridColumns} // Establece el número de columnas dinámicamente
       h={"100%"}
+      minH={"90vh"}
       overflow={"auto"}
-
     >
       {products_filters.length !== 0 &&
         products_filters.slice(0,20).map((prod) => {
-          return <ProductCard product={prod} key={prod.ProdNameID} site={"products"} />;
+          return (
+            <Box>
+              <ProductCard product={prod} key={prod.ProdNameID} site={"products"} />
+            </Box>
+          );
         })}
     </SimpleGrid>
   );

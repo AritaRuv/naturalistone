@@ -42,7 +42,7 @@ const HomeProductContainer: React.FC<FiltersHomeProps> = ({
   return (
     <SimpleGrid
       pt={"8vh"}
-      spacingY={6}
+      spacingY={10}
       px={isMediumScreen && !isSmallScreen ? "5%" : "10%"}
       w={"100%"}
       placeItems={"center"}

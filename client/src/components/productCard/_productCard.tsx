@@ -21,7 +21,7 @@ const ProductCard: React.FC<{ product: Product; site: string }> = ({
   const [isDropdownOpen, setIsDropdownOpen] = useState(false);
   const [disableBox, setDisableBox] = useState(false);
   const [showAddToCart, setShowAddToCart] = useState(false);
-
+  const [ dropDownZIndex, setDropDownZIndex ] = useState(0);
   const [showAddSampleToCart, setShowAddSmapleToCart] = useState(false);
 
   const { Naturali_ProdName, Material, ProdNameID  } = product;
@@ -35,6 +35,7 @@ const ProductCard: React.FC<{ product: Product; site: string }> = ({
   const handleMouseEnter = () => {
     setIsDropdownOpen(true);
     setDisableBox(true);
+    setDropDownZIndex(10);
     if (!(ProdNameID in productValues)) {
       dispatch(fetchProductsValues({ ProdNameID }));
     }
@@ -45,6 +46,7 @@ const ProductCard: React.FC<{ product: Product; site: string }> = ({
     setDisableBox(false);
     setShowAddToCart(false);
     setShowAddSmapleToCart(false);
+    setDropDownZIndex(0);
   };
 
   const handleAddProductToCart = () => {
@@ -60,7 +62,7 @@ const ProductCard: React.FC<{ product: Product; site: string }> = ({
   };
 
   return (
-    <Box position="relative" zIndex={2}>
+    <Box position="relative">
       <Box
         w={"260px"}
         h={"370px"}
@@ -103,7 +105,7 @@ const ProductCard: React.FC<{ product: Product; site: string }> = ({
             position={"relative"}
             h={"100px"}
             w={"260px"}
-            zIndex={10}
+            zIndex={dropDownZIndex}
             className="custom-popover"
             bg={!showAddToCart ? "rgba(210, 210, 210, 0.7)" : (site === "products" ? "rgba(210, 210, 210, 0.7)" : "white")}
             borderBottomEndRadius={"md"}
@@ -150,7 +152,9 @@ const ProductCard: React.FC<{ product: Product; site: string }> = ({
                   </Box>
                   :
                   showAddToCart ?
-                    <AddProductToCart ProdNameID={ProdNameID} productValues={productValues}/>
+                    <Box position={"relative"} zIndex={100}>
+                      <AddProductToCart ProdNameID={ProdNameID} productValues={productValues}/>
+                    </Box>
                     :
                     showAddSampleToCart ?  
                       <AddSampleProductToCart ProdNameID={ProdNameID} productValues={productValues}/>
