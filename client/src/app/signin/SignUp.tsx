@@ -3,32 +3,20 @@ import {
   Box,
   Button,
   Center,
-  FormControl,
-  FormErrorMessage,
-  FormLabel,
   IconButton,
   Input,
   InputGroup,
   InputLeftElement,
   InputRightElement,
-  SimpleGrid,
   Text,
-  useMediaQuery,
   useToast,
 } from "@chakra-ui/react";
-import { useState, useEffect } from "react";
-import { PiUserCircleThin } from "react-icons/pi";
-import { PiLockLight } from "react-icons/pi";
-import { TfiEmail } from "react-icons/tfi";
+import { useState } from "react";
+import { PiUserCircleThin, PiLockThin, PiEnvelopeOpenThin, PiEyeSlashThin, PiEyeThin  } from "react-icons/pi";
 import { Props } from "./Login";
 import { FormErrors, validateCompletedInputs } from "@/utils/validateForms";
-import { useDispatch } from "react-redux";
-import { useAppDispatch } from "@/store/hooks";
 import { SignUp } from "@/store/login/typeLogin";
-// import { registerUser } from "@/store/login/actionsLogin";
-import { BsEyeSlash } from "react-icons/bs";
 import { postSignUp } from "@/api/apiLogin";
-import { HiOutlineMail } from "react-icons/hi";
 import { useRouter } from "next/navigation";
 
 const SignUp: React.FC<Props> = ({ setActiveLogin, smallerThan600 }) => {
@@ -39,7 +27,6 @@ const SignUp: React.FC<Props> = ({ setActiveLogin, smallerThan600 }) => {
     confirmPassword: "",
   });
   const [errors, setErrors] = useState<FormErrors>({});
-  const [isFormInvalid, setIsFormInvalid] = useState(false);
   const [showPassword, setShowPassword] = useState(false);
   const [showConfirmPassword, setShowConfirmPassword] = useState(false);
   const toast = useToast();
@@ -80,7 +67,6 @@ const SignUp: React.FC<Props> = ({ setActiveLogin, smallerThan600 }) => {
       return;
     }
     const response = await postSignUp(formData);
-    console.log("soy response", response);
     if (response.success === false) {
       if (!isToastShowing) {
         setIsToastShowing(true);
@@ -124,7 +110,7 @@ const SignUp: React.FC<Props> = ({ setActiveLogin, smallerThan600 }) => {
     <Box
       display={"flex"}
       h={smallerThan600 ? "60vh" : "68vh"}
-      w={smallerThan600 ? "100vw" : "35vw"}
+      w={smallerThan600 ? "100vw" : "30vw"}
       bg={"#f2f2f2"}
       maxH={"600px"}
       minW={"350px"}
@@ -137,48 +123,31 @@ const SignUp: React.FC<Props> = ({ setActiveLogin, smallerThan600 }) => {
     >
       <Box
         display={"flex"}
-        // bg={"yellow"}
         flexDirection={"column"}
         justifyContent={"center"}
         alignItems={"center"}
-        h={"15vh"}
+        h={"24vh"}
         w={"80%"}
       >
-        <Box
-          display={"flex"}
-          h={"40px"}
-          w={"full"}
-          // bg={"yellow"}
-          mt={smallerThan600 ? "4vh" : "4vh"}
-          justifyContent={"center"}
-          alignItems={"flex-start"}
-          fontSize={"xl"}
-          mb={"2vh"}
-        >
-          <Center>SIGN UP</Center>
-        </Box>
+        <Text fontWeight={"thin"} fontSize={"1.4rem"}>SIGN UP</Text>
       </Box>
-      <Box
+      <Center
         display={"flex"}
         alignItems={"center"}
         justifyItems={"center"}
         flexDirection={"column"}
-        // mt={"5vh"}
-        // bg={"red"}
-        // mt={smallerThan600 ? "50px" : "20px"}
-        w={"80%"}
+        w={"18vw"}
+        h={"35vh"}
       >
-        {/* <FormControl onSubmit={handleRegister} isInvalid={isFormInvalid}> */}
-        {/* <SimpleGrid column={2}> */}
-        <Box display={"flex"} w={"full"}>
-          {/* <FormLabel htmlFor="fullName"> */}
-          <InputGroup display={"flex"} flexDirection={"column"} h={"60px"}>
-            <InputLeftElement pointerEvents="none">
+        <Box w={"full"}>
+          <InputGroup h={"60px"} display={"flex"} flexDir={"column"} >
+            <InputLeftElement top={"-10px"} textAlign={"center"} pointerEvents="none" >
               <IconButton
+                display={"flex"}
+                textAlign={"center"}
                 aria-label="User-icon"
                 variant="unstyled"
-                fontSize="xl"
-                mb={"12px"}
+                fontSize="2xl"
                 icon={<PiUserCircleThin />}
               />
             </InputLeftElement>
@@ -186,7 +155,6 @@ const SignUp: React.FC<Props> = ({ setActiveLogin, smallerThan600 }) => {
               h={"25px"}
               w={"full"}
               position={"relative"}
-              // mt={"7px"}
               id={"fullName"}
               name={"fullName"}
               fontSize={"sm"}
@@ -208,23 +176,18 @@ const SignUp: React.FC<Props> = ({ setActiveLogin, smallerThan600 }) => {
                 {errors.fullName}
               </Text>
             )}
-            {/* <FormErrorMessage>
-                {errors.fullName && errors.fullName}
-              </FormErrorMessage> */}
           </InputGroup>
-          {/* </FormLabel> */}
         </Box>
-        <Box display={"flex"} w={"full"}>
-          {/* <FormLabel> */}
-          <InputGroup display={"flex"} flexDirection={"column"} h={"60px"}>
-            <InputLeftElement pointerEvents="none">
+        <Box w={"full"}>
+          <InputGroup h={"60px"}  display={"flex"} flexDir={"column"}>
+            <InputLeftElement top={"-10px"} textAlign={"center"} pointerEvents="none">
               <IconButton
-                aria-label="Email-icon"
+                display={"flex"}
+                textAlign={"center"}
+                aria-label="User-icon"
                 variant="unstyled"
-                fontSize="xl"
-                // size={"50px"}
-                // color="gray.300"
-                icon={<HiOutlineMail style={{ strokeWidth: 1 }} />}
+                fontSize="2xl"
+                icon={<PiEnvelopeOpenThin/>}
               />
             </InputLeftElement>
             <Input
@@ -232,7 +195,6 @@ const SignUp: React.FC<Props> = ({ setActiveLogin, smallerThan600 }) => {
               w={"full"}
               position={"relative"}
               id={"email"}
-              mt={"7px"}
               border={"none"}
               fontSize={"sm"}
               name={"email"}
@@ -253,28 +215,24 @@ const SignUp: React.FC<Props> = ({ setActiveLogin, smallerThan600 }) => {
                 {errors.email}
               </Text>
             )}
-            {/* <FormErrorMessage>
-                    {errors.email && errors.email}
-                  </FormErrorMessage> */}
           </InputGroup>
-          {/* </FormLabel> */}
         </Box>
-        <Box display={"flex"} w={"full"}>
-          {/* <FormLabel> */}
-          <InputGroup display={"flex"} flexDirection={"column"} h={"60px"}>
-            <InputLeftElement pointerEvents="none">
+        <Box w={"full"}>
+          <InputGroup h={"60px"}  display={"flex"} flexDir={"column"}>
+            <InputLeftElement top={"-10px"} textAlign={"center"} pointerEvents="none">
               <IconButton
                 aria-label="Password-icon"
                 variant="unstyled"
-                fontSize="xl"
-                icon={<PiLockLight />}
+                fontSize="2xl"
+                display={"flex"}
+                textAlign={"center"}
+                icon={<PiLockThin />}
               />
             </InputLeftElement>
             <Input
               h={"25px"}
               w={"full"}
               position={"relative"}
-              mt={"7px"}
               id={"password"}
               border={"none"}
               fontSize={"sm"}
@@ -293,41 +251,54 @@ const SignUp: React.FC<Props> = ({ setActiveLogin, smallerThan600 }) => {
               placeholder={"PASSWORD"}
             />
             <InputRightElement
+              top={"-10px"} 
+              textAlign={"center"}
               aria-label="Password-icon"
-              // variant="unstyled"
-              fontSize="xl"
               onClick={handleShowPassword}
             >
-              <BsEyeSlash />
+              {
+                showPassword ?
+                  <IconButton
+                    aria-label="Password-icon"
+                    variant="unstyled"
+                    fontSize="2xl"
+                    display={"flex"}
+                    textAlign={"center"}
+                    icon={<PiEyeSlashThin />}
+                  /> :
+                  <IconButton
+                    aria-label="Password-icon"
+                    variant="unstyled"
+                    fontSize="2xl"
+                    display={"flex"}
+                    textAlign={"center"}
+                    icon={<PiEyeThin />}
+                  />
+              }
             </InputRightElement>
             {showErrors && (
               <Text color={"red"} fontSize={"xs"} mt={"0.5vh"}>
                 {errors.password}
               </Text>
             )}
-
-            {/* <FormErrorMessage>
-                    {errors.password && errors.password}
-                  </FormErrorMessage> */}
           </InputGroup>
-          {/* </FormLabel> */}
         </Box>
-        <Box display={"flex"} w={"full"}>
-          {/* <FormLabel> */}
-          <InputGroup display={"flex"} flexDirection={"column"} h={"60px"}>
-            <InputLeftElement pointerEvents="none">
+        <Box w={"full"}>
+          <InputGroup h={"60px"}  display={"flex"} flexDir={"column"}>
+            <InputLeftElement top={"-10px"} textAlign={"center"} pointerEvents="none">
               <IconButton
                 aria-label="Password-icon"
                 variant="unstyled"
-                fontSize="xl"
-                icon={<PiLockLight />}
+                fontSize="2xl"
+                display={"flex"}
+                textAlign={"center"}
+                icon={<PiLockThin />}
               />
             </InputLeftElement>
             <Input
               h={"25px"}
               w={"full"}
               position={"relative"}
-              mt={"7px"}
               fontSize={"sm"}
               border={"none"}
               id={"confirmPassword"}
@@ -346,12 +317,30 @@ const SignUp: React.FC<Props> = ({ setActiveLogin, smallerThan600 }) => {
               placeholder={"CONFIRM PASSWORD"}
             />
             <InputRightElement
+              top={"-10px"} 
+              textAlign={"center"}
               aria-label="Password-icon"
-              // variant="unstyled"
               onClick={handleShowConfirmPassword}
-              fontSize="xl"
             >
-              <BsEyeSlash />
+              {
+                showConfirmPassword ?
+                  <IconButton
+                    aria-label="Password-icon"
+                    variant="unstyled"
+                    fontSize="2xl"
+                    display={"flex"}
+                    textAlign={"center"}
+                    icon={<PiEyeSlashThin />}
+                  /> :
+                  <IconButton
+                    aria-label="Password-icon"
+                    variant="unstyled"
+                    fontSize="2xl"
+                    display={"flex"}
+                    textAlign={"center"}
+                    icon={<PiEyeThin />}
+                  />
+              }
             </InputRightElement>
             {showErrors && (
               <Text color={"red"} fontSize={"xs"} mt={"0.5vh"}>
@@ -359,53 +348,43 @@ const SignUp: React.FC<Props> = ({ setActiveLogin, smallerThan600 }) => {
               </Text>
             )}
           </InputGroup>
-          {/* </FormLabel> */}
         </Box>
-        {/* </SimpleGrid> */}
-        {/* </FormControl> */}
-      </Box>
+      </Center>
       <Box
         display={"flex"}
         h={smallerThan600 ? "20vh" : "20vh"}
         w={"full"}
-        // bg={"blue"}
         mt={smallerThan600 ? "2vh" : "0"}
         flexDirection={"column"}
       >
-        <Box>
-          <Center>
-            <Button
-              onClick={handleRegister}
-              fontWeight={"sm"}
-              border={"none"}
-              backgroundColor={"transparent"}
-              _hover={{
-                backgroundColor: "transparent",
-              }}
-              _focus={{
-                backgroundColor: "transparent",
-                border: "none",
-              }}
-            >
+        <Button
+          h={"10vh"}
+          onClick={handleRegister}
+          fontWeight={"light"}
+          border={"none"}
+          backgroundColor={"transparent"}
+          _hover={{
+            backgroundColor: "transparent",
+            fontWeight: "semibold"
+          }}
+          _focus={{
+            backgroundColor: "transparent",
+            border: "none",
+          }}
+        >
               CREATE ACCOUNT
-            </Button>
-          </Center>
-        </Box>
+        </Button>
         <Box
           display={"flex"}
           flexDirection={"row"}
           h={"full"}
           w={"full"}
           mb={"2vh"}
-          // bg={"red"}
-          // mt={smallerThan1400 ? 0 : "2vh"}
           justifyContent={"center"}
           alignItems={"flex-end"}
-          // position={"relative"}
-          // top={smallerThan1400 ? 0 : 5}
         >
-          <Center color={"#6A6969"} fontWeight={"300"}>
-            Already have an account?
+          <Center color={"#6A6969"}>
+            <Text fontWeight={"light"}> Already have an account?</Text>    
           </Center>
           <Center ml={"10px"}>
             <Button
@@ -428,7 +407,7 @@ const SignUp: React.FC<Props> = ({ setActiveLogin, smallerThan600 }) => {
               color={"#6A6969"}
               h={"18px"}
               w={"100px"}
-              fontWeight={300}
+              fontWeight={"light"}
             >
               LOGIN HERE
             </Button>
