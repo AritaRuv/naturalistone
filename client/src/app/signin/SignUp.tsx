@@ -113,7 +113,7 @@ const SignUp: React.FC<Props> = ({ setActiveLogin, smallerThan600 }) => {
       w={smallerThan600 ? "100vw" : "30vw"}
       bg={"#f2f2f2"}
       maxH={"600px"}
-      minW={"350px"}
+      minW={"450px"}
       flexDirection={"column"}
       mt={smallerThan600 ? "70vh" : 0}
       justifyContent={"center"}
@@ -137,6 +137,7 @@ const SignUp: React.FC<Props> = ({ setActiveLogin, smallerThan600 }) => {
         justifyItems={"center"}
         flexDirection={"column"}
         w={"18vw"}
+        minW={"300px"}
         h={"35vh"}
       >
         <Box w={"full"}>

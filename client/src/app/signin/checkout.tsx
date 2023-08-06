@@ -10,6 +10,7 @@ const Checkout: React.FC<Props> = ({ smallerThan600 }) => {
         h={"68vh"}
         maxH={"600px"}
         w={smallerThan600 ? "80%" : "22vw"}
+        minW={"300px"}
         flexDirection={"column"}
       >
         <Box

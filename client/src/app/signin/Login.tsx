@@ -1,5 +1,4 @@
 "use client";
-import { useAppDispatch } from "@/store/hooks";
 import { SignIn } from "@/store/login/typeLogin";
 import {
   FormErrorsLogin,
@@ -17,6 +16,7 @@ import {
   InputRightElement,
   Text,
   useToast,
+  useMediaQuery
 } from "@chakra-ui/react";
 import React, { useState } from "react";
 import { PiUserCircleThin, PiLockThin, PiEyeSlashThin, PiEyeThin } from "react-icons/pi";
@@ -42,6 +42,7 @@ const Login: React.FC<Props> = ({ setActiveLogin, smallerThan600 }) => {
   const toast = useToast();
   const router = useRouter();
   const [isToastShowing, setIsToastShowing] = useState(false);
+  const [smallerThan600h] = useMediaQuery("(max-height: 600px)");
 
   const handleChange = (event) => {
     const name = event.target.name;
@@ -117,7 +118,7 @@ const Login: React.FC<Props> = ({ setActiveLogin, smallerThan600 }) => {
       h={smallerThan600 ? "60vh" : "68vh"}
       maxH={"600px"}
       w={smallerThan600 ? "100vw" : "30vw"}
-      minW={"350px"}
+      minW={"450px"}
       bg={"#f2f2f2"}
       flexDirection={"column"}
       mt={smallerThan600 ? "70vh" : 0}
@@ -126,7 +127,7 @@ const Login: React.FC<Props> = ({ setActiveLogin, smallerThan600 }) => {
     >
       <Box
         display={"flex"}
-        h={"30vh"}
+        h={smallerThan600h ? "20vh":"30vh"}
         alignItems={"center"}
         justifyContent={"flex-start"}
         flexDirection={"column"}
@@ -134,17 +135,17 @@ const Login: React.FC<Props> = ({ setActiveLogin, smallerThan600 }) => {
         <Avatar
           icon={<PiUserThin fontSize={"5rem"}/>}
           mt={"-40px"}
-          h={smallerThan600 ? "120px" : "180px"}
-          w={smallerThan600 ? "120px" : "180px"}
+          h={smallerThan600h ? "100px" : "180px"}
+          w={smallerThan600h ? "100px" : "180px"}
           bg={"#a9a9a9"}
         />
-        <Center mt={"3vh"} >
-          <Text fontWeight={"thin"} fontSize={"1.4rem"}> LOG IN </Text>
+        <Center mt={"3vh"} hidden={smallerThan600h ? true : false} >
+          <Text  fontWeight={"thin"} fontSize={"1.4rem"}> LOG IN </Text>
         </Center>
       </Box>
       <Box
         display={"flex"}
-        h={"25vh"}
+        h={smallerThan600h ? "30vh" : "25vh"}
         alignItems={"center"}
         justifyContent={"center"}
         flexDirection={"column"}
@@ -153,13 +154,14 @@ const Login: React.FC<Props> = ({ setActiveLogin, smallerThan600 }) => {
           display={"flex"}
           h={"20vh"}
           w={"18vw"}
+          minW={"350px"}
           alignItems={"center"}
           justifyContent={"center"}
           position={"relative"}
           top={smallerThan600 ? -1 : 2}
           flexDirection={"column"}
         >
-          <Box display={"flex"}  w={"18vw"}>
+          <Box display={"flex"} w={"18vw"} minW={"300px"}>
             <InputGroup flexDirection={"column"} h={"60px"}>
               <InputLeftElement top={"-5px"} textAlign={"center"} pointerEvents="none">
                 <IconButton
@@ -198,7 +200,7 @@ const Login: React.FC<Props> = ({ setActiveLogin, smallerThan600 }) => {
               )}
             </InputGroup>
           </Box>
-          <Box display={"flex"}  w={"18vw"}>
+          <Box display={"flex"}  w={"18vw"} minW={"300px"}>
             <InputGroup h={"60px"}>
               <InputLeftElement top={"-5px"} textAlign={"center"} pointerEvents="none">
                 <IconButton
