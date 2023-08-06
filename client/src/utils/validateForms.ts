@@ -1,5 +1,5 @@
 /* eslint-disable no-useless-escape */
-import { EmailNaturali } from "./types";
+import { EmailNaturali, ErrorsProject } from "./types";
 
 export interface FormErrors {
   fullName?: string;
@@ -139,6 +139,33 @@ export const validateCompletedInputsProfile = (formData) => {
   if (formData.billingZipCode !== "") {
     if (!regexPhone.test(formData.billingZipCode)) {
       errors.billingZipCode = "Please enter a valid zip code";
+    }
+  }
+
+  return errors;
+};
+
+export const validateCompletedEditInputsProject = (formData) => {
+  const errors: ErrorsProject = {};
+  const regexPhone = /^[+]?\d+$/;
+
+  if (formData.ProjectName === "")
+    errors.projectName = "Please enter a project name";
+
+  if (formData.Shipping_Address === "")
+    errors.shippingAddress = "Please enter a shipping address";
+
+  if (formData.Shipping_City === "")
+    errors.shippingCity = "Please enter a shipping city";
+
+  if (formData.Shipping_State === "")
+    errors.shippingState = "Please enter a shipping state";
+
+  if (formData.Shipping_ZipCode === "")
+    errors.shippingZipCode = "Please enter a shipping zip code";
+  if (formData.Shipping_ZipCode !== "") {
+    if (!regexPhone.test(formData.Shipping_ZipCode)) {
+      errors.shippingZipCode = "Please enter a valid shipping zip code";
     }
   }
 

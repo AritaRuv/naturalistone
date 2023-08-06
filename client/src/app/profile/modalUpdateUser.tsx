@@ -88,10 +88,8 @@ export function UpdateCustomer({
     switch (name) {
       case "fullName":
         return "Jon Doe";
-        break;
       case "password":
         return "Password";
-        break;
       case "phone":
         return "+1 XXX XXX XXXX";
       case "company":
@@ -187,7 +185,7 @@ export function UpdateCustomer({
                 placeholder={placeHolder(name)}
                 onChange={handleChange}
                 _focus={{
-                  boxShadow: "0 0.5px 0.5px #f2f2f2 inset, 0 0 5px #f2f2f2",
+                  boxShadow: "0 0.5px 0.5px #FFFFFF inset, 0 0 5px #FFFFFF",
                 }}
                 style={{
                   borderBottom: "1px solid black",

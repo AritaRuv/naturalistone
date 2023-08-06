@@ -1,9 +1,14 @@
 // actions.ts
 import { Dispatch } from "redux";
-import { ProjectsAction, ProjectsActionsType } from './typeProjects';
-import { createProject, getProject, getProjects } from "@/api/apiProjects";
+import { Project, ProjectsAction, ProjectsActionsType } from "./typeProjects";
+import {
+  createProject,
+  getProject,
+  getProjects,
+  updateProject,
+} from "@/api/apiProjects";
 
-export interface bodyProject {
+export interface BodyProject {
   ProjectName: string;
   CustomerID: number;
   Shipping_Address: string;
@@ -15,27 +20,32 @@ export interface bodyProject {
 export const fetchProjectsCustomer = (CustomerID: number) => {
   return async (dispatch: Dispatch<ProjectsAction>) => {
     try {
-
       const projects = await getProjects(CustomerID);
       dispatch({
         type: ProjectsActionsType.FETCH_PROJECTS_BY_CUSTOMER,
         payload: projects,
       });
     } catch (error) {
-      console.error(`Error al obtener los projectos del Customer: ${CustomerID}`, error);
+      console.error(
+        `Error al obtener los projectos del Customer: ${CustomerID}`,
+        error
+      );
     }
   };
 };
 
-export const postCustomerProject = (CustomerID: number, bodyCart:bodyProject) => {
+export const postCustomerProject = (
+  CustomerID: number,
+  bodyCart: BodyProject
+) => {
   return async (dispatch: Dispatch<ProjectsAction>) => {
     try {
-      const res = await createProject(bodyCart); 
+      const res = await createProject(bodyCart);
       const projects = await getProjects(CustomerID);
 
       dispatch({
         type: ProjectsActionsType.POST_PROJECT_CUSTOMER,
-        payload: projects
+        payload: projects,
       });
 
       dispatch({
@@ -43,7 +53,10 @@ export const postCustomerProject = (CustomerID: number, bodyCart:bodyProject) =>
         payload: projects,
       });
     } catch (error) {
-      console.error(`Error al obtener los projectos del Customer: ${CustomerID}`, error);
+      console.error(
+        `Error al obtener los projectos del Customer: ${CustomerID}`,
+        error
+      );
     }
   };
 };
@@ -51,7 +64,6 @@ export const postCustomerProject = (CustomerID: number, bodyCart:bodyProject) =>
 export const fetchProjectByID = (projectID: number) => {
   return async (dispatch: Dispatch<ProjectsAction>) => {
     try {
-
       const project = await getProject(projectID);
       dispatch({
         type: ProjectsActionsType.FETCH_PROJECT,
@@ -59,6 +71,22 @@ export const fetchProjectByID = (projectID: number) => {
       });
     } catch (error) {
       console.error(`Error al obtener el projecto: ${projectID}`, error);
+    }
+  };
+};
+
+export const patchProject = (bodyProject: Project) => {
+  return async (dispatch: Dispatch<ProjectsAction>) => {
+    try {
+      const data = await updateProject(bodyProject);
+      const project = await getProject(bodyProject.idProjects);
+      dispatch({
+        type: ProjectsActionsType.PATCH_PROJECT,
+        payload: project,
+      });
+      return data;
+    } catch (error) {
+      console.log("error patch project", error);
     }
   };
 };

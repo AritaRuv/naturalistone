@@ -4,12 +4,10 @@ import express, { Request, Response } from "express";
 import mysqlConnection from "../../db";
 import { RowDataPacket, FieldPacket } from "mysql2";
 
-
 export async function getProjectsByCustomer(req: Request, res: Response) {
   try {
     const { id } = req.params;
-    const query = `SELECT * FROM Projects WHERE CustomerID = ${id};`
-                    
+    const query = `SELECT * FROM Projects WHERE CustomerID = ${id};`;
 
     mysqlConnection.query(
       query,
@@ -31,23 +29,46 @@ export async function getProjectsByCustomer(req: Request, res: Response) {
   }
 }
 export async function postNewProject(req: Request, res: Response) {
-
-  const { ProjectName, CustomerID, Shipping_State, Shipping_ZipCode, Shipping_City, Shipping_Address } = req.body
+  const {
+    ProjectName,
+    CustomerID,
+    Shipping_State,
+    Shipping_ZipCode,
+    Shipping_City,
+    Shipping_Address,
+  } = req.body;
 
   try {
-    const query = `INSERT INTO Projects (ProjectName, CustomerID, Shipping_State, Shipping_ZipCode, Shipping_City, Shipping_Address ) VALUES (?, ?, ?, ?, ?, ?)`
-    const projectValues = [ProjectName, CustomerID, Shipping_State, Shipping_ZipCode, Shipping_City, Shipping_Address]
-                    
-    mysqlConnection.query(query, projectValues, (error: MysqlError, results: RowDataPacket[], insertFields: FieldInfo[]) => {
-      if(error) throw error;
-      if(results.length == 0) {
-          console.log('Error en projectRoutes.post /create-project/:customerID')
+    const query = `INSERT INTO Projects (ProjectName, CustomerID, Shipping_State, Shipping_ZipCode, Shipping_City, Shipping_Address ) VALUES (?, ?, ?, ?, ?, ?)`;
+    const projectValues = [
+      ProjectName,
+      CustomerID,
+      Shipping_State,
+      Shipping_ZipCode,
+      Shipping_City,
+      Shipping_Address,
+    ];
+
+    mysqlConnection.query(
+      query,
+      projectValues,
+      (
+        error: MysqlError,
+        results: RowDataPacket[],
+        insertFields: FieldInfo[]
+      ) => {
+        if (error) throw error;
+        if (results.length == 0) {
+          console.log(
+            "Error en projectRoutes.post /create-project/:customerID"
+          );
           res.status(200).json([]);
-      } else {
-          console.log('Project created successfully')
+        } else {
+          console.log("Project created successfully");
           res.status(200).json(results);
+        }
       }
-    });
+    );
   } catch (error) {
     res.status(409).send(error);
   }
@@ -56,8 +77,7 @@ export async function postNewProject(req: Request, res: Response) {
 export async function getProjectByID(req: Request, res: Response) {
   try {
     const { id } = req.params;
-    const query = `SELECT * FROM Projects WHERE idProjects = ${id};`
-                    
+    const query = `SELECT * FROM Projects WHERE idProjects = ${id};`;
 
     mysqlConnection.query(
       query,
@@ -76,5 +96,53 @@ export async function getProjectByID(req: Request, res: Response) {
     );
   } catch (error) {
     res.status(409).send(error);
+  }
+}
+
+export async function updateProject(req: Request, res: Response) {
+  const {
+    ProjectName,
+    Shipping_Address,
+    Shipping_State,
+    Shipping_City,
+    Shipping_ZipCode,
+  } = req.body;
+
+  const { id } = req.params;
+
+  try {
+    const updateColumnsProject = [];
+
+    if (ProjectName)
+      updateColumnsProject.push(`ProjectName = "${ProjectName}"`);
+    if (Shipping_Address)
+      updateColumnsProject.push(`Shipping_Address = "${Shipping_Address}"`);
+    if (Shipping_State)
+      updateColumnsProject.push(`Shipping_State = "${Shipping_State}"`);
+    if (Shipping_City)
+      updateColumnsProject.push(`Shipping_City = "${Shipping_City}"`);
+    if (Shipping_ZipCode)
+      updateColumnsProject.push(`Shipping_ZipCode = "${Shipping_ZipCode}"`);
+
+    const updateColumnsProjectString = updateColumnsProject.join(", ");
+
+    const _query = `UPDATE Projects SET ${updateColumnsProjectString} WHERE idProjects = ${id}`;
+
+    mysqlConnection.query(_query, function (err, results) {
+      if (err) {
+        return res
+          .status(400)
+          .json({ success: false, msg: "Error in update project" });
+      }
+
+      return res
+        .status(200)
+        .json({ success: true, msg: "Project update successfully" });
+    });
+  } catch (err) {
+    console.log(err);
+    res
+      .status(500)
+      .json({ success: false, msg: "General error in update Projects" });
   }
 }

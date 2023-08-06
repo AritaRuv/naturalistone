@@ -1,18 +1,21 @@
 // reducer.ts
-import { ProjectsAction, ProjectsActionsType, ProjectsState } from './typeProjects';
-
+import {
+  ProjectsAction,
+  ProjectsActionsType,
+  ProjectsState,
+} from "./typeProjects";
 
 const initialState: ProjectsState = {
   customerProjects: [],
   project: {
     idProjects: 0,
-    ProjectName: '',
+    ProjectName: "",
     CustomerID: 0,
-    Shipping_Address: '',
-    Shipping_ZipCode: '',
-    Shipping_State: '',
-    Shipping_City: ''
-  } 
+    Shipping_Address: "",
+    Shipping_ZipCode: "",
+    Shipping_State: "",
+    Shipping_City: "",
+  },
 };
 
 const projectsReducer = (
@@ -35,9 +38,15 @@ const projectsReducer = (
         ...state,
         project: action.payload,
       };
+    case ProjectsActionsType.PATCH_PROJECT:
+      return {
+        ...state,
+        project: action.payload,
+      };
     default:
       return state;
   }
 };
 
 export default projectsReducer;
+

@@ -4,14 +4,19 @@ import {
   VStack,
   Box,
   Text,
-  FormLabel
+  FormLabel,
 } from "@chakra-ui/react";
 // import AutocompleteState from '../AutocompleteState';
 // import '../../../assets/styleSheet.css';
- 
-  
-export default function CreateProjectForm({formData, setFormData, validateCompletedInputsProject, errors, setErrors, setChangeInput}) {
-  
+
+export default function CreateProjectForm({
+  formData,
+  setFormData,
+  validateCompletedInputsProject,
+  errors,
+  setErrors,
+  setChangeInput,
+}) {
   const handleChange = (event) => {
     const { name, value } = event.target;
     // Actualizas solo la propiedad que cambió en el objeto de formData
@@ -27,13 +32,21 @@ export default function CreateProjectForm({formData, setFormData, validateComple
     );
     setChangeInput(true);
   };
-  
+
   return (
     <form>
       <VStack spacing={4}>
-        <Box w={"22vw"} display={"flex"} flexDir={"row"} pt={"4vh"} justifyContent={"space-between"}>
-          <FormControl>
-            <FormLabel fontSize={"0.8rem"} fontWeight={"normal"}>PROJECT NAME</FormLabel>
+        <Box
+          w={"22vw"}
+          display={"flex"}
+          flexDir={"row"}
+          pt={"4vh"}
+          justifyContent={"space-between"}
+        >
+          <FormControl bg={"red"}>
+            <FormLabel fontSize={"0.8rem"} fontWeight={"normal"}>
+              PROJECT NAME
+            </FormLabel>
             <Input
               mb={"0.5vh"}
               variant="unstyled"
@@ -45,16 +58,23 @@ export default function CreateProjectForm({formData, setFormData, validateComple
               value={formData.ProjectName}
               onChange={handleChange}
             />
-            { errors.ProjectName && (
-              <Text position={"absolute"} color={"web.error"} fontSize={"xs"}>
-                {errors.ProjectName}
-              </Text>
-            )}
+            {/* { errors.ProjectName && ( */}
+            <Text position={"absolute"} color={"web.error"} fontSize={"xs"}>
+              ERRORR
+            </Text>
+            {/* )} */}
           </FormControl>
         </Box>
-        <Box w={"22vw"} display={"flex"} flexDir={"row"}  justifyContent={"space-between"}>
+        <Box
+          w={"22vw"}
+          display={"flex"}
+          flexDir={"row"}
+          justifyContent={"space-between"}
+        >
           <FormControl>
-            <FormLabel fontSize={"0.8rem"} fontWeight={"normal"}>SHIPPING ADDRESS</FormLabel>
+            <FormLabel fontSize={"0.8rem"} fontWeight={"normal"}>
+              SHIPPING ADDRESS
+            </FormLabel>
             <Input
               mb={"0.5vh"}
               variant="unstyled"
@@ -68,16 +88,23 @@ export default function CreateProjectForm({formData, setFormData, validateComple
               value={formData.Shipping_Address}
               onChange={handleChange}
             />
-            { errors.Shipping_Address && (
+            {errors.Shipping_Address && (
               <Text position={"absolute"} color={"web.error"} fontSize={"xs"}>
                 {errors.Shipping_Address}
               </Text>
             )}
           </FormControl>
         </Box>
-        <Box w={"22vw"} display={"flex"} flexDir={"row"}  justifyContent={"space-between"}>
+        <Box
+          w={"22vw"}
+          display={"flex"}
+          flexDir={"row"}
+          justifyContent={"space-between"}
+        >
           <FormControl>
-            <FormLabel fontSize={"0.8rem"} fontWeight={"normal"}>CITY</FormLabel>
+            <FormLabel fontSize={"0.8rem"} fontWeight={"normal"}>
+              CITY
+            </FormLabel>
             <Input
               mb={"0.5vh"}
               variant="unstyled"
@@ -91,16 +118,23 @@ export default function CreateProjectForm({formData, setFormData, validateComple
               value={formData.Shipping_City}
               onChange={handleChange}
             />
-            { errors.Shipping_City && (
+            {errors.Shipping_City && (
               <Text position={"absolute"} color={"web.error"} fontSize={"xs"}>
                 {errors.Shipping_City}
               </Text>
             )}
           </FormControl>
         </Box>
-        <Box w={"22vw"} display={"flex"} flexDir={"row"} justifyContent={"space-between"}>
+        <Box
+          w={"22vw"}
+          display={"flex"}
+          flexDir={"row"}
+          justifyContent={"space-between"}
+        >
           <FormControl>
-            <FormLabel fontSize={"0.8rem"} fontWeight={"normal"}>STATE</FormLabel>
+            <FormLabel fontSize={"0.8rem"} fontWeight={"normal"}>
+              STATE
+            </FormLabel>
             {/* <AutocompleteState 
               formData={formData}
               setFormData={setFormData}
@@ -122,16 +156,23 @@ export default function CreateProjectForm({formData, setFormData, validateComple
               value={formData.Shipping_State}
               onChange={handleChange}
             />
-            { errors.Shipping_State && (
+            {errors.Shipping_State && (
               <Text position={"absolute"} color={"web.error"} fontSize={"xs"}>
                 {errors.Shipping_State}
               </Text>
             )}
           </FormControl>
         </Box>
-        <Box w={"22vw"} display={"flex"} flexDir={"row"} justifyContent={"space-between"}>
+        <Box
+          w={"22vw"}
+          display={"flex"}
+          flexDir={"row"}
+          justifyContent={"space-between"}
+        >
           <FormControl>
-            <FormLabel fontSize={"0.8rem"} fontWeight={"normal"}>ZIP CODE</FormLabel>
+            <FormLabel fontSize={"0.8rem"} fontWeight={"normal"}>
+              ZIP CODE
+            </FormLabel>
             <Input
               mb={"0.5vh"}
               variant="unstyled"
@@ -145,7 +186,7 @@ export default function CreateProjectForm({formData, setFormData, validateComple
               value={formData.Shipping_ZipCode}
               onChange={handleChange}
             />
-            { errors.Shipping_ZipCode && (
+            {errors.Shipping_ZipCode && (
               <Text position={"absolute"} color={"web.error"} fontSize={"xs"}>
                 {errors.Shipping_ZipCode}
               </Text>

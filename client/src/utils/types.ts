@@ -14,3 +14,11 @@ export interface ErrorsProfile {
   phone?: string;
   zipCode?: string;
 }
+
+export interface ErrorsProject {
+  projectName?: string;
+  shippingAddress?: string;
+  shippingCity?: string;
+  shippingState?: string;
+  shippingZipCode?: string;
+}
