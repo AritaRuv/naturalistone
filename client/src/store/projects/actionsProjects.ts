@@ -6,6 +6,7 @@ import {
   getProject,
   getProjects,
   updateProject,
+  deleteProject,
 } from "@/api/apiProjects";
 
 export interface BodyProject {
@@ -87,6 +88,21 @@ export const patchProject = (bodyProject: Project) => {
       return data;
     } catch (error) {
       console.log("error patch project", error);
+    }
+  };
+};
+
+export const deleteUserProject = (idProject: string) => {
+  return async (dispatch: Dispatch<ProjectsAction>) => {
+    try {
+      const project = await deleteProject(idProject);
+      dispatch({
+        type: ProjectsActionsType.DELETE_PROJECT,
+        payload: project,
+      });
+      return project;
+    } catch (error) {
+      console.log("error in delete user project", error);
     }
   };
 };

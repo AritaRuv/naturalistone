@@ -6,6 +6,7 @@ import { Box, Button, Text, VStack } from "@chakra-ui/react";
 import Link from "next/link";
 import { useEffect } from "react";
 import { UpdateProject } from "./modalUpdateProject";
+import { DeleteProject } from "./modalDeleteProject";
 
 const ProjecteInfo = ({ params }) => {
   const { idProjects } = params;
@@ -130,6 +131,7 @@ const ProjecteInfo = ({ params }) => {
             </Box>
           </VStack>
           <UpdateProject idProjects={idProjects} project={project} />
+          <DeleteProject idProjects={idProjects} project={project} />
         </VStack>
       </Box>
     </>

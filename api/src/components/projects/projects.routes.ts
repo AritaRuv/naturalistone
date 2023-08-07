@@ -1,5 +1,6 @@
 import { Router } from "express";
 import {
+  deleteProject,
   getProjectByID,
   getProjectsByCustomer,
   postNewProject,
@@ -9,6 +10,7 @@ import {
 const projectsRouter: Router = Router();
 
 projectsRouter.post("/", postNewProject);
+projectsRouter.patch("/delete/:id", deleteProject);
 projectsRouter.patch("/editproject/:id", updateProject);
 projectsRouter.get("/project/:id", getProjectByID);
 projectsRouter.get("/:id", getProjectsByCustomer);

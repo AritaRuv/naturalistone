@@ -19,6 +19,7 @@ export enum ProjectsActionsType {
   POST_PROJECT_CUSTOMER = "POST_PROJECT_CUSTOMER",
   FETCH_PROJECT = "FETCH_PROJECT",
   PATCH_PROJECT = "PATCH_PROJECT",
+  DELETE_PROJECT = "DELETE_PROJECT",
 }
 
 export interface FetchCustomerProjectsRequestAction {
@@ -38,8 +39,14 @@ export interface PatchProjectRequestAction {
   payload: Project;
 }
 
+export interface DeleteProjectRequestAction {
+  type: ProjectsActionsType.DELETE_PROJECT;
+  payload: Project;
+}
+
 export type ProjectsAction =
   | FetchCustomerProjectsRequestAction
   | FetchProjectRequestAction
   | PostProjectRequestAction
-  | PatchProjectRequestAction;
+  | PatchProjectRequestAction
+  | DeleteProjectRequestAction;

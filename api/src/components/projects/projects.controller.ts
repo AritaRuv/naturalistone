@@ -7,7 +7,7 @@ import { RowDataPacket, FieldPacket } from "mysql2";
 export async function getProjectsByCustomer(req: Request, res: Response) {
   try {
     const { id } = req.params;
-    const query = `SELECT * FROM Projects WHERE CustomerID = ${id};`;
+    const query = `SELECT * FROM Projects WHERE CustomerID = ${id} AND Active = 1`;
 
     mysqlConnection.query(
       query,
@@ -77,7 +77,7 @@ export async function postNewProject(req: Request, res: Response) {
 export async function getProjectByID(req: Request, res: Response) {
   try {
     const { id } = req.params;
-    const query = `SELECT * FROM Projects WHERE idProjects = ${id};`;
+    const query = `SELECT * FROM Projects WHERE idProjects = ${id} AND Active = 1`;
 
     mysqlConnection.query(
       query,
@@ -144,5 +144,28 @@ export async function updateProject(req: Request, res: Response) {
     res
       .status(500)
       .json({ success: false, msg: "General error in update Projects" });
+  }
+}
+
+export async function deleteProject(req: Request, res: Response) {
+  const { id } = req.params;
+
+  console.log("reqp,", req.params);
+  try {
+    console.log("soy project", id);
+    const _query = `UPDATE Projects SET Active = "0" WHERE idProjects = ${id}`;
+
+    mysqlConnection.query(_query, function (err, results) {
+      if (err) {
+        return res
+          .status(404)
+          .json({ success: false, msg: "Error in delete project" });
+      }
+      return res
+        .status(200)
+        .json({ success: true, msg: "Delete project successful" });
+    });
+  } catch (error) {
+    return res.status(500).json({ success: false, msg: "General error" });
   }
 }

@@ -43,6 +43,11 @@ const projectsReducer = (
         ...state,
         project: action.payload,
       };
+    case ProjectsActionsType.DELETE_PROJECT:
+      return {
+        ...state,
+        project: action.payload,
+      };
     default:
       return state;
   }

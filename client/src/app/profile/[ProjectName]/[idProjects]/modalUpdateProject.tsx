@@ -111,7 +111,7 @@ export function UpdateProject({ idProjects, project }) {
         <Button
           h={"5px"}
           w={"5px"}
-          fontWeight={"sm"}
+          fontWeight={"normal"}
           border={"none"}
           backgroundColor={"transparent"}
           _hover={{
@@ -123,7 +123,7 @@ export function UpdateProject({ idProjects, project }) {
           }}
           onClick={onOpen}
         >
-          <Text fontSize={"xs"} color={"#646464"}>
+          <Text fontSize={"0.8rem"} color={"#646464"}>
             Edit Information
           </Text>
         </Button>
@@ -139,227 +139,213 @@ export function UpdateProject({ idProjects, project }) {
           rounded={"sm"}
           borderColor={"gray.300"}
         >
-          <ModalHeader color={"web.text"}>Edit Project</ModalHeader>
+          <ModalHeader>Edit Project</ModalHeader>
           <ModalCloseButton onClick={() => handleClose()} />
           <ModalBody>
-            <form>
-              <VStack spacing={8}>
-                <Box
-                  w={"70%"}
-                  display={"flex"}
-                  flexDir={"row"}
-                  justifyContent={"space-between"}
-                >
-                  <FormControl>
-                    <FormLabel fontSize={"0.8rem"} fontWeight={"normal"}>
-                      PROJECT NAME
-                    </FormLabel>
-                    <Input
-                      mb={"0.5vh"}
-                      variant="unstyled"
-                      _placeholder={{
-                        fontFamily: "body",
-                        fontWeight: "inherit",
-                      }}
-                      fontSize={"0.8rem"}
-                      borderBottomWidth={"2px"}
-                      type={"text"}
-                      name={"ProjectName"}
-                      _focus={{
-                        boxShadow:
-                          "0 0.5px 0.5px #FFFFFF inset, 0 0 5px #FFFFFF",
-                      }}
-                      style={{
-                        borderBottom: "1px solid black",
-                        borderRadius: "0", // Ajusta el radio de las esquinas a cero
-                        outline: "none",
-                      }}
-                      // value={formData.ProjectName}
-                      defaultValue={project.ProjectName}
-                      onChange={handleChange}
-                    />
-                    {showErrors && errors.projectName && (
-                      <Text position={"absolute"} color={"red"} fontSize={"xs"}>
-                        {errors.projectName}
-                      </Text>
-                    )}
-                  </FormControl>
-                </Box>
-                <Box
-                  w={"70%"}
-                  display={"flex"}
-                  flexDir={"row"}
-                  justifyContent={"space-between"}
-                >
-                  <FormControl>
-                    <FormLabel fontSize={"0.8rem"} fontWeight={"normal"}>
-                      SHIPPING ADDRESS
-                    </FormLabel>
-                    <Input
-                      mb={"0.5vh"}
-                      variant="unstyled"
-                      textColor={"web.text"}
-                      _placeholder={{
-                        fontFamily: "body",
-                        fontWeight: "inherit",
-                      }}
-                      _focus={{
-                        boxShadow:
-                          "0 0.5px 0.5px #FFFFFF inset, 0 0 5px #FFFFFF",
-                      }}
-                      style={{
-                        borderBottom: "1px solid black",
-                        borderRadius: "0", // Ajusta el radio de las esquinas a cero
-                        outline: "none",
-                      }}
-                      fontSize={"0.8rem"}
-                      borderBottomWidth={"2px"}
-                      borderBottomColor={"web.text2"}
-                      type={"text"}
-                      name={"Shipping_Address"}
-                      defaultValue={project.Shipping_Address}
-                      onChange={handleChange}
-                    />
-                    {showErrors && errors.shippingAddress && (
-                      <Text position={"absolute"} color={"red"} fontSize={"xs"}>
-                        {errors.shippingAddress}
-                      </Text>
-                    )}
-                  </FormControl>
-                </Box>
-                <Box
-                  w={"70%"}
-                  display={"flex"}
-                  flexDir={"row"}
-                  justifyContent={"space-between"}
-                >
-                  <FormControl>
-                    <FormLabel fontSize={"0.8rem"} fontWeight={"normal"}>
-                      CITY
-                    </FormLabel>
-                    <Input
-                      mb={"0.5vh"}
-                      variant="unstyled"
-                      textColor={"web.text"}
-                      _placeholder={{
-                        fontFamily: "body",
-                        fontWeight: "inherit",
-                      }}
-                      _focus={{
-                        boxShadow:
-                          "0 0.5px 0.5px #FFFFFF inset, 0 0 5px #FFFFFF",
-                      }}
-                      style={{
-                        borderBottom: "1px solid black",
-                        borderRadius: "0", // Ajusta el radio de las esquinas a cero
-                        outline: "none",
-                      }}
-                      fontSize={"0.8rem"}
-                      borderBottomWidth={"2px"}
-                      borderBottomColor={"web.text2"}
-                      type={"text"}
-                      name={"Shipping_City"}
-                      defaultValue={project.Shipping_City}
-                      onChange={handleChange}
-                    />
-                    {showErrors && errors.shippingCity && (
-                      <Text position={"absolute"} color={"red"} fontSize={"xs"}>
-                        {errors.shippingCity}
-                      </Text>
-                    )}
-                  </FormControl>
-                </Box>
-                <Box
-                  w={"70%"}
-                  display={"flex"}
-                  flexDir={"row"}
-                  justifyContent={"space-between"}
-                >
-                  <FormControl>
-                    <FormLabel fontSize={"0.8rem"} fontWeight={"normal"}>
-                      STATE
-                    </FormLabel>
-                    <Input
-                      mb={"0.5vh"}
-                      variant="unstyled"
-                      textColor={"web.text"}
-                      _placeholder={{
-                        fontFamily: "body",
-                        fontWeight: "inherit",
-                      }}
-                      _focus={{
-                        boxShadow:
-                          "0 0.5px 0.5px #FFFFFF inset, 0 0 5px #FFFFFF",
-                      }}
-                      style={{
-                        borderBottom: "1px solid black",
-                        borderRadius: "0", // Ajusta el radio de las esquinas a cero
-                        outline: "none",
-                      }}
-                      fontSize={"0.8rem"}
-                      borderBottomWidth={"2px"}
-                      borderBottomColor={"web.text2"}
-                      type={"text"}
-                      name={"Shipping_State"}
-                      defaultValue={project.Shipping_State}
-                      onChange={handleChange}
-                    />
-                    {showErrors && errors.shippingState && (
-                      <Text position={"absolute"} color={"red"} fontSize={"xs"}>
-                        {errors.shippingState}
-                      </Text>
-                    )}
-                  </FormControl>
-                </Box>
-                <Box
-                  w={"70%"}
-                  display={"flex"}
-                  flexDir={"row"}
-                  justifyContent={"space-between"}
-                >
-                  <FormControl>
-                    <FormLabel fontSize={"0.8rem"} fontWeight={"normal"}>
-                      ZIP CODE
-                    </FormLabel>
-                    <Input
-                      mb={"0.5vh"}
-                      variant="unstyled"
-                      textColor={"web.text"}
-                      _placeholder={{
-                        fontFamily: "body",
-                        fontWeight: "inherit",
-                      }}
-                      _focus={{
-                        boxShadow:
-                          "0 0.5px 0.5px #FFFFFF inset, 0 0 5px #FFFFFF",
-                      }}
-                      style={{
-                        borderBottom: "1px solid black",
-                        borderRadius: "0", // Ajusta el radio de las esquinas a cero
-                        outline: "none",
-                      }}
-                      fontSize={"0.8rem"}
-                      borderBottomWidth={"2px"}
-                      borderBottomColor={"web.text2"}
-                      type={"text"}
-                      name={"Shipping_ZipCode"}
-                      defaultValue={project.Shipping_ZipCode}
-                      onChange={handleChange}
-                    />
-                    {showErrors && errors.shippingZipCode && (
-                      <Text position={"absolute"} color={"red"} fontSize={"xs"}>
-                        {errors.shippingZipCode}
-                      </Text>
-                    )}
-                  </FormControl>
-                </Box>
-              </VStack>
-            </form>
+            <VStack spacing={8}>
+              <Box
+                w={"70%"}
+                display={"flex"}
+                flexDir={"row"}
+                justifyContent={"space-between"}
+              >
+                <FormControl>
+                  <FormLabel fontSize={"0.8rem"} fontWeight={"normal"}>
+                    PROJECT NAME
+                  </FormLabel>
+                  <Input
+                    mb={"0.5vh"}
+                    variant="unstyled"
+                    _placeholder={{
+                      fontFamily: "body",
+                      fontWeight: "inherit",
+                    }}
+                    fontSize={"0.8rem"}
+                    borderBottomWidth={"2px"}
+                    type={"text"}
+                    name={"ProjectName"}
+                    _focus={{
+                      boxShadow: "0 0.5px 0.5px #FFFFFF inset, 0 0 5px #FFFFFF",
+                    }}
+                    style={{
+                      borderBottom: "1px solid black",
+                      borderRadius: "0", // Ajusta el radio de las esquinas a cero
+                      outline: "none",
+                    }}
+                    // value={formData.ProjectName}
+                    defaultValue={project.ProjectName}
+                    onChange={handleChange}
+                  />
+                  {showErrors && errors.projectName && (
+                    <Text position={"absolute"} color={"red"} fontSize={"xs"}>
+                      {errors.projectName}
+                    </Text>
+                  )}
+                </FormControl>
+              </Box>
+              <Box
+                w={"70%"}
+                display={"flex"}
+                flexDir={"row"}
+                justifyContent={"space-between"}
+              >
+                <FormControl>
+                  <FormLabel fontSize={"0.8rem"} fontWeight={"normal"}>
+                    ADDRESS
+                  </FormLabel>
+                  <Input
+                    mb={"0.5vh"}
+                    variant="unstyled"
+                    _placeholder={{
+                      fontFamily: "body",
+                      fontWeight: "inherit",
+                    }}
+                    _focus={{
+                      boxShadow: "0 0.5px 0.5px #FFFFFF inset, 0 0 5px #FFFFFF",
+                    }}
+                    style={{
+                      borderBottom: "1px solid black",
+                      borderRadius: "0", // Ajusta el radio de las esquinas a cero
+                      outline: "none",
+                    }}
+                    fontSize={"0.8rem"}
+                    borderBottomWidth={"2px"}
+                    type={"text"}
+                    name={"Shipping_Address"}
+                    defaultValue={project.Shipping_Address}
+                    onChange={handleChange}
+                  />
+                  {showErrors && errors.shippingAddress && (
+                    <Text position={"absolute"} color={"red"} fontSize={"xs"}>
+                      {errors.shippingAddress}
+                    </Text>
+                  )}
+                </FormControl>
+              </Box>
+              <Box
+                w={"70%"}
+                display={"flex"}
+                flexDir={"row"}
+                justifyContent={"space-between"}
+              >
+                <FormControl>
+                  <FormLabel fontSize={"0.8rem"} fontWeight={"normal"}>
+                    CITY
+                  </FormLabel>
+                  <Input
+                    mb={"0.5vh"}
+                    variant="unstyled"
+                    _placeholder={{
+                      fontFamily: "body",
+                      fontWeight: "inherit",
+                    }}
+                    _focus={{
+                      boxShadow: "0 0.5px 0.5px #FFFFFF inset, 0 0 5px #FFFFFF",
+                    }}
+                    style={{
+                      borderBottom: "1px solid black",
+                      borderRadius: "0", // Ajusta el radio de las esquinas a cero
+                      outline: "none",
+                    }}
+                    fontSize={"0.8rem"}
+                    borderBottomWidth={"2px"}
+                    type={"text"}
+                    name={"Shipping_City"}
+                    defaultValue={project.Shipping_City}
+                    onChange={handleChange}
+                  />
+                  {showErrors && errors.shippingCity && (
+                    <Text position={"absolute"} color={"red"} fontSize={"xs"}>
+                      {errors.shippingCity}
+                    </Text>
+                  )}
+                </FormControl>
+              </Box>
+              <Box
+                w={"70%"}
+                display={"flex"}
+                flexDir={"row"}
+                justifyContent={"space-between"}
+              >
+                <FormControl>
+                  <FormLabel fontSize={"0.8rem"} fontWeight={"normal"}>
+                    STATE
+                  </FormLabel>
+                  <Input
+                    mb={"0.5vh"}
+                    variant="unstyled"
+                    _placeholder={{
+                      fontFamily: "body",
+                      fontWeight: "inherit",
+                    }}
+                    _focus={{
+                      boxShadow: "0 0.5px 0.5px #FFFFFF inset, 0 0 5px #FFFFFF",
+                    }}
+                    style={{
+                      borderBottom: "1px solid black",
+                      borderRadius: "0", // Ajusta el radio de las esquinas a cero
+                      outline: "none",
+                    }}
+                    fontSize={"0.8rem"}
+                    borderBottomWidth={"2px"}
+                    type={"text"}
+                    name={"Shipping_State"}
+                    defaultValue={project.Shipping_State}
+                    onChange={handleChange}
+                  />
+                  {showErrors && errors.shippingState && (
+                    <Text position={"absolute"} color={"red"} fontSize={"xs"}>
+                      {errors.shippingState}
+                    </Text>
+                  )}
+                </FormControl>
+              </Box>
+              <Box
+                w={"70%"}
+                display={"flex"}
+                flexDir={"row"}
+                justifyContent={"space-between"}
+              >
+                <FormControl>
+                  <FormLabel fontSize={"0.8rem"} fontWeight={"normal"}>
+                    ZIP CODE
+                  </FormLabel>
+                  <Input
+                    mb={"0.5vh"}
+                    variant="unstyled"
+                    _placeholder={{
+                      fontFamily: "body",
+                      fontWeight: "inherit",
+                    }}
+                    _focus={{
+                      boxShadow: "0 0.5px 0.5px #FFFFFF inset, 0 0 5px #FFFFFF",
+                    }}
+                    style={{
+                      borderBottom: "1px solid black",
+                      borderRadius: "0", // Ajusta el radio de las esquinas a cero
+                      outline: "none",
+                    }}
+                    fontSize={"0.8rem"}
+                    borderBottomWidth={"2px"}
+                    type={"text"}
+                    name={"Shipping_ZipCode"}
+                    defaultValue={project.Shipping_ZipCode}
+                    onChange={handleChange}
+                  />
+                  {showErrors && errors.shippingZipCode && (
+                    <Text position={"absolute"} color={"red"} fontSize={"xs"}>
+                      {errors.shippingZipCode}
+                    </Text>
+                  )}
+                </FormControl>
+              </Box>
+            </VStack>
           </ModalBody>
           <ModalFooter>
             <Button
-              fontWeight={"sm"}
+              fontWeight={"normal"}
               border={"none"}
+              type="submit"
               // bg={"yellow"}
               backgroundColor={"transparent"}
               _hover={{

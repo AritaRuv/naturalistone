@@ -57,3 +57,15 @@ export const updateProject = async (bodyProject: Project) => {
     return error.response.data;
   }
 };
+
+export const deleteProject = async (idProject: string) => {
+  try {
+    const response = await axios.patch(
+      `http://localhost:5000/api/projects/delete/${idProject}`
+    );
+    return response.data;
+  } catch (error) {
+    console.log(error);
+    return error.response.data;
+  }
+};
