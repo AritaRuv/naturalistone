@@ -95,7 +95,7 @@ const NavBar: React.FC = () => {
               >
                 <MenuDrawer handleHome={handleHome} smallerThan740={smallerThan740}/>
                 <Logo/>
-                <IconButtonsNavBar/>
+                {/* <IconButtonsNavBar/> */}
               </Box>
             ):(
               <Box

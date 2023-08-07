@@ -9,7 +9,8 @@ import {
   getDimension,
   getProductsFilters,
   getProductImages,
-  getProductValuesValidation
+  getProductValuesValidation,
+  getProductsByMaterial
 } from "../../api/apiProds"; // Importa tu función de solicitud a la API
 import { Filters } from "@/app/products/productFilters/types";
 
@@ -30,7 +31,6 @@ export const fetchProductsHome = (material: string, colorId: string) => {
     }
   };
 };
-
 
 export const fetchProductsValues = ({ ProdNameID }) => {
   return async (dispatch: Dispatch<ProductAction>) => {
@@ -147,7 +147,6 @@ export const loadProduct = (product: Product) => {
   };
 };
 
-
 export const fetchProductsValuesValidation = (finish: string, size: string, thickness:string, ProdNameID:number ) => {
   return async (dispatch: Dispatch<ProductAction>) => {
     try {
@@ -165,3 +164,22 @@ export const fetchProductsValuesValidation = (finish: string, size: string, thic
     }
   };
 };
+
+export const fetchProductsByMaterial = (material: string) => {
+  return async (dispatch: Dispatch<ProductAction>) => {
+    dispatch({ type: ProductActionTypes.FETCH_PRODUCTS_REQUEST });
+    try {
+      const products = await getProductsByMaterial(material);
+      dispatch({
+        type: ProductActionTypes.FETCH_PRODUCTS_FILTERS_SUCCESS,
+        payload: products,
+      });
+    } catch (error) {
+      dispatch({
+        type: ProductActionTypes.FETCH_PRODUCTS_FAILURE,
+        error: "Error al obtener los productos",
+      });
+    }
+  };
+};
+

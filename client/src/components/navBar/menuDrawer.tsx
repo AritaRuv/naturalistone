@@ -22,7 +22,7 @@ interface MenuDrawerProps {
   smallerThan740: boolean
   }
 
-const MenuDrawer: React.FC<MenuDrawerProps> = ({ handleHome, smallerThan740 }) => {
+const MenuDrawer: React.FC<MenuDrawerProps> = ({ smallerThan740 }) => {
 
   const { isOpen, onOpen, onClose } = useDisclosure();
   const buttons = [

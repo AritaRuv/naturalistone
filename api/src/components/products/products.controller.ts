@@ -332,3 +332,32 @@ export async function getCheckboxValidation(
     res.status(409).send(error);
   }
 }
+
+export async function getAllProductsByMaterial(req: Request, res: Response) {
+  try {
+    const { material } = req.query;
+
+    const query = `SELECT ProdNames.Material, ProdNames.Naturali_ProdName, ProdNames.ProdNameID
+                  FROM ProdNames
+                  ${material ? `WHERE Material = "${material}"` : ``}
+                  `;
+
+    mysqlConnection.query(
+      query,
+      (error: MysqlError, results: RowDataPacket[]) => {
+        if (error) {
+          throw error;
+        }
+        if (results.length === 0) {
+          console.log("Error en productsRoutes.get /materialfilterby");
+          res.status(404).json(`No products with material ${material}`);
+        } else {
+          console.log("Data OK");
+          res.status(200).json(results);
+        }
+      }
+    );
+  } catch (error) {
+    res.status(409).send(error);
+  }
+}

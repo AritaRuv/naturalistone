@@ -35,6 +35,12 @@ const productReducer = (
       loading: false,
       products: action.payload,
     };
+  case ProductActionTypes.FETCH_PRODUCTS_SUCCESS:
+    return {
+      ...state,
+      loading: false,
+      products: action.payload,
+    };
   case ProductActionTypes.FETCH_PRODUCTS_FILTERS_SUCCESS:
     return {
       ...state,
