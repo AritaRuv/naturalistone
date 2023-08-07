@@ -47,13 +47,13 @@ export function UpdateProject({ idProjects, project }) {
   const handleChange = (event) => {
     const name = event.target.name;
     const value = event.target.value;
-    setFormData({
-      ...formData,
-      [event.target.name]: event.target.value,
-    });
+    setFormData((prevFormData) => ({
+      ...prevFormData,
+      [name]: value,
+    }));
     setErrors(
       validateCompletedEditInputsProject({
-        ...formData,
+        ...project,
         [name]: value,
       })
     );
