@@ -1,12 +1,11 @@
 import React, { useState } from "react";
-import { Box, Button, Input, Text, useMediaQuery, IconButton } from "@chakra-ui/react";
-import { DeleteIcon } from "@chakra-ui/icons";
+import { Box, Button, Input, Text, useMediaQuery, Center } from "@chakra-ui/react";
 import NextImage from "next/image";
 import "../../app/assets/styleSheet.css";
 import { ProductCart } from "@/store/cart/typesCart";
 import { deleteCart, updateCart } from "@/store/cart/actionsCart";
 import { useAppDispatch } from "@/store/hooks";
-import { IoIosCloseCircle } from "react-icons/io";
+
 
 const ProductCardCart: React.FC<{ product: ProductCart }> = ({ product }) => {
   
@@ -17,8 +16,8 @@ const ProductCardCart: React.FC<{ product: ProductCart }> = ({ product }) => {
   const [isExtraSmallScreen] = useMediaQuery("(max-width: 480px)");
   const [isExtraExtraSmallScreen] = useMediaQuery("(max-width: 400px)");
 
-  const fontSubTitle = isExtraExtraSmallScreen ? "0.7rem" : "0.9rem";
-  const fontTitle = isExtraExtraSmallScreen ? "0.9rem" : "1.2rem";
+  const fontSubTitle = isExtraExtraSmallScreen ? "0.6rem" : "0.7rem";
+  const fontTitle = isExtraExtraSmallScreen ? "0.7rem" : "0.9rem";
 
   const [quantity, setQuantity] = useState(Quantity);
   const price = Number(SalePrice);
@@ -67,12 +66,11 @@ const ProductCardCart: React.FC<{ product: ProductCart }> = ({ product }) => {
         h={"175px"}
         w={isExtraSmallScreen ? "100%" : "440px"}
         overflow={"hidden"}
-        rounded={"md"}
         display={"flex"}
         alignItems={"center"}
         justifyContent={"space-around"}
-        px={"4%"}
-        py={"6%"}
+        px={"5px"}
+        py={"4px"}
       >
         {
           isExtraSmallScreen ? (
@@ -80,8 +78,8 @@ const ProductCardCart: React.FC<{ product: ProductCart }> = ({ product }) => {
               <NextImage objectFit="cover" fill src={URL} alt="img" />
             </Box>
           ) : (
-            <Box position="relative" h="150px" w="150px">
-              <IconButton
+            <Box position="relative" display={"flex"} alignContent={"center"}>
+              {/* <IconButton
                 position="absolute"
                 aria-label="Delete X"
                 top="0px"
@@ -96,58 +94,57 @@ const ProductCardCart: React.FC<{ product: ProductCart }> = ({ product }) => {
                 _active={{ bg: "transparent" }}
                 _focus={{ boxShadow: "none" }}
                 onClick={handleDelete}
-              />
-              <Box position="absolute" zIndex="0">
+              /> */}
+              <Box h="140px" w="140px" rounded={"sm"}
+                position={"relative"}
+                overflow={"hidden"} 
+                zIndex="0">
                 <NextImage
                   objectFit="cover"
                   src={URL}
                   alt="Imagen"
-                  width={150}
-                  height={150}
+                  fill
                 />
               </Box>
             </Box>
           )
         }
 
-        <Box h={isExtraSmallScreen ? "100px" : "150px"} display={"flex"} flexDir={"column"} justifyContent={"space-between"}>
+        <Box h={isExtraSmallScreen ? "100px" : "140px"} w={"220px"} display={"flex"} flexDir={"column"} justifyContent={"space-between"}>
           <Box>
             <Text textTransform={"uppercase"} fontSize={fontSubTitle}>{Material}</Text>
             <Text textTransform={"uppercase"} fontWeight={"bold"} fontSize={fontTitle}>{Naturali_ProdName}</Text>
-            <Text textTransform={"uppercase"} fontSize={"0.8rem"} color={"gray.600"}>{Finish} - {Size} - {Thickness}-{Type}</Text>
+            <Text textTransform={"uppercase"} fontSize={"0.6rem"} color={"gray.600"}>{Finish} - {Size} - {Thickness}-{Type}</Text>
           </Box>
           <Box>
-            <Box display={"flex"} justifyContent={"space-between"}>
+            <Box display={"flex"} h={"28px"} justifyContent={"space-between"} >
               <Text textTransform={"uppercase"} fontSize={fontSubTitle}>Price sqf</Text>
-              <Text textTransform={"uppercase"} fontSize={fontSubTitle}>${price}</Text>
+              <Center w={"80px"}>
+                <Text textTransform={"uppercase"} fontSize={"0.8rem"}>${price}</Text>
+              </Center>
             </Box>
-            <Box display={"flex"} justifyContent={"space-between"}>
-              <Text textTransform={"uppercase"} fontSize={fontSubTitle}>Quantity</Text>
-              <Box display={"flex"} flexDir={"row"} alignItems={"center"} justifyItems={"flex-end"}>
-                {
-                  quantity > 1 ?
-                    <Button variant={"unstyled"} size={"xs"} onClick={decreaseQuantity}>-</Button>
-                    :
-                    <IconButton
-                      size={"xs"}
-                      aria-label='Delete'
-                      bg="transparent"
-                      _hover={{ bg: "transparent" }}
-                      _active={{ bg: "transparent" }}
-                      _focus={{ boxShadow: "none" }}
-                      icon={<DeleteIcon />}
-                      onClick={handleDelete}
-                    />
-                }
-                <Input 
+            <Box display={"flex"}  h={"28px"} justifyContent={"space-between"}>
+              <Text textTransform={"uppercase"} fontSize={fontSubTitle}>Quantity</Text>           
+              <Center w={"80px"} display={"flex"} flexDir={"row"} alignItems={"center"} justifyItems={"flex-end"}>
+                <Button 
+                  variant={"unstyled"} 
+                  size={"xs"} 
+                  onClick={decreaseQuantity}
+                  fontWeight={"thin"}>-</Button>
+                <Input
+                  fontSize={"0.8rem"}
+                  border={"none"}
+                  borderBottom={"1px solid"}
+                  borderBottomColor={"logo.gray"}
+                  rounded={"none"} 
                   type="number" 
                   value={quantity} 
                   min={1} 
                   onChange={handleQuantityChange} 
                   onBlur={handleQuantityBlur}
                   size={"xs"} textAlign={"center"} w={quantity.toString().length < 1 ? "30px" : "35px"} />
-                <Button variant={"unstyled"} size={"xs"} onClick={increaseQuantity}>+</Button>
-              </Box>
+                <Button variant={"unstyled"} size={"xs"} onClick={increaseQuantity} fontWeight={"thin"}>+</Button>
+              </Center>
             </Box>
           </Box>
         </Box>
