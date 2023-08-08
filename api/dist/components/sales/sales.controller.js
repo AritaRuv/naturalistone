@@ -12,7 +12,7 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.getSales = void 0;
+exports.getSalesByProject = exports.getSales = void 0;
 const db_1 = __importDefault(require("../../db"));
 function getSales(req, res) {
     return __awaiter(this, void 0, void 0, function* () {
@@ -38,3 +38,35 @@ function getSales(req, res) {
     });
 }
 exports.getSales = getSales;
+function getSalesByProject(req, res) {
+    return __awaiter(this, void 0, void 0, function* () {
+        const { id } = req.params;
+        try {
+            const _query = `SELECT * FROM Sales WHERE ProjectID = ${id}`;
+            db_1.default.query(_query, function (err, results) {
+                if (err) {
+                    return res
+                        .status(400)
+                        .json({ success: false, msg: "Error in get sales from project" });
+                }
+                if (results.length === 0) {
+                    return res
+                        .status(200)
+                        .json({ success: true, msg: "No sales for this project" });
+                }
+                else {
+                    return res
+                        .status(200)
+                        .json({ success: true, msg: "get data successful", data: results });
+                }
+            });
+        }
+        catch (error) {
+            console.log(error);
+            return res
+                .status(500)
+                .json({ success: false, msg: "General error", error });
+        }
+    });
+}
+exports.getSalesByProject = getSalesByProject;

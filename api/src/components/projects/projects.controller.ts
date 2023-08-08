@@ -128,17 +128,20 @@ export async function updateProject(req: Request, res: Response) {
 
     const _query = `UPDATE Projects SET ${updateColumnsProjectString} WHERE idProjects = ${id}`;
 
-    mysqlConnection.query(_query, function (err, results) {
-      if (err) {
-        return res
-          .status(400)
-          .json({ success: false, msg: "Error in update project" });
-      }
+    mysqlConnection.query(
+      _query,
+      function (err: MysqlError, results: RowDataPacket[]) {
+        if (err) {
+          return res
+            .status(400)
+            .json({ success: false, msg: "Error in update project" });
+        }
 
-      return res
-        .status(200)
-        .json({ success: true, msg: "Project update successfully" });
-    });
+        return res
+          .status(200)
+          .json({ success: true, msg: "Project update successfully" });
+      }
+    );
   } catch (err) {
     console.log(err);
     res
@@ -150,21 +153,22 @@ export async function updateProject(req: Request, res: Response) {
 export async function deleteProject(req: Request, res: Response) {
   const { id } = req.params;
 
-  console.log("reqp,", req.params);
   try {
-    console.log("soy project", id);
     const _query = `UPDATE Projects SET Active = "0" WHERE idProjects = ${id}`;
 
-    mysqlConnection.query(_query, function (err, results) {
-      if (err) {
+    mysqlConnection.query(
+      _query,
+      function (err: MysqlError, results: RowDataPacket[]) {
+        if (err) {
+          return res
+            .status(404)
+            .json({ success: false, msg: "Error in delete project" });
+        }
         return res
-          .status(404)
-          .json({ success: false, msg: "Error in delete project" });
+          .status(200)
+          .json({ success: true, msg: "Delete project successful" });
       }
-      return res
-        .status(200)
-        .json({ success: true, msg: "Delete project successful" });
-    });
+    );
   } catch (error) {
     return res.status(500).json({ success: false, msg: "General error" });
   }

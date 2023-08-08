@@ -7,6 +7,8 @@ import { ProductState } from "../../store/products/typesProducts";
 import { useAppDispatch, useAppSelector } from "../../store/hooks";
 import { FiltersHomeProps } from "./page";
 import { userInfo } from "@/store/login/actionsLogin";
+import { SalesState } from "@/store/sales/typeSales";
+import { salesByProject } from "@/store/sales/actionsSales";
 
 const HomeProductContainer: React.FC<FiltersHomeProps> = ({
   productsFilter,
@@ -46,7 +48,7 @@ const HomeProductContainer: React.FC<FiltersHomeProps> = ({
       px={isMediumScreen && !isSmallScreen ? "5%" : "10%"}
       w={"100%"}
       placeItems={"center"}
-      columns={gridColumns} 
+      columns={gridColumns}
       bg={"#f2f2f2"}
     >
       {homeProducts.length &&

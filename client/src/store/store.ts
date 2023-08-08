@@ -2,8 +2,9 @@ import { configureStore, combineReducers } from "@reduxjs/toolkit";
 import productReducer from "./products/prodReducer";
 import cartReducer from "./cart/cartReducer";
 import colorsReducer from "./colors/colorsReducer";
-import projectsReducer from './projects/projectsReducer';
+import projectsReducer from "./projects/projectsReducer";
 import loginReducer from "./login/loginReducer";
+import salesReducer from "./sales/salesReducer";
 
 const rootReducer = combineReducers({
   productReducer,
@@ -11,6 +12,7 @@ const rootReducer = combineReducers({
   colorsReducer,
   projectsReducer,
   loginReducer,
+  salesReducer,
 });
 
 export const store = configureStore({
@@ -22,4 +24,3 @@ export const store = configureStore({
 export type RootState = ReturnType<typeof store.getState>;
 
 export type AppDispatch = typeof store.dispatch;
-
