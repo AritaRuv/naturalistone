@@ -6,19 +6,19 @@ import {
   InputGroup,
   Input,
   InputRightElement,
+  IconButton
 } from "@chakra-ui/react";
 import { IShowMenu } from "./page";
-import SideCard from "./sideCard";
 import { useState } from "react";
-import { BsEyeSlash } from "react-icons/bs";
 import { UpdateCustomer } from "./modalUpdateUser";
+import { PiEyeSlashThin, PiEyeThin } from "react-icons/pi";
+
 
 const ProfileInfo: React.FC<IShowMenu> = ({
   user,
   isSmallThan750,
   formData,
-  setFormData,
-  handleChange,
+  setFormData
 }) => {
   const [showPassword, setShowPassword] = useState(false);
   const [isSmallThan1000] = useMediaQuery("(max-width: 1000px)");
@@ -31,80 +31,61 @@ const ProfileInfo: React.FC<IShowMenu> = ({
     <>
       <Box
         pl={isSmallThan750 ? 0 : "5vw"}
-        w={isSmallThan750 ? "100vw" : "75vw"}
-        ml={isSmallThan750 ? 0 : "5vw"}
+        w={isSmallThan750 ? "100vw" : "70vw"}
         mt={isSmallThan750 ? "5vh" : 0}
-        h={"80vh"}
       >
         <Text
           textTransform={"uppercase"}
           fontSize={"1.9rem"}
-          ml={"1vw"}
         >
           PROFILE
         </Text>
         <Box
           justifyContent={"flex-start"}
-          w={"70vw"}
-          mt={"2vh"}
+          h={"40vh"}
+          mt={"5vh"}
           display={"flex"}
           flexDir={
             isSmallThan1000 ? "column" : isSmallThan750 ? "column" : "row"
           }
         >
           <Box
-            border={"2px solid"}
-            rounded={"sm"}
-            borderColor={"gray.200"}
-            w={isSmallThan750 ? "100vw" : "48vw"}
-            h={"70vh"}
-            minW={"400px"}
+            mr={"2vw"}
             display={"flex"}
-            justifyContent={"center"}
-            alignItems={"center"}
+            justifyContent={"flex-start"}
+            alignItems={"flex-start"}
             flexDirection={"column"}
-            p={"20px"}
           >
             <Box
               display={"flex"}
-              h={"95%"}
-              w={"95%"}
               flexDirection={"column"}
             >
-              <Box>
-                <Text fontSize={"md"}>PROFILE SETTINGS</Text>
-              </Box>
-              <Box
+              <Text fontSize={"1rem"}>USER SETTINGS</Text>
+              <Box  
+                mt={"2vh"}
                 display={"flex"}
                 flexDirection={isSmallThan750 ? "column" : "row"}
-                justifyContent={"center"}
-                alignItems={"center"}
               >
                 <Box
                   display={"flex"}
-                  w={"full"}
                   flexDirection={"column"}
-                  pt={"20px"}
+                  mr={"3vw"}
                 >
-                  <Box pl={"10px"}>
-                    <Text fontSize={"xs"} color={"#646464"}>
+                  <Text fontSize={"0.75rem"} color={"#646464"}>
                       FULL NAME
-                    </Text>
-                  </Box>
+                  </Text>
                   <InputGroup
-                    pt={"5px"}
                     display={"flex"}
                     flexDirection={"column"}
                     h={"60px"}
-                    pl={"10px"}
                   >
                     <Input
-                      h={"25px"}
-                      w={"80%"}
+                      h={"30px"}
+                      w={"250px"}
                       position={"relative"}
                       id={"fullName"}
                       name={"fullName"}
-                      fontSize={"sm"}
+                      fontSize={"0.9rem"}
                       value={user?.Contact_Name}
                       border={"none"}
                       isReadOnly={true}
@@ -123,7 +104,6 @@ const ProfileInfo: React.FC<IShowMenu> = ({
                       id={"fullName"}
                       name={"fullName"}
                       value={user?.Contact_Name}
-                      // handleChange={handleChange}
                       formData={formData}
                       setFormData={setFormData}
                     />
@@ -131,34 +111,26 @@ const ProfileInfo: React.FC<IShowMenu> = ({
                 </Box>
                 <Box
                   display={"flex"}
-                  w={"full"}
                   flexDirection={"column"}
-                  pt={"20px"}
                 >
-                  {/* <FormLabel htmlFor="fullName"> */}
-                  <Box pl={"10px"}>
-                    <Text fontSize={"xs"} color={"#646464"}>
+                  <Text fontSize={"0.75rem"} color={"#646464"}>
                       PHONE
-                    </Text>
-                  </Box>
+                  </Text>
                   <InputGroup
-                    pt={"5px"}
                     display={"flex"}
                     flexDirection={"column"}
                     h={"60px"}
-                    pl={"10px"}
                   >
                     <Input
-                      h={"25px"}
-                      w={"80%"}
+                      h={"30px"}
+                      w={"250px"}
                       position={"relative"}
                       id={"phone"}
                       name={"phone"}
-                      fontSize={"sm"}
+                      fontSize={"0.9rem"}
                       value={user?.Phone}
                       border={"none"}
                       isReadOnly={true}
-                      // onChange={handleChange}
                       _focus={{
                         boxShadow:
                           "0 0.5px 0.5px #f2f2f2 inset, 0 0 5px #f2f2f2",
@@ -184,39 +156,30 @@ const ProfileInfo: React.FC<IShowMenu> = ({
               <Box
                 display={"flex"}
                 flexDirection={isSmallThan750 ? "column" : "row"}
+                mt={"2vh"}
               >
                 <Box
                   display={"flex"}
-                  w={"full"}
                   flexDirection={"column"}
-                  pt={"20px"}
-                  // bg={"yellow"}
+                  mr={"3vw"}
                 >
-                  {/* <FormLabel htmlFor="fullName"> */}
-                  <Box pl={"10px"}>
-                    <Text fontSize={"xs"} color={"#646464"}>
+                  <Text fontSize={"0.75rem"} color={"#646464"}>
                       COMPANY
-                    </Text>
-                  </Box>
+                  </Text>
                   <InputGroup
-                    pt={"5px"}
                     display={"flex"}
                     flexDirection={"column"}
-                    h={"60px"}
-                    pl={"10px"}
-                    // bg={"green"}
                   >
                     <Input
-                      h={"25px"}
-                      w={"80%"}
+                      h={"30px"}
+                      w={"250px"}
                       position={"relative"}
                       id={"company"}
                       name={"company"}
-                      fontSize={"sm"}
+                      fontSize={"0.9rem"}
                       isReadOnly={true}
                       value={user?.Company}
                       border={"none"}
-                      // onChange={handleChange}
                       _focus={{
                         boxShadow:
                           "0 0.5px 0.5px #f2f2f2 inset, 0 0 5px #f2f2f2",
@@ -232,7 +195,6 @@ const ProfileInfo: React.FC<IShowMenu> = ({
                       id={"company"}
                       name={"company"}
                       value={user?.Company}
-                      // handleChange={handleChange}
                       formData={formData}
                       setFormData={setFormData}
                     />
@@ -240,34 +202,25 @@ const ProfileInfo: React.FC<IShowMenu> = ({
                 </Box>
                 <Box
                   display={"flex"}
-                  w={"full"}
                   flexDirection={"column"}
-                  pt={"20px"}
                 >
-                  {/* <FormLabel htmlFor="fullName"> */}
-                  <Box pl={"10px"}>
-                    <Text fontSize={"xs"} color={"#646464"}>
+                  <Text fontSize={"0.75rem"} color={"#646464"}>
                       COMPANY ROLE
-                    </Text>
-                  </Box>
+                  </Text>
                   <InputGroup
-                    pt={"5px"}
                     display={"flex"}
                     flexDirection={"column"}
-                    h={"60px"}
-                    pl={"10px"}
                   >
                     <Input
-                      h={"25px"}
-                      w={"80%"}
+                      h={"30px"}
+                      w={"250px"}
                       position={"relative"}
                       id={"companyPosition"}
                       name={"companyPosition"}
-                      fontSize={"sm"}
+                      fontSize={"0.9rem"}
                       isReadOnly={true}
                       value={user?.Company_Position}
                       border={"none"}
-                      // onChange={handleChange}
                       _focus={{
                         boxShadow:
                           "0 0.5px 0.5px #f2f2f2 inset, 0 0 5px #f2f2f2",
@@ -283,7 +236,6 @@ const ProfileInfo: React.FC<IShowMenu> = ({
                       id={"companyPosition"}
                       name={"companyPosition"}
                       value={user?.Company_Position}
-                      // handleChange={handleChange}
                       formData={formData}
                       setFormData={setFormData}
                     />
@@ -292,52 +244,38 @@ const ProfileInfo: React.FC<IShowMenu> = ({
               </Box>
             </Box>
             <Box
+              mt={"4vh"}
               display={"flex"}
-              h={"95%"}
-              w={"95%"}
-              flexDirection={"column"}
-              mt={"10px"}
-              
+              flexDirection={"column"}  
             >
-              <Box>
-                <Text fontSize={"md"}>SECURITY</Text>
-              </Box>
+              <Text fontSize={"1rem"}>SECURITY</Text>
               <Box
+                mt={"2vh"}
                 display={"flex"}
                 flexDirection={isSmallThan750 ? "column" : "row"}
               >
                 <Box
                   display={"flex"}
-                  w={"full"}
                   flexDirection={"column"}
-                  pt={"20px"}
-                  // bg={"yellow"}
+                  mr={"3vw"}
                 >
-                  {/* <FormLabel htmlFor="fullName"> */}
-                  <Box pl={"10px"}>
-                    <Text fontSize={"xs"} color={"#646464"}>
-                      EMAIL
-                    </Text>
-                  </Box>
+                  <Text fontSize={"0.75rem"} color={"#646464"}>
+                    EMAIL
+                  </Text>
                   <InputGroup
-                    pt={"5px"}
                     display={"flex"}
                     flexDirection={"column"}
-                    h={"60px"}
-                    // bg={"green"}
-                    pl={"10px"}
                   >
                     <Input
-                      h={"25px"}
-                      w={"80%"}
+                      h={"30px"}
+                      w={"250px"}
                       position={"relative"}
                       id={"email"}
                       name={"email"}
-                      fontSize={"sm"}
+                      fontSize={"0.9rem"}
                       isReadOnly={true}
                       value={user?.Username}
                       border={"none"}
-                      // onChange={handleChange}
                       _focus={{
                         boxShadow:
                           "0 0.5px 0.5px #f2f2f2 inset, 0 0 5px #f2f2f2",
@@ -353,42 +291,34 @@ const ProfileInfo: React.FC<IShowMenu> = ({
                       id={"email"}
                       name={"email"}
                       value={user?.Username}
-                      // handleChange={handleChange}
                       formData={formData}
                       setFormData={setFormData}
                     />
                   </InputGroup>
                 </Box>
-                <Box
+                <Box  
                   display={"flex"}
-                  w={"full"}
                   flexDirection={"column"}
-                  pt={"20px"}
                 >
-                  <Box pl={"10px"}>
-                    <Text fontSize={"xs"} color={"#646464"}>
-                      PASSWORD
-                    </Text>
-                  </Box>
+                  <Text fontSize={"0.75rem"} color={"#646464"}>
+                    PASSWORD
+                  </Text>
+
                   <InputGroup
-                    pt={"5px"}
                     display={"flex"}
                     flexDirection={"column"}
-                    h={"60px"}
-                    pl={"10px"}
                   >
                     <Input
-                      h={"25px"}
-                      w={"80%"}
+                      h={"30px"}
+                      w={"250px"}
                       position={"relative"}
                       id={"password"}
                       name={"password"}
-                      fontSize={"sm"}
+                      fontSize={"0.9rem"}
                       isReadOnly={true}
                       value={user?.Password}
                       border={"none"}
                       type={showPassword ? "type" : "password"}
-                      // onChange={handleChange}
                       _focus={{
                         boxShadow:
                           "0 0.5px 0.5px #f2f2f2 inset, 0 0 5px #f2f2f2",
@@ -400,19 +330,36 @@ const ProfileInfo: React.FC<IShowMenu> = ({
                       }}
                     />
                     <InputRightElement
+                      top={"-5px"}
                       aria-label="Password-icon"
-                      // variant="unstyled"
                       fontSize="xl"
                       onClick={handleShowPassword}
                     >
-                      <BsEyeSlash />
+                      {
+                        showPassword ?
+                          <IconButton
+                            aria-label="Password-icon"
+                            variant="unstyled"
+                            fontSize="2xl"
+                            display={"flex"}
+                            textAlign={"center"}
+                            icon={<PiEyeSlashThin />}
+                          /> :
+                          <IconButton
+                            aria-label="Password-icon"
+                            variant="unstyled"
+                            fontSize="2xl"
+                            display={"flex"}
+                            textAlign={"center"}
+                            icon={<PiEyeThin />}
+                          />
+                      }
                     </InputRightElement>
                     <UpdateCustomer
                       title={"Password"}
                       id={"password"}
                       name={"password"}
                       value={user?.Password}
-                      // handleChange={handleChange}
                       formData={formData}
                       setFormData={setFormData}
                     />
@@ -421,7 +368,13 @@ const ProfileInfo: React.FC<IShowMenu> = ({
               </Box>
             </Box>
           </Box>
-          <SideCard isSmallThan750={isSmallThan750}/>
+          <Box
+            display={"flex"}
+            justifyContent={"flex-start"}
+            alignItems={"flex-start"}
+            flexDirection={"column"}>
+            <Text fontSize={"1rem"}>OTHER THINGS</Text>
+          </Box>
         </Box>
       </Box>
     </>

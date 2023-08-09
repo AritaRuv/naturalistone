@@ -13,7 +13,7 @@ import {
   Divider,
 } from "@chakra-ui/react";
 import { ChevronRightIcon } from "@chakra-ui/icons";
-import { RxHamburgerMenu } from "react-icons/rx";
+import { PiListLight } from "react-icons/pi";
 import Logo from "./logo";
 import"./_navBar.css";
 
@@ -22,7 +22,7 @@ interface MenuDrawerProps {
   smallerThan740: boolean
   }
 
-const MenuDrawer: React.FC<MenuDrawerProps> = ({ handleHome, smallerThan740 }) => {
+const MenuDrawer: React.FC<MenuDrawerProps> = ({ smallerThan740 }) => {
 
   const { isOpen, onOpen, onClose } = useDisclosure();
   const buttons = [
@@ -40,8 +40,8 @@ const MenuDrawer: React.FC<MenuDrawerProps> = ({ handleHome, smallerThan740 }) =
         <IconButton
           aria-label="Menu-icon"
           variant="unstyled"
-          fontSize="3xl"
-          icon={<RxHamburgerMenu/>} 
+          fontSize="2xl"
+          icon={<PiListLight/>} 
           onClick={onOpen}
         />
       </Box>  

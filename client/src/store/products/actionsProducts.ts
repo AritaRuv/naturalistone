@@ -10,6 +10,7 @@ import {
   getProductsFilters,
   getProductImages,
   getProductValuesValidation,
+  getProductsByMaterial
 } from "../../api/apiProds"; // Importa tu función de solicitud a la API
 import { Filters } from "@/app/products/productFilters/types";
 
@@ -176,3 +177,22 @@ export const fetchProductsValuesValidation = (
     }
   };
 };
+
+export const fetchProductsByMaterial = (material: string) => {
+  return async (dispatch: Dispatch<ProductAction>) => {
+    dispatch({ type: ProductActionTypes.FETCH_PRODUCTS_REQUEST });
+    try {
+      const products = await getProductsByMaterial(material);
+      dispatch({
+        type: ProductActionTypes.FETCH_PRODUCTS_FILTERS_SUCCESS,
+        payload: products,
+      });
+    } catch (error) {
+      dispatch({
+        type: ProductActionTypes.FETCH_PRODUCTS_FAILURE,
+        error: "Error al obtener los productos",
+      });
+    }
+  };
+};
+

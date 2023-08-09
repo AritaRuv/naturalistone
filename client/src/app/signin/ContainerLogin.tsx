@@ -14,6 +14,7 @@ const ContainerLogin: React.FC = () => {
   const [activeLogin, setActiveLogin] = useState(true);
   const [smallerThan600] = useMediaQuery("(max-width: 600px)");
 
+
   return (
     <>
       <Box

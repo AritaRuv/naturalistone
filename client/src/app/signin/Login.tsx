@@ -1,11 +1,11 @@
 "use client";
-import { useAppDispatch } from "@/store/hooks";
 import { SignIn } from "@/store/login/typeLogin";
 import {
   FormErrorsLogin,
   validateCompletedInputsLogin,
 } from "@/utils/validateForms";
 import {
+  Avatar,
   Box,
   Button,
   Center,
@@ -16,11 +16,11 @@ import {
   InputRightElement,
   Text,
   useToast,
+  useMediaQuery
 } from "@chakra-ui/react";
 import React, { useState } from "react";
-import { PiLockLight } from "react-icons/pi";
-import { PiUserCircleThin } from "react-icons/pi";
-import { BsEyeSlash } from "react-icons/bs";
+import { PiUserCircleThin, PiLockThin, PiEyeSlashThin, PiEyeThin } from "react-icons/pi";
+import { PiUserThin } from "react-icons/pi";
 import { postSignin } from "@/api/apiLogin";
 import { useRouter } from "next/navigation";
 
@@ -42,6 +42,7 @@ const Login: React.FC<Props> = ({ setActiveLogin, smallerThan600 }) => {
   const toast = useToast();
   const router = useRouter();
   const [isToastShowing, setIsToastShowing] = useState(false);
+  const [smallerThan600h] = useMediaQuery("(max-height: 600px)");
 
   const handleChange = (event) => {
     const name = event.target.name;
@@ -116,10 +117,9 @@ const Login: React.FC<Props> = ({ setActiveLogin, smallerThan600 }) => {
       display={"flex"}
       h={smallerThan600 ? "60vh" : "68vh"}
       maxH={"600px"}
-      w={smallerThan600 ? "100vw" : "35vw"}
-      minW={"400px"}
+      w={smallerThan600 ? "100vw" : "30vw"}
+      minW={"450px"}
       bg={"#f2f2f2"}
-      // border={"2px solid red"}
       flexDirection={"column"}
       mt={smallerThan600 ? "70vh" : 0}
       mr={smallerThan600 ? 0 : "15px"}
@@ -127,30 +127,25 @@ const Login: React.FC<Props> = ({ setActiveLogin, smallerThan600 }) => {
     >
       <Box
         display={"flex"}
-        h={"30vh"}
-        w={"full"}
+        h={smallerThan600h ? "20vh":"30vh"}
         alignItems={"center"}
         justifyContent={"flex-start"}
         flexDirection={"column"}
       >
-        <Box
-          display={"flex"}
-          mt={"-30px"}
-          h={smallerThan600 ? "120px" : "160px"}
-          minH={smallerThan600 ? "120px" : "160px"}
-          w={smallerThan600 ? "120px" : "160px"}
-          minW={smallerThan600 ? "120px" : "160px"}
-          borderRadius={"50%"}
+        <Avatar
+          icon={<PiUserThin fontSize={"5rem"}/>}
+          mt={"-40px"}
+          h={smallerThan600h ? "100px" : "180px"}
+          w={smallerThan600h ? "100px" : "180px"}
           bg={"#a9a9a9"}
-        ></Box>
-        <Box display={"flex"} fontSize={"2xl"} mt={"3vh"}>
-          <Center fontWeight={"thin"}> LOG IN </Center>
-        </Box>
+        />
+        <Center mt={"3vh"} hidden={smallerThan600h ? true : false} >
+          <Text  fontWeight={"thin"} fontSize={"1.4rem"}> LOG IN </Text>
+        </Center>
       </Box>
       <Box
         display={"flex"}
-        h={"25vh"}
-        w={"full"}
+        h={smallerThan600h ? "30vh" : "25vh"}
         alignItems={"center"}
         justifyContent={"center"}
         flexDirection={"column"}
@@ -158,26 +153,28 @@ const Login: React.FC<Props> = ({ setActiveLogin, smallerThan600 }) => {
         <Box
           display={"flex"}
           h={"20vh"}
-          w={"70%"}
+          w={"18vw"}
+          minW={"350px"}
           alignItems={"center"}
           justifyContent={"center"}
           position={"relative"}
           top={smallerThan600 ? -1 : 2}
           flexDirection={"column"}
         >
-          <Box display={"flex"} w={"full"}>
-            <InputGroup display={"flex"} flexDirection={"column"} h={"60px"}>
-              <InputLeftElement pointerEvents="none">
+          <Box display={"flex"} w={"18vw"} minW={"300px"}>
+            <InputGroup flexDirection={"column"} h={"60px"}>
+              <InputLeftElement top={"-5px"} textAlign={"center"} pointerEvents="none">
                 <IconButton
+                  display={"flex"}
+                  textAlign={"center"}
                   aria-label="User-icon"
                   variant="unstyled"
-                  fontSize="xl"
+                  fontSize="2xl"
                   icon={<PiUserCircleThin />}
                 />
               </InputLeftElement>
               <Input
                 h={"25px"}
-                w={"full"}
                 position={"relative"}
                 fontSize={"sm"}
                 mt={"7px"}
@@ -203,20 +200,21 @@ const Login: React.FC<Props> = ({ setActiveLogin, smallerThan600 }) => {
               )}
             </InputGroup>
           </Box>
-          <Box display={"flex"} w={"full"}>
-            <InputGroup display={"flex"} flexDirection={"column"} h={"60px"}>
-              <InputLeftElement pointerEvents="none">
+          <Box display={"flex"}  w={"18vw"} minW={"300px"}>
+            <InputGroup h={"60px"}>
+              <InputLeftElement top={"-5px"} textAlign={"center"} pointerEvents="none">
                 <IconButton
+                  display={"flex"}
+                  textAlign={"center"}
                   aria-label="User-icon"
                   variant="unstyled"
-                  fontSize="xl"
+                  fontSize="2xl"
                   border={"none"}
-                  icon={<PiLockLight />}
+                  icon={<PiLockThin />}
                 />
               </InputLeftElement>
               <Input
                 h={"25px"}
-                w={"full"}
                 position={"relative"}
                 mt={"7px"}
                 fontSize={"sm"}
@@ -241,17 +239,35 @@ const Login: React.FC<Props> = ({ setActiveLogin, smallerThan600 }) => {
                 </Text>
               )}
               <InputRightElement
+                top={"-5px"}
                 aria-label="Password-icon"
                 fontSize="xl"
                 onClick={handleShow}
               >
-                <BsEyeSlash />
+                {
+                  show ?
+                    <IconButton
+                      aria-label="Password-icon"
+                      variant="unstyled"
+                      fontSize="2xl"
+                      display={"flex"}
+                      textAlign={"center"}
+                      icon={<PiEyeSlashThin />}
+                    /> :
+                    <IconButton
+                      aria-label="Password-icon"
+                      variant="unstyled"
+                      fontSize="2xl"
+                      display={"flex"}
+                      textAlign={"center"}
+                      icon={<PiEyeThin />}
+                    />
+                }
               </InputRightElement>
             </InputGroup>
           </Box>
         </Box>
       </Box>
-
       <Box
         display={"flex"}
         h={"15vh"}
@@ -259,36 +275,32 @@ const Login: React.FC<Props> = ({ setActiveLogin, smallerThan600 }) => {
         mb={"2vh"}
         flexDirection={"column"}
       >
-        <Box>
-          <Center>
-            <Button
-              onClick={handleLogin}
-              fontWeight={"sm"}
-              border={"none"}
-              backgroundColor={"transparent"}
-              _hover={{
-                backgroundColor: "transparent",
-              }}
-              _focus={{
-                backgroundColor: "transparent",
-                border: "none",
-              }}
-            >
+        <Button
+          onClick={handleLogin}
+          fontWeight={"light"}
+          border={"none"}
+          backgroundColor={"transparent"}
+          _hover={{
+            backgroundColor: "transparent",
+            fontWeight: "semibold"
+
+          }}
+          _focus={{
+            backgroundColor: "transparent",
+            border: "none",
+          }}
+        >
               LOG IN
-            </Button>
-          </Center>
-        </Box>
+        </Button>
         <Box
           display={"flex"}
           flexDirection={"row"}
-          h={"full"}
-          w={"full"}
+          h={"10vh"}
           justifyContent={"center"}
           alignItems={"flex-end"}
           color={"#6A6969"}
-          fontWeight={300}
         >
-          <Center>New customer?</Center>
+          <Text>New customer?</Text>
           <Center ml={"10px"}>
             <Button
               border={"none"}
@@ -308,7 +320,7 @@ const Login: React.FC<Props> = ({ setActiveLogin, smallerThan600 }) => {
               color={"#6A6969"}
               h={"18px"}
               mb={"0.5vh"}
-              fontWeight={300}
+              fontWeight={"light"}
               onClick={handleClick}
             >
               START HERE

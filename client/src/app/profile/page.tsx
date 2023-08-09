@@ -27,8 +27,6 @@ export interface IFormData {
 }
 
 export interface IShowMenu {
-  // setShowMenu?: React.Dispatch<React.SetStateAction<string>>;
-  // showMenu?: string;
   site?: string;
   user?: User;
   isSmallThan750?: boolean;
@@ -41,8 +39,6 @@ export default function Profile() {
 
   const appContext = useContext(AppContext);
 
-  const [isSmallScreen] = useMediaQuery("(max-width: 1200px)");
-  // const [showMenu, setShowMenu] = useState<string>("");
   const dispatch = useAppDispatch();
   const [isSmallThan750] = useMediaQuery("(max-width: 750px)");
   const [formData, setFormData] = useState({
@@ -80,8 +76,9 @@ export default function Profile() {
     <>
       <Box
         px={"5vw"}
-        py={isSmallThan750 ? 0 : "10vh"}
+        h={"73.5vh"}
         display={"flex"}
+        alignItems={"center"}
         flexDir={isSmallThan750 ? "column" : "row"}
       >
         <UserMenu

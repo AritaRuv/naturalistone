@@ -6,17 +6,10 @@ import {
   Text,
   FormLabel,
 } from "@chakra-ui/react";
-// import AutocompleteState from '../AutocompleteState';
-// import '../../../assets/styleSheet.css';
-
-export default function CreateProjectForm({
-  formData,
-  setFormData,
-  validateCompletedInputsProject,
-  errors,
-  setErrors,
-  setChangeInput,
-}) {
+ 
+  
+export default function CreateProjectForm({formData, setFormData, validateCompletedInputsProject, errors, setErrors, setChangeInput}) {
+  
   const handleChange = (event) => {
     const { name, value } = event.target;
     // Actualizas solo la propiedad que cambió en el objeto de formData
