@@ -27,3 +27,36 @@ export async function getSales(req: Request, res: Response) {
     res.status(409).send(error);
   }
 }
+
+export async function getSalesByProject(req: Request, res: Response) {
+  const { id } = req.params;
+
+  try {
+    const _query = `SELECT * FROM Sales WHERE ProjectID = ${id}`;
+
+    mysqlConnection.query(
+      _query,
+      function (err: MysqlError, results: RowDataPacket[]) {
+        if (err) {
+          return res
+            .status(400)
+            .json({ success: false, msg: "Error in get sales from project" });
+        }
+        if (results.length === 0) {
+          return res
+            .status(200)
+            .json({ success: true, msg: "No sales for this project" });
+        } else {
+          return res
+            .status(200)
+            .json({ success: true, msg: "get data successful", data: results });
+        }
+      }
+    );
+  } catch (error) {
+    console.log(error);
+    return res
+      .status(500)
+      .json({ success: false, msg: "General error", error });
+  }
+}

@@ -2,7 +2,7 @@
 export interface Project {
   idProjects: number;
   ProjectName: string;
-  CustomerID: number;
+  CustomerID?: number;
   Shipping_Address: string;
   Shipping_ZipCode: string;
   Shipping_State: string;
@@ -18,6 +18,8 @@ export enum ProjectsActionsType {
   FETCH_PROJECTS_BY_CUSTOMER = "FETCH_PROJECTS_BY_CUSTOMER",
   POST_PROJECT_CUSTOMER = "POST_PROJECT_CUSTOMER",
   FETCH_PROJECT = "FETCH_PROJECT",
+  PATCH_PROJECT = "PATCH_PROJECT",
+  DELETE_PROJECT = "DELETE_PROJECT",
 }
 
 export interface FetchCustomerProjectsRequestAction {
@@ -32,7 +34,19 @@ export interface FetchProjectRequestAction {
   type: ProjectsActionsType.FETCH_PROJECT;
   payload: Project;
 }
+export interface PatchProjectRequestAction {
+  type: ProjectsActionsType.PATCH_PROJECT;
+  payload: Project;
+}
 
-export type ProjectsAction = FetchCustomerProjectsRequestAction 
-| FetchProjectRequestAction
-| PostProjectRequestAction;
+export interface DeleteProjectRequestAction {
+  type: ProjectsActionsType.DELETE_PROJECT;
+  payload: Project;
+}
+
+export type ProjectsAction =
+  | FetchCustomerProjectsRequestAction
+  | FetchProjectRequestAction
+  | PostProjectRequestAction
+  | PatchProjectRequestAction
+  | DeleteProjectRequestAction;

@@ -1,16 +1,26 @@
 "use client";
 import { useAppDispatch, useAppSelector } from "@/store/hooks";
-import { fetchMaterials, fetchProductsHome } from "@/store/products/actionsProducts";
+import {
+  fetchMaterials,
+  fetchProductsHome,
+} from "@/store/products/actionsProducts";
 import { ProductState } from "@/store/products/typesProducts";
-import { Box, Select, Text, useMediaQuery } from "@chakra-ui/react";
+import {
+  Box,
+  Button,
+  Select,
+  Text,
+  useMediaQuery,
+  useToast,
+} from "@chakra-ui/react";
 import { useEffect, useState } from "react";
 import { MdOutlineArrowDropDownCircle } from "react-icons/md";
 import { FiltersHomeProps } from "../page";
 
-
-
-export function FiltersMaterials({ setProductsFilter, productsFilter }: FiltersHomeProps) {
-
+export function FiltersMaterials({
+  setProductsFilter,
+  productsFilter,
+}: FiltersHomeProps) {
   const dispatch = useAppDispatch();
 
   const { materials } = useAppSelector(
@@ -19,18 +29,35 @@ export function FiltersMaterials({ setProductsFilter, productsFilter }: FiltersH
 
   const [smallerThan550] = useMediaQuery("(max-width: 550px)");
   const [boxMarginLeft, setBoxMarginLeft] = useState("auto");
+  const toast = useToast();
 
   useEffect(() => {
     if (smallerThan550) setBoxMarginLeft("none");
   }, [smallerThan550]);
 
-  const handleClick = (event) => {
+  const handleClick = async (event) => {
     setProductsFilter((prevState) => ({
       ...prevState,
       material: event.target.value,
     }));
-    dispatch(fetchProductsHome(event.target.value, productsFilter.colorId))
-    
+    try {
+      const products = await dispatch(
+        fetchProductsHome(event.target.value, productsFilter.colorId)
+      );
+      if (!products) {
+        if (!toast.isActive("toastProductsId")) {
+          return toast({
+            id: "toastProductsId",
+            title: "Products not found",
+            duration: 4000,
+            status: "error",
+            isClosable: true,
+          });
+        }
+      }
+    } catch (error) {
+      console.log("error in filter material products");
+    }
   };
 
   useEffect(() => {
@@ -68,15 +95,10 @@ export function FiltersMaterials({ setProductsFilter, productsFilter }: FiltersH
           icon={<MdOutlineArrowDropDownCircle />}
         >
           {materials?.map((material, i) => (
-            <option value={material} key={i}>{material}</option>
+            <option value={material} key={i}>
+              {material}
+            </option>
           ))}
-          {/* <option value="MATERIALS">MATERIALS</option>
-          <option value="Terrazzo">Terrazzo</option>
-          <option value="Porcelain">Porcelain</option>
-          <option value="Marble">Marble</option>
-          <option value="Quartzite">Quartzite</option>
-          <option value="Granite">Granite</option>
-          <option value="">Basalt</option> */}
         </Select>
       </Box>
     </Box>

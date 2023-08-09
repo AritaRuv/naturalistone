@@ -1,6 +1,6 @@
 /* eslint-disable indent */
 /* eslint-disable quotes */
-import {  MysqlError } from "mysql";
+import { MysqlError } from "mysql";
 import { Request, Response } from "express";
 import mysqlConnection from "../../db";
 import { RowDataPacket } from "mysql2";
@@ -9,24 +9,20 @@ import { productDimensions } from "../../controllers/productDimensions";
 
 export async function getAllProducts(req: Request, res: Response) {
   try {
-    const { material } = req.query;
+    const { material, colorId } = req.query;
 
-    const query = `SELECT DISTINCT Products.ProdNameID, ProdNames.Material, ProdNames.Naturali_ProdName, ProdNames.ProdNameID,
-                  Product_Colors.ColorID, Product_Colors.idColorProduct, Product_Colors.ProductID
-                  FROM Products
-                  LEFT JOIN ProdNames ON ProdNames.ProdNameID = Products.ProdNameID
-                  LEFT JOIN Product_Colors ON Product_Colors.ProductID = Products.ProdID
-                  ${material ? `WHERE Material = "${material}"` : ``}
-                  `;
-    //                 ${
-    //   colorId
-    //     ? `${material ? "AND" : "WHERE"} ColorID = "${colorId}"`
-    //     : ``
-    // }
-    // const query = `SELECT ProdNameID, Naturali_ProdName, Material
-    //               FROM ProdNames
-    //               ${material ? `WHERE Material = "${material}"` : ``}
-    //                 `;
+    const query = `
+              SELECT DISTINCT ProdNames.Material, ProdNames.Naturali_ProdName, ProdNames.ProdNameID,
+              Product_Colors.ColorID, Product_Colors.idColorProduct, Product_Colors.ProdNameID
+              FROM Product_Colors
+              LEFT JOIN ProdNames ON ProdNames.ProdNameID = Product_Colors.ProdNameID
+              ${material ? `WHERE Material = "${material}"` : ""}
+              ${
+                colorId
+                  ? `${material ? "AND" : "WHERE"} ColorID = "${colorId}"`
+                  : ""
+              }
+              `;
 
     mysqlConnection.query(
       query,
@@ -178,10 +174,18 @@ export async function getAllDimensionProperties(req: Request, res: Response) {
         } else {
           const propertiesRowData = results[0] as RowDataPacket;
           const dimensionProperties = {
-            Type: propertiesRowData.Types.split(", ").map((type) => type.trim()),
-            Size: propertiesRowData.Sizes.split(", ").map((size) => size.trim()),
-            Thickness: propertiesRowData.Thicknesses.split(", ").map((thickness) => thickness.trim()),
-            Finish: propertiesRowData.Finishes.split(", ").map((finish) => finish.trim()),
+            Type: propertiesRowData.Types.split(", ").map((type) =>
+              type.trim()
+            ),
+            Size: propertiesRowData.Sizes.split(", ").map((size) =>
+              size.trim()
+            ),
+            Thickness: propertiesRowData.Thicknesses.split(", ").map(
+              (thickness) => thickness.trim()
+            ),
+            Finish: propertiesRowData.Finishes.split(", ").map((finish) =>
+              finish.trim()
+            ),
           };
           res.status(200).json(dimensionProperties);
         }
@@ -196,58 +200,66 @@ export async function getProductsFilter(req: Request, res: Response) {
   try {
     const { material, type, finish, size, thickness } = req.query;
 
-    let query = 'SELECT DISTINCT pn.Naturali_ProdName, pn.Material, pn.ProdNameID  FROM ProdNames pn';
+    let query =
+      "SELECT DISTINCT pn.Naturali_ProdName, pn.Material, pn.ProdNameID  FROM ProdNames pn";
 
-    let whereClause = '';
+    let whereClause = "";
     const filters: {
-      material?: string | string[] ;
+      material?: string | string[];
       type?: string | string[];
       finish?: string | string[];
       size?: string | string[];
       thickness?: string | string[];
     } = req.query;
-    
-    const splitValues = (value: string | string[] | undefined | any, separator: string): string[] => {
+
+    const splitValues = (
+      value: string | string[] | undefined | any,
+      separator: string
+    ): string[] => {
       if (Array.isArray(value)) {
         return value;
       }
       return value ? value.split(separator) : [];
     };
-    const materialValues = splitValues(material, ',');
+    const materialValues = splitValues(material, ",");
     if (materialValues.length > 0) {
-      whereClause += ' AND pn.Material IN (?)';
-      filters['material'] = materialValues;
+      whereClause += " AND pn.Material IN (?)";
+      filters["material"] = materialValues;
     }
 
-    const typeValues = splitValues(type, ',');
+    const typeValues = splitValues(type, ",");
     if (typeValues.length > 0) {
-      query += ' INNER JOIN Products p ON pn.ProdNameID = p.ProdNameID';
-      whereClause += ' AND p.DimensionID IN (SELECT DimensionID FROM Dimension WHERE type IN (?))';
-      filters['type'] = typeValues;
+      query += " INNER JOIN Products p ON pn.ProdNameID = p.ProdNameID";
+      whereClause +=
+        " AND p.DimensionID IN (SELECT DimensionID FROM Dimension WHERE type IN (?))";
+      filters["type"] = typeValues;
     }
 
-    const finishValues = splitValues(finish, ',');
+    const finishValues = splitValues(finish, ",");
     if (finishValues.length > 0) {
-      query += ' INNER JOIN Products p ON pn.ProdNameID = p.ProdNameID';
-      whereClause += ' AND p.dimensionID IN (SELECT DimensionID FROM Dimension WHERE finish IN (?))';
-      filters['finish'] = finishValues;
+      query += " INNER JOIN Products p ON pn.ProdNameID = p.ProdNameID";
+      whereClause +=
+        " AND p.dimensionID IN (SELECT DimensionID FROM Dimension WHERE finish IN (?))";
+      filters["finish"] = finishValues;
     }
 
-    const sizeValues = splitValues(size, ',');
+    const sizeValues = splitValues(size, ",");
     if (sizeValues.length > 0) {
-      query += ' INNER JOIN Products p ON pn.ProdNameID = p.ProdNameID';
-      whereClause += ' AND p.DimensionID IN (SELECT DimensionID FROM Dimension WHERE size IN (?))';
-      filters['size'] = sizeValues;
+      query += " INNER JOIN Products p ON pn.ProdNameID = p.ProdNameID";
+      whereClause +=
+        " AND p.DimensionID IN (SELECT DimensionID FROM Dimension WHERE size IN (?))";
+      filters["size"] = sizeValues;
     }
-    const thicknessValues = splitValues(thickness, ',');
+    const thicknessValues = splitValues(thickness, ",");
     if (thicknessValues.length > 0) {
-      query += ' INNER JOIN Products p ON pn.ProdNameID = p.ProdNameID';
-      whereClause += ' AND p.DimensionID IN (SELECT DimensionID FROM Dimension WHERE Dimension.Thickness IN (?))';
-      filters['thickness'] = thicknessValues;
+      query += " INNER JOIN Products p ON pn.ProdNameID = p.ProdNameID";
+      whereClause +=
+        " AND p.DimensionID IN (SELECT DimensionID FROM Dimension WHERE Dimension.Thickness IN (?))";
+      filters["thickness"] = thicknessValues;
     }
 
     if (whereClause) {
-      query += ' WHERE ' + whereClause.slice(5); // Removing the leading ' AND '
+      query += " WHERE " + whereClause.slice(5); // Removing the leading ' AND '
     }
 
     mysqlConnection.query(
@@ -279,17 +291,12 @@ export async function getProductsFilter(req: Request, res: Response) {
   }
 }
 
-export async function getCheckboxValidation(
-  req: Request,
-  res: Response
-) {
+export async function getCheckboxValidation(req: Request, res: Response) {
   try {
-
     // //const prodNameID = req.params.id;
     // const finish = req.query.finish?.toString() || ''; // Ensure finish is of type string
     // const thickness = req.query.thickness?.toString() || ''; // Ensure thickness is of type string
     // const size = req.query.size?.toString() || ''; // Ensure size is of type string
-    
     // const query = `
     //   SELECT
     //     Products.ProdID,
@@ -309,7 +316,6 @@ export async function getCheckboxValidation(
     //   WHERE
     //     Products.ProdNameID = ?;
     // `;
-
     // mysqlConnection.query(
     //   query,
     //   (error: MysqlError | null, results: RowDataPacket[],) => {
@@ -321,9 +327,8 @@ export async function getCheckboxValidation(
     //       res.status(404).json("No products");
     //     } else {
     //       console.log("Data OK");
-          
     //       const filteredProducts = productDimensionsCheckboxes(finish, size, thickness, results);
-    //       const transformedResults = productDimensions(filteredProducts);  
+    //       const transformedResults = productDimensions(filteredProducts);
     //       res.status(200).json(transformedResults);
     //     }
     //   }

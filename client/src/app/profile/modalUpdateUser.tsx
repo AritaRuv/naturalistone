@@ -1,3 +1,4 @@
+/* eslint-disable indent */
 import {
   useDisclosure,
   Modal,
@@ -52,8 +53,6 @@ export function UpdateCustomer({
     );
   };
 
-  console.log("erros", errors);
-
   const handleClose = () => {
     setFormData({
       customerId: "",
@@ -75,15 +74,48 @@ export function UpdateCustomer({
   };
 
   const handleSubmit = async () => {
-    // setShowErrors(true);
-    // if (Object.values(errors[name]).length) {
-    //   return;
-    // }
+    setShowErrors(true);
+    if (errors && errors[name]?.length) {
+      return;
+    }
     dispatch(patchUser(formData));
-    // setErrors({});
+    setErrors({});
     onClose();
     return;
   };
+
+  function placeHolder(name) {
+    switch (name) {
+      case "fullName":
+        return "Jon Doe";
+      case "password":
+        return "Password";
+      case "phone":
+        return "+1 XXX XXX XXXX";
+      case "company":
+        return "Company";
+      case "companyPosition":
+        return "Company Role";
+      case "email":
+        return "Email";
+      case "billingAddress":
+        return "Address";
+      case "billingState":
+        return "State";
+      case "billingCity":
+        return "City";
+      case "billingZipCode":
+        return "Zip code";
+      case "address":
+        return "Address";
+      case "state":
+        return "State";
+      case "city":
+        return "City";
+      case "zipCode":
+        return "Zip code";
+    }
+  }
 
   return (
     <>
@@ -150,9 +182,10 @@ export function UpdateCustomer({
                 mr={"30px"}
                 defaultValue={value}
                 border={"none"}
+                placeholder={placeHolder(name)}
                 onChange={handleChange}
                 _focus={{
-                  boxShadow: "0 0.5px 0.5px #f2f2f2 inset, 0 0 5px #f2f2f2",
+                  boxShadow: "0 0.5px 0.5px #FFFFFF inset, 0 0 5px #FFFFFF",
                 }}
                 style={{
                   borderBottom: "1px solid black",
@@ -161,11 +194,11 @@ export function UpdateCustomer({
                 }}
               />
             </InputGroup>
-            {/* {showErrors && (
+            {showErrors && (
               <Text color={"red"} fontSize={"xs"} ml={"50px"}>
                 {errors[name]}
               </Text>
-            )} */}
+            )}
           </ModalBody>
           <ModalFooter>
             <Button

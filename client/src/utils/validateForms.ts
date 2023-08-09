@@ -1,5 +1,6 @@
 /* eslint-disable no-useless-escape */
-import { EmailNaturali } from "./types";
+import { EmailNaturali, ErrorsProject } from "./types";
+import { useEffect } from "react";
 
 export interface FormErrors {
   fullName?: string;
@@ -8,6 +9,7 @@ export interface FormErrors {
   confirmPassword?: string;
   phone?: string;
   zipCode?: string;
+  billingZipCode?: string;
 }
 
 export interface FormErrorsLogin {
@@ -118,19 +120,64 @@ export const validateCompletedInputsProfile = (formData) => {
   if (formData.password === "") errors.password = "Please enter a password";
   if (formData.password !== "") {
     if (!regexMore5Length.test(formData.password)) {
-      errors.password = "Please enter a valid password";
+      errors.password = "Password must have more than 5 characters";
     }
   }
   if (formData.phone === "") errors.phone = "Please enter a phone";
   if (formData.phone !== "") {
-    if (regexPhone.test(formData.phone)) {
+    if (!regexPhone.test(formData.phone)) {
       errors.phone = "Please enter a valid phone";
     }
   }
   if (formData.zipCode === "") errors.zipCode = "Please enter a zipCode";
   if (formData.zipCode !== "") {
-    if (regexPhone.test(formData.zipCode)) {
+    if (!regexPhone.test(formData.zipCode)) {
       errors.zipCode = "Please enter a valid zipCode";
+    }
+  }
+  if (formData.billingZipCode === "")
+    errors.billingZipCode = "Please enter a zip code";
+  if (formData.billingZipCode !== "") {
+    if (!regexPhone.test(formData.billingZipCode)) {
+      errors.billingZipCode = "Please enter a valid zip code";
+    }
+  }
+
+  return errors;
+};
+
+export const validateCompletedEditInputsProject = (formData) => {
+  const errors: ErrorsProject = {};
+  const regexPhone = /^[+]?\d+$/;
+  const regexNoNumber = /^[A-Za-z]*$/;
+
+  if (formData.ProjectName === "")
+    errors.projectName = "Please enter a project name";
+
+  if (formData.Shipping_Address === "")
+    errors.shippingAddress = "Please enter a shipping address";
+
+  if (formData.Shipping_City === "")
+    errors.shippingCity = "Please enter a shipping city";
+  if (formData.Shipping_City !== "") {
+    if (!regexNoNumber.test(formData.Shipping_City)) {
+      errors.shippingCity = "Please enter a valid city";
+    }
+  }
+
+  if (formData.Shipping_State === "")
+    errors.shippingState = "Please enter a shipping state";
+  if (formData.Shipping_State !== "") {
+    if (!regexNoNumber.test(formData.Shipping_State)) {
+      errors.shippingState = "Please enter a valid state";
+    }
+  }
+
+  if (formData.Shipping_ZipCode === "")
+    errors.shippingZipCode = "Please enter a shipping zip code";
+  if (formData.Shipping_ZipCode !== "") {
+    if (!regexPhone.test(formData.Shipping_ZipCode)) {
+      errors.shippingZipCode = "Please enter a valid shipping zip code";
     }
   }
 

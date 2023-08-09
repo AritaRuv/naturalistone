@@ -72,13 +72,11 @@ export async function signUp(req: Request, res: Response) {
 
                 console.log("SignUp committed successfully");
 
-                return res
-                  .status(200)
-                  .json({
-                    success: true,
-                    msg: "user create successfully",
-                    data: results_customer_login,
-                  });
+                return res.status(200).json({
+                  success: true,
+                  msg: "user create successfully",
+                  data: results_customer_login,
+                });
               });
             }
           );
@@ -192,13 +190,15 @@ export async function userInfo(req: Request, res: Response) {
     console.log("soy validate", customerLoginId);
 
     const query_ = `SELECT Customers.CustomerID, Customers.Contact_Name, Customers.Company, Customers.Phone, Customers.Address, 
-    Customers.State, Customers.ZipCode, Customers.Billing_Address, Customers.Billing_State, Customers.City, Customers.Company_Position,
-     Customer_Login.Username, Customer_Login.Customer_LoginID, Customer_Login.Password FROM Customers
+    Customers.State, Customers.ZipCode, Customers.Billing_Address, Customers.Billing_State, Customers.Billing_ZipCode, Customers.Billing_City,
+    Customers.City, Customers.Company_Position, Customer_Login.Username, Customer_Login.Customer_LoginID,
+    Customer_Login.Password FROM Customers
     LEFT JOIN Customer_Login ON Customer_Login.CustomerID = Customers.CustomerID
     WHERE Customer_Login.Customer_LoginID = "${customerLoginId}"`;
 
     mysqlConnection.query(query_, function (err, results) {
-      if (!results.length) {
+      console.log("soy resutkls", results);
+      if (!results?.length) {
         return res.status(400).json({ success: false, msg: "User not found" });
       }
 
@@ -224,6 +224,8 @@ export async function updateUser(req: Request, res: Response) {
     city,
     billingAddress,
     billingState,
+    billingCity,
+    billingZipCode,
   } = req.body;
 
   try {
@@ -259,6 +261,10 @@ export async function updateUser(req: Request, res: Response) {
       updateColumnsCustomers.push(`Billing_Address = "${billingAddress}"`);
     if (billingState)
       updateColumnsCustomers.push(`Billing_State = "${billingState}"`);
+    if (billingCity)
+      updateColumnsCustomers.push(`Billing_City = "${billingCity}"`);
+    if (billingZipCode)
+      updateColumnsCustomers.push(`Billing_ZipCode = "${billingZipCode}"`);
 
     const updateColumnsCustomersString = updateColumnsCustomers.join(", ");
 

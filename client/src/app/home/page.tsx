@@ -19,37 +19,47 @@ const cards = [
 ];
 
 export interface ProductsHomeFilterProps {
-  colorId: string ;
+  colorId: string;
   material: string;
 }
 
 export interface FiltersHomeProps {
-  setProductsFilter: React.Dispatch<React.SetStateAction<ProductsHomeFilterProps>>;
-  productsFilter: ProductsHomeFilterProps
+  setProductsFilter: React.Dispatch<
+    React.SetStateAction<ProductsHomeFilterProps>
+  >;
+  productsFilter: ProductsHomeFilterProps;
 }
 
 export default function Home() {
-  const [productsFilter, setProductsFilter] = useState<ProductsHomeFilterProps>({
-    colorId: "" ,
-    material: "",
-  });
+  const [productsFilter, setProductsFilter] = useState<ProductsHomeFilterProps>(
+    {
+      colorId: "",
+      material: "",
+    }
+  );
 
   return (
     <>
-      <Carousel mt={"-10vh"} items={cards} hidden={false} />
+      <Carousel mt={"-10vh"} items={cards} />
       <CarouselVideo
         source={
           "https://naturalistone-images.s3.amazonaws.com/131642+(Original).mp4"
         }
       />
-      <Carousel mt={"0px"} items={cards} hidden={false} />
+      <Carousel mt={"0px"} items={cards} />
       <CarouselVideo
         source={
           "https://cdn.coverr.co/videos/coverr-bathroom-in-a-mobile-home-3685/1080p.mp4"
         }
       />
-      <HomeProductContainer productsFilter={productsFilter} setProductsFilter={setProductsFilter} />
-      <Filters setProductsFilter={setProductsFilter} productsFilter={productsFilter} />
+      <HomeProductContainer
+        productsFilter={productsFilter}
+        setProductsFilter={setProductsFilter}
+      />
+      <Filters
+        setProductsFilter={setProductsFilter}
+        productsFilter={productsFilter}
+      />
     </>
   );
 }
