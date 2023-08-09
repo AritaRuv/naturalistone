@@ -4,8 +4,12 @@ const theme = extendTheme({
   colors: {
     logo: {
       gray: "#686868",
-      orange: "#E5E4E3"
+      orange: "rgb(227, 116, 37)"
     },
+    site: {
+      lightGrey: "#E5E4E3"
+    },
+    
     buttons: {
     }
   },
@@ -19,3 +23,4 @@ const theme = extendTheme({
 });
 
 export default theme;
+

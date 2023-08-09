@@ -7,7 +7,6 @@ import {
   Input,
 } from "@chakra-ui/react";
 import { IShowMenu } from "./page";
-import { BsEyeSlash } from "react-icons/bs";
 import { UpdateCustomer } from "./modalUpdateUser";
 
 const AddressInfo: React.FC<IShowMenu> = ({
@@ -15,7 +14,6 @@ const AddressInfo: React.FC<IShowMenu> = ({
   isSmallThan750,
   formData,
   setFormData,
-  handleChange,
 }) => {
   const [isSmallThan1000] = useMediaQuery("(max-width: 1000px)");
 
@@ -24,85 +22,62 @@ const AddressInfo: React.FC<IShowMenu> = ({
       <Box
         pl={isSmallThan750 ? 0 : "5vw"}
         w={isSmallThan750 ? "100vw" : "75vw"}
-        ml={isSmallThan750 ? 0 : "5vw"}
         mt={isSmallThan750 ? "5vh" : 0}
-        h={"80vh"}
       >
         <Text
           textTransform={"uppercase"}
           fontSize={"1.9rem"}
-          ml={"1vw"}
         >
           ADDRESS
         </Text>
         <Box
           justifyContent={"flex-start"}
-          w={"70vw"}
-          mt={"2vh"}
+          mt={"5vh"}
+          h={"40vh"}
           display={"flex"}
           flexDir={
             isSmallThan1000 ? "column" : isSmallThan750 ? "column" : "row"
           }
         >
           <Box
-            border={"2px solid"}
-            rounded={"sm"}
-            borderColor={"gray.200"}
-            w={isSmallThan750 ? "100vw" : "48vw"}
-            h={"70vh"}
-            minW={"400px"}
+            mr={"2vw"}
             display={"flex"}
-            justifyContent={"center"}
-            alignItems={"center"}
+            justifyContent={"flex-start"}
             flexDirection={"column"}
-            p={"20px"}
+            alignItems={"flex-start"}
           >
             <Box
               display={"flex"}
-              h={"95%"}
-              w={"95%"}
               flexDirection={"column"}
             >
-              <Box>
-                <Text fontSize={"md"}>ADDRESS</Text>
-              </Box>
+              <Text fontSize={"1rem"}>ADDRESS</Text>
               <Box
+                mt={"2vh"}
                 display={"flex"}
                 flexDirection={isSmallThan750 ? "column" : "row"}
-                justifyContent={"center"}
-                alignItems={"center"}
               >
                 <Box
                   display={"flex"}
-                  w={"full"}
                   flexDirection={"column"}
-                  pt={"20px"}
+                  mr={"3vw"}
                 >
-                  {/* <FormLabel htmlFor="fullName"> */}
-                  <Box pl={"10px"}>
-                    <Text fontSize={"xs"} color={"#646464"}>
+                  <Text fontSize={"0.75rem"} color={"#646464"}>
                       ADDRESS
-                    </Text>
-                  </Box>
+                  </Text>
                   <InputGroup
-                    pt={"5px"}
                     display={"flex"}
                     flexDirection={"column"}
-                    h={"60px"}
-                    // bg={"green"}
-                    pl={"10px"}
                   >
                     <Input
-                      h={"25px"}
-                      w={"80%"}
+                      h={"30px"}
+                      w={"250px"}
                       position={"relative"}
                       id={"address"}
                       name={"address"}
-                      fontSize={"sm"}
+                      fontSize={"0.9rem"}
                       isReadOnly={true}
                       value={user?.Address}
                       border={"none"}
-                      // onChange={handleChange}
                       _focus={{
                         boxShadow:
                           "0 0.5px 0.5px #f2f2f2 inset, 0 0 5px #f2f2f2",
@@ -118,7 +93,6 @@ const AddressInfo: React.FC<IShowMenu> = ({
                       id={"address"}
                       name={"address"}
                       value={user?.Address}
-                      // handleChange={handleChange}
                       formData={formData}
                       setFormData={setFormData}
                     />
@@ -126,34 +100,25 @@ const AddressInfo: React.FC<IShowMenu> = ({
                 </Box>
                 <Box
                   display={"flex"}
-                  w={"full"}
                   flexDirection={"column"}
-                  pt={"20px"}
                 >
-                  {/* <FormLabel htmlFor="fullName"> */}
-                  <Box pl={"10px"}>
-                    <Text fontSize={"xs"} color={"#646464"}>
+                  <Text fontSize={"0.75rem"} color={"#646464"}>
                       STATE
-                    </Text>
-                  </Box>
+                  </Text>
                   <InputGroup
-                    pt={"5px"}
                     display={"flex"}
                     flexDirection={"column"}
-                    h={"60px"}
-                    pl={"10px"}
                   >
                     <Input
-                      h={"25px"}
-                      w={"80%"}
+                      h={"30px"}
+                      w={"250px"}
                       position={"relative"}
                       id={"state"}
                       name={"state"}
-                      fontSize={"sm"}
+                      fontSize={"0.9rem"}
                       isReadOnly={true}
                       value={user?.State}
                       border={"none"}
-                      // onChange={handleChange}
                       _focus={{
                         boxShadow:
                           "0 0.5px 0.5px #f2f2f2 inset, 0 0 5px #f2f2f2",
@@ -169,7 +134,6 @@ const AddressInfo: React.FC<IShowMenu> = ({
                       id={"state"}
                       name={"state"}
                       value={user?.State}
-                      // handleChange={handleChange}
                       formData={formData}
                       setFormData={setFormData}
                     />
@@ -177,41 +141,32 @@ const AddressInfo: React.FC<IShowMenu> = ({
                 </Box>
               </Box>
               <Box
+                mt={"2vh"}
                 display={"flex"}
                 flexDirection={isSmallThan750 ? "column" : "row"}
               >
                 <Box
                   display={"flex"}
-                  w={"full"}
                   flexDirection={"column"}
-                  pt={"20px"}
-                  // bg={"yellow"}
+                  mr={"3vw"}
                 >
-                  {/* <FormLabel htmlFor="fullName"> */}
-                  <Box pl={"10px"}>
-                    <Text fontSize={"xs"} color={"#646464"}>
+                  <Text fontSize={"0.75rem"} color={"#646464"}>
                       CITY
-                    </Text>
-                  </Box>
+                  </Text>
                   <InputGroup
-                    pt={"5px"}
                     display={"flex"}
                     flexDirection={"column"}
-                    h={"60px"}
-                    pl={"10px"}
-                    // bg={"green"}
                   >
                     <Input
-                      h={"25px"}
-                      w={"80%"}
+                      h={"30px"}
+                      w={"250px"}
                       position={"relative"}
                       id={"city"}
                       name={"city"}
-                      fontSize={"sm"}
+                      fontSize={"0.9rem"}
                       isReadOnly={true}
                       value={user?.City}
                       border={"none"}
-                      // onChange={handleChange}
                       _focus={{
                         boxShadow:
                           "0 0.5px 0.5px #f2f2f2 inset, 0 0 5px #f2f2f2",
@@ -227,7 +182,6 @@ const AddressInfo: React.FC<IShowMenu> = ({
                       id={"city"}
                       name={"city"}
                       value={user?.City}
-                      // handleChange={handleChange}
                       formData={formData}
                       setFormData={setFormData}
                     />
@@ -235,34 +189,25 @@ const AddressInfo: React.FC<IShowMenu> = ({
                 </Box>
                 <Box
                   display={"flex"}
-                  w={"full"}
                   flexDirection={"column"}
-                  pt={"20px"}
                 >
-                  {/* <FormLabel htmlFor="fullName"> */}
-                  <Box pl={"10px"}>
-                    <Text fontSize={"xs"} color={"#646464"}>
-                      ZIP CODE
-                    </Text>
-                  </Box>
+                  <Text fontSize={"0.75rem"} color={"#646464"}>
+                    ZIP CODE
+                  </Text>
                   <InputGroup
-                    pt={"5px"}
                     display={"flex"}
                     flexDirection={"column"}
-                    h={"60px"}
-                    pl={"10px"}
                   >
                     <Input
-                      h={"25px"}
-                      w={"80%"}
+                      h={"30px"}
+                      w={"250px"}
                       position={"relative"}
                       id={"zipCode"}
                       name={"zipCode"}
-                      fontSize={"sm"}
+                      fontSize={"0.9rem"}
                       isReadOnly={true}
                       value={user?.ZipCode}
                       border={"none"}
-                      // onChange={handleChange}
                       _focus={{
                         boxShadow:
                           "0 0.5px 0.5px #f2f2f2 inset, 0 0 5px #f2f2f2",
@@ -278,7 +223,6 @@ const AddressInfo: React.FC<IShowMenu> = ({
                       id={"zipCode"}
                       name={"zipCode"}
                       value={user?.ZipCode}
-                      // handleChange={handleChange}
                       formData={formData}
                       setFormData={setFormData}
                     />
@@ -287,58 +231,45 @@ const AddressInfo: React.FC<IShowMenu> = ({
               </Box>
             </Box>
             <Box
+              mt={"4vh"}
               display={"flex"}
-              h={"95%"}
-              w={"95%"}
               flexDirection={"column"}
-              pt={"20px"}
             >
-              <Box>
-                <Text fontSize={"md"}>COMPANY ADDRESS</Text>
-              </Box>
+              <Text fontSize={"1rem"}>COMPANY ADDRESS</Text>
               <Box
+                mt={"2vh"}
                 display={"flex"}
                 flexDirection={isSmallThan750 ? "column" : "row"}
               >
                 <Box
+                  mr={"3vw"}
                   display={"flex"}
-                  w={"full"}
                   flexDirection={"column"}
-                  pt={"20px"}
-                  // bg={"yellow"}
                 >
-                  {/* <FormLabel htmlFor="fullName"> */}
-                  <Box pl={"10px"}>
-                    <Text fontSize={"xs"} color={"#646464"}>
-                      BILLING ADDRESS
-                    </Text>
-                  </Box>
+                  <Text fontSize={"0.75rem"} color={"#646464"}>
+                    BILLING ADDRESS
+                  </Text>
                   <InputGroup
-                    pt={"5px"}
                     display={"flex"}
                     flexDirection={"column"}
-                    h={"60px"}
-                    // bg={"green"}
-                    pl={"10px"}
                   >
                     <Input
-                      h={"25px"}
-                      w={"80%"}
+                      h={"30px"}
+                      w={"250px"}
                       position={"relative"}
                       id={"billingAddress"}
                       name={"billingAddress"}
-                      fontSize={"sm"}
+                      fontSize={"0.9rem"}
                       isReadOnly={true}
                       value={user?.Billing_Address}
                       border={"none"}
-                      // onChange={handleChange}
                       _focus={{
                         boxShadow:
                           "0 0.5px 0.5px #f2f2f2 inset, 0 0 5px #f2f2f2",
                       }}
                       style={{
                         borderBottom: "1px solid black",
-                        borderRadius: "0", // Ajusta el radio de las esquinas a cero
+                        borderRadius: "0",
                         outline: "none",
                       }}
                     />
@@ -347,7 +278,6 @@ const AddressInfo: React.FC<IShowMenu> = ({
                       id={"billingAddress"}
                       name={"billingAddress"}
                       value={user?.Billing_Address}
-                      // handleChange={handleChange}
                       formData={formData}
                       setFormData={setFormData}
                     />
@@ -355,29 +285,22 @@ const AddressInfo: React.FC<IShowMenu> = ({
                 </Box>
                 <Box
                   display={"flex"}
-                  w={"full"}
                   flexDirection={"column"}
-                  pt={"20px"}
                 >
-                  <Box pl={"10px"}>
-                    <Text fontSize={"xs"} color={"#646464"}>
-                      BILLING STATE
-                    </Text>
-                  </Box>
+                  <Text fontSize={"0.75rem"} color={"#646464"}>
+                    BILLING STATE
+                  </Text>
                   <InputGroup
-                    pt={"5px"}
                     display={"flex"}
                     flexDirection={"column"}
-                    h={"60px"}
-                    pl={"10px"}
                   >
                     <Input
-                      h={"25px"}
-                      w={"80%"}
+                      h={"30px"}
+                      w={"250px"}
                       position={"relative"}
                       id={"billingState"}
                       name={"billingState"}
-                      fontSize={"sm"}
+                      fontSize={"0.9rem"}
                       isReadOnly={true}
                       value={user?.Billing_State}
                       border={"none"}
@@ -397,7 +320,6 @@ const AddressInfo: React.FC<IShowMenu> = ({
                       id={"billingState"}
                       name={"billingState"}
                       value={user?.Billing_State}
-                      // handleChange={handleChange}
                       formData={formData}
                       setFormData={setFormData}
                     />

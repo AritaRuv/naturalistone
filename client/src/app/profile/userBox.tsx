@@ -1,31 +1,27 @@
 "use client";
-import { Avatar, Box, useMediaQuery, Text } from "@chakra-ui/react";
-import { useState } from "react";
+import { Avatar, Box, Text } from "@chakra-ui/react";
 import { IShowMenu } from "./page";
 
 const UserBox: React.FC<IShowMenu> = ({ user }) => {
-  const [isSmallScreen] = useMediaQuery("(max-width: 1200px)");
-  const [showMenu, setShowMenu] = useState("");
 
   return (
     <>
       <Box
         display={"flex"}
         flexDir={"row"}
-        alignItems={"flex-start"}
-        h={"70px"}
+        alignItems={"center"}
+        h={"100px"}
+        minW={"250px"}
       >
-        <Avatar size={"lg"} />
         <Box
-          // mr={"2vh"}
           display={"flex"}
           flexDir={"column"}
           alignContent={"center"}
           justifyContent={"center"}
-          ml={"10px"}
+          ml={"15px"}
         >
-          <Text fontWeight={"thin"}>Hey,</Text>
-          <Text fontWeight={"normal"}>{user?.Contact_Name}!</Text>
+          <Text fontWeight={"thin"} fontSize={"0.9rem"}>Hey,</Text>
+          <Text fontWeight={"normal"} fontSize={"1.2rem"}>{user?.Contact_Name}!</Text>
         </Box>
       </Box>
     </>
