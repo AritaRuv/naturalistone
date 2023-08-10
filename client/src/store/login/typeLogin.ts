@@ -19,9 +19,13 @@ export interface User {
   Billing_Address?: string;
   Billing_State?: string;
   City?: string;
+  UnitNumber?: string;
+  AddressObservations?: string;
   Company_Position?: string;
   Billing_ZipCode?: string;
   Billing_City?: string;
+  Billing_UnitNumber?: string;
+  Billing_Observations?: string;
 }
 
 export interface SignIn {

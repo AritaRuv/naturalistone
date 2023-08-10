@@ -135,7 +135,7 @@ export function UpdateCustomer({
           }}
           onClick={onOpen}
         >
-          <Text fontSize={"xs"} color={"#646464"}>
+          <Text fontSize={"0.7rem"} color={"#646464"} _hover={{fontWeight: "semibold"}}>
             Edit
           </Text>
         </Button>

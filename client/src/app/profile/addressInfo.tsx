@@ -34,7 +34,7 @@ const AddressInfo: React.FC<IShowMenu> = ({
           }
         >
           <Box
-            mr={"4vw"}
+            mr={"6vw"}
             display={"flex"}
             justifyContent={"flex-start"}
             flexDirection={"column"}
@@ -45,6 +45,7 @@ const AddressInfo: React.FC<IShowMenu> = ({
               flexDirection={"column"}
             >
               <Text fontSize={"1rem"}>BILLING ADDRESS</Text>
+              {/*ADDRESS AND UNIT NR BOX*/}
               <Box
                 mt={"2vh"}
                 display={"flex"}
@@ -61,6 +62,7 @@ const AddressInfo: React.FC<IShowMenu> = ({
                   <InputGroup
                     display={"flex"}
                     flexDirection={"column"}
+                    h={"90px"}
                   >
                     <Input
                       h={"30px"}
@@ -97,21 +99,22 @@ const AddressInfo: React.FC<IShowMenu> = ({
                   flexDirection={"column"}
                 >
                   <Text fontSize={"0.75rem"} color={"#646464"}>
-                      STATE
+                      HOUSE/APT NO 
                   </Text>
                   <InputGroup
                     display={"flex"}
                     flexDirection={"column"}
+                    h={"90px"}
                   >
                     <Input
                       h={"30px"}
                       w={"230px"}
                       position={"relative"}
-                      id={"billingState"}
-                      name={"billingState"}
+                      id={"billingUnitNumber"}
+                      name={"billingUnitNumber"}
                       fontSize={"0.9rem"}
                       isReadOnly={true}
-                      value={user?.Billing_State}
+                      value={user?.Billing_UnitNumber}
                       border={"none"}
                       _focus={{
                         boxShadow:
@@ -119,21 +122,22 @@ const AddressInfo: React.FC<IShowMenu> = ({
                       }}
                       style={{
                         borderBottom: "1px solid black",
-                        borderRadius: "0", // Ajusta el radio de las esquinas a cero
+                        borderRadius: "0", 
                         outline: "none",
                       }}
                     />
                     <UpdateCustomer
-                      title={"Billing State"}
-                      id={"billingState"}
-                      name={"billingState"}
-                      value={user?.Billing_State}
+                      title={"Billing House/Apt No."}
+                      id={"billingUnitNumber"}
+                      name={"billingUnitNumber"}
+                      value={user?.Billing_UnitNumber}
                       formData={formData}
                       setFormData={setFormData}
                     />
                   </InputGroup>
                 </Box>
               </Box>
+              {/*CITY AND ZIP CODE BOX*/}
               <Box
                 mt={"2vh"}
                 display={"flex"}
@@ -150,6 +154,7 @@ const AddressInfo: React.FC<IShowMenu> = ({
                   <InputGroup
                     display={"flex"}
                     flexDirection={"column"}
+                    h={"90px"}
                   >
                     <Input
                       h={"30px"}
@@ -191,6 +196,7 @@ const AddressInfo: React.FC<IShowMenu> = ({
                   <InputGroup
                     display={"flex"}
                     flexDirection={"column"}
+                    h={"90px"}
                   >
                     <Input
                       h={"30px"}
@@ -223,6 +229,98 @@ const AddressInfo: React.FC<IShowMenu> = ({
                   </InputGroup>
                 </Box>
               </Box>
+              {/*STATE AND OBSERVATIONS */}
+              <Box
+                mt={"2vh"}
+                display={"flex"}
+                flexDirection={isSmallThan750 ? "column" : "row"}
+              >
+                <Box
+                  display={"flex"}
+                  flexDirection={"column"}
+                  mr={"3vw"}
+                >
+                  <Text fontSize={"0.75rem"} color={"#646464"}>
+                      STATE
+                  </Text>
+                  <InputGroup
+                    display={"flex"}
+                    flexDirection={"column"}
+                    h={"90px"}
+                  >
+                    <Input
+                      h={"30px"}
+                      w={"230px"}
+                      position={"relative"}
+                      id={"billingState"}
+                      name={"billingState"}
+                      fontSize={"0.9rem"}
+                      isReadOnly={true}
+                      value={user?.Billing_State}
+                      border={"none"}
+                      _focus={{
+                        boxShadow:
+                          "0 0.5px 0.5px #f2f2f2 inset, 0 0 5px #f2f2f2",
+                      }}
+                      style={{
+                        borderBottom: "1px solid black",
+                        borderRadius: "0", // Ajusta el radio de las esquinas a cero
+                        outline: "none",
+                      }}
+                    />
+                    <UpdateCustomer
+                      title={"Billing State"}
+                      id={"billingState"}
+                      name={"billingState"}
+                      value={user?.Billing_State}
+                      formData={formData}
+                      setFormData={setFormData}
+                    />
+                  </InputGroup>
+                </Box>
+                <Box
+                  display={"flex"}
+                  flexDirection={"column"}
+                >
+                  <Text fontSize={"0.75rem"} color={"#646464"}>
+                      OBSERVATIONS
+                  </Text>
+                  <InputGroup
+                    display={"flex"}
+                    flexDirection={"column"}
+                    h={"90px"}
+                  >
+                    <Input
+                      h={"30px"}
+                      w={"230px"}
+                      position={"relative"}
+                      id={"addressObservations"}
+                      name={"addressObservations"}
+                      fontSize={"0.9rem"}
+                      isReadOnly={true}
+                      value={user?.AddressObservations}
+                      border={"none"}
+                      _focus={{
+                        boxShadow:
+                          "0 0.5px 0.5px #f2f2f2 inset, 0 0 5px #f2f2f2",
+                      }}
+                      style={{
+                        borderBottom: "1px solid black",
+                        borderRadius: "0", // Ajusta el radio de las esquinas a cero
+                        outline: "none",
+                      }}
+                    />
+                    <UpdateCustomer
+                      title={"Address Observations"}
+                      id={"addressObservations"}
+                      name={"addressObservations"}
+                      value={user?.AddressObservations}
+                      formData={formData}
+                      setFormData={setFormData}
+                    />
+                  </InputGroup>
+                </Box>
+              </Box>
             </Box>
           </Box>
           <Box
@@ -230,6 +328,7 @@ const AddressInfo: React.FC<IShowMenu> = ({
             flexDirection={"column"}
           >
             <Text fontSize={"1rem"}>SHIPPING ADDRESS</Text>
+            {/*ADDRESS AND HOUSE/APT NO */}
             <Box
               mt={"2vh"}
               display={"flex"}
@@ -246,6 +345,7 @@ const AddressInfo: React.FC<IShowMenu> = ({
                 <InputGroup
                   display={"flex"}
                   flexDirection={"column"}
+                  h={"90px"}
                 >
                   <Input
                     h={"30px"}
@@ -282,21 +382,22 @@ const AddressInfo: React.FC<IShowMenu> = ({
                 flexDirection={"column"}
               >
                 <Text fontSize={"0.75rem"} color={"#646464"}>
-                    STATE
+                    HOUSE/APT NO
                 </Text>
                 <InputGroup
                   display={"flex"}
                   flexDirection={"column"}
+                  h={"90px"}
                 >
                   <Input
                     h={"30px"}
                     w={"230px"}
                     position={"relative"}
-                    id={"state"}
-                    name={"state"}
+                    id={"unitNumber"}
+                    name={"unitNumber"}
                     fontSize={"0.9rem"}
                     isReadOnly={true}
-                    value={user?.State}
+                    value={user?.UnitNumber}
                     border={"none"}
                     _focus={{
                       boxShadow:
@@ -309,16 +410,17 @@ const AddressInfo: React.FC<IShowMenu> = ({
                     }}
                   />
                   <UpdateCustomer
-                    title={"State"}
-                    id={"state"}
-                    name={"state"}
-                    value={user?.State}
+                    title={"House/Apt No"}
+                    id={"unitNumber"}
+                    name={"unitNumber"}
+                    value={user?.UnitNumber}
                     formData={formData}
                     setFormData={setFormData}
                   />
                 </InputGroup>
               </Box>
             </Box>
+            {/*CITY AND ZIPCODE */}
             <Box
               mt={"2vh"}
               display={"flex"}
@@ -335,6 +437,7 @@ const AddressInfo: React.FC<IShowMenu> = ({
                 <InputGroup
                   display={"flex"}
                   flexDirection={"column"}
+                  h={"90px"}
                 >
                   <Input
                     h={"30px"}
@@ -377,6 +480,7 @@ const AddressInfo: React.FC<IShowMenu> = ({
                 <InputGroup
                   display={"flex"}
                   flexDirection={"column"}
+                  h={"90px"}
                 >
                   <Input
                     h={"30px"}
@@ -403,6 +507,98 @@ const AddressInfo: React.FC<IShowMenu> = ({
                     id={"zipCode"}
                     name={"zipCode"}
                     value={user?.ZipCode}
+                    formData={formData}
+                    setFormData={setFormData}
+                  />
+                </InputGroup>
+              </Box>
+            </Box>
+            {/*CITY AND ZIPCODE */}
+            <Box
+              mt={"2vh"}
+              display={"flex"}
+              flexDirection={isSmallThan750 ? "column" : "row"}
+            >
+              <Box
+                mr={"3vw"}
+                display={"flex"}
+                flexDirection={"column"}
+              >
+                <Text fontSize={"0.75rem"} color={"#646464"}>
+                    STATE
+                </Text>
+                <InputGroup
+                  display={"flex"}
+                  flexDirection={"column"}
+                  h={"90px"}
+                >
+                  <Input
+                    h={"30px"}
+                    w={"230px"}
+                    position={"relative"}
+                    id={"state"}
+                    name={"state"}
+                    fontSize={"0.9rem"}
+                    isReadOnly={true}
+                    value={user?.State}
+                    border={"none"}
+                    _focus={{
+                      boxShadow:
+                          "0 0.5px 0.5px #f2f2f2 inset, 0 0 5px #f2f2f2",
+                    }}
+                    style={{
+                      borderBottom: "1px solid black",
+                      borderRadius: "0",
+                      outline: "none",
+                    }}
+                  />
+                  <UpdateCustomer
+                    title={"State"}
+                    id={"state"}
+                    name={"state"}
+                    value={user?.State}
+                    formData={formData}
+                    setFormData={setFormData}
+                  />
+                </InputGroup>
+              </Box>
+              <Box
+                display={"flex"}
+                flexDirection={"column"}
+              >
+                <Text fontSize={"0.75rem"} color={"#646464"}>
+                    OBSERVATIONS
+                </Text>
+                <InputGroup
+                  display={"flex"}
+                  flexDirection={"column"}
+                  h={"90px"}
+                >
+                  <Input
+                    h={"30px"}
+                    w={"230px"}
+                    position={"relative"}
+                    id={"addressObservations"}
+                    name={"addressObservations"}
+                    fontSize={"0.9rem"}
+                    isReadOnly={true}
+                    value={user?.AddressObservations}
+                    border={"none"}
+                    _focus={{
+                      boxShadow:
+                          "0 0.5px 0.5px #f2f2f2 inset, 0 0 5px #f2f2f2",
+                    }}
+                    style={{
+                      borderBottom: "1px solid black",
+                      borderRadius: "0", // Ajusta el radio de las esquinas a cero
+                      outline: "none",
+                    }}
+                  />
+                  <UpdateCustomer
+                    title={"Observations"}
+                    id={"addressObservations"}
+                    name={"addressObservations"}
+                    value={user?.AddressObservations}
                     formData={formData}
                     setFormData={setFormData}
                   />

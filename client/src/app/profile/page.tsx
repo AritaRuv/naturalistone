@@ -11,19 +11,23 @@ import { userInfo } from "../../store/login/actionsLogin";
 import AddressInfo from "./addressInfo";
 
 export interface IFormData {
-  customerId: string;
-  fullName: string;
-  company: string;
-  email: string;
-  phone: string;
-  state: string;
-  address: string;
-  password: string;
-  zipCode: string;
-  billingAddress: string;
-  billingState: string;
-  city: string;
-  companyPosition: string;
+  customerId: string,
+  fullName: string,
+  company: string,
+  email: string,
+  phone: string,
+  state: string,
+  address: string,
+  unitNumber: string,
+  addressObservations: string,
+  password: string,
+  zipCode: string,
+  billingAddress: string,
+  billingUnitNumber: string,
+  billingState: string,
+  billingObservations: string,
+  city: string,
+  companyPosition: string,
 }
 
 export interface IShowMenu {
@@ -49,10 +53,14 @@ export default function Profile() {
     phone: "",
     state: "",
     address: "",
+    unitNumber: "",
+    addressObservations: "",
     password: "",
     zipCode: "",
     billingAddress: "",
+    billingUnitNumber: "",
     billingState: "",
+    billingObservations: "",
     city: "",
     companyPosition: "",
   });
@@ -76,7 +84,7 @@ export default function Profile() {
     <>
       <Box
         px={"5vw"}
-        h={"73.5vh"}
+        h={"72.5vh"}
         display={"flex"}
         alignItems={"center"}
         flexDir={isSmallThan750 ? "column" : "row"}
