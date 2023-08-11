@@ -58,9 +58,9 @@ export async function newCartEntry(req: Request, res: Response) {
           const Quantity = 1;
           const CustomerID = 1938;
           
-          const productSalePrice = product.SalePrice === null ? 1 : product.SalePrice
+          const productSalePrice = product.SalePrice === null ? 1 : product.SalePrice;
 
-          const queryInsertCart = `INSERT INTO Cart(CustomerID, ProductID, Quantity, SalePrice) VALUES (?, ?, ?, ?)`;
+          const queryInsertCart = "INSERT INTO Cart(CustomerID, ProductID, Quantity, SalePrice) VALUES (?, ?, ?, ?)";
           const cartValues = [CustomerID, product.ProdID, Quantity, productSalePrice];
 
           mysqlConnection.query(queryInsertCart, cartValues, (insertError: MysqlError, insertResults: RowDataPacket[], insertFields: FieldInfo[]) => {
@@ -80,7 +80,7 @@ export async function newCartEntry(req: Request, res: Response) {
                   });
                 } else {
                   console.log("Datos OK");
-                  res.status(200).send('Nueva entrada en el carrito creada');
+                  res.status(200).send("Nueva entrada en el carrito creada");
                 }
               });
             }
@@ -94,11 +94,11 @@ export async function newCartEntry(req: Request, res: Response) {
 }
 
 export async function getCartProducts(req: Request, res: Response) {
-    try {
+  try {
   
-      const customerID = req.params.id;
+    const customerID = req.params.id;
     
-      const query = `SELECT 
+    const query = `SELECT 
                       Cart.idCartEntry,
                       Cart.Quantity,
                       Cart.CustomerID, 
@@ -116,29 +116,29 @@ export async function getCartProducts(req: Request, res: Response) {
                     WHERE Cart.CustomerID = 1938;
                     `;
       
-      mysqlConnection.query(
-        query,
-        [customerID], (error: MysqlError, results: RowDataPacket[], fields: FieldInfo[]) => {
-          if (error) {
-            throw error;
-          }
-          if (results.length === 0) {
-            console.log("Error en cartRoutes.get /:id");
-            res.status(404).json("No products in cart");
-          } else {
-            console.log("Data OK");
-            res.status(200).json(results);
-          }
+    mysqlConnection.query(
+      query,
+      [customerID], (error: MysqlError, results: RowDataPacket[], fields: FieldInfo[]) => {
+        if (error) {
+          throw error;
         }
-      );
-    } catch (error) {
-      res.status(409).send(error);
-    }
+        if (results.length === 0) {
+          console.log("Error en cartRoutes.get /:id");
+          res.status(404).json("No products in cart");
+        } else {
+          console.log("Data OK");
+          res.status(200).json(results);
+        }
+      }
+    );
+  } catch (error) {
+    res.status(409).send(error);
+  }
 }
 
 export async function updateCartProducts(req: Request, res: Response){
   try {
-    const { Quantity, idCartEntry } = req.body
+    const { Quantity, idCartEntry } = req.body;
     
     const query = `UPDATE NaturaliStone.Cart SET Quantity = ${Quantity} WHERE idCartEntry = ${idCartEntry}`;
 
@@ -165,7 +165,7 @@ export async function updateCartProducts(req: Request, res: Response){
 
 export async function deleteCartProducts(req: Request, res: Response){
   try {
-    const { idCartEntry } = req.params
+    const { idCartEntry } = req.params;
 
     const query = `DELETE FROM Cart WHERE  idCartEntry = ${idCartEntry}`;
 

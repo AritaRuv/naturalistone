@@ -1,5 +1,5 @@
 "use client";
-import React, { useState } from "react";
+import React from "react";
 import {
   IconButton,
   Drawer,
@@ -9,17 +9,18 @@ import {
   DrawerContent,
   DrawerCloseButton,
   useDisclosure, 
-  Box
+  Center
 } from "@chakra-ui/react";
 import { PiUserCircleThin } from "react-icons/pi";
 import "./_navBar.css";
-import UserBox from "@/app/profile/userBox";
 import UserButtonsContainer from "@/app/profile/userButtonsContainer";
+import NextImage from "next/image";
+
 
 const UserButton: React.FC = () => {
 
   const { isOpen, onOpen, onClose } = useDisclosure();
-  const [showMenu, setShowMenu] = useState<string>("");
+  const URL = "https://naturalistone-images.s3.amazonaws.com/muestra/bernard-hermant-H6lV0I-SZjg-unsplash.jpg";
 
   return(
     <>
@@ -34,18 +35,19 @@ const UserButton: React.FC = () => {
         isOpen={isOpen}
         placement='right'
         onClose={onClose}
-        size={"xs"}
+        size={"full"}
       >
         <DrawerOverlay/>
-        <DrawerContent>
-          <DrawerCloseButton/>
-          <DrawerBody mx={"1vw"} my={"3vh"} >
-            <Box>
-              <UserBox/>
-              <Box mt={"6vh"}>
-                <UserButtonsContainer showMenu={showMenu} setShowMenu={setShowMenu} site={"navbar"} onClose={onClose}/>
-              </Box>
-            </Box>
+        <DrawerContent
+          h={"100vh"}
+          w={"100vw"} 
+        >
+          <NextImage objectFit="cover" fill src={URL} alt="img" />
+          <DrawerCloseButton color={"white"}/>
+          <DrawerBody display={"flex"} justifyContent={"flex-end"} >
+            <Center mr={"16vw"}>
+              <UserButtonsContainer site={"navbar"} onClose={onClose}/>
+            </Center>
           </DrawerBody>
 
           <DrawerFooter>

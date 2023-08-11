@@ -4,21 +4,22 @@ import {
   Button,
   VStack,
 } from "@chakra-ui/react";
-import { IShowMenu } from "./page";
+import { userButton } from "./page";
 import Link from "next/link";
 import { AppContext } from "../appContext";
 import { useContext } from "react";
 
-const UserButtonsContainer: React.FC<IShowMenu> = ({
-  site
+const UserButtonsContainer: React.FC<userButton> = ({
+  site,
+  onClose
 }) => {
-
 
   const appContext = useContext(AppContext);
 
   const handleClick = (e) => {
     const { name } = e.target;
     appContext?.setShowMenu(name);
+    onClose();
   };
 
   const userButtonsArray = [
@@ -53,11 +54,12 @@ const UserButtonsContainer: React.FC<IShowMenu> = ({
                       h={"4vh"}
                       onClick={handleClick}
                       pl={"2vw"}
-                      fontSize="0.9rem"
+                      fontSize="1.5rem"
                       variant="unstyled"
-                      fontWeight={"normal"}
+                      fontWeight={"thin"}
                       name={button.name}
                       textTransform={"uppercase"}
+                      color={"white"}
                     >
                       {button.name}
                     </Button>

@@ -38,7 +38,10 @@ export interface IShowMenu {
   setFormData?: React.Dispatch<React.SetStateAction<IFormData>>;
   handleChange?: (event: React.ChangeEvent<HTMLInputElement>) => void;
 }
-
+export interface userButton {
+  site?: string;
+  onClose: () => void;
+}
 export default function Profile() {
 
   const appContext = useContext(AppContext);

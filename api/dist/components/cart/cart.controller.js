@@ -62,7 +62,7 @@ function newCartEntry(req, res) {
                         const Quantity = 1;
                         const CustomerID = 1938;
                         const productSalePrice = product.SalePrice === null ? 1 : product.SalePrice;
-                        const queryInsertCart = `INSERT INTO Cart(CustomerID, ProductID, Quantity, SalePrice) VALUES (?, ?, ?, ?)`;
+                        const queryInsertCart = "INSERT INTO Cart(CustomerID, ProductID, Quantity, SalePrice) VALUES (?, ?, ?, ?)";
                         const cartValues = [CustomerID, product.ProdID, Quantity, productSalePrice];
                         db_1.default.query(queryInsertCart, cartValues, (insertError, insertResults, insertFields) => {
                             if (insertError) {
@@ -83,7 +83,7 @@ function newCartEntry(req, res) {
                                     }
                                     else {
                                         console.log("Datos OK");
-                                        res.status(200).send('Nueva entrada en el carrito creada');
+                                        res.status(200).send("Nueva entrada en el carrito creada");
                                     }
                                 });
                             }

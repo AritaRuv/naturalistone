@@ -77,7 +77,7 @@ const ProfileInfo: React.FC<IShowMenu> = ({
                   <InputGroup
                     display={"flex"}
                     flexDirection={"column"}
-                    h={"90px"}
+                    h={"70px"}
                   >
                     <Input
                       h={"30px"}
@@ -119,7 +119,7 @@ const ProfileInfo: React.FC<IShowMenu> = ({
                   <InputGroup
                     display={"flex"}
                     flexDirection={"column"}
-                    h={"90px"}
+                    h={"70px"}
                   >
                     <Input
                       h={"30px"}
@@ -169,7 +169,7 @@ const ProfileInfo: React.FC<IShowMenu> = ({
                   <InputGroup
                     display={"flex"}
                     flexDirection={"column"}
-                    h={"90px"}
+                    h={"70px"}
                   >
                     <Input
                       h={"30px"}
@@ -187,7 +187,7 @@ const ProfileInfo: React.FC<IShowMenu> = ({
                       }}
                       style={{
                         borderBottom: "1px solid black",
-                        borderRadius: "0", // Ajusta el radio de las esquinas a cero
+                        borderRadius: "0", 
                         outline: "none",
                       }}
                     />
@@ -211,7 +211,7 @@ const ProfileInfo: React.FC<IShowMenu> = ({
                   <InputGroup
                     display={"flex"}
                     flexDirection={"column"}
-                    h={"90px"}
+                    h={"70px"}
                   >
                     <Input
                       h={"30px"}
@@ -267,7 +267,7 @@ const ProfileInfo: React.FC<IShowMenu> = ({
                   <InputGroup
                     display={"flex"}
                     flexDirection={"column"}
-                    h={"90px"}
+                    h={"70px"}
                   >
                     <Input
                       h={"30px"}
@@ -310,7 +310,7 @@ const ProfileInfo: React.FC<IShowMenu> = ({
                   <InputGroup
                     display={"flex"}
                     flexDirection={"column"}
-                    h={"90px"}
+                    h={"70px"}
                   >
                     <Input
                       h={"30px"}
