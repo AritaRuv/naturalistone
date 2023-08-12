@@ -9,7 +9,8 @@ import {
   DrawerContent,
   DrawerCloseButton,
   useDisclosure, 
-  Center
+  Center,
+  Box
 } from "@chakra-ui/react";
 import { PiUserCircleThin } from "react-icons/pi";
 import "./_navBar.css";
@@ -42,7 +43,15 @@ const UserButton: React.FC = () => {
           h={"100vh"}
           w={"100vw"} 
         >
-          <NextImage objectFit="cover" fill src={URL} alt="img" />
+          <NextImage objectFit="cover" fill src={URL} alt="img"/>
+          <Box
+            position="absolute"
+            top={0}
+            left={0}
+            width="100%"
+            height="100%"
+            bg="rgba(0, 0, 0, 0.4)"
+          />
           <DrawerCloseButton color={"white"}/>
           <DrawerBody display={"flex"} justifyContent={"flex-end"} >
             <Center mr={"16vw"}>
@@ -60,3 +69,6 @@ const UserButton: React.FC = () => {
 };
 
 export default UserButton;
+
+
+
