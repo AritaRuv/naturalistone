@@ -1,7 +1,7 @@
-import React from 'react';
-import { Box, Icon, Text } from '@chakra-ui/react';
-import '../assets/styleSheet.css';
-import { IconType } from 'react-icons';
+import React from "react";
+import { Box, Icon, Text } from "@chakra-ui/react";
+import "../assets/styleSheet.css";
+import { IconType } from "react-icons";
 
 export interface SocialMediaButtonsType {
   name: string;
@@ -28,7 +28,7 @@ export const SocialMediaButtons: React.FC<SocialMediaButtonsType> = ({ name, ico
         transform="translateX(-50%)"
         w="10%" // Ajusta este valor para acortar la línea (por ejemplo, "20%" para una línea más corta)
         borderBottom="2px solid"
-        borderBottomColor={'gray.900'}
+        borderBottomColor={"gray.900"}
         content="" // Se necesita un contenido para que el seudoelemento funcione
       />
     </Box>
