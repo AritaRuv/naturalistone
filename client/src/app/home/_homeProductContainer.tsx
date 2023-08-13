@@ -7,8 +7,8 @@ import { ProductState } from "../../store/products/typesProducts";
 import { useAppDispatch, useAppSelector } from "../../store/hooks";
 import { FiltersHomeProps } from "./page";
 import { userInfo } from "@/store/login/actionsLogin";
+import { salesByCustomer, salesDetails } from "@/store/sales/actionsSales";
 import { SalesState } from "@/store/sales/typeSales";
-import { salesByProject } from "@/store/sales/actionsSales";
 
 const HomeProductContainer: React.FC<FiltersHomeProps> = ({
   productsFilter,
@@ -18,10 +18,6 @@ const HomeProductContainer: React.FC<FiltersHomeProps> = ({
   const [isExtraSmallScreen] = useMediaQuery("(max-width: 480px)");
   const dispatch = useAppDispatch();
   const { material, colorId } = productsFilter;
-
-  // const { user } = useAppSelector(
-  //   (state: { loginReducer: LoginState }) => state.loginReducer
-  // );
 
   const { products } = useAppSelector(
     (state: { productReducer: ProductState }) => state.productReducer

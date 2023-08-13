@@ -22,3 +22,22 @@ export interface ErrorsProject {
   shippingState?: string;
   shippingZipCode?: string;
 }
+
+export interface Payments {
+  idPayments: number;
+  InvoiceID: number;
+  Amount: string;
+  Method: string;
+  Date: Date;
+  by?: string;
+}
+
+export interface DetailProdSolds {
+  ProdNameID?: number;
+  ProdID: number;
+  Quantity: number;
+  SalePrice: number;
+  Naturali_ProdName: string;
+  Material: string;
+  Status: string;
+}

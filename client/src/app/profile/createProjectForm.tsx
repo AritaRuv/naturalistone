@@ -6,10 +6,15 @@ import {
   Text,
   FormLabel,
 } from "@chakra-ui/react";
- 
-  
-export default function CreateProjectForm({formData, setFormData, validateCompletedInputsProject, errors, setErrors, setChangeInput}) {
-  
+
+export default function CreateProjectForm({
+  formData,
+  setFormData,
+  validateCompletedInputsProject,
+  errors,
+  setErrors,
+  setChangeInput,
+}) {
   const handleChange = (event) => {
     const { name, value } = event.target;
     // Actualizas solo la propiedad que cambió en el objeto de formData
@@ -36,7 +41,7 @@ export default function CreateProjectForm({formData, setFormData, validateComple
           pt={"4vh"}
           justifyContent={"space-between"}
         >
-          <FormControl bg={"red"}>
+          <FormControl>
             <FormLabel fontSize={"0.8rem"} fontWeight={"normal"}>
               PROJECT NAME
             </FormLabel>
@@ -51,11 +56,11 @@ export default function CreateProjectForm({formData, setFormData, validateComple
               value={formData.ProjectName}
               onChange={handleChange}
             />
-            {/* { errors.ProjectName && ( */}
-            <Text position={"absolute"} color={"web.error"} fontSize={"xs"}>
-              ERRORR
-            </Text>
-            {/* )} */}
+            {errors.ProjectName && (
+              <Text position={"absolute"} color={"web.error"} fontSize={"xs"}>
+                {errors.ProjectName}
+              </Text>
+            )}
           </FormControl>
         </Box>
         <Box
