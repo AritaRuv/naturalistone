@@ -24,13 +24,14 @@ export default function Products({params}) {
   const dispatch = useAppDispatch();
   
   useEffect(()=>{
-    dispatch(fetchDimension());
+    dispatch(fetchDimension(params.Material));
     dispatch(fetchProductsByMaterial(params.Material)); 
   },[]);
 
   const [isSmallScreen] = useMediaQuery("(max-width: 1200px)");
   const [showMenu, setShowMenu] = useState("");
   const [filters, setFilters] = useState<Filters>({
+    material: params.Material,
     type: [],
     finish: [],
     thickness: [],
@@ -57,7 +58,6 @@ export default function Products({params}) {
     });
     dispatch(fetchProductsFilters(filters));
   };
-
   return (
     <>
       <Box h={"93vh"}>

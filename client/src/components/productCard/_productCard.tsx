@@ -68,7 +68,6 @@ const ProductCard: React.FC<{ product: Product; site: string }> = ({
         h={"370px"}
         position={"relative"}
         overflow={"hidden"}
-        rounded={"md"}
         onMouseEnter={handleMouseEnter}
         onMouseLeave={handleMouseLeave}
       >

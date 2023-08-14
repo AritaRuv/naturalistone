@@ -84,11 +84,11 @@ export const fetchProduct = (ProductNameID: number, DimensionID: number) => {
   };
 };
 
-export const fetchDimension = () => {
+export const fetchDimension = (material: string) => {
   return async (dispatch: Dispatch<ProductAction>) => {
     dispatch({ type: ProductActionTypes.FETCH_PRODUCTS_REQUEST });
     try {
-      const data = await getDimension(); // Llama a tu función de solicitud a la API
+      const data = await getDimension(material); // Llama a tu función de solicitud a la API
       dispatch({
         type: ProductActionTypes.FETCH_DIMENSION,
         payload: data,
