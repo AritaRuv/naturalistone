@@ -55,7 +55,6 @@ export function UpdateCustomer({
 
   const handleClose = () => {
     setFormData({
-      customerId: "",
       fullName: "",
       company: "",
       email: "",

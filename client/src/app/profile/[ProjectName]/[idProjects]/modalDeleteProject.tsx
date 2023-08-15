@@ -1,4 +1,5 @@
 /* eslint-disable indent */
+import { useEffect } from "react";
 import {
   useDisclosure,
   Modal,
@@ -14,7 +15,7 @@ import {
   Center,
   useToast,
 } from "@chakra-ui/react";
-import { useAppDispatch } from "@/store/hooks";
+import { useAppDispatch, useAppSelector } from "@/store/hooks";
 import {
   deleteUserProject,
   fetchProjectsCustomer,
@@ -22,6 +23,8 @@ import {
 import { useRouter } from "next/navigation";
 import { useContext } from "react";
 import { AppContext } from "@/app/appContext";
+import { LoginState } from "@/store/login/typeLogin";
+import { userInfo } from "@/store/login/actionsLogin";
 
 export function DeleteProject({ idProjects, project }) {
   const { isOpen, onOpen, onClose } = useDisclosure();
@@ -29,8 +32,13 @@ export function DeleteProject({ idProjects, project }) {
   const toast = useToast();
   const router = useRouter();
   const appContext = useContext(AppContext);
+  const { user } = useAppSelector(
+    (state: { loginReducer: LoginState }) => state.loginReducer
+  );
 
-  const CustomerID = 1938;
+  useEffect(() => {
+    dispatch(userInfo());
+  }, []);
 
   const handleSubmit = async () => {
     const response = await dispatch(deleteUserProject(idProjects));
@@ -54,7 +62,7 @@ export function DeleteProject({ idProjects, project }) {
       isClosable: true,
       status: "success",
     });
-    dispatch(fetchProjectsCustomer(CustomerID));
+    dispatch(fetchProjectsCustomer(user.CustomerID));
     onClose();
     return;
   };

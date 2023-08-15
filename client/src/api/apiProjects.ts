@@ -17,10 +17,13 @@ export const getProjects = async (CustomerID: number) => {
   }
 };
 
-export const createProject = async (bodyProject: BodyProject) => {
+export const createProject = async (
+  bodyProject: BodyProject,
+  CustomerID: number
+) => {
   try {
     const response = await axios.post(
-      `http://localhost:5000/api/projects`,
+      `http://localhost:5000/api/projects/create/${CustomerID}`,
       bodyProject
     );
 

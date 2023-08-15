@@ -6,11 +6,11 @@ export interface SignUp {
 }
 
 export interface User {
-  CustomerID: string;
+  CustomerID: number;
   Contact_Name: string;
   Company?: string;
   Username: string;
-  Customer_LoginID: string;
+  Customer_LoginID: number;
   Phone?: string;
   Address?: string;
   State?: string;

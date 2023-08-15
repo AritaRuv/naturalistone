@@ -11,7 +11,6 @@ import { userInfo } from "../../store/login/actionsLogin";
 import AddressInfo from "./addressInfo";
 
 export interface IFormData {
-  customerId: string;
   fullName: string;
   company: string;
   email: string;
@@ -36,13 +35,11 @@ export interface IShowMenu {
 }
 
 export default function Profile() {
-
   const appContext = useContext(AppContext);
 
   const dispatch = useAppDispatch();
   const [isSmallThan750] = useMediaQuery("(max-width: 750px)");
   const [formData, setFormData] = useState({
-    customerId: "",
     fullName: "",
     company: "",
     email: "",
@@ -110,10 +107,7 @@ export default function Profile() {
           )}
           {appContext?.showMenu === "projects" && (
             <>
-              <Projects
-                formData={formData}
-                setFormData={setFormData}
-              />
+              <Projects formData={formData} setFormData={setFormData} />
             </>
           )}
         </Box>

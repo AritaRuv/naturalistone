@@ -17,7 +17,7 @@ export async function getAllFavorites(req: Request, res: Response) {
                   `;
 
     mysqlConnection.query(
-      query, 
+      query,
       (error: MysqlError, results: RowDataPacket[]) => {
         if (error) {
           throw error;
@@ -36,3 +36,53 @@ export async function getAllFavorites(req: Request, res: Response) {
   }
 }
 
+export async function postFavoritesProductProject(req: Request, res: Response) {
+  const { idproject, idprodname } = req.params;
+  try {
+    const querySelect = `SELECT * FROM Project_ProdName WHERE idProjects = ? AND ProdNameID = ?`;
+    const queryInsert = `INSERT INTO Project_ProdName (idProjects, ProdNameID) values (?, ?)`;
+
+    mysqlConnection.query(
+      querySelect,
+      [idproject, idprodname],
+      function (err: MysqlError, results: RowDataPacket[]) {
+        if (err) {
+          return res.status(400).json({
+            success: false,
+            msg: "Error in checking if the product already exists in the project",
+          });
+        }
+
+        if (results.length > 0) {
+          return res.status(400).json({
+            success: false,
+            msg: "Product already exists in the project",
+          });
+        } else {
+          mysqlConnection.query(
+            queryInsert,
+            [idproject, idprodname],
+            function (err: MysqlError, results: RowDataPacket) {
+              if (err) {
+                return res.status(400).json({
+                  success: false,
+                  msg: "Error in inserting favorites product in project",
+                });
+              }
+
+              return res.status(200).json({
+                success: true,
+                msg: "Insert product successful",
+              });
+            }
+          );
+        }
+      }
+    );
+  } catch (error) {
+    return res.status(500).json({
+      success: false,
+      msg: "General error in post favorites products in project",
+    });
+  }
+}

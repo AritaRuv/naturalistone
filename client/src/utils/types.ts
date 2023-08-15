@@ -16,11 +16,11 @@ export interface ErrorsProfile {
 }
 
 export interface ErrorsProject {
-  projectName?: string;
-  shippingAddress?: string;
-  shippingCity?: string;
-  shippingState?: string;
-  shippingZipCode?: string;
+  ProjectName?: string;
+  Shipping_Address?: string;
+  Shipping_State?: string;
+  Shipping_City?: string;
+  Shipping_ZipCode?: string;
 }
 
 export interface Payments {

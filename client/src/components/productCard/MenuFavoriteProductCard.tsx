@@ -9,25 +9,61 @@ import {
   MenuDivider,
   MenuItem,
   MenuList,
+  useToast,
 } from "@chakra-ui/react";
 import { useEffect, useState } from "react";
-import {
-  PiPlusThin,
-  PiHeartStraightThin,
-  PiHeartStraightFill,
-} from "react-icons/pi";
+import { PiHeartStraightThin, PiHeartStraightFill } from "react-icons/pi";
+import { postFavoritesProductInProject } from "@/store/favorites/actionsFavorites";
+import { CreateNewProject } from "@/app/profile/addProjectModal";
+import { userInfo } from "@/store/login/actionsLogin";
+import { LoginState } from "@/store/login/typeLogin";
 
-export function MenuFavoriteProductCard() {
-  const CustomerID = 1938;
+export function MenuFavoriteProductCard({ ProdNameID }) {
   const dispatch = useAppDispatch();
   const customerProjects = useAppSelector(
     (state: { projectsReducer: ProjectsState }) =>
       state.projectsReducer.customerProjects
   );
+  const { user } = useAppSelector(
+    (state: { loginReducer: LoginState }) => state.loginReducer
+  );
   const [bgHeart, setBgHeart] = useState(false);
+  const toast = useToast();
 
   useEffect(() => {
-    dispatch(fetchProjectsCustomer(CustomerID));
+    dispatch(userInfo());
+  }, []);
+
+  const handleSubmit = async (idProject: number) => {
+    const response = await dispatch(
+      postFavoritesProductInProject(idProject, ProdNameID)
+    );
+    if (!response.success) {
+      if (!toast.isActive("favProductProject")) {
+        return toast({
+          id: "favProductProject",
+          title: "Error",
+          status: "error",
+          description: "Error in add product in the project",
+          duration: 4000,
+          isClosable: true,
+        });
+      }
+    }
+    if (!toast.isActive("favProductProject")) {
+      return toast({
+        id: "favProductProject",
+        title: "Success",
+        status: "success",
+        description: "The product has been successfully added to the project",
+        duration: 4000,
+        isClosable: true,
+      });
+    }
+  };
+
+  useEffect(() => {
+    dispatch(fetchProjectsCustomer(user.CustomerID));
   }, []);
 
   return (
@@ -77,11 +113,20 @@ export function MenuFavoriteProductCard() {
               >
                 {customerProjects &&
                   customerProjects.map((el) => (
-                    <MenuItem fontSize={"0.7rem"}>{el.ProjectName}</MenuItem>
+                    <MenuItem
+                      fontSize={"0.7rem"}
+                      onClick={() => handleSubmit(el.idProjects)}
+                    >
+                      {el.ProjectName}
+                    </MenuItem>
                   ))}
                 <MenuDivider />
-                <MenuItem icon={<PiPlusThin />} fontSize={"0.8rem"}>
-                  CREATE PROJECT
+                <MenuItem fontSize={"0.8rem"}>
+                  <CreateNewProject
+                    CustomerID={user.CustomerID}
+                    postProductProject={true}
+                    ProdNameID={ProdNameID}
+                  />
                 </MenuItem>
               </MenuList>
             </>

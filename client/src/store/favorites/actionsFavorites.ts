@@ -1,10 +1,12 @@
 // actions.ts
 import { Dispatch } from "redux";
 import { FavoritesActionTypes, FavoritesAction } from "./typesFavorites";
-import { getAllFavorites } from "../../api/apiFavorites"; // Importa tu función de solicitud a la API
+import {
+  getAllFavorites,
+  postFavoritesProductProject,
+} from "../../api/apiFavorites"; // Importa tu función de solicitud a la API
 
 export const fetchFavorites = (id: number) => {
-
   return async (dispatch: Dispatch<FavoritesAction>) => {
     dispatch({ type: FavoritesActionTypes.FETCH_FAVORITES_REQUEST });
     try {
@@ -14,7 +16,6 @@ export const fetchFavorites = (id: number) => {
         type: FavoritesActionTypes.FETCH_FAVORITES_SUCCESS,
         payload: favorites,
       });
-      
     } catch (error) {
       dispatch({
         type: FavoritesActionTypes.FETCH_FAVORITES_FAILURE,
@@ -24,3 +25,21 @@ export const fetchFavorites = (id: number) => {
   };
 };
 
+export const postFavoritesProductInProject = (
+  idProject: number,
+  idProjectName: number
+) => {
+  return async (dispatch: Dispatch<FavoritesAction>) => {
+    // dispatch({ type: FavoritesActionTypes.POST_FAVORITES_PRODUCTS_PROJECT });
+    try {
+      const data = await postFavoritesProductProject(idProject, idProjectName);
+      dispatch({
+        type: FavoritesActionTypes.POST_FAVORITES_PRODUCTS_PROJECT,
+      });
+      return data;
+    } catch (error) {
+      console.log(error);
+      return error.response;
+    }
+  };
+};
