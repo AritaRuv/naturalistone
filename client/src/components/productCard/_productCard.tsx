@@ -71,7 +71,7 @@ const ProductCard: React.FC<{ product: Product; site: string }> = ({
         onMouseEnter={handleMouseEnter}
         onMouseLeave={handleMouseLeave}
       >
-        <Link href={`/products/${ProdNameID}/${Material}/${Naturali_ProdName}`} onClick={handleClickCard}>
+        <Link href={`/products/${Material}/${Naturali_ProdName}/${ProdNameID}`} onClick={handleClickCard}>
           <NextImage objectFit="cover" fill src={URL} alt="img" />
         </Link>
         <Box

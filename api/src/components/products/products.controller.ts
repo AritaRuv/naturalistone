@@ -50,7 +50,6 @@ export async function getProductsValuesByProdNameID(
 ) {
   try {
     const prodNameID = req.params.id;
-
     const query = `
       SELECT
         Products.ProdID,
