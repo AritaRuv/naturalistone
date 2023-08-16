@@ -39,8 +39,6 @@ export async function postNewProject(req: Request, res: Response) {
 
   const { CustomerID } = req.params;
 
-  console.log("body", req.params);
-
   try {
     const query = `INSERT INTO Projects (ProjectName, CustomerID, Shipping_State, Shipping_ZipCode, Shipping_City, Shipping_Address ) VALUES (?, ?, ?, ?, ?, ?)`;
     const projectValues = [

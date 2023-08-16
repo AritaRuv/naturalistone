@@ -11,8 +11,6 @@ export async function getAllProducts(req: Request, res: Response) {
   try {
     const { material, colorId } = req.query;
 
-    console.log("req.q", req.query);
-
     const query = `
               SELECT DISTINCT ProdNames.Material, ProdNames.Naturali_ProdName, ProdNames.ProdNameID,
               Product_Colors.ColorID, Product_Colors.idColorProduct, Product_Colors.ProdNameID
