@@ -12,11 +12,11 @@ export default function ProdDetailContainer({params}) {
 
   return (
     <Box w={"100%"} mt={"2%"} display={"flex"} flexDir={!smallerThan740 ? "row" : "column"} >
-      {
+      {/* {
         smallerThan740 ? 
           <ProdDetailName params={params}/>
           : null
-      }
+      } */}
       <ProdDetailCarousel params={params}/>
       <ProdDetailInformation params={params}/>
     </Box> 

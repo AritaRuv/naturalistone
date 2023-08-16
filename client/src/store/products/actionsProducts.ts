@@ -33,7 +33,7 @@ export const fetchProductsHome = (material: string, colorId: string) => {
   };
 };
 
-export const fetchProductsValues = ({ ProdNameID }) => {
+export const fetchProductsValues = ({ ProdNameID}) => {
   return async (dispatch: Dispatch<ProductAction>) => {
     try {
       const productValues = await getProductValues(ProdNameID); // Llama a tu función de solicitud a la API

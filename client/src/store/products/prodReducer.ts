@@ -54,6 +54,7 @@ const productReducer = (
       error: action.error,
     };
   case ProductActionTypes.FETCH_PRODUCTS_VALUES:
+    // eslint-disable-next-line no-case-declarations
     const key = Object.keys(action.payload)[0];
 
     return {
