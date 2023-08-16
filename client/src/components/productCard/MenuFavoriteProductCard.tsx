@@ -64,7 +64,7 @@ export function MenuFavoriteProductCard({ ProdNameID }) {
 
   useEffect(() => {
     dispatch(fetchProjectsCustomer(user.CustomerID));
-  }, []);
+  }, [user]);
 
   return (
     <>
@@ -109,19 +109,24 @@ export function MenuFavoriteProductCard({ ProdNameID }) {
                 }}
                 zIndex={21}
                 flexDir={"column"}
-                pl={"15px"}
               >
-                {customerProjects &&
+                {customerProjects.length &&
                   customerProjects.map((el) => (
                     <MenuItem
                       fontSize={"0.7rem"}
+                      width={"full"}
                       onClick={() => handleSubmit(el.idProjects)}
                     >
                       {el.ProjectName}
                     </MenuItem>
                   ))}
                 <MenuDivider />
-                <MenuItem fontSize={"0.8rem"}>
+                <MenuItem
+                  fontSize={"0.8rem"}
+                  display={"flex"}
+                  alignItems={"start"}
+                  w={"full"}
+                >
                   <CreateNewProject
                     CustomerID={user.CustomerID}
                     postProductProject={true}

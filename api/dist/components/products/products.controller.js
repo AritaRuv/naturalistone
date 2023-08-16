@@ -20,11 +20,12 @@ function getAllProducts(req, res) {
     return __awaiter(this, void 0, void 0, function* () {
         try {
             const { material, colorId } = req.query;
+            console.log("req.q", req.query);
             const query = `
               SELECT DISTINCT ProdNames.Material, ProdNames.Naturali_ProdName, ProdNames.ProdNameID,
               Product_Colors.ColorID, Product_Colors.idColorProduct, Product_Colors.ProdNameID
-              FROM Product_Colors
-              LEFT JOIN ProdNames ON ProdNames.ProdNameID = Product_Colors.ProdNameID
+              FROM ProdNames
+              LEFT JOIN Product_Colors ON Product_Colors.ProdNameID = ProdNames.ProdNameID
               ${material ? `WHERE Material = "${material}"` : ""}
               ${colorId
                 ? `${material ? "AND" : "WHERE"} ColorID = "${colorId}"`

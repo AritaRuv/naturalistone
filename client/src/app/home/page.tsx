@@ -21,6 +21,7 @@ const cards = [
 export interface ProductsHomeFilterProps {
   colorId: string;
   material: string;
+  materialValue?: string;
 }
 
 export interface FiltersHomeProps {
@@ -35,6 +36,7 @@ export default function Home() {
     {
       colorId: "",
       material: "",
+      materialValue: "",
     }
   );
 

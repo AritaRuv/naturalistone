@@ -31,13 +31,14 @@ export function UpdateProject({ idProjects, project }) {
   const { isOpen, onOpen, onClose } = useDisclosure();
   const dispatch = useAppDispatch();
   const [showErrors, setShowErrors] = useState(false);
-  const [formData, setFormData] = useState<Project>({
+
+  const [formData, setFormData] = useState({
     idProjects: idProjects,
-    ProjectName: project.ProjectName,
-    Shipping_Address: project.Shipping_Address,
-    Shipping_ZipCode: project.Shipping_ZipCode,
-    Shipping_State: project.Shipping_State,
-    Shipping_City: project.Shipping_City,
+    ProjectName: project?.ProjectName,
+    Shipping_Address: project?.Shipping_Address,
+    Shipping_ZipCode: project?.Shipping_ZipCode,
+    Shipping_State: project?.Shipping_State,
+    Shipping_City: project?.Shipping_City,
   });
 
   const handleChange = (event) => {
@@ -71,7 +72,11 @@ export function UpdateProject({ idProjects, project }) {
 
   const handleSubmit = async () => {
     setShowErrors(true);
-    if (errors && Object.values(errors).length) {
+    const newErrors = validateCompletedEditInputsProject(formData);
+    if (
+      Object.values(newErrors).length > 0 &&
+      Object.values(errors).length > 0
+    ) {
       return;
     }
     const data = await dispatch(patchProject(formData));
@@ -101,6 +106,17 @@ export function UpdateProject({ idProjects, project }) {
     onClose();
     return;
   };
+
+  useEffect(() => {
+    setFormData({
+      idProjects: idProjects,
+      ProjectName: project.ProjectName,
+      Shipping_Address: project.Shipping_Address,
+      Shipping_ZipCode: project.Shipping_ZipCode,
+      Shipping_State: project.Shipping_State,
+      Shipping_City: project.Shipping_City,
+    });
+  }, [project]);
 
   return (
     <>

@@ -90,10 +90,7 @@ const ProductCard: React.FC<{ product: Product; site: string }> = ({
         >
           <NextImage objectFit="cover" fill src={URL} alt="img" />
         </Link>
-        <MenuFavoriteProductCard
-          ProdNameID={ProdNameID}
-          Naturali_ProdName={Naturali_ProdName}
-        />
+        <MenuFavoriteProductCard ProdNameID={ProdNameID} />
         <Box
           display={"flex"}
           w={"260px"}

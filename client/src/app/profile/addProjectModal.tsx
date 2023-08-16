@@ -77,7 +77,7 @@ export const CreateNewProject: React.FC<Props> = ({
         }
       }
       if (!toast.isActive("toastCreateProject")) {
-        return toast({
+        toast({
           id: "toastCreateProject",
           title: "Success",
           description: "Project create successfully",
@@ -155,6 +155,9 @@ export const CreateNewProject: React.FC<Props> = ({
       <Button
         h={"3vh"}
         display={"flex"}
+        w={postProductProject ? "full" : ""}
+        justifyContent={postProductProject ? "start" : ""}
+        alignItems={postProductProject ? "start" : ""}
         variant={"unstyled"}
         fontWeight={"light"}
         fontSize={"0.8rem"}

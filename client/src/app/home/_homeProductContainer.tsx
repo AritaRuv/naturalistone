@@ -48,10 +48,8 @@ const HomeProductContainer: React.FC<FiltersHomeProps> = ({
       bg={"#f2f2f2"}
     >
       {homeProducts.length &&
-        homeProducts.map((prod) => {
-          return (
-            <ProductCard product={prod} key={prod.ProdNameID} site={"home"} />
-          );
+        homeProducts.map((prod, index) => {
+          return <ProductCard product={prod} key={index} site={"home"} />;
         })}
     </SimpleGrid>
   );

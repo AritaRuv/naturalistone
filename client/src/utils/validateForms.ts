@@ -149,7 +149,7 @@ export const validateCompletedInputsProfile = (formData) => {
 export const validateCompletedEditInputsProject = (formData) => {
   const errors: ErrorsProject = {};
   const regexPhone = /^[+]?\d+$/;
-  const regexNoNumber = /^[A-Za-z]*$/;
+  const regexNoNumber = /^[^\d]*$/;
 
   if (formData.ProjectName === "")
     errors.ProjectName = "Please enter a project name";
@@ -177,7 +177,7 @@ export const validateCompletedEditInputsProject = (formData) => {
     errors.Shipping_ZipCode = "Please enter a shipping zip code";
   if (formData.Shipping_ZipCode !== "") {
     if (!regexPhone.test(formData.Shipping_ZipCode)) {
-      errors.Shipping_ZipCode = "Please enter a valid shipping zip codeeeeeee";
+      errors.Shipping_ZipCode = "Please enter a valid shipping zip code";
     }
   }
 

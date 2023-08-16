@@ -17,7 +17,7 @@ export async function getProjectsByCustomer(req: Request, res: Response) {
         }
         if (results.length === 0) {
           console.log("Error en projectRoutes.get /");
-          res.status(404).json("No projects");
+          res.status(200).json({ success: true, msg: "No projects", data: [] });
         } else {
           console.log("Data OK");
           res.status(200).json(results);

@@ -1,10 +1,10 @@
 "use client";
 import { useAppDispatch, useAppSelector } from "@/store/hooks";
 import { fetchProjectByID } from "@/store/projects/actionsProjects";
-import { ProjectsState } from "@/store/projects/typeProjects";
+import { Project, ProjectsState } from "@/store/projects/typeProjects";
 import { Box, Button, Text, VStack } from "@chakra-ui/react";
 import Link from "next/link";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import { UpdateProject } from "./modalUpdateProject";
 import { DeleteProject } from "./modalDeleteProject";
 
