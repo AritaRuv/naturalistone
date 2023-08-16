@@ -96,7 +96,7 @@ export function FiltersMaterials({
           value={productsFilter.materialValue}
           icon={<MdOutlineArrowDropDownCircle />}
         >
-          <option value="">Materials</option>
+          <option value="">All Materials</option>
           {materials?.map((material, i) => (
             <option value={material} key={i}>
               {material}

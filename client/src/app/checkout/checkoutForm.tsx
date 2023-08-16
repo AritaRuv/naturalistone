@@ -7,7 +7,7 @@ import { ShippingAddresForm } from "./ShippingAddresForm";
 import { ShippingMethodForm } from "./ShippingMethodForm";
 import { PaymentMethodForm } from "./PaymentMethodForm";
 
-const CheckoutForm: React.FC = ({ smallerThan740 }) => {
+export default function CheckoutForm({ smallerThan740 }) {
   const [formData, setFormData] = useState({
     firstName: "",
     lastName: "",
@@ -62,6 +62,4 @@ const CheckoutForm: React.FC = ({ smallerThan740 }) => {
       </Box>
     </>
   );
-};
-
-export default CheckoutForm;
+}
