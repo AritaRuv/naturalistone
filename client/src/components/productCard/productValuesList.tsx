@@ -1,4 +1,4 @@
-import { Box, Checkbox, CheckboxGroup, HStack, VStack, Text, Button } from "@chakra-ui/react";
+import { Box, Checkbox, CheckboxGroup, HStack, VStack, Text, Button, Divider } from "@chakra-ui/react";
 import { useState } from "react";
 import { useAppDispatch, useAppSelector } from "@/store/hooks";
 import { postCart } from "@/store/cart/actionsCart";
@@ -21,7 +21,7 @@ interface ProductListProps {
 const ProductList: React.FC<ProductListProps> = ({ data, ProdNameID}) => {
 
   const dispatch = useAppDispatch();
-
+  console.log(data);
   const { size, thickness, finish, prodNameID } = data[ProdNameID];
 
   const { productValuesValidation } = useAppSelector((state: { productReducer: ProductState }) => state.productReducer);
@@ -62,13 +62,13 @@ const ProductList: React.FC<ProductListProps> = ({ data, ProdNameID}) => {
   
   return (
     <>
-      <HStack align="start" spacing={4} w={"100%"} mb={"4%"}>
+      <HStack align="start" spacing={1} w={"100%"} mb={"4%"}>
 
         <CheckboxGroup value={[selectedFinish]} colorScheme='whiteAlpha'>
-          <VStack align="start" w={"33%"}>
-            <Text fontSize='0.8rem'>FINISH</Text>
+          <VStack align="start" w={"80px"} >
+            <Text fontSize='0.7rem' fontWeight={"semibold"}>FINISH</Text>
             {finish.map(finish => (
-              <Box key={finish} fontSize={"0.75rem"} display={"flex"} justifyContent={"space-between"} w={"65px"} >
+              <Box key={finish} fontSize={"0.7rem"} display={"flex"} justifyContent={"space-between"} w={"60px"} >
                 {finish}
                 <Checkbox
                   size={"sm"}
@@ -82,12 +82,11 @@ const ProductList: React.FC<ProductListProps> = ({ data, ProdNameID}) => {
             ))}
           </VStack>
         </CheckboxGroup>
-
         <CheckboxGroup colorScheme='whiteAlpha' value={[selectedSize]}>
-          <VStack align="start" w={"33%"}>
-            <Text fontSize='0.8rem'>SIZE</Text>
+          <VStack align="start"  w={"80px"}>
+            <Text fontSize='0.7rem' fontWeight={"semibold"}>SIZE</Text>
             {size.map(size => (
-              <Box key={size} fontSize={"0.75rem"} display={"flex"} justifyContent={"space-between"} w={"65px"}>
+              <Box key={size} fontSize={"0.7rem"} display={"flex"} justifyContent={"space-between"} w={"60px"}>
                 {size}
                 <Checkbox
                   size={"sm"}
@@ -101,12 +100,11 @@ const ProductList: React.FC<ProductListProps> = ({ data, ProdNameID}) => {
             ))}
           </VStack>
         </CheckboxGroup>
-
         <CheckboxGroup colorScheme='whiteAlpha' value={[selectedThickness]}>
-          <VStack align="start" w={"33%"}>
-            <Text fontSize='0.8rem'>THICKNESS</Text>
+          <VStack align="start"  w={"80px"}>
+            <Text fontSize='0.7rem' fontWeight={"semibold"}>THICKNESS</Text>
             {thickness.map(thickness => (
-              <Box key={thickness} fontSize={"0.75rem"} display={"flex"} justifyContent={"space-between"} w={"60px"}>
+              <Box key={thickness} fontSize={"0.7rem"} display={"flex"} justifyContent={"space-between"} w={"60px"}>
                 {thickness}
                 <Checkbox
                   size={"sm"}

@@ -60,10 +60,12 @@ const ProductCard: React.FC<{ product: Product; site: string }> = ({
   };
 
   const handleAddProductToCart = () => {
+    setShowAddSmapleToCart(false);
     setShowAddToCart(true);
   };
 
   const handleAddSampleToCart = () => {
+    setShowAddToCart(false);
     setShowAddSmapleToCart(true);
   };
 
@@ -96,7 +98,7 @@ const ProductCard: React.FC<{ product: Product; site: string }> = ({
             h={"370px"}
             zIndex={dropDownZIndex}
             className="custom-popover"
-            bg={!showAddToCart ? "rgba(0, 0, 0, 0.35)" : (site === "products" ? "rgba(210, 210, 210, 0.7)" : "white")}
+            bg={ "rgba(0, 0, 0, 0.35)" }
           >
             <Box h={"370px"}
               //bg={!showAddToCart ? "rgba(210, 210, 210, 0.7)" : (site === "products" ? "rgba(210, 210, 210, 0.7)" : "white")}
@@ -133,45 +135,66 @@ const ProductCard: React.FC<{ product: Product; site: string }> = ({
                   variant={"unstyled"}
                   fontSize={"1.5rem"}
                   aria-label={"Description"}
+                  onClick={handleAddProductToCart}
+                  hidden={showAddSampleToCart == true || showAddToCart == true ? true : false}
                 />
               </Box>
-              {/* { 
-                !showAddToCart && !showAddSampleToCart ?
-                  <Box px={"2%"} mt={"-45px"} h={"45px"} display={"flex"} justifyContent={"space-between"} border={"2px solid red"}>
-                    <Button
-                      fontSize={"0.8rem"}
-                      fontWeight={"light"}
-                      variant={"unstyled"}
-                      color={"white"}
-                      _hover={{
-                        fontWeight: "semibold",
-                      }}
-                      onClick={handleAddSampleToCart}
+              { 
+                showAddToCart || showAddSampleToCart ? (
+                  <>
+                    <Box
+                      w={"260px"}
+                      px={"10px"} 
+                      mt={"-45px"} 
+                      h={"45px"} 
+                      display={"flex"} 
+                      justifyContent={"space-between"} 
                     >
-                  ORDER SAMPLE
-                    </Button>
-                    <Button
-                      fontSize={"0.6rem"}
-                      fontWeight={"light"}
-                      variant={"unstyled"}
-                      _hover={{
-                        fontWeight: "semibold",
-                      }}
-                      onClick={handleAddProductToCart}
-                    >
-                  ADD TO CART
-                    </Button>
-                  </Box>
-                  :
-                  showAddToCart ?
-                    <Box position={"relative"} zIndex={100}>
-                      <AddProductToCart ProdNameID={ProdNameID} productValues={productValues}/>
+                      <Button
+                        fontSize={"0.8rem"}
+                        fontWeight={ showAddSampleToCart ? "semibold" : "light"}
+                        variant={"unstyled"}
+                        color={"white"}
+                        _hover={{
+                          fontWeight: "semibold",
+                        }}
+                        onClick={handleAddSampleToCart}
+                      >
+                        ORDER SAMPLE
+                      </Button>
+                      <Button
+                        fontSize={"0.8rem"}
+                        fontWeight={ showAddToCart ? "semibold" : "light"}
+                        color={"white"}
+                        variant={"unstyled"}
+                        _hover={{
+                          fontWeight: "semibold",
+                        }}
+                        onClick={handleAddProductToCart}
+                      >
+                        ADD TO CART
+                      </Button>
                     </Box>
-                    :
-                    showAddSampleToCart ?  
-                      <AddSampleProductToCart ProdNameID={ProdNameID} productValues={productValues}/>
-                      : null
-              } */}
+                    {
+                      showAddToCart && (
+                        <Box position={"relative"} zIndex={100}>
+                          <AddProductToCart ProdNameID={ProdNameID} productValues={productValues}/>
+                        </Box>
+                      )
+                    }
+                    {
+                      showAddSampleToCart && (
+                        <Box position={"relative"} zIndex={100}>
+                          <AddSampleProductToCart ProdNameID={ProdNameID} productValues={productValues}/>
+                        </Box>
+                      )
+                    }
+
+                  </>
+                ):(
+                  null
+                )
+              }
             </Box>
           </Box>
         )}

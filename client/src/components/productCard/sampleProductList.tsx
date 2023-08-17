@@ -1,4 +1,4 @@
-import { Box, Checkbox, CheckboxGroup, HStack, VStack, Text, Button } from "@chakra-ui/react";
+import { Box, Checkbox, CheckboxGroup, VStack, Text, Button, Flex } from "@chakra-ui/react";
 import { useState } from "react";
 import { useAppDispatch } from "@/store/hooks";
 import { postCart } from "@/store/cart/actionsCart";
@@ -47,15 +47,16 @@ const SampleProductList: React.FC<ProductListProps> = ({ data, ProdNameID}) => {
   
   return (
     <>
-      <HStack align="start" spacing={4} w={"100%"} mb={"4%"}>
+      <Flex align="start" flexDir={"row"} justifyContent={"space-around"} w={"100%"} mb={"4%"}>
 
         <CheckboxGroup value={selectedFinish} colorScheme='whiteAlpha'>
-          <VStack align="start" w={"50%"}>
-            <Text fontSize='0.8rem'>FINISH</Text>
+          <VStack align="start" w={"80px"}>
+            <Text fontSize='0.7rem' fontWeight={"semibold"}>FINISH</Text>
             {finish.map(finish => (
-              <Box key={finish} fontSize={"0.75rem"} display={"flex"} justifyContent={"space-between"} w={"100%"}>
+              <Box key={finish} fontSize={"0.7rem"} display={"flex"} justifyContent={"space-between"} w={"100%"}>
                 {finish}
                 <Checkbox
+                  size={"sm"}
                   value={finish}
                   iconColor="orange"
                   borderColor={"blackAlpha.400"}
@@ -68,12 +69,13 @@ const SampleProductList: React.FC<ProductListProps> = ({ data, ProdNameID}) => {
         </CheckboxGroup>
 
         <CheckboxGroup colorScheme='whiteAlpha' value={selectedThickness}>
-          <VStack align="start" w={"50%"}>
-            <Text fontSize='0.8rem'>THICKNESS</Text>
+          <VStack align="start" w={"80px"}>
+            <Text fontSize='0.7rem' fontWeight={"semibold"}>THICKNESS</Text>
             {thickness.map(thickness => (
-              <Box key={thickness} fontSize={"0.75rem"} display={"flex"} justifyContent={"space-between"} w={"100%"}>
+              <Box key={thickness} fontSize={"0.7rem"} display={"flex"} justifyContent={"space-between"} w={"100%"}>
                 {thickness}
                 <Checkbox
+                  size={"sm"}
                   value={thickness}
                   iconColor="orange"
                   borderColor={"blackAlpha.400"}
@@ -84,7 +86,7 @@ const SampleProductList: React.FC<ProductListProps> = ({ data, ProdNameID}) => {
             ))}
           </VStack>
         </CheckboxGroup>
-      </HStack>
+      </Flex>
       <Button
         fontSize={"1rem"}
         fontWeight={"semibold"}

@@ -189,6 +189,7 @@ export async function getAllDimensionProperties(req: Request, res: Response) {
     res.status(409).send(error);
   }
 }
+//Ruta para obtener listado de todos productos filtrados por size, thickness, finish y type
 export async function getProductsFilter(req: Request, res: Response) {
   try {
     const { material, type, finish, size, thickness } = req.query;
@@ -231,7 +232,7 @@ export async function getProductsFilter(req: Request, res: Response) {
     });
     if (typeValues.length > 0) {
       orClause +=
-        ` OR p.DimensionID IN (SELECT DimensionID FROM Dimension WHERE Type IN (${markerTypes}))`;
+        ` OR p.DimensionID IN (SELECT DimensionID FROM Dimension WHERE Dimension.Type IN (${markerTypes}))`;
       filters["type"] = typeValues;
     }
 
@@ -245,7 +246,7 @@ export async function getProductsFilter(req: Request, res: Response) {
     });
     if (finishValues.length > 0) {
       orClause +=
-        ` OR p.dimensionID IN (SELECT DimensionID FROM Dimension WHERE finish IN (${markerFinish}))`;
+        ` OR p.dimensionID IN (SELECT DimensionID FROM Dimension WHERE  Dimension.Finish IN (${markerFinish}))`;
       filters["finish"] = finishValues;
     }
 
@@ -259,7 +260,7 @@ export async function getProductsFilter(req: Request, res: Response) {
     });
     if (sizeValues.length > 0) {
       orClause +=
-        ` OR p.DimensionID IN (SELECT DimensionID FROM Dimension WHERE size IN (${markerSize}))`;
+        ` OR p.DimensionID IN (SELECT DimensionID FROM Dimension WHERE  Dimension.Size IN (${markerSize}))`;
       filters["size"] = sizeValues;
     }
     const thicknessValues = splitValues(thickness, ",");
@@ -277,14 +278,13 @@ export async function getProductsFilter(req: Request, res: Response) {
     }
 
     if (orClause) {
-      console.log(orClause);
-      console.log(whereClause);
       whereClause += " AND (" + orClause.slice(4) + ")"; // Removing the leading ' OR '
     }
     
     if (whereClause) {
       query += " WHERE " + whereClause.slice(5); // Removing the leading ' AND '
     }
+    console.log(query);
     const obj =       Object.values(filters).flatMap((value) => {
       if (Array.isArray(value)) {
         return value as string[]; // Convert ParsedQs[] to string[]
@@ -376,9 +376,18 @@ export async function getAllProductsByMaterial(req: Request, res: Response) {
   try {
     const { material } = req.query;
 
-    const query = `SELECT ProdNames.Material, ProdNames.Naturali_ProdName, ProdNames.ProdNameID
-                  FROM ProdNames
-                  ${material ? `WHERE Material = "${material}"` : ``}
+    const query = `SELECT ProdNames.Material,
+                          ProdNames.Naturali_ProdName, 
+                          ProdNames.ProdNameID, 
+                          Products.ProdID, 
+                          Dimension.Type, 
+                          Dimension.Size, 
+                          Dimension.Thickness, 
+                          Dimension.Finish
+                  FROM Products
+                  LEFT JOIN ProdNames ON Products.ProdNameID = ProdNames.ProdNameID
+                  LEFT JOIN Dimension ON Products.DimensionID = Dimension.DimensionID
+                  ${material ? `WHERE ProdNames.Material = "${material}"` : ``}
                   `;
 
     mysqlConnection.query(

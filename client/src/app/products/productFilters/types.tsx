@@ -6,9 +6,15 @@ export interface FilterButtonsProps {
     filters: Filters;
   }
 
+// En el archivo types.ts o donde tengas definidos los tipos
 export interface Filters {
-    [key: string]: string[];
-  }
+  material: string;
+  type: string[];
+  finish: string[];
+  thickness: string[];
+  size: string[];
+}
+
 
 export interface UniqueFilter {
     type?:  string[] 

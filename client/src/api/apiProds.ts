@@ -18,7 +18,6 @@ export const getProductsHome = async (material: string, colorId: string) => {
 
 export const getProductValues = async (ProdNameID: number) => {
   try {
-
     const response = await axios.get(
       `http://localhost:5000/api/products/id/${ProdNameID}`
     );

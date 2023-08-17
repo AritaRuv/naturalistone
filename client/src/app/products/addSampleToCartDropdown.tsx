@@ -1,5 +1,5 @@
 import React from "react";
-import { Box } from "@chakra-ui/react";
+import { Box, Text } from "@chakra-ui/react";
 import SampleProductList from "./sampleProductList";
 
 
@@ -18,13 +18,12 @@ const AddSampleProductToCart: React.FC<AddProductSampleToCartProps> = ({
     <Box
       display={"flex"}
       justifyContent={"space-between"}
+      py={"2%"}
+      px={"2%"}
       w={"260px"}
-      h={"200px"}
+      h={"20vh"}
+      bg={"white"}
       flexDir={"column"}
-      position={"relative"}
-      zIndex={12}
-      bg={"whitesmoke"}
-      p={"15px"}
     >
       <SampleProductList ProdNameID={ProdNameID} data={productValues}/>
     </Box>

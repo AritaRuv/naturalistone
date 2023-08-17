@@ -17,8 +17,8 @@ const FiltersFinish: React.FC<UniqueFilter> = ({ finish, handleCheckboxChange })
               if(mat !== null){
                 return(
                   <Box my={"2px"} key={mat} display={"flex"} flexDir={"row"} justifyContent={"space-between"}>
-                    <Tooltip label={mat} isDisabled={mat.length > 18 ? false : true}>
-                      <Text mr={"10px"} textTransform={"uppercase"} fontWeight={"light"} fontSize={"0.8rem"}>{mat.length > 18 ? mat.slice(0,15)+"..." : mat}</Text>
+                    <Tooltip label={mat} isDisabled={mat.length > 8 ? false : true}>
+                      <Text mr={"10px"} textTransform={"uppercase"} fontWeight={"light"} fontSize={"0.8rem"}>{mat.length > 8 ? mat.slice(0,8)+"..." : mat}</Text>
                     </Tooltip>
                     <Box display={"flex"} alignItems={"center"} h={"20px"}>
                       <Checkbox

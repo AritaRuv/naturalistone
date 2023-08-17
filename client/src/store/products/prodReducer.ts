@@ -7,6 +7,7 @@ import {
 
 const initialState: ProductState = {
   products: [],
+  products_by_material: [],
   products_filters: [],
   productValues: {},
   productValuesValidation: {},
@@ -16,6 +17,7 @@ const initialState: ProductState = {
   error: null,
   dimensions: null,
   product_images:[],
+  raw_products: [],
 };
 
 const productReducer = (
@@ -84,6 +86,13 @@ const productReducer = (
     return {
       ...state,
       product: action.payload
+    };  
+  case ProductActionTypes.FETCH_PRODUCTS_BY_MATERIAL:
+    return {
+      ...state,
+      products_by_material: action.payload.result,
+      raw_products: action.payload.products
+
     };  
   default:
     return state;
