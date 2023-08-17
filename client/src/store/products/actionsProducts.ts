@@ -35,7 +35,7 @@ export const fetchProductsHome = (material: string, colorId: string) => {
   };
 };
 
-export const fetchProductsValues = ({ ProdNameID}) => {
+export const fetchProductsValues = ({ ProdNameID }) => {
   return async (dispatch: Dispatch<ProductAction>) => {
     try {
       const productValues = await getProductValues(ProdNameID); // Llama a tu función de solicitud a la API
@@ -105,12 +105,11 @@ export const fetchDimension = (material: string) => {
 };
 //Action que trae productos filtrados por type, finish, size y thickness, no hace pedido a la api y carga los estados product_filtered 
 export const fetchProductsFilters = (raw_products: RawProduct[], filters: Filters) => {
-  
+
   return async (dispatch: Dispatch<ProductAction>) => {
     dispatch({ type: ProductActionTypes.FETCH_PRODUCTS_REQUEST });
     try {
-      const result = await getProductsFiltered(raw_products,filters);
-      console.log(result);
+      const result = await getProductsFiltered(raw_products, filters);
       dispatch({
         type: ProductActionTypes.FETCH_PRODUCTS_FILTERS_SUCCESS,
         payload: result,

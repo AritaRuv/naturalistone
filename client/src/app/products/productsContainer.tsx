@@ -22,11 +22,11 @@ const ProductsContainer: React.FC<Filters> = () => {
   );
 
   let gridColumns = 5;
-  
-  if(isLargeScreen ){
+
+  if (isLargeScreen) {
     gridColumns = 4;
   }
-  if(isMediumScreen ){
+  if (isMediumScreen) {
     gridColumns = 3;
   }
   if (isSmallScreen) {
@@ -44,7 +44,7 @@ const ProductsContainer: React.FC<Filters> = () => {
       top={"10vh"}
       spacingY={"10vh"}
       py={"2%"}
-      w={is1200Screen ? "80vw" :"80vw"}
+      w={is1200Screen ? "80vw" : "80vw"}
       columns={gridColumns} // Establece el número de columnas dinámicamente
       h={"100%"}
       minH={"90vh"}
@@ -59,15 +59,15 @@ const ProductsContainer: React.FC<Filters> = () => {
           );
         })
       ) : (
-        products_by_material.length !== 0 ? (
-          products_by_material.slice(0,20).map((prod) => {
+        products_by_material?.length !== 0 ? (
+          products_by_material?.slice(0, 20).map((prod) => {
             return (
               <Box>
                 <ProductCard product={prod} key={prod.ProdNameID} site={"products"} />
               </Box>
             );
           })
-        ):(null)
+        ) : (null)
       )
       }
     </SimpleGrid>
