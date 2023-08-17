@@ -8,8 +8,68 @@ import {
   Text,
   VStack,
 } from "@chakra-ui/react";
+import { useState, useEffect } from "react";
 
-export function PaymentMethodForm({ showErrors }) {
+export function PaymentMethodForm({
+  showErrors,
+  formData,
+  handleChangePaymentMethod,
+  errors,
+  setFormData,
+}) {
+  const [selectedPaymentMethod, setSelectedPaymentMethod] =
+    useState("creditCard");
+
+  const [disabled, setDisabled] = useState(false);
+
+  const handleCheckboxChange = (
+    event: any,
+    // value: string,
+    setState: React.Dispatch<React.SetStateAction<string>>
+  ) => {
+    setState((prevState) =>
+      prevState === event.target.value ? "" : event.target.value
+    );
+    if (event.target.value === "creditCard") {
+      setDisabled(false);
+    } else {
+      setFormData({
+        ...formData,
+        Payment_Method: {
+          CreditCardNumber: "",
+          ExpirationDateMonth: "",
+          ExpirationDateYear: "",
+          Cvv: "",
+        },
+      });
+      setDisabled(true);
+    }
+    setFormData({
+      ...formData,
+      Shipping_Address: {
+        ...formData.Shipping_Address,
+      },
+      Payment_Method: {
+        ...formData.Payment_Method,
+        Method: event.target.value,
+      },
+    });
+  };
+
+  useEffect(() => {
+    if (!disabled) {
+      setFormData({
+        ...formData,
+        Payment_Method: {
+          CreditCardNumber: "",
+          ExpirationDateMonth: "",
+          ExpirationDateYear: "",
+          Cvv: "",
+        },
+      });
+    }
+  }, [setFormData]);
+
   return (
     <>
       <Box w={"full"} h={"40px"} pl={"40px"} mt={"5%"}>
@@ -23,7 +83,15 @@ export function PaymentMethodForm({ showErrors }) {
         spacing={2}
       >
         <Box display={"flex"} flexDir={"row"} pt={"20px"}>
-          <Checkbox size="md" colorScheme="teal" />
+          <Checkbox
+            size="md"
+            colorScheme="teal"
+            value={"creditCard"}
+            isChecked={selectedPaymentMethod === "creditCard"}
+            onChange={(event) =>
+              handleCheckboxChange(event, setSelectedPaymentMethod)
+            }
+          />
           <Text fontWeight={"semibold"} pt={"4px"} pl={"20px"}>
             CREDIT CARD
           </Text>
@@ -32,12 +100,13 @@ export function PaymentMethodForm({ showErrors }) {
           <InputGroup display={"flex"} flexDirection={"column"} h={"60px"}>
             <Input
               w={"full"}
-              id={"firstName"}
-              name={"firstName"}
-              // value={formData.firstName}
+              id={"CreditCardNumber"}
+              name={"CreditCardNumber"}
+              value={formData.Payment_Method.CreditCardNumber}
               placeholder={"CREDIT CARD NUMBER"}
+              disabled={disabled}
               border={"none"}
-              // onChange={handleChange}
+              onChange={handleChangePaymentMethod}
               _focus={{
                 boxShadow: "0 0.0px 0.0px #f2f2f2 inset, 0 0 0px #f2f2f2",
               }}
@@ -52,7 +121,7 @@ export function PaymentMethodForm({ showErrors }) {
             </InputRightElement>
             {showErrors && (
               <Text color={"red"} mt={"0.5vh"} fontSize={"xs"}>
-                {/* {errors.firstName} */}
+                {errors.CreditCardNumber}
               </Text>
             )}
           </InputGroup>
@@ -60,12 +129,9 @@ export function PaymentMethodForm({ showErrors }) {
             <InputGroup display={"flex"} flexDirection={"column"} h={"60px"}>
               <Input
                 w={"full"}
-                id={"firstName"}
-                name={"firstName"}
-                // value={formData.firstName}
                 placeholder={"EXPIRATION DATE"}
                 border={"none"}
-                // onChange={handleChange}
+                disabled={true}
                 _focus={{
                   boxShadow: "0 0.0px 0.0px #f2f2f2 inset, 0 0 0px #f2f2f2",
                 }}
@@ -75,27 +141,20 @@ export function PaymentMethodForm({ showErrors }) {
                   outline: "none",
                 }}
               />
-              <InputRightElement w={"60px"}>
-                <Text fontWeight={"semibold"}></Text>
-              </InputRightElement>
-              {showErrors && (
-                <Text color={"red"} mt={"0.5vh"} fontSize={"xs"}>
-                  {/* {errors.firstName} */}
-                </Text>
-              )}
             </InputGroup>
-            <InputGroup display={"flex"} flexDirection={"column"} h={"60px"}>
+            <InputGroup display={"flex"} flexDirection={"column"} h={"80px"}>
               <InputLeftElement>
                 <Text fontWeight={"semibold"}>MM</Text>
               </InputLeftElement>
               <Input
                 w={"full"}
-                id={"firstName"}
-                name={"firstName"}
-                // value={formData.firstName}
+                id={"ExpirationDateMonth"}
+                name={"ExpirationDateMonth"}
+                value={formData.Payment_Method.ExpirationDateMonth}
                 placeholder={""}
+                disabled={disabled}
                 border={"none"}
-                // onChange={handleChange}
+                onChange={handleChangePaymentMethod}
                 _focus={{
                   boxShadow: "0 0.0px 0.0px #f2f2f2 inset, 0 0 0px #f2f2f2",
                 }}
@@ -110,22 +169,23 @@ export function PaymentMethodForm({ showErrors }) {
               </InputRightElement>
               {showErrors && (
                 <Text color={"red"} mt={"0.5vh"} fontSize={"xs"}>
-                  {/* {errors.firstName} */}
+                  {errors.ExpirationDateMonth}
                 </Text>
               )}
             </InputGroup>
-            <InputGroup display={"flex"} flexDirection={"column"} h={"60px"}>
+            <InputGroup display={"flex"} flexDirection={"column"} h={"80px"}>
               <InputLeftElement>
                 <Text fontWeight={"semibold"}>YY</Text>
               </InputLeftElement>
               <Input
                 w={"full"}
-                id={"firstName"}
-                name={"firstName"}
-                // value={formData.firstName}
+                id={"ExpirationDateYear"}
+                name={"ExpirationDateYear"}
+                value={formData.Payment_Method.ExpirationDateYear}
                 placeholder={""}
+                disabled={disabled}
                 border={"none"}
-                // onChange={handleChange}
+                onChange={handleChangePaymentMethod}
                 _focus={{
                   boxShadow: "0 0.0px 0.0px #f2f2f2 inset, 0 0 0px #f2f2f2",
                 }}
@@ -140,7 +200,7 @@ export function PaymentMethodForm({ showErrors }) {
               </InputRightElement>
               {showErrors && (
                 <Text color={"red"} mt={"0.5vh"} fontSize={"xs"}>
-                  {/* {errors.firstName} */}
+                  {errors.ExpirationDateYear}
                 </Text>
               )}
             </InputGroup>
@@ -148,12 +208,15 @@ export function PaymentMethodForm({ showErrors }) {
           <InputGroup display={"flex"} flexDirection={"column"} h={"60px"}>
             <Input
               w={"full"}
-              id={"firstName"}
-              name={"firstName"}
-              // value={formData.firstName}
+              id={"Cvv"}
+              name={"Cvv"}
+              value={formData.Payment_Method.Cvv}
               placeholder={"CVV"}
+              type={"number"}
+              disabled={disabled}
+              maxLength={3}
               border={"none"}
-              // onChange={handleChange}
+              onChange={handleChangePaymentMethod}
               _focus={{
                 boxShadow: "0 0.0px 0.0px #f2f2f2 inset, 0 0 0px #f2f2f2",
               }}
@@ -168,19 +231,35 @@ export function PaymentMethodForm({ showErrors }) {
             </InputRightElement>
             {showErrors && (
               <Text color={"red"} mt={"0.5vh"} fontSize={"xs"}>
-                {/* {errors.firstName} */}
+                {errors.Cvv}
               </Text>
             )}
           </InputGroup>
         </VStack>
         <Box display={"flex"} flexDir={"row"} pt={"40px"}>
-          <Checkbox size="md" colorScheme="teal" />
+          <Checkbox
+            size="md"
+            value={"debitCard"}
+            colorScheme="teal"
+            isChecked={selectedPaymentMethod === "debitCard"}
+            onChange={(event) =>
+              handleCheckboxChange(event, setSelectedPaymentMethod)
+            }
+          />
           <Text fontWeight={"semibold"} pt={"4px"} pl={"20px"}>
             PAY WITH DEBIT CARD
           </Text>
         </Box>
         <Box display={"flex"} flexDir={"row"} pt={"20px"}>
-          <Checkbox size="md" colorScheme="teal" />
+          <Checkbox
+            size="md"
+            value={"paypal"}
+            colorScheme="teal"
+            isChecked={selectedPaymentMethod === "paypal"}
+            onChange={(event) =>
+              handleCheckboxChange(event, setSelectedPaymentMethod)
+            }
+          />
           <Text fontWeight={"semibold"} pt={"4px"} pl={"20px"}>
             CHECKOUT WITH PAYPAL
           </Text>
@@ -197,12 +276,12 @@ export function PaymentMethodForm({ showErrors }) {
         <InputGroup display={"flex"} flexDirection={"column"} h={"60px"}>
           <Input
             w={"full"}
-            id={"firstName"}
-            name={"firstName"}
-            // value={formData.firstName}
-            placeholder={"SUBTOTAL"}
+            id={"SubTotal"}
+            name={"SubTotal"}
+            value={"SUBTOTAL"}
+            disabled={true}
             border={"none"}
-            // onChange={handleChange}
+            onChange={handleChangePaymentMethod}
             _focus={{
               boxShadow: "0 0.0px 0.0px #f2f2f2 inset, 0 0 0px #f2f2f2",
             }}
@@ -217,19 +296,19 @@ export function PaymentMethodForm({ showErrors }) {
           </InputRightElement>
           {showErrors && (
             <Text color={"red"} mt={"0.5vh"} fontSize={"xs"}>
-              {/* {errors.firstName} */}
+              {errors.SubTotal}
             </Text>
           )}
         </InputGroup>
         <InputGroup display={"flex"} flexDirection={"column"} h={"60px"}>
           <Input
             w={"full"}
-            id={"firstName"}
-            name={"firstName"}
-            // value={formData.firstName}
-            placeholder={"SHIPPING"}
+            id={"Shipping_Total"}
+            name={"Shipping_Total"}
+            value={"SHIPPING"}
             border={"none"}
-            // onChange={handleChange}
+            disabled={true}
+            onChange={handleChangePaymentMethod}
             _focus={{
               boxShadow: "0 0.0px 0.0px #f2f2f2 inset, 0 0 0px #f2f2f2",
             }}
@@ -244,7 +323,7 @@ export function PaymentMethodForm({ showErrors }) {
           </InputRightElement>
           {showErrors && (
             <Text color={"red"} mt={"0.5vh"} fontSize={"xs"}>
-              {/* {errors.firstName} */}
+              {errors.Shipping_Total}
             </Text>
           )}
         </InputGroup>
@@ -256,12 +335,12 @@ export function PaymentMethodForm({ showErrors }) {
         >
           <Input
             w={"60%"}
-            id={"firstName"}
-            name={"firstName"}
-            // value={formData.firstName}
-            placeholder={"TOTAL"}
+            id={"Total"}
+            name={"Total"}
+            value={"TOTAL"}
             border={"none"}
-            // onChange={handleChange}
+            disabled={true}
+            onChange={handleChangePaymentMethod}
             _focus={{
               boxShadow: "0 0.0px 0.0px #f2f2f2 inset, 0 0 0px #f2f2f2",
             }}
@@ -276,7 +355,7 @@ export function PaymentMethodForm({ showErrors }) {
           </InputRightElement>
           {showErrors && (
             <Text color={"red"} mt={"0.5vh"} fontSize={"xs"}>
-              {/* {errors.firstName} */}
+              {errors.Total}
             </Text>
           )}
         </InputGroup>

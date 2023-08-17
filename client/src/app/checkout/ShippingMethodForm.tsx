@@ -6,7 +6,12 @@ import {
   Text,
 } from "@chakra-ui/react";
 
-export function ShippingMethodForm({ showErrors }) {
+export function ShippingMethodForm({
+  showErrors,
+  formData,
+  handleChangeFormData,
+  errors,
+}) {
   return (
     <>
       <Box w={"full"} h={"40px"} pl={"40px"} mt={"5%"}>
@@ -16,12 +21,12 @@ export function ShippingMethodForm({ showErrors }) {
         <InputGroup display={"flex"} flexDirection={"column"} h={"60px"}>
           <Input
             w={"full"}
-            id={"firstName"}
-            name={"firstName"}
-            // value={formData.firstName}
+            id={"Shipping_Method"}
+            name={"Shipping_Method"}
+            value={formData.Shipping_Method}
             placeholder={"ECONOMY SHIPPING"}
             border={"none"}
-            // onChange={handleChange}
+            onChange={handleChangeFormData}
             _focus={{
               boxShadow: "0 0.0px 0.0px #f2f2f2 inset, 0 0 0px #f2f2f2",
             }}
@@ -36,7 +41,7 @@ export function ShippingMethodForm({ showErrors }) {
           </InputRightElement>
           {showErrors && (
             <Text color={"red"} mt={"0.5vh"} fontSize={"xs"}>
-              {/* {errors.firstName} */}
+              {errors.Shipping_Method}
             </Text>
           )}
         </InputGroup>

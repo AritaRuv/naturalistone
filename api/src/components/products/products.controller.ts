@@ -121,8 +121,14 @@ export async function getProductByIDS(req: Request, res: Response) {
 //Ruta para obtener listado de todos los nombres de materiales sin repetir
 export async function getAllMaterials(req: Request, res: Response) {
   try {
-    const query = `SELECT GROUP_CONCAT(DISTINCT ProdNames.Material SEPARATOR ', ') AS Materials
-                    FROM ProdNames;
+    const query = `SELECT -- Products.ProdID, Naturali_ProdName, ProdNames.Material, Dimension.*, Quantity 
+                  ProdNames.Material, count(*) Sale_count
+                  from ProdSold inner join Products on Products.ProdID = ProdSold.ProdID
+                  inner join ProdNames on ProdNames.ProdNameID = Products.ProdNameID
+                  inner join Dimension on Dimension.DimensionID = Products.DimensionID
+                  -- where saleID = 4013
+                  group by ProdNames.Material
+                  order by count(*) desc
                     `;
 
     mysqlConnection.query(
@@ -136,13 +142,10 @@ export async function getAllMaterials(req: Request, res: Response) {
           res.status(404).json("No material");
         } else {
           const materialesRowData = results as RowDataPacket[]; // Convertir a tipo RowDataPacket[]
-          const materialesString = materialesRowData.map(
-            (row) => row.Materials
-          )[0]; // Obtener la cadena de materiales
-          const materialesArray = materialesString
-            .split(", ")
-            .map((material) => material.trim()); // Dividir la cadena y eliminar los espacios en blanco
-          res.status(200).json(materialesArray);
+          const materialsFilters = materialesRowData
+            .filter((products) => products.Material !== null)
+            .map((productFilters) => productFilters.Material);
+          res.status(200).json(materialsFilters);
         }
       }
     );

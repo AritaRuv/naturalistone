@@ -183,3 +183,96 @@ export const validateCompletedEditInputsProject = (formData) => {
 
   return errors;
 };
+
+export const validateCompletedInputsCheckout = (formData) => {
+  const errors: any = {};
+  const regexNumber = /^[+]?\d+$/;
+  const regexPhone = /^[0-9+\s()-]+$/;
+  const regexNoNumber = /^[^\d]*$/;
+  const regexEmail = /^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}$/i;
+  const regexOnlyLetters = /^[a-zA-Z\s]+$/;
+  const regexCard = /^[0-9\s]+$/;
+
+  if (formData.Shipping_Address.FirstName === "")
+    errors.FirstName = "Please enter a first name";
+  if (formData.Shipping_Address.FirstName !== "") {
+    if (!regexOnlyLetters.test(formData.Shipping_Address.FirstName)) {
+      errors.FirstName = "Please enter a valid name";
+    }
+  }
+
+  if (formData.Shipping_Address.LastName === "")
+    errors.LastName = "Please enter a last name";
+  if (formData.Shipping_Address.LastName !== "") {
+    if (!regexOnlyLetters.test(formData.Shipping_Address.LastName)) {
+      errors.LastName = "Please enter a valid name";
+    }
+  }
+
+  if (formData.Shipping_Address.Email === "")
+    errors.Email = "Please enter a email";
+  if (formData.Shipping_Address.Email !== "") {
+    if (!regexEmail.test(formData.Shipping_Address.Email)) {
+      errors.Email = "Please enter a valid email";
+    }
+  }
+
+  if (formData.Shipping_Address.Phone === "")
+    errors.Phone = "Please enter a Phone";
+  if (formData.Shipping_Address.Phone !== "") {
+    if (!regexPhone.test(formData.Shipping_Address.Phone)) {
+      errors.Phone = "Please enter a valid phone";
+    }
+  }
+
+  if (formData.Shipping_Address.Shipping_Address === "")
+    errors.Shipping_Address = "Please enter a shipping address";
+
+  if (formData.Shipping_Address.Shipping_City === "")
+    errors.Shipping_City = "Please enter a shipping city";
+  if (formData.Shipping_Address.Shipping_City !== "") {
+    if (!regexNoNumber.test(formData.Shipping_Address.Shipping_City)) {
+      errors.Shipping_City = "Please enter a valid city";
+    }
+  }
+
+  if (formData.Shipping_Address.Shipping_State === "")
+    errors.Shipping_State = "Please enter a shipping state";
+  if (formData.Shipping_Address.Shipping_State !== "") {
+    if (!regexNoNumber.test(formData.Shipping_Address.Shipping_State)) {
+      errors.Shipping_State = "Please enter a valid state";
+    }
+  }
+
+  if (formData.Shipping_Address.Shipping_ZipCode === "")
+    errors.Shipping_ZipCode = "Please enter a shipping zip code";
+  if (formData.Shipping_Address.Shipping_ZipCode !== "") {
+    if (!regexNumber.test(formData.Shipping_Address.Shipping_ZipCode)) {
+      errors.Shipping_ZipCode = "Please enter a valid shipping zip code";
+    }
+  }
+
+  if (formData.Shipping_Method === "")
+    errors.Shipping_Method = "Please enter Shipping Method";
+
+  if (formData.Payment_Method.Method === "")
+    errors.Method = "Please enter a method";
+
+  if (formData.Payment_Method.CreditCardNumber === "")
+    errors.CreditCardNumber = "Please enter a creditcard number";
+  if (formData.Payment_Method.CreditCardNumber !== "") {
+    if (!regexCard.test(formData.Payment_Method.CreditCardNumber)) {
+      errors.CreditCardNumber = "Please enter a valid credit card";
+    }
+  }
+
+  if (formData.Payment_Method.ExpirationDateMonth === "")
+    errors.ExpirationDateMonth = "Please enter a expiration date month";
+
+  if (formData.Payment_Method.ExpirationDateYear === "")
+    errors.ExpirationDateYear = "Please enter a expiration date year";
+
+  if (formData.Payment_Method.Cvv === "") errors.Cvv = "Please enter a cvv";
+
+  return errors;
+};
