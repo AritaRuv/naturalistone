@@ -59,14 +59,12 @@ const MenuDrawer: React.FC<MenuDrawerProps> = ({ smallerThan740 }) => {
           </DrawerHeader>
           <DrawerBody mt={"30px"}>
             {
-              buttons.map(button => {
+              buttons.map((button, i) => {
                 return(
-                  <> 
-                    <Box p={"10px"}>
-                      <Button textTransform={"uppercase"} pl={"2%"} fontSize={"sizes.menuButton"} variant="unstyled" className="menuDrawerButton" rightIcon={<ChevronRightIcon />}>{button.name}</Button>
-                      <Divider borderColor="gray.100"/>
-                    </Box>
-                  </>
+                  <Box p={"10px"} key={i}>
+                    <Button textTransform={"uppercase"} pl={"2%"} fontSize={"sizes.menuButton"} variant="unstyled" className="menuDrawerButton" rightIcon={<ChevronRightIcon />}>{button.name}</Button>
+                    <Divider borderColor="gray.100"/>
+                  </Box>
                 );
               })
 

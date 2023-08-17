@@ -15,7 +15,7 @@ import { ProductState } from "@/store/products/typesProducts";
 
 export default function ProdDetailCarousel({params}) {
 
-  const { Material, Naturali_ProdName, ProdNameID } = params;
+  const { Material, ProdName, ProdNameID } = params;
 
   const dispatch = useAppDispatch();
 
@@ -30,7 +30,7 @@ export default function ProdDetailCarousel({params}) {
   const valuesGroupId = "Values";
 
   useEffect(() => {
-    dispatch(fetchProductImages(Material, Naturali_ProdName));
+    dispatch(fetchProductImages(Material, ProdName));
   }, []);
 
 
@@ -75,7 +75,7 @@ export default function ProdDetailCarousel({params}) {
 
 
   return (
-    <Flex justifyContent="center" alignItems="center" 
+    <Flex justifyContent="center" alignItems="center"
       w={!smallerThan740 ? 
         !smallerThan1200 ? 
           "50%" 

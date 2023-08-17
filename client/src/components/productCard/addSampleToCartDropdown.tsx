@@ -18,12 +18,13 @@ const AddSampleProductToCart: React.FC<AddProductSampleToCartProps> = ({
     <Box
       display={"flex"}
       justifyContent={"space-between"}
-      py={"2%"}
-      px={"2%"}
       w={"260px"}
-      h={"20vh"}
-      bg={"white"}
+      h={"200px"}
       flexDir={"column"}
+      position={"relative"}
+      zIndex={12}
+      bg={"whitesmoke"}
+      p={"15px"}
     >
       <SampleProductList ProdNameID={ProdNameID} data={productValues}/>
     </Box>

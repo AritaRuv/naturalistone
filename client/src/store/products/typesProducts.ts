@@ -4,6 +4,16 @@ export interface Product {
   Naturali_ProdName: string;
   Material: string;
 }
+export interface RawProduct {
+  ProdNameID: number;
+  Naturali_ProdName: string;
+  Material: string;
+  Thickness: string;
+  Size: string;
+  Finish: string;
+  Type: string;
+  ProdID: number;
+}
 
 export interface ProductData {
   [key: string]: {
@@ -23,6 +33,7 @@ export interface DimensionData {
 
 export interface ProductState {
   products: Product[];
+  products_by_material: Product[];
   products_filters: Product[];
   productValues: ProductData;
   productValuesValidation: ProductData;
@@ -32,6 +43,7 @@ export interface ProductState {
   error: string | null;
   dimensions: DimensionData | null;
   product_images: ImageResponse[];
+  raw_products: RawProduct[]
 }
 
 interface ImageResponse {
@@ -49,6 +61,7 @@ export enum ProductActionTypes {
   FETCH_MATERIALS = "FETCH_MATERIALS",
   FETCH_PRODUCT_BY_IDS = "FETCH_PRODUCT_BY_IDS",
   FETCH_PRODUCT_IMAGES = "FETCH_PRODUCT_IMAGES",
+  FETCH_PRODUCTS_BY_MATERIAL = "FETCH_PRODUCTS_BY_MATERIAL",
   LOAD_PRODUCT = "LOAD_PRODUCT",
   FETCH_DIMENSION = "FETCH_DIMENSION",
   FETCH_PRODUCTS_FILTERS_SUCCESS = "FETCH_PRODUCTS_FILTERS_SUCCESS",
@@ -56,6 +69,13 @@ export enum ProductActionTypes {
 
 export interface FetchProductsRequestAction {
   type: ProductActionTypes.FETCH_PRODUCTS_REQUEST;
+}
+export interface FetchProductsByMaterial {
+  type: ProductActionTypes.FETCH_PRODUCTS_BY_MATERIAL;
+  payload: {
+    products: RawProduct[];
+    result: Product[];
+  };
 }
 
 export interface FetchProductsHomeSuccessAction {
@@ -117,5 +137,6 @@ export type ProductAction =
   | FetchDimensionAction
   | FetchProductImages
   | LoadProduct
-  | FetchProductAction;
+  | FetchProductAction
+  | FetchProductsByMaterial;
 

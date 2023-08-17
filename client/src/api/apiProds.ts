@@ -53,10 +53,10 @@ export const getProduct = async (ProdNameID: number, DimensionID: number) => {
   }
 };
 
-export const getDimension = async () => {
+export const getDimension = async (material:string) => {
   try {
     const response = await axios.get(
-      `http://localhost:5000/api/products/dimension`
+      `http://localhost:5000/api/products/dimension/${material}`
     );
     return response.data;
   } catch (error) {
@@ -67,7 +67,7 @@ export const getDimension = async () => {
 
 export const getProductsFilters = async (filters: Filters) => {
   try {
-    const materialParam = filters.material ? filters.material.join(',') : '';
+    const materialParam = filters.material ? filters.material : '';
     const typeParam = filters.type ? filters.type.join(',') : '';
     const finishParam = filters.finish ? filters.finish.join(',') : '';
     const thicknessParam = filters.thickness ? filters.thickness.join(',') : '';

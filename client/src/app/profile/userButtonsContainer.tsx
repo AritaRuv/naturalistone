@@ -19,7 +19,7 @@ const UserButtonsContainer: React.FC<userButton> = ({
   const handleClick = (e) => {
     const { name } = e.target;
     appContext?.setShowMenu(name);
-    onClose();
+    if(site === "navbar") onClose();
   };
 
   const userButtonsArray = [

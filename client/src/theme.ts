@@ -19,7 +19,44 @@ const theme = extendTheme({
   },
   sizes: {
     menuButton: "0.4 rem",
-  }
+  },
+  components: {
+    Checkbox: {
+      baseStyle: {
+        control: {
+          borderColor: "#686868",
+          borderWidth: "0.85px",
+          borderRadius: "0",
+          _checked: {
+            borderColor: "#686868",
+            borderWidth: "0.85px",
+            borderRadius: "0",
+            _focus: {
+              borderColor: "#686868",
+              borderWidth: "0.85px",
+              borderRadius: "0",
+            },
+            _hover: {
+              borderColor: "#686868",
+              borderWidth: "0.85px",
+              borderRadius: "0",
+            }
+          },
+          _hover: {
+            borderColor: "#686868",
+            borderWidth: "0.85px",
+            borderRadius: "0",
+          },
+          _focus: {
+            borderColor: "black",
+            borderWidth: "0.85px",
+            borderRadius: "0",
+          }
+
+        },
+      },
+    },
+  },
 });
 
 export default theme;

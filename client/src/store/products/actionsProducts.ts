@@ -1,18 +1,20 @@
 // actions.ts
 import { Dispatch } from "redux";
-import { ProductActionTypes, ProductAction, Product } from "./typesProducts";
+import { ProductActionTypes, ProductAction, Product, RawProduct } from "./typesProducts";
 import {
   getProductValues,
   getProductsHome,
   getMaterials,
   getProduct,
   getDimension,
-  getProductsFilters,
   getProductImages,
   getProductValuesValidation,
   getProductsByMaterial
 } from "../../api/apiProds"; // Importa tu función de solicitud a la API
 import { Filters } from "@/app/products/productFilters/types";
+import getProductsFiltered from "@/controllers/productFilters";
+import getProductsByProdName from "@/controllers/productByProdName";
+
 
 export const fetchProductsHome = (material: string, colorId: string) => {
   return async (dispatch: Dispatch<ProductAction>) => {
@@ -33,7 +35,7 @@ export const fetchProductsHome = (material: string, colorId: string) => {
   };
 };
 
-export const fetchProductsValues = ({ ProdNameID }) => {
+export const fetchProductsValues = ({ ProdNameID}) => {
   return async (dispatch: Dispatch<ProductAction>) => {
     try {
       const productValues = await getProductValues(ProdNameID); // Llama a tu función de solicitud a la API
@@ -84,11 +86,11 @@ export const fetchProduct = (ProductNameID: number, DimensionID: number) => {
   };
 };
 
-export const fetchDimension = () => {
+export const fetchDimension = (material: string) => {
   return async (dispatch: Dispatch<ProductAction>) => {
     dispatch({ type: ProductActionTypes.FETCH_PRODUCTS_REQUEST });
     try {
-      const data = await getDimension(); // Llama a tu función de solicitud a la API
+      const data = await getDimension(material); // Llama a tu función de solicitud a la API
       dispatch({
         type: ProductActionTypes.FETCH_DIMENSION,
         payload: data,
@@ -101,15 +103,17 @@ export const fetchDimension = () => {
     }
   };
 };
-
-export const fetchProductsFilters = (filters: Filters) => {
+//Action que trae productos filtrados por type, finish, size y thickness, no hace pedido a la api y carga los estados product_filtered 
+export const fetchProductsFilters = (raw_products: RawProduct[], filters: Filters) => {
+  
   return async (dispatch: Dispatch<ProductAction>) => {
     dispatch({ type: ProductActionTypes.FETCH_PRODUCTS_REQUEST });
     try {
-      const products = await getProductsFilters(filters);
+      const result = await getProductsFiltered(raw_products,filters);
+      console.log(result);
       dispatch({
         type: ProductActionTypes.FETCH_PRODUCTS_FILTERS_SUCCESS,
-        payload: products,
+        payload: result,
       });
     } catch (error) {
       dispatch({
@@ -177,15 +181,20 @@ export const fetchProductsValuesValidation = (
     }
   };
 };
-
+//Action que trae productos de la tabla PRODUCTS filtrados por 1 material
 export const fetchProductsByMaterial = (material: string) => {
   return async (dispatch: Dispatch<ProductAction>) => {
     dispatch({ type: ProductActionTypes.FETCH_PRODUCTS_REQUEST });
     try {
       const products = await getProductsByMaterial(material);
+      const result = getProductsByProdName(products);
+      const data = {
+        products,
+        result
+      };
       dispatch({
-        type: ProductActionTypes.FETCH_PRODUCTS_FILTERS_SUCCESS,
-        payload: products,
+        type: ProductActionTypes.FETCH_PRODUCTS_BY_MATERIAL,
+        payload: data,
       });
     } catch (error) {
       dispatch({

@@ -8,7 +8,6 @@ import { Filters } from "./productFilters/types";
 
 
 const ProductsContainer: React.FC<Filters> = () => {
-  
   const [isExtraSmallScreen] = useMediaQuery("(max-width: 550px)");
   const [isSmallScreen] = useMediaQuery("(max-width: 1000px)");
   const [is1200Screen] = useMediaQuery("(max-width: 1200px)");
@@ -18,7 +17,10 @@ const ProductsContainer: React.FC<Filters> = () => {
   const { products_filters } = useAppSelector(
     (state: { productReducer: ProductState }) => state.productReducer
   );
-    
+  const { products_by_material } = useAppSelector(
+    (state: { productReducer: ProductState }) => state.productReducer
+  );
+
   let gridColumns = 5;
   
   if(isLargeScreen ){
@@ -48,14 +50,26 @@ const ProductsContainer: React.FC<Filters> = () => {
       minH={"90vh"}
       overflow={"auto"}
     >
-      {products_filters.length !== 0 &&
-        products_filters.slice(0,20).map((prod) => {
+      {products_filters.length !== 0 ? (
+        products_filters.map((prod) => {
           return (
             <Box>
               <ProductCard product={prod} key={prod.ProdNameID} site={"products"} />
             </Box>
           );
-        })}
+        })
+      ) : (
+        products_by_material.length !== 0 ? (
+          products_by_material.slice(0,20).map((prod) => {
+            return (
+              <Box>
+                <ProductCard product={prod} key={prod.ProdNameID} site={"products"} />
+              </Box>
+            );
+          })
+        ):(null)
+      )
+      }
     </SimpleGrid>
   );
 };
