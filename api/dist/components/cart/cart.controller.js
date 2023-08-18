@@ -17,26 +17,81 @@ const db_1 = __importDefault(require("../../db"));
 function newCartEntry(req, res) {
     return __awaiter(this, void 0, void 0, function* () {
         try {
-            const { size, thickness, finish, ProdNameID } = req.body;
+            const { size, thickness, finish, ProdNameID, quantity, customerID } = req.body;
             db_1.default.beginTransaction((beginTransactionError) => {
                 if (beginTransactionError) {
                     console.log("Error al iniciar la transacción: ", beginTransactionError);
                     res.status(500).json({ error: beginTransactionError.message });
                     return;
                 }
-                const queryGetDimension = `SELECT * FROM Dimension WHERE Dimension.Size = "${size}" AND Dimension.Thickness = "${thickness}" AND Dimension.Finish = "${finish}"`;
-                db_1.default.query(queryGetDimension, (dimensionError, dimensionResults, dimensionFields) => {
-                    if (dimensionError) {
-                        console.log("Error en la consulta queryGetDimension: ", dimensionError);
-                        db_1.default.rollback(() => {
-                            console.log("Rollback realizado debido a un error en queryGetDimension");
-                            res.status(500).json({ error: dimensionError.message });
+                if (size !== "") {
+                    const queryGetDimension = `SELECT * FROM Dimension WHERE Dimension.Size = "${size}" AND Dimension.Thickness = "${thickness}" AND Dimension.Finish = "${finish}"`;
+                    db_1.default.query(queryGetDimension, (dimensionError, dimensionResults, dimensionFields) => {
+                        if (dimensionError) {
+                            console.log("Error en la consulta queryGetDimension: ", dimensionError);
+                            db_1.default.rollback(() => {
+                                console.log("Rollback realizado debido a un error en queryGetDimension");
+                                res.status(500).json({ error: dimensionError.message });
+                            });
+                            return;
+                        }
+                        const dimension = dimensionResults[0];
+                        const DimensionID = dimension.DimensionID;
+                        const queryGetProdID = `SELECT * FROM NaturaliStone.Products WHERE Products.ProdNameID = ${ProdNameID} AND Products.DimensionID = ${DimensionID}`;
+                        db_1.default.query(queryGetProdID, (prodError, prodResults, prodFields) => {
+                            if (prodError) {
+                                console.log("Error en la consulta queryGetProdID: ", prodError);
+                                db_1.default.rollback(() => {
+                                    console.log("Rollback realizado debido a un error en queryGetProdID");
+                                    res.status(500).json({ error: prodError.message });
+                                });
+                                return;
+                            }
+                            // Maneja el resultado undefined de la query, en caso de que la convinacion ProdNameID y DimensionID no 
+                            // exista en la db
+                            // ---------------------------------
+                            if (prodResults.length === 0) {
+                                console.log("El resultado de queryGetProdID es indefinido o vacío.");
+                                db_1.default.rollback(() => {
+                                    console.log("Rollback realizado debido a un resultado indefinido o vacío en queryGetProdID");
+                                    res.status(404).json({ error: "Producto no encontrado" });
+                                });
+                                return;
+                            }
+                            //----------------------------------
+                            const product = prodResults[0];
+                            const productSalePrice = product.SalePrice === null ? 1 : product.SalePrice;
+                            const queryInsertCart = "INSERT INTO Cart(CustomerID, ProductID, Quantity, SalePrice) VALUES (?, ?, ?, ?)";
+                            const cartValues = [customerID, product.ProdID, 0, productSalePrice];
+                            db_1.default.query(queryInsertCart, cartValues, (insertError, insertResults, insertFields) => {
+                                if (insertError) {
+                                    console.log("Error en la consulta queryInsertCart: ", insertError);
+                                    db_1.default.rollback(() => {
+                                        console.log("Rollback realizado debido a un error en queryInsertCart");
+                                        res.status(500).json({ error: insertError.message });
+                                    });
+                                }
+                                else {
+                                    db_1.default.commit((commitError) => {
+                                        if (commitError) {
+                                            console.log("Error al realizar el commit: ", commitError);
+                                            db_1.default.rollback(() => {
+                                                console.log("Rollback realizado debido a un error en el commit");
+                                                res.status(500).json({ error: commitError.message });
+                                            });
+                                        }
+                                        else {
+                                            console.log("Datos OK");
+                                            res.status(200).send("Nueva entrada en el carrito creada");
+                                        }
+                                    });
+                                }
+                            });
                         });
-                        return;
-                    }
-                    const dimension = dimensionResults[0];
-                    const DimensionID = dimension.DimensionID;
-                    const queryGetProdID = `SELECT * FROM NaturaliStone.Products WHERE Products.ProdNameID = ${ProdNameID} AND Products.DimensionID = ${DimensionID}`;
+                    });
+                }
+                else {
+                    const queryGetProdID = `SELECT * FROM NaturaliStone.Products WHERE Products.ProdNameID = ${ProdNameID}`;
                     db_1.default.query(queryGetProdID, (prodError, prodResults, prodFields) => {
                         if (prodError) {
                             console.log("Error en la consulta queryGetProdID: ", prodError);
@@ -59,37 +114,50 @@ function newCartEntry(req, res) {
                         }
                         //----------------------------------
                         const product = prodResults[0];
-                        const Quantity = 1;
-                        const CustomerID = 1938;
-                        const productSalePrice = product.SalePrice === null ? 1 : product.SalePrice;
-                        const queryInsertCart = "INSERT INTO Cart(CustomerID, ProductID, Quantity, SalePrice) VALUES (?, ?, ?, ?)";
-                        const cartValues = [CustomerID, product.ProdID, Quantity, productSalePrice];
-                        db_1.default.query(queryInsertCart, cartValues, (insertError, insertResults, insertFields) => {
-                            if (insertError) {
-                                console.log("Error en la consulta queryInsertCart: ", insertError);
+                        const queryCheckCart = `SELECT ProductID FROM Cart WHERE ProductID = ${product.ProdID}`;
+                        db_1.default.query(queryCheckCart, (prodError, prodResults, prodFields) => {
+                            if (prodError) {
+                                console.log("Error en la consulta queryGetProdID: ", prodError);
                                 db_1.default.rollback(() => {
-                                    console.log("Rollback realizado debido a un error en queryInsertCart");
-                                    res.status(500).json({ error: insertError.message });
+                                    console.log("Rollback realizado debido a un error en queryGetProdID");
+                                    res.status(500).json({ error: prodError.message });
                                 });
+                                return;
                             }
-                            else {
-                                db_1.default.commit((commitError) => {
-                                    if (commitError) {
-                                        console.log("Error al realizar el commit: ", commitError);
+                            if (prodResults.length === 0) {
+                                const queryInsertCart = "INSERT INTO Cart(CustomerID, ProductID, Quantity, SalePrice) VALUES (?, ?, ?, ?)";
+                                const cartValues = [customerID, product.ProdID, 0, 0];
+                                db_1.default.query(queryInsertCart, cartValues, (insertError, insertResults, insertFields) => {
+                                    if (insertError) {
+                                        console.log("Error en la consulta queryInsertCart: ", insertError);
                                         db_1.default.rollback(() => {
-                                            console.log("Rollback realizado debido a un error en el commit");
-                                            res.status(500).json({ error: commitError.message });
+                                            console.log("Rollback realizado debido a un error en queryInsertCart");
+                                            res.status(500).json({ error: insertError.message });
                                         });
                                     }
                                     else {
-                                        console.log("Datos OK");
-                                        res.status(200).send("Nueva entrada en el carrito creada");
+                                        db_1.default.commit((commitError) => {
+                                            if (commitError) {
+                                                console.log("Error al realizar el commit: ", commitError);
+                                                db_1.default.rollback(() => {
+                                                    console.log("Rollback realizado debido a un error en el commit");
+                                                    res.status(500).json({ error: commitError.message });
+                                                });
+                                            }
+                                            else {
+                                                console.log("Datos OK");
+                                                res.status(200).send("Nueva entrada en el carrito creada");
+                                            }
+                                        });
                                     }
                                 });
                             }
+                            else {
+                                res.status(200).send("Ya existe en el carrito");
+                            }
                         });
                     });
-                });
+                }
             });
         }
         catch (error) {
