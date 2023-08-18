@@ -5,8 +5,8 @@ import { addToCart, deleteCartProd, getCart, updateCartProd } from "../../api/ap
 
 export interface bodyCart {
   size: string | null;
-  thickness:string;
-  finish:string;
+  thickness: string;
+  finish: string;
   ProdNameID: number;
   customerID: number;
 }
@@ -23,7 +23,6 @@ export const fetchCart = (id: number) => {
     dispatch({ type: CartActionTypes.FETCH_CART_REQUEST });
     try {
       const cart = await getCart(id); // Llama a tu función de solicitud a la AP
-
       dispatch({
         _type: CartActionTypes.FETCH_CART_SUCCESS,
         get type() {
@@ -34,7 +33,7 @@ export const fetchCart = (id: number) => {
         },
         payload: cart,
       });
-      
+
     } catch (error) {
       dispatch({
         type: CartActionTypes.FETCH_CART_FAILURE,
@@ -51,21 +50,22 @@ export const postCart = (body: bodyCart) => {
     dispatch({ type: CartActionTypes.FETCH_CART_REQUEST });
     try {
       // eslint-disable-next-line @typescript-eslint/no-unused-vars
-      const res = await addToCart(body); 
+      const res = await addToCart(body);
       const cart = await getCart(body.customerID);
 
       dispatch({
         type: CartActionTypes.POST_CART_PRODUCTS,
         payload: cart
       });
-      
+
     } catch (error) {
       dispatch({
         type: CartActionTypes.FETCH_CART_FAILURE,
         error: "Error al obtener los productos",
       });
     }
-  };};
+  };
+};
 
 export const updateCart = (body: bodyCartUpdate) => {
 
@@ -74,14 +74,14 @@ export const updateCart = (body: bodyCartUpdate) => {
     dispatch({ type: CartActionTypes.FETCH_CART_REQUEST });
     try {
       // eslint-disable-next-line @typescript-eslint/no-unused-vars
-      const res = await updateCartProd(body); 
+      const res = await updateCartProd(body);
       const cart = await getCart(body.customerID);
 
       dispatch({
         type: CartActionTypes.UPDATE_CART_PRODUCTS,
         payload: cart
       });
-      
+
     } catch (error) {
       dispatch({
         type: CartActionTypes.FETCH_CART_FAILURE,
@@ -91,7 +91,7 @@ export const updateCart = (body: bodyCartUpdate) => {
   };
 };
 
-export const deleteCart = (idEntryCart:number, customerID:number) => {
+export const deleteCart = (idEntryCart: number, customerID: number) => {
 
   return async (dispatch: Dispatch<CartAction>) => {
 
@@ -105,7 +105,7 @@ export const deleteCart = (idEntryCart:number, customerID:number) => {
         payload: cart
 
       });
-      
+
     } catch (error) {
       dispatch({
         type: CartActionTypes.FETCH_CART_FAILURE,

@@ -15,36 +15,37 @@ interface ProductListProps {
   ProdNameID: number
 }
 
-const SampleProductList: React.FC<ProductListProps> = ({ data, ProdNameID}) => {
+const SampleProductList: React.FC<ProductListProps> = ({ data, ProdNameID }) => {
 
   const dispatch = useAppDispatch();
-
   const { thickness, finish, prodNameID } = data[ProdNameID];
-  
+
   const [selectedThickness, setSelectedThickness] = useState<string[]>([]);
   const [selectedFinish, setSelectedFinish] = useState<string[]>([]);
 
   const handleCheckboxChange = (value: string, setState: React.Dispatch<React.SetStateAction<string[]>>) => {
     setState(prevState => prevState.includes(value) ? prevState.filter(v => v !== value) : [value]);
-  }; 
+  };
 
   //maneja los checkboxes para controlar que solo 1 este clickeado a la vez
 
   const handleAddToCart = async () => {
+
     const bodyCust = {
-      size: null,
+      size: "",
       thickness: selectedThickness[0],
       finish: selectedFinish[0],
       ProdNameID: ProdNameID,
-      customerID: 1938
+      customerID: 1938,
+      quantity: 0
     };
-  
+
     dispatch(postCart(bodyCust));
     //ahoramismo estoy intentando que la logica general funcione. Voy a necesitar agregar logica para controlar los chcekcbox
     // ya que en este momento admite convinaciones inexistentes. Al clickear 1 checkbox filtra los demas x resultados existentes 
     //o algo por el estilo. 
   };
-  
+
   return (
     <>
       <Flex align="start" flexDir={"row"} justifyContent={"space-around"} w={"100%"} mb={"4%"}>
