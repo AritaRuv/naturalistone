@@ -15,6 +15,9 @@ const ProductsContainer: React.FC<Filters> = () => {
   const { products_filters } = useAppSelector(
     (state: { productReducer: ProductState }) => state.productReducer
   );
+  const { products_by_material } = useAppSelector(
+    (state: { productReducer: ProductState }) => state.productReducer
+  );
 
   let gridColumns = 5;
 
@@ -45,18 +48,31 @@ const ProductsContainer: React.FC<Filters> = () => {
       minH={"90vh"}
       overflow={"auto"}
     >
-      {products_filters.length !== 0 &&
-        products_filters.slice(0, 20).map((prod) => {
-          return (
-            <Box>
-              <ProductCard
-                product={prod}
-                key={prod.ProdNameID}
-                site={"products"}
-              />
-            </Box>
-          );
-        })}
+      {products_filters.length !== 0
+        ? products_filters.map((prod) => {
+            return (
+              <Box>
+                <ProductCard
+                  product={prod}
+                  key={prod.ProdNameID}
+                  site={"products"}
+                />
+              </Box>
+            );
+          })
+        : products_by_material?.length !== 0
+        ? products_by_material?.slice(0, 20).map((prod) => {
+            return (
+              <Box>
+                <ProductCard
+                  product={prod}
+                  key={prod.ProdNameID}
+                  site={"products"}
+                />
+              </Box>
+            );
+          })
+        : null}
     </SimpleGrid>
   );
 };

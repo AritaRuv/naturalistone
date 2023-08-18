@@ -11,16 +11,21 @@ import { userInfo } from "../../store/login/actionsLogin";
 import AddressInfo from "./addressInfo";
 
 export interface IFormData {
+  customerId: string;
   fullName: string;
   company: string;
   email: string;
   phone: string;
   state: string;
   address: string;
+  unitNumber: string;
+  addressObservations: string;
   password: string;
   zipCode: string;
   billingAddress: string;
+  billingUnitNumber: string;
   billingState: string;
+  billingObservations: string;
   city: string;
   companyPosition: string;
 }
@@ -33,7 +38,10 @@ export interface IShowMenu {
   setFormData?: React.Dispatch<React.SetStateAction<IFormData>>;
   handleChange?: (event: React.ChangeEvent<HTMLInputElement>) => void;
 }
-
+export interface userButton {
+  site?: string;
+  onClose: () => void;
+}
 export default function Profile() {
   const appContext = useContext(AppContext);
 
@@ -46,10 +54,14 @@ export default function Profile() {
     phone: "",
     state: "",
     address: "",
+    unitNumber: "",
+    addressObservations: "",
     password: "",
     zipCode: "",
     billingAddress: "",
+    billingUnitNumber: "",
     billingState: "",
+    billingObservations: "",
     city: "",
     companyPosition: "",
   });
@@ -73,7 +85,7 @@ export default function Profile() {
     <>
       <Box
         px={"5vw"}
-        h={"73.5vh"}
+        h={"72.5vh"}
         display={"flex"}
         alignItems={"center"}
         flexDir={isSmallThan750 ? "column" : "row"}

@@ -8,11 +8,11 @@ import { useAppDispatch } from "@/store/hooks";
 
 
 const ProductCardCart: React.FC<{ product: ProductCart }> = ({ product }) => {
-  
+
   const { CustomerID, Finish, Material, Naturali_ProdName, Quantity, SalePrice, Size, Thickness, Type, idCartEntry } = product;
-  
+
   const URL = `https://naturalistone-images.s3.amazonaws.com/${Material}/${Naturali_ProdName}/${Naturali_ProdName}_0.jpg`;
-  
+
   const [isExtraSmallScreen] = useMediaQuery("(max-width: 480px)");
   const [isExtraExtraSmallScreen] = useMediaQuery("(max-width: 400px)");
 
@@ -59,7 +59,7 @@ const ProductCardCart: React.FC<{ product: ProductCart }> = ({ product }) => {
   const handleDelete = () => {
     dispatch(deleteCart(idCartEntry, 1938));
   };
-  
+
   return (
     <>
       <Box
@@ -97,7 +97,7 @@ const ProductCardCart: React.FC<{ product: ProductCart }> = ({ product }) => {
               /> */}
               <Box h="140px" w="140px" rounded={"sm"}
                 position={"relative"}
-                overflow={"hidden"} 
+                overflow={"hidden"}
                 zIndex="0">
                 <NextImage
                   objectFit="cover"
@@ -117,35 +117,40 @@ const ProductCardCart: React.FC<{ product: ProductCart }> = ({ product }) => {
             <Text textTransform={"uppercase"} fontSize={"0.6rem"} color={"gray.600"}>{Finish} - {Size} - {Thickness}-{Type}</Text>
           </Box>
           <Box>
-            <Box display={"flex"} h={"28px"} justifyContent={"space-between"} >
-              <Text textTransform={"uppercase"} fontSize={fontSubTitle}>Price sqf</Text>
-              <Center w={"80px"}>
-                <Text textTransform={"uppercase"} fontSize={"0.8rem"}>${price}</Text>
-              </Center>
-            </Box>
-            <Box display={"flex"}  h={"28px"} justifyContent={"space-between"}>
-              <Text textTransform={"uppercase"} fontSize={fontSubTitle}>Quantity</Text>           
-              <Center w={"80px"} display={"flex"} flexDir={"row"} alignItems={"center"} justifyItems={"flex-end"}>
-                <Button 
-                  variant={"unstyled"} 
-                  size={"xs"} 
-                  onClick={decreaseQuantity}
-                  fontWeight={"thin"}>-</Button>
-                <Input
-                  fontSize={"0.8rem"}
-                  border={"none"}
-                  borderBottom={"1px solid"}
-                  borderBottomColor={"logo.gray"}
-                  rounded={"none"} 
-                  type="number" 
-                  value={quantity} 
-                  min={1} 
-                  onChange={handleQuantityChange} 
-                  onBlur={handleQuantityBlur}
-                  size={"xs"} textAlign={"center"} w={quantity.toString().length < 1 ? "30px" : "35px"} />
-                <Button variant={"unstyled"} size={"xs"} onClick={increaseQuantity} fontWeight={"thin"}>+</Button>
-              </Center>
-            </Box>
+            {
+              quantity > 0 &&
+              <>
+                <Box display={"flex"} h={"28px"} justifyContent={"space-between"} >
+                  <Text textTransform={"uppercase"} fontSize={fontSubTitle}>Price sqf</Text>
+                  <Center w={"80px"}>
+                    <Text textTransform={"uppercase"} fontSize={"0.8rem"}>${price}</Text>
+                  </Center>
+                </Box>
+                <Box display={"flex"} h={"28px"} justifyContent={"space-between"}>
+                  <Text textTransform={"uppercase"} fontSize={fontSubTitle}>Quantity</Text>
+                  <Center w={"80px"} display={"flex"} flexDir={"row"} alignItems={"center"} justifyItems={"flex-end"}>
+                    <Button
+                      variant={"unstyled"}
+                      size={"xs"}
+                      onClick={decreaseQuantity}
+                      fontWeight={"thin"}>-</Button>
+                    <Input
+                      fontSize={"0.8rem"}
+                      border={"none"}
+                      borderBottom={"1px solid"}
+                      borderBottomColor={"logo.gray"}
+                      rounded={"none"}
+                      type="number"
+                      value={quantity}
+                      min={1}
+                      onChange={handleQuantityChange}
+                      onBlur={handleQuantityBlur}
+                      size={"xs"} textAlign={"center"} w={quantity.toString().length < 1 ? "30px" : "35px"} />
+                    <Button variant={"unstyled"} size={"xs"} onClick={increaseQuantity} fontWeight={"thin"}>+</Button>
+                  </Center>
+                </Box>
+              </>
+            }
           </Box>
         </Box>
       </Box>

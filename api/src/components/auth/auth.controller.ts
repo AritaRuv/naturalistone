@@ -172,6 +172,8 @@ export async function userInfo(req: Request, res: Response) {
 
     const customerLoginId = verify(token, process.env.SECRET_KEY);
 
+    console.log("soy validate", customerLoginId);
+
     const query_ = `SELECT Customers.CustomerID, Customers.Contact_Name, Customers.Company, Customers.Phone, Customers.Address, 
     Customers.State, Customers.ZipCode, Customers.Billing_Address, Customers.Billing_State, Customers.Billing_ZipCode, Customers.Billing_City,
     Customers.City, Customers.Company_Position, Customer_Login.Username, Customer_Login.Customer_LoginID,

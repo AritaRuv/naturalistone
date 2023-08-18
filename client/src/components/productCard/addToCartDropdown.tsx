@@ -17,14 +17,13 @@ const AddProductToCart: React.FC<AddProductToCartProps> = ({
     <Box
       display={"flex"}
       justifyContent={"space-between"}
-      py={"2%"}
-      px={"2%"}
       w={"260px"}
-      h={"20vh"}
+      h={"200px"}
       flexDir={"column"}
       position={"relative"}
       zIndex={12}
-      pt={"2vh"}
+      bg={"whitesmoke"}
+      p={"15px"}
     >
       <ProductList data={productValues} ProdNameID={ProdNameID} />
     </Box>

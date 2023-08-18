@@ -50,7 +50,7 @@ const ProfileInfo: React.FC<IShowMenu> = ({
           }
         >
           <Box
-            mr={"2vw"}
+            mr={"6vw"}
             display={"flex"}
             justifyContent={"flex-start"}
             alignItems={"flex-start"}
@@ -77,11 +77,11 @@ const ProfileInfo: React.FC<IShowMenu> = ({
                   <InputGroup
                     display={"flex"}
                     flexDirection={"column"}
-                    h={"60px"}
+                    h={"70px"}
                   >
                     <Input
                       h={"30px"}
-                      w={"250px"}
+                      w={"230px"}
                       position={"relative"}
                       id={"fullName"}
                       name={"fullName"}
@@ -119,11 +119,11 @@ const ProfileInfo: React.FC<IShowMenu> = ({
                   <InputGroup
                     display={"flex"}
                     flexDirection={"column"}
-                    h={"60px"}
+                    h={"70px"}
                   >
                     <Input
                       h={"30px"}
-                      w={"250px"}
+                      w={"230px"}
                       position={"relative"}
                       id={"phone"}
                       name={"phone"}
@@ -169,10 +169,11 @@ const ProfileInfo: React.FC<IShowMenu> = ({
                   <InputGroup
                     display={"flex"}
                     flexDirection={"column"}
+                    h={"70px"}
                   >
                     <Input
                       h={"30px"}
-                      w={"250px"}
+                      w={"230px"}
                       position={"relative"}
                       id={"company"}
                       name={"company"}
@@ -186,7 +187,7 @@ const ProfileInfo: React.FC<IShowMenu> = ({
                       }}
                       style={{
                         borderBottom: "1px solid black",
-                        borderRadius: "0", // Ajusta el radio de las esquinas a cero
+                        borderRadius: "0", 
                         outline: "none",
                       }}
                     />
@@ -210,10 +211,11 @@ const ProfileInfo: React.FC<IShowMenu> = ({
                   <InputGroup
                     display={"flex"}
                     flexDirection={"column"}
+                    h={"70px"}
                   >
                     <Input
                       h={"30px"}
-                      w={"250px"}
+                      w={"230px"}
                       position={"relative"}
                       id={"companyPosition"}
                       name={"companyPosition"}
@@ -265,10 +267,11 @@ const ProfileInfo: React.FC<IShowMenu> = ({
                   <InputGroup
                     display={"flex"}
                     flexDirection={"column"}
+                    h={"70px"}
                   >
                     <Input
                       h={"30px"}
-                      w={"250px"}
+                      w={"230px"}
                       position={"relative"}
                       id={"email"}
                       name={"email"}
@@ -307,10 +310,11 @@ const ProfileInfo: React.FC<IShowMenu> = ({
                   <InputGroup
                     display={"flex"}
                     flexDirection={"column"}
+                    h={"70px"}
                   >
                     <Input
                       h={"30px"}
-                      w={"250px"}
+                      w={"230px"}
                       position={"relative"}
                       id={"password"}
                       name={"password"}
