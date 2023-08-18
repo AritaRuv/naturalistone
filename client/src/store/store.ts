@@ -5,6 +5,7 @@ import colorsReducer from "./colors/colorsReducer";
 import projectsReducer from "./projects/projectsReducer";
 import loginReducer from "./login/loginReducer";
 import salesReducer from "./sales/salesReducer";
+import favoritesReducer from "./favorites/reducerFavorites";
 
 const rootReducer = combineReducers({
   productReducer,
@@ -13,6 +14,7 @@ const rootReducer = combineReducers({
   projectsReducer,
   loginReducer,
   salesReducer,
+  favoritesReducer,
 });
 
 export const store = configureStore({

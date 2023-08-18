@@ -33,15 +33,6 @@ export function PaymentMethodForm({
     if (event.target.value === "creditCard") {
       setDisabled(false);
     } else {
-      setFormData({
-        ...formData,
-        Payment_Method: {
-          CreditCardNumber: "",
-          ExpirationDateMonth: "",
-          ExpirationDateYear: "",
-          Cvv: "",
-        },
-      });
       setDisabled(true);
     }
     setFormData({
@@ -52,6 +43,10 @@ export function PaymentMethodForm({
       Payment_Method: {
         ...formData.Payment_Method,
         Method: event.target.value,
+        CreditCardNumber: "",
+        ExpirationDateMonth: "",
+        ExpirationDateYear: "",
+        Cvv: "",
       },
     });
   };

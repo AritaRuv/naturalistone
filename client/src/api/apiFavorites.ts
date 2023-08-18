@@ -27,3 +27,18 @@ export const postFavoritesProductProject = async (
     return error.response.data;
   }
 };
+
+export const deleteFavoriteInProject = async (
+  idProject: number,
+  idProjectName: number
+) => {
+  try {
+    const response = await axios.delete(
+      `http://localhost:5000/api/favorites/deletefavorites/${idProject}/${idProjectName}`
+    );
+    return response.data;
+  } catch (error) {
+    console.log(error);
+    return error.response.data;
+  }
+};

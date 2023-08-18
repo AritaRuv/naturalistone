@@ -39,6 +39,10 @@ const favoritesReducer = (
       return {
         ...state,
       };
+    case FavoritesActionTypes.DELETE_FAVORITES_PRODUCT_PROJECT:
+      return {
+        ...state,
+      };
     default:
       return state;
   }

@@ -28,6 +28,7 @@ export async function getProjectsByCustomer(req: Request, res: Response) {
     res.status(409).send(error);
   }
 }
+
 export async function postNewProject(req: Request, res: Response) {
   const {
     ProjectName,

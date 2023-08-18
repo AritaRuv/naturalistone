@@ -5,10 +5,7 @@ import { ProductState } from "../../store/products/typesProducts";
 import { useAppSelector } from "../../store/hooks";
 import { Filters } from "./productFilters/types";
 
-
-
 const ProductsContainer: React.FC<Filters> = () => {
-  
   const [isExtraSmallScreen] = useMediaQuery("(max-width: 550px)");
   const [isSmallScreen] = useMediaQuery("(max-width: 1000px)");
   const [is1200Screen] = useMediaQuery("(max-width: 1200px)");
@@ -18,13 +15,13 @@ const ProductsContainer: React.FC<Filters> = () => {
   const { products_filters } = useAppSelector(
     (state: { productReducer: ProductState }) => state.productReducer
   );
-    
+
   let gridColumns = 5;
-  
-  if(isLargeScreen ){
+
+  if (isLargeScreen) {
     gridColumns = 4;
   }
-  if(isMediumScreen ){
+  if (isMediumScreen) {
     gridColumns = 3;
   }
   if (isSmallScreen) {
@@ -42,17 +39,21 @@ const ProductsContainer: React.FC<Filters> = () => {
       top={"10vh"}
       spacingY={"10vh"}
       py={"2%"}
-      w={is1200Screen ? "80vw" :"80vw"}
+      w={is1200Screen ? "80vw" : "80vw"}
       columns={gridColumns} // Establece el número de columnas dinámicamente
       h={"100%"}
       minH={"90vh"}
       overflow={"auto"}
     >
       {products_filters.length !== 0 &&
-        products_filters.slice(0,20).map((prod) => {
+        products_filters.slice(0, 20).map((prod) => {
           return (
             <Box>
-              <ProductCard product={prod} key={prod.ProdNameID} site={"products"} />
+              <ProductCard
+                product={prod}
+                key={prod.ProdNameID}
+                site={"products"}
+              />
             </Box>
           );
         })}

@@ -1,3 +1,4 @@
+/* eslint-disable indent */
 import { useAppDispatch, useAppSelector } from "@/store/hooks";
 import { fetchProjectsCustomer } from "@/store/projects/actionsProjects";
 import { ProjectsState } from "@/store/projects/typeProjects";
@@ -13,26 +14,22 @@ import {
 } from "@chakra-ui/react";
 import { useEffect, useState } from "react";
 import { PiHeartStraightThin, PiHeartStraightFill } from "react-icons/pi";
-import { postFavoritesProductInProject } from "@/store/favorites/actionsFavorites";
+import {
+  deleteFavoriteProductInProject,
+  fetchFavorites,
+  postFavoritesProductInProject,
+} from "@/store/favorites/actionsFavorites";
 import { CreateNewProject } from "@/app/profile/addProjectModal";
-import { userInfo } from "@/store/login/actionsLogin";
-import { LoginState } from "@/store/login/typeLogin";
 
-export function MenuFavoriteProductCard({ ProdNameID }) {
+export function MenuFavoriteProductCard({ ProdNameID, favorites, user }) {
   const dispatch = useAppDispatch();
   const customerProjects = useAppSelector(
     (state: { projectsReducer: ProjectsState }) =>
       state.projectsReducer.customerProjects
   );
-  const { user } = useAppSelector(
-    (state: { loginReducer: LoginState }) => state.loginReducer
-  );
+
   const [bgHeart, setBgHeart] = useState(false);
   const toast = useToast();
-
-  useEffect(() => {
-    dispatch(userInfo());
-  }, []);
 
   const handleSubmit = async (idProject: number) => {
     const response = await dispatch(
@@ -51,7 +48,7 @@ export function MenuFavoriteProductCard({ ProdNameID }) {
       }
     }
     if (!toast.isActive("favProductProject")) {
-      return toast({
+      toast({
         id: "favProductProject",
         title: "Success",
         status: "success",
@@ -59,12 +56,28 @@ export function MenuFavoriteProductCard({ ProdNameID }) {
         duration: 4000,
         isClosable: true,
       });
+      return dispatch(fetchFavorites(3999));
     }
   };
 
+  const handleDelete = async (idProject: number, idProdName: number) => {
+    dispatch(deleteFavoriteProductInProject(idProject, idProdName));
+    setTimeout(() => {
+      dispatch(fetchFavorites(3999));
+    }, 1000);
+  };
+
   useEffect(() => {
-    dispatch(fetchProjectsCustomer(user.CustomerID));
-  }, [user]);
+    dispatch(fetchProjectsCustomer(3999));
+  }, []);
+
+  const objetoExisteEnArray = (array, ProdNameID, idProjects) => {
+    if (Array.isArray(array)) {
+      return array.some(
+        (obj) => obj.ProdNameID === ProdNameID && obj.idProjects === idProjects
+      );
+    }
+  };
 
   return (
     <>
@@ -111,15 +124,33 @@ export function MenuFavoriteProductCard({ ProdNameID }) {
                 flexDir={"column"}
               >
                 {customerProjects.length &&
-                  customerProjects.map((el) => (
-                    <MenuItem
-                      fontSize={"0.7rem"}
-                      width={"full"}
-                      onClick={() => handleSubmit(el.idProjects)}
-                    >
-                      {el.ProjectName}
-                    </MenuItem>
-                  ))}
+                  customerProjects.map((el) => {
+                    const favorite = objetoExisteEnArray(
+                      favorites,
+                      ProdNameID,
+                      el.idProjects
+                    );
+                    return (
+                      <MenuItem
+                        fontSize={"0.7rem"}
+                        width={"full"}
+                        onClick={() =>
+                          favorite
+                            ? handleDelete(el.idProjects, ProdNameID)
+                            : handleSubmit(el.idProjects)
+                        }
+                        display={"flex"}
+                        justifyContent={"space-between"}
+                      >
+                        {el.ProjectName}
+                        {favorite === true ? (
+                          <PiHeartStraightFill />
+                        ) : (
+                          <PiHeartStraightThin />
+                        )}
+                      </MenuItem>
+                    );
+                  })}
                 <MenuDivider />
                 <MenuItem
                   fontSize={"0.8rem"}
@@ -128,7 +159,7 @@ export function MenuFavoriteProductCard({ ProdNameID }) {
                   w={"full"}
                 >
                   <CreateNewProject
-                    CustomerID={user.CustomerID}
+                    CustomerID={3999}
                     postProductProject={true}
                     ProdNameID={ProdNameID}
                   />

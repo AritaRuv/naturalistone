@@ -9,7 +9,7 @@ export async function getAllFavorites(req: Request, res: Response) {
   try {
     const { customer_id } = req.params;
 
-    const query = ` SELECT DISTINCT ProdNames.* from Project_ProdName
+    const query = ` SELECT DISTINCT ProdNames.*, Projects.idProjects from Project_ProdName
                     LEFT JOIN ProdNames ON ProdNames.ProdNameID = Project_ProdName.ProdNameID
                     LEFT JOIN Projects ON Projects.idProjects = Project_ProdName.idProjects
                     LEFT JOIN Customers ON Projects.CustomerID = Customers.CustomerID
@@ -84,5 +84,33 @@ export async function postFavoritesProductProject(req: Request, res: Response) {
       success: false,
       msg: "General error in post favorites products in project",
     });
+  }
+}
+
+export async function deleteFavoriteProductInProject(
+  req: Request,
+  res: Response
+) {
+  const { idprojects, prodnameid } = req.params;
+
+  try {
+    const queryDeleteProductInProject = `DELETE FROM Project_ProdName WHERE idProjects = ${idprojects} AND ProdNameID = ${prodnameid}`;
+
+    mysqlConnection.query(queryDeleteProductInProject, function (err, results) {
+      if (err) {
+        console.log("error", err);
+        return res.status(400).json({
+          success: false,
+          msg: "error in delete product in project favorites",
+          data: results,
+        });
+      }
+      console.log("resyl", results);
+      return res
+        .status(200)
+        .json({ success: true, msg: "Delete favorite product successful" });
+    });
+  } catch (error) {
+    return res.status(500).json({ success: false, msg: "General error" });
   }
 }

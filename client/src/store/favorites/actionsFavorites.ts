@@ -2,6 +2,7 @@
 import { Dispatch } from "redux";
 import { FavoritesActionTypes, FavoritesAction } from "./typesFavorites";
 import {
+  deleteFavoriteInProject,
   getAllFavorites,
   postFavoritesProductProject,
 } from "../../api/apiFavorites"; // Importa tu función de solicitud a la API
@@ -40,6 +41,30 @@ export const postFavoritesProductInProject = (
     } catch (error) {
       console.log(error);
       return error.response;
+    }
+  };
+};
+
+export const deleteFavoriteProductInProject = (
+  idProject: number,
+  idProdName: number
+) => {
+  return async (dispatch: Dispatch<FavoritesAction>) => {
+    dispatch({ type: FavoritesActionTypes.FETCH_FAVORITES_REQUEST });
+
+    try {
+      await deleteFavoriteInProject(idProject, idProdName);
+
+      // const response = await getAllFavorites(3999);
+
+      dispatch({
+        type: FavoritesActionTypes.DELETE_FAVORITES_PRODUCT_PROJECT,
+      });
+    } catch (error) {
+      dispatch({
+        type: FavoritesActionTypes.FETCH_FAVORITES_FAILURE,
+        error: error.message, // Otra forma de manejar el error
+      });
     }
   };
 };

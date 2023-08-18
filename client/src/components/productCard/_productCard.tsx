@@ -1,5 +1,5 @@
 /* eslint-disable indent */
-import React from "react";
+import React, { useEffect } from "react";
 import {
   Box,
   IconButton,
@@ -23,6 +23,9 @@ import Link from "next/link";
 import AddSampleProductToCart from "./addSampleToCartDropdown";
 import { PiHeartThin } from "react-icons/pi";
 import { MenuFavoriteProductCard } from "./MenuFavoriteProductCard";
+import { fetchFavorites } from "@/store/favorites/actionsFavorites";
+import { FavoritesState } from "@/store/favorites/typesFavorites";
+import { LoginState } from "@/store/login/typeLogin";
 
 const ProductCard: React.FC<{ product: Product; site: string }> = ({
   product,
@@ -42,6 +45,15 @@ const ProductCard: React.FC<{ product: Product; site: string }> = ({
 
   const { productValues } = useAppSelector(
     (state: { productReducer: ProductState }) => state.productReducer
+  );
+
+  const favorites = useAppSelector(
+    (state: { favoritesReducer: FavoritesState }) =>
+      state.favoritesReducer.favorites
+  );
+
+  const { user } = useAppSelector(
+    (state: { loginReducer: LoginState }) => state.loginReducer
   );
 
   const handleMouseEnter = () => {
@@ -73,6 +85,10 @@ const ProductCard: React.FC<{ product: Product; site: string }> = ({
     dispatch(loadProduct(product));
   };
 
+  useEffect(() => {
+    dispatch(fetchFavorites(3999));
+  }, []);
+
   return (
     <Box position="relative">
       <Box
@@ -90,7 +106,11 @@ const ProductCard: React.FC<{ product: Product; site: string }> = ({
         >
           <NextImage objectFit="cover" fill src={URL} alt="img" />
         </Link>
-        <MenuFavoriteProductCard ProdNameID={ProdNameID} />
+        <MenuFavoriteProductCard
+          ProdNameID={ProdNameID}
+          favorites={favorites}
+          user={user}
+        />
         <Box
           display={"flex"}
           w={"260px"}

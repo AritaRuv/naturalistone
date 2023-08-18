@@ -12,6 +12,7 @@ export enum FavoritesActionTypes {
   FETCH_FAVORITES_SUCCESS = "FETCH_FAVORITES_SUCCESS",
   FETCH_FAVORITES_FAILURE = "FETCH_FAVORITES_FAILURE",
   POST_FAVORITES_PRODUCTS_PROJECT = "POST_FAVORITES_PRODUCTS_PROJECT",
+  DELETE_FAVORITES_PRODUCT_PROJECT = "DELETE_FAVORITES_PRODUCT_PROJECT",
 }
 
 export interface FetchFavoritesRequestAction {
@@ -32,8 +33,13 @@ export interface PostFavoritesProductsProject {
   type: FavoritesActionTypes.POST_FAVORITES_PRODUCTS_PROJECT;
 }
 
+export interface deleteFavoritesProductProject {
+  type: FavoritesActionTypes.DELETE_FAVORITES_PRODUCT_PROJECT;
+}
+
 export type FavoritesAction =
   | FetchFavoritesRequestAction
   | FetchFavoritesSuccessAction
   | FetchFavoritesFailureAction
-  | PostFavoritesProductsProject;
+  | PostFavoritesProductsProject
+  | deleteFavoritesProductProject;
