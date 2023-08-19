@@ -55,8 +55,6 @@ export const deleteFavoriteProductInProject = (
     try {
       await deleteFavoriteInProject(idProject, idProdName);
 
-      // const response = await getAllFavorites(3999);
-
       dispatch({
         type: FavoritesActionTypes.DELETE_FAVORITES_PRODUCT_PROJECT,
       });

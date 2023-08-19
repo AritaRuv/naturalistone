@@ -106,7 +106,7 @@ export async function deleteFavoriteProductInProject(
           data: results,
         });
       }
-      console.log("resyl", results);
+
       return res
         .status(200)
         .json({ success: true, msg: "Delete favorite product successful" });

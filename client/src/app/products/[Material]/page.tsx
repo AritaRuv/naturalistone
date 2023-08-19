@@ -11,8 +11,6 @@ import {
   Breadcrumb,
   BreadcrumbItem,
   BreadcrumbLink,
-  Button,
-  Center,
   useMediaQuery,
 } from "@chakra-ui/react";
 import ProductsFilters from "../productFilters/productsFilter";
