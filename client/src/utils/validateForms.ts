@@ -104,7 +104,8 @@ export const validateCompletedInputsProfile = (formData) => {
   const regexNoNumber = /^[a-zA-Z\s!"#$%&'()*+,./:;<=>?@\[\\\]^_`{|}~]*$/;
   const regexMore5Length = /^.{5,}$/;
   const regexEmail = /^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}$/i;
-  const regexPhone = /^[+]?\d+$/;
+  const regexPhone = /^[0-9+\s()-]+$/;
+
   if (formData.fullName === "") errors.fullName = "Please enter a full name";
   if (formData.fullName !== "") {
     if (!regexNoNumber.test(formData.fullName)) {

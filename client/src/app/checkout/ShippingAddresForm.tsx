@@ -6,7 +6,6 @@ export function ShippingAddresForm({
   handleChangeShippingAddress,
   errors,
 }) {
-  console.log("soy form", formData);
   return (
     <>
       <Box w={"full"} h={"40px"} pl={"40px"} mt={"2%"}>
