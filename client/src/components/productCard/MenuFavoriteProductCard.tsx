@@ -81,7 +81,13 @@ export function MenuFavoriteProductCard({ ProdNameID, favorites, user }) {
 
   return (
     <>
-      <Box w={"full"} display={"flex"} zIndex={20} justifyContent={"end"}>
+      <Box
+        w={"full"}
+        display={"flex"}
+        position={"relative"}
+        zIndex={23}
+        justifyContent={"end"}
+      >
         <Menu>
           {({ isOpen }) => (
             <>
@@ -120,7 +126,7 @@ export function MenuFavoriteProductCard({ ProdNameID, favorites, user }) {
                     borderRadius: "5px",
                   },
                 }}
-                zIndex={21}
+                zIndex={15}
                 flexDir={"column"}
               >
                 {customerProjects.length &&
@@ -144,9 +150,12 @@ export function MenuFavoriteProductCard({ ProdNameID, favorites, user }) {
                       >
                         {el.ProjectName}
                         {favorite === true ? (
-                          <PiHeartStraightFill />
+                          <PiHeartStraightFill
+                            style={{ color: "#E47424" }}
+                            fontSize={"15px"}
+                          />
                         ) : (
-                          <PiHeartStraightThin />
+                          <PiHeartStraightThin fontSize={"15px"} />
                         )}
                       </MenuItem>
                     );

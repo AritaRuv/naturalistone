@@ -49,6 +49,7 @@ export async function getProductsValuesByProdNameID(
   res: Response
 ) {
   try {
+    console.log("aqui entro a cada rato");
     const prodNameID = req.params.id;
     const query = `
       SELECT
@@ -167,7 +168,7 @@ export async function getAllDimensionProperties(req: Request, res: Response) {
       ORDER BY Frequency DESC;
     `;
 
-    const properties = ['Type', 'Size', 'Thickness', 'Finish'];
+    const properties = ["Type", "Size", "Thickness", "Finish"];
     const dimensionProperties: Record<string, string[]> = {};
 
     for (const property of properties) {
@@ -180,9 +181,11 @@ export async function getAllDimensionProperties(req: Request, res: Response) {
           }
 
           const propertyRowData = results as RowDataPacket[];
-          dimensionProperties[property] = propertyRowData.map(row => row.Value);
-          
-          if (property === 'Finish') {
+          dimensionProperties[property] = propertyRowData.map(
+            (row) => row.Value
+          );
+
+          if (property === "Finish") {
             res.status(200).json(dimensionProperties);
           }
         }
@@ -229,13 +232,12 @@ export async function getProductsFilter(req: Request, res: Response) {
     let markerTypes = "";
     typeValues.forEach((elemento, index) => {
       markerTypes += "?";
-    if (index < typeValues.length - 1) {
-      markerTypes += ", ";
-    }
+      if (index < typeValues.length - 1) {
+        markerTypes += ", ";
+      }
     });
     if (typeValues.length > 0) {
-      orClause +=
-        ` OR p.DimensionID IN (SELECT DimensionID FROM Dimension WHERE Dimension.Type IN (${markerTypes}))`;
+      orClause += ` OR p.DimensionID IN (SELECT DimensionID FROM Dimension WHERE Dimension.Type IN (${markerTypes}))`;
       filters["type"] = typeValues;
     }
 
@@ -243,13 +245,12 @@ export async function getProductsFilter(req: Request, res: Response) {
     let markerFinish = "";
     finishValues.forEach((elemento, index) => {
       markerFinish += "?";
-    if (index < finishValues.length - 1) {
-      markerFinish += ", ";
-    }
+      if (index < finishValues.length - 1) {
+        markerFinish += ", ";
+      }
     });
     if (finishValues.length > 0) {
-      orClause +=
-        ` OR p.dimensionID IN (SELECT DimensionID FROM Dimension WHERE  Dimension.Finish IN (${markerFinish}))`;
+      orClause += ` OR p.dimensionID IN (SELECT DimensionID FROM Dimension WHERE  Dimension.Finish IN (${markerFinish}))`;
       filters["finish"] = finishValues;
     }
 
@@ -257,38 +258,36 @@ export async function getProductsFilter(req: Request, res: Response) {
     let markerSize = "";
     sizeValues.forEach((elemento, index) => {
       markerSize += "?";
-    if (index < sizeValues.length - 1) {
-      markerSize += ", ";
-    }
+      if (index < sizeValues.length - 1) {
+        markerSize += ", ";
+      }
     });
     if (sizeValues.length > 0) {
-      orClause +=
-        ` OR p.DimensionID IN (SELECT DimensionID FROM Dimension WHERE  Dimension.Size IN (${markerSize}))`;
+      orClause += ` OR p.DimensionID IN (SELECT DimensionID FROM Dimension WHERE  Dimension.Size IN (${markerSize}))`;
       filters["size"] = sizeValues;
     }
     const thicknessValues = splitValues(thickness, ",");
-    let markerThickness= "";
+    let markerThickness = "";
     thicknessValues.forEach((elemento, index) => {
       markerThickness += "?";
-    if (index < thicknessValues.length - 1) {
-      markerThickness += ", ";
-    }
+      if (index < thicknessValues.length - 1) {
+        markerThickness += ", ";
+      }
     });
     if (thicknessValues.length > 0) {
-      orClause +=
-        `OR p.DimensionID IN (SELECT DimensionID FROM Dimension WHERE Dimension.Thickness IN (${markerThickness}))`;
+      orClause += `OR p.DimensionID IN (SELECT DimensionID FROM Dimension WHERE Dimension.Thickness IN (${markerThickness}))`;
       filters["thickness"] = thicknessValues;
     }
 
     if (orClause) {
       whereClause += " AND (" + orClause.slice(4) + ")"; // Removing the leading ' OR '
     }
-    
+
     if (whereClause) {
       query += " WHERE " + whereClause.slice(5); // Removing the leading ' AND '
     }
     console.log(query);
-    const obj =       Object.values(filters).flatMap((value) => {
+    const obj = Object.values(filters).flatMap((value) => {
       if (Array.isArray(value)) {
         return value as string[]; // Convert ParsedQs[] to string[]
       } else if (typeof value === "string") {
@@ -301,15 +300,17 @@ export async function getProductsFilter(req: Request, res: Response) {
     console.log(obj);
     mysqlConnection.query(
       query,
-      Object.values(filters).flatMap((value) => {
-        if (Array.isArray(value)) {
-          return value as string[]; // Convert ParsedQs[] to string[]
-        } else if (typeof value === "string") {
-          return [value]; // Convert the single value to an array with one element
-        } else {
-          return []; // Return an empty array if the value is undefined or not a string
-        }
-      }).flat(Infinity),
+      Object.values(filters)
+        .flatMap((value) => {
+          if (Array.isArray(value)) {
+            return value as string[]; // Convert ParsedQs[] to string[]
+          } else if (typeof value === "string") {
+            return [value]; // Convert the single value to an array with one element
+          } else {
+            return []; // Return an empty array if the value is undefined or not a string
+          }
+        })
+        .flat(Infinity),
       (error: MysqlError | null, results: RowDataPacket[]) => {
         if (error) {
           throw error;

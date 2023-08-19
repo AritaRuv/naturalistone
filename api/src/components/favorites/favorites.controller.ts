@@ -38,6 +38,7 @@ export async function getAllFavorites(req: Request, res: Response) {
 
 export async function postFavoritesProductProject(req: Request, res: Response) {
   const { idproject, idprodname } = req.params;
+
   try {
     const querySelect = `SELECT * FROM Project_ProdName WHERE idProjects = ? AND ProdNameID = ?`;
     const queryInsert = `INSERT INTO Project_ProdName (idProjects, ProdNameID) values (?, ?)`;

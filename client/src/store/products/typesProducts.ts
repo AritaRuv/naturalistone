@@ -43,7 +43,7 @@ export interface ProductState {
   error: string | null;
   dimensions: DimensionData | null;
   product_images: ImageResponse[];
-  raw_products: RawProduct[]
+  raw_products: RawProduct[];
 }
 
 interface ImageResponse {
@@ -65,6 +65,11 @@ export enum ProductActionTypes {
   LOAD_PRODUCT = "LOAD_PRODUCT",
   FETCH_DIMENSION = "FETCH_DIMENSION",
   FETCH_PRODUCTS_FILTERS_SUCCESS = "FETCH_PRODUCTS_FILTERS_SUCCESS",
+  CLEAR_DIMENSION = "CLEAR_DIMENSION",
+  CLEAR_PRODUCTS_BY_MATERIAL = "CLEAR_PRODUCTS_BY_MATERIAL",
+  CLEAR_MATERIALS = "CLEAR_MATERIALS",
+  CLEAR_PRODUCTS_FILTERS = "CLEAR_PRODUCTS_FILTERS",
+  CLEAR_RAW_PRODUCTS = "CLEAR_RAW_PRODUCTS",
 }
 
 export interface FetchProductsRequestAction {
@@ -126,6 +131,22 @@ export interface LoadProduct {
   payload: Product;
 }
 
+export interface ClearDimension {
+  type: ProductActionTypes.CLEAR_DIMENSION;
+}
+
+export interface ClearProductsByMaterial {
+  type: ProductActionTypes.CLEAR_PRODUCTS_BY_MATERIAL;
+}
+
+export interface ClearMaterials {
+  type: ProductActionTypes.CLEAR_MATERIALS;
+}
+
+export interface ClearProductFilters {
+  type: ProductActionTypes.CLEAR_PRODUCTS_FILTERS;
+}
+
 export type ProductAction =
   | FetchProductsRequestAction
   | FetchProductsFailureAction
@@ -138,5 +159,8 @@ export type ProductAction =
   | FetchProductImages
   | LoadProduct
   | FetchProductAction
-  | FetchProductsByMaterial;
-
+  | FetchProductsByMaterial
+  | ClearDimension
+  | ClearProductFilters
+  | ClearProductsByMaterial
+  | ClearMaterials;

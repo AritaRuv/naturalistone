@@ -53,6 +53,7 @@ exports.getAllProducts = getAllProducts;
 function getProductsValuesByProdNameID(req, res) {
     return __awaiter(this, void 0, void 0, function* () {
         try {
+            console.log("aqui entro a cada rato");
             const prodNameID = req.params.id;
             const query = `
       SELECT
@@ -170,7 +171,7 @@ function getAllDimensionProperties(req, res) {
       GROUP BY Type
       ORDER BY Frequency DESC;
     `;
-            const properties = ['Type', 'Size', 'Thickness', 'Finish'];
+            const properties = ["Type", "Size", "Thickness", "Finish"];
             const dimensionProperties = {};
             for (const property of properties) {
                 db_1.default.query(frequencyQuery.replace(/Type/g, property), [material], (error, results) => {
@@ -178,8 +179,8 @@ function getAllDimensionProperties(req, res) {
                         throw error;
                     }
                     const propertyRowData = results;
-                    dimensionProperties[property] = propertyRowData.map(row => row.Value);
-                    if (property === 'Finish') {
+                    dimensionProperties[property] = propertyRowData.map((row) => row.Value);
+                    if (property === "Finish") {
                         res.status(200).json(dimensionProperties);
                     }
                 });
@@ -220,8 +221,7 @@ function getProductsFilter(req, res) {
                 }
             });
             if (typeValues.length > 0) {
-                orClause +=
-                    ` OR p.DimensionID IN (SELECT DimensionID FROM Dimension WHERE Dimension.Type IN (${markerTypes}))`;
+                orClause += ` OR p.DimensionID IN (SELECT DimensionID FROM Dimension WHERE Dimension.Type IN (${markerTypes}))`;
                 filters["type"] = typeValues;
             }
             const finishValues = splitValues(finish, ",");
@@ -233,8 +233,7 @@ function getProductsFilter(req, res) {
                 }
             });
             if (finishValues.length > 0) {
-                orClause +=
-                    ` OR p.dimensionID IN (SELECT DimensionID FROM Dimension WHERE  Dimension.Finish IN (${markerFinish}))`;
+                orClause += ` OR p.dimensionID IN (SELECT DimensionID FROM Dimension WHERE  Dimension.Finish IN (${markerFinish}))`;
                 filters["finish"] = finishValues;
             }
             const sizeValues = splitValues(size, ",");
@@ -246,8 +245,7 @@ function getProductsFilter(req, res) {
                 }
             });
             if (sizeValues.length > 0) {
-                orClause +=
-                    ` OR p.DimensionID IN (SELECT DimensionID FROM Dimension WHERE  Dimension.Size IN (${markerSize}))`;
+                orClause += ` OR p.DimensionID IN (SELECT DimensionID FROM Dimension WHERE  Dimension.Size IN (${markerSize}))`;
                 filters["size"] = sizeValues;
             }
             const thicknessValues = splitValues(thickness, ",");
@@ -259,8 +257,7 @@ function getProductsFilter(req, res) {
                 }
             });
             if (thicknessValues.length > 0) {
-                orClause +=
-                    `OR p.DimensionID IN (SELECT DimensionID FROM Dimension WHERE Dimension.Thickness IN (${markerThickness}))`;
+                orClause += `OR p.DimensionID IN (SELECT DimensionID FROM Dimension WHERE Dimension.Thickness IN (${markerThickness}))`;
                 filters["thickness"] = thicknessValues;
             }
             if (orClause) {
@@ -283,7 +280,8 @@ function getProductsFilter(req, res) {
             });
             console.log(query);
             console.log(obj);
-            db_1.default.query(query, Object.values(filters).flatMap((value) => {
+            db_1.default.query(query, Object.values(filters)
+                .flatMap((value) => {
                 if (Array.isArray(value)) {
                     return value; // Convert ParsedQs[] to string[]
                 }
@@ -293,7 +291,8 @@ function getProductsFilter(req, res) {
                 else {
                     return []; // Return an empty array if the value is undefined or not a string
                 }
-            }).flat(Infinity), (error, results) => {
+            })
+                .flat(Infinity), (error, results) => {
                 if (error) {
                     throw error;
                 }

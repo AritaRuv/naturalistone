@@ -1,3 +1,4 @@
+/* eslint-disable indent */
 /* eslint-disable quotes */
 "use client";
 import {
@@ -12,7 +13,6 @@ import {
   BreadcrumbLink,
   Button,
   Center,
-  Text,
   useMediaQuery,
 } from "@chakra-ui/react";
 import ProductsFilters from "../productFilters/productsFilter";
@@ -23,13 +23,19 @@ import FiltersDropDownMenu from "../productFilters/filters_dropDownMenu";
 import { useEffect } from "react";
 import { useAppDispatch, useAppSelector } from "@/store/hooks";
 import {
+  ClearDimension,
+  ClearMaterials,
+  ClearProductFilters,
+  ClearProductsByMaterial,
   fetchDimension,
   fetchProductsByMaterial,
   fetchProductsFilters,
 } from "@/store/products/actionsProducts";
-import { ProductState } from "@/store/products/typesProducts";
+import {
+  ProductActionTypes,
+  ProductState,
+} from "@/store/products/typesProducts";
 import { Filters } from "../productFilters/types";
-import { fetchProductsFilters } from "@/store/products/actionsProducts";
 
 import Link from "next/link";
 import { ChevronRightIcon } from "@chakra-ui/icons";
@@ -52,11 +58,23 @@ export default function Products({ params }) {
     (state: { productReducer: ProductState }) => state.productReducer
   );
 
+  console.log("soy materials", materials);
+  console.log("soy dimensions", dimensions);
+  console.log("soy raw_products", raw_products);
+  console.log("soy products_by_material", products_by_material);
+
   const dispatch = useAppDispatch();
 
   useEffect(() => {
     if (!dimensions) dispatch(fetchDimension(params.Material));
     dispatch(fetchProductsByMaterial(params.Material));
+
+    return () => {
+      dispatch(ClearDimension());
+      dispatch(ClearMaterials());
+      dispatch(ClearProductFilters());
+      dispatch(ClearProductsByMaterial());
+    };
   }, []);
 
   const [isSmallScreen] = useMediaQuery("(max-width: 1200px)");
@@ -102,7 +120,7 @@ export default function Products({ params }) {
     filtrar(e.target.value);
   };
 
-  const filtrar = (criterio: String) => {
+  const filtrar = (criterio: string) => {
     if (criterio === "AZ") {
       products_by_material?.sort((p1, p2) =>
         p1.Naturali_ProdName > p2.Naturali_ProdName
@@ -135,23 +153,63 @@ export default function Products({ params }) {
 
   return (
     <>
-      <Flex p="4">
-        <Spacer />
-        <HStack>
-          <Text w="100%" align={"end"}>
-            order by
-          </Text>
-          <Select
-            placeholder="Select option"
-            name="s"
-            onChange={(e) => handleChangeOrderBy(e)}
-          >
-            <option value="AZ"> A-Z </option>
-            <option value="ZA"> Z-A</option>
-          </Select>
-        </HStack>
-      </Flex>
       <Box h={"93vh"}>
+        <Box
+          pl={"80px"}
+          w={"full"}
+          display={"flex"}
+          flexDir={"row"}
+          h={"30px"}
+          // bg={"green"}
+          justifyContent={"space-between"}
+          // alignItems={"flex-start"}
+        >
+          <Box>
+            <Breadcrumb
+              spacing="8px"
+              separator={<ChevronRightIcon color="gray.500" />}
+            >
+              <BreadcrumbItem>
+                <BreadcrumbLink href="/home" fontSize={"0.7rem"}>
+                  HOME
+                </BreadcrumbLink>
+              </BreadcrumbItem>
+
+              <BreadcrumbItem>
+                <BreadcrumbLink href="/products" fontSize={"0.7rem"}>
+                  COLLECTIONS
+                </BreadcrumbLink>
+              </BreadcrumbItem>
+
+              <BreadcrumbItem isCurrentPage>
+                <BreadcrumbLink
+                  href="#"
+                  fontSize={"0.7rem"}
+                  fontWeight={"semibold"}
+                >
+                  {decodeURIComponent(params.Material.toUpperCase())}
+                </BreadcrumbLink>
+              </BreadcrumbItem>
+            </Breadcrumb>
+          </Box>
+          <Flex p="4">
+            <Spacer />
+            <HStack>
+              <Text w="100%" align={"end"}>
+                order by
+              </Text>
+              <Select
+                placeholder="Select option"
+                name="s"
+                onChange={(e) => handleChangeOrderBy(e)}
+              >
+                <option value="AZ"> A-Z </option>
+                <option value="ZA"> Z-A</option>
+              </Select>
+            </HStack>
+          </Flex>
+        </Box>
+
         {!isSmallScreen ? (
           <>
             <Box display={"flex"} flexDir={"row"} w={"100vw"}>
