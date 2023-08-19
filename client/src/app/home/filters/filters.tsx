@@ -13,15 +13,20 @@ export function Filters({ setProductsFilter, productsFilter }: FiltersHomeProps 
       {!smallerThan550 ? (
         <Box
           display={"flex"}
-          h={"70vh"}
           w={"full"}
           bg={"#f2f2f2"}
           alignItems={"center"}
           justifyContent={"center"}
-          flexDirection={"row"}
+          flexDirection={"column"}
+          pt={"10vh"}
         >
-          <FiltersMaterials setProductsFilter={setProductsFilter} productsFilter={productsFilter} />
-          <FiltersColors setProductsFilter={setProductsFilter} productsFilter={productsFilter} />
+          <Text fontSize={"0.9rem"} fontWeight={"light"}>
+            QUICK SEARCH
+          </Text>
+          <Box display={"flex"} flexDir={"row"}>
+            <FiltersMaterials setProductsFilter={setProductsFilter} productsFilter={productsFilter} />
+            <FiltersColors setProductsFilter={setProductsFilter} productsFilter={productsFilter} />
+          </Box>
         </Box>
       ) : (
         <Box

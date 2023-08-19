@@ -34,7 +34,7 @@ export default function Products({params}) {
   
   useEffect(()=>{
     if(!dimensions) dispatch(fetchDimension(params.Material));
-    dispatch(fetchProductsByMaterial(params.Material)); 
+    dispatch(fetchProductsByMaterial(params.Material));
   },[]);
 
   const [isSmallScreen] = useMediaQuery("(max-width: 1200px)");

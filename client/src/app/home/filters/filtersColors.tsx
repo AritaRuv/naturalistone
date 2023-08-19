@@ -110,13 +110,7 @@ export function FiltersColors({
         marginLeft={boxMargin ? "65px" : "0px"}
         // marginRight={"65px"}
       >
-        <Box w={"240px"} p={"22px"}>
-          <Center>
-            <Heading fontSize="xl" fontWeight={"light"}>
-              COLORS
-            </Heading>
-          </Center>
-        </Box>
+
         <Center marginTop={3}>
           <Box
             display={"flex"}

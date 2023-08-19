@@ -9,7 +9,7 @@ export async function getAllFavorites(req: Request, res: Response) {
   try {
     const { customer_id } = req.params;
 
-    const query = ` SELECT DISTINCT ProdNames.* from Project_ProdName
+    const query = ` SELECT DISTINCT ProdNames.*, Project_ProdName.*, Projects.idProjects  from Project_ProdName
                     LEFT JOIN ProdNames ON ProdNames.ProdNameID = Project_ProdName.ProdNameID
                     LEFT JOIN Projects ON Projects.idProjects = Project_ProdName.idProjects
                     LEFT JOIN Customers ON Projects.CustomerID = Customers.CustomerID
