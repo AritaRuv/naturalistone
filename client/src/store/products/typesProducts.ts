@@ -34,7 +34,7 @@ export interface DimensionData {
 export interface ProductState {
   products: Product[];
   products_by_material: Product[];
-  products_filters: Product[];
+  products_filters: Product[] | string;
   productValues: ProductData;
   productValuesValidation: ProductData;
   materials: string[];
@@ -89,7 +89,7 @@ export interface FetchProductsHomeSuccessAction {
 }
 export interface FetchProductsFiltersSuccessAction {
   type: ProductActionTypes.FETCH_PRODUCTS_FILTERS_SUCCESS;
-  payload: Product[];
+  payload: Product[] | string;
 }
 
 export interface FetchProductsFailureAction {

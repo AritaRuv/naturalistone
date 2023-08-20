@@ -115,7 +115,7 @@ export const fetchProductsFilters = (
   return async (dispatch: Dispatch<ProductAction>) => {
     dispatch({ type: ProductActionTypes.FETCH_PRODUCTS_REQUEST });
     try {
-      const result = await getProductsFiltered(raw_products, filters);
+      const result = getProductsFiltered(raw_products, filters);
       dispatch({
         type: ProductActionTypes.FETCH_PRODUCTS_FILTERS_SUCCESS,
         payload: result,

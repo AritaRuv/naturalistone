@@ -56,11 +56,6 @@ export default function Products({ params }) {
     (state: { productReducer: ProductState }) => state.productReducer
   );
 
-  console.log("soy materials", materials);
-  console.log("soy dimensions", dimensions);
-  console.log("soy raw_products", raw_products);
-  console.log("soy products_by_material", products_by_material);
-
   const dispatch = useAppDispatch();
 
   useEffect(() => {
@@ -102,15 +97,13 @@ export default function Products({ params }) {
       }
       return updatedFilters;
     });
+    setShouldTriggerEffect(true);
   };
 
   useEffect(() => {
     // Activa el efecto solo si shouldTriggerEffect es true
     if (shouldTriggerEffect) {
       dispatch(fetchProductsFilters(raw_products, filters));
-    } else {
-      // Cambia shouldTriggerEffect a true después del primer renderizado
-      setShouldTriggerEffect(true);
     }
   }, [filters, shouldTriggerEffect]);
 

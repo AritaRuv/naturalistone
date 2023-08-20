@@ -96,9 +96,9 @@ const ProductCard: React.FC<{ product: Product; site: string }> = ({
     dispatch(loadProduct(product));
   };
 
-  useEffect(() => {
-    dispatch(fetchFavorites(3999));
-  }, []);
+  // useEffect(() => {
+  //   dispatch(fetchFavorites(3999));
+  // }, []);
 
   return (
     <Box position="relative">

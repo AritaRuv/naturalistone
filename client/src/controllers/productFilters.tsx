@@ -23,9 +23,12 @@ const getProductsFiltered = (arrayProducts: RawProduct[], filters: Filters) => {
       sizeCondition
     );
   });
-  console.log("filtered", filtered);
+
+  console.log("soy filtered en filtros", filtered);
+  if (!filtered.length) {
+    return "";
+  }
   const result = getProductsByProdName(filtered);
-  console.log("aqui entroo", result);
   return result;
 };
 

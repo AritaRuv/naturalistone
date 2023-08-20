@@ -67,9 +67,9 @@ export function MenuFavoriteProductCard({ ProdNameID, favorites, user }) {
     }, 1000);
   };
 
-  useEffect(() => {
-    dispatch(fetchProjectsCustomer(3999));
-  }, []);
+  // useEffect(() => {
+  //   dispatch(fetchProjectsCustomer(3999));
+  // }, []);
 
   const objetoExisteEnArray = (array, ProdNameID, idProjects) => {
     if (Array.isArray(array)) {
