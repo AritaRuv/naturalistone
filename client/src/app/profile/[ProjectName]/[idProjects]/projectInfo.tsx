@@ -1,10 +1,8 @@
 "use client";
-import { useAppDispatch, useAppSelector } from "@/store/hooks";
-import { fetchProjectByID } from "@/store/projects/actionsProjects";
+import { useAppSelector } from "@/store/hooks";
 import { ProjectsState } from "@/store/projects/typeProjects";
 import { Box, Button, Text, VStack } from "@chakra-ui/react";
 import Link from "next/link";
-import { useEffect } from "react";
 import { UpdateProject } from "./modalUpdateProject";
 import { DeleteProject } from "./modalDeleteProject";
 
@@ -13,8 +11,6 @@ const ProjecteInfo = ({ params }) => {
   const { project } = useAppSelector(
     (state: { projectsReducer: ProjectsState }) => state.projectsReducer
   );
-
-  const dispatch = useAppDispatch();
 
   const {
     CustomerID,
@@ -25,13 +21,9 @@ const ProjecteInfo = ({ params }) => {
     Shipping_ZipCode,
   } = project;
 
-  useEffect(() => {
-    dispatch(fetchProjectByID(idProjects));
-  }, []);
-
   return (
     <>
-      <Box pl={"4.5vw"} pt={"5vh"} w={"25vw"} h={"91vh"}>
+      <Box pl={"4.5vw"} pt={"5vh"} w={"25vw"}>
         <Link href={"/profile"}>
           <Button
             h={"3vh"}

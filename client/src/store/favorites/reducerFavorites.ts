@@ -3,6 +3,7 @@ import { FavoritesAction, FavoritesActionTypes, FavoritesState } from "../favori
 
 const initialState: FavoritesState = {
   favorites: [],
+  project_favorites: [],
   loading: false,
   error: null,
 };
@@ -20,6 +21,12 @@ const favoritesReducer = (state = initialState, action: FavoritesAction): Favori
       ...state,
       loading: false,
       favorites: action.payload,
+    };
+  case FavoritesActionTypes.FETCH_FAVORITES_BY_PROJECT_SUCCESS:
+    return {
+      ...state,
+      loading: false,
+      project_favorites: action.payload,
     };
   case FavoritesActionTypes.FETCH_FAVORITES_FAILURE:
     return {

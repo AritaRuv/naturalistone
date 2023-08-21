@@ -3,6 +3,7 @@ import { Product } from "../products/typesProducts";
 // types.ts
 export interface FavoritesState {
     favorites: Product[];
+    project_favorites: Product[];
     loading: boolean;
     error: string | null;
   }
@@ -10,6 +11,7 @@ export interface FavoritesState {
 export enum FavoritesActionTypes {
     FETCH_FAVORITES_REQUEST = "FETCH_FAVORITES_REQUEST",
     FETCH_FAVORITES_SUCCESS = "FETCH_FAVORITES_SUCCESS",
+    FETCH_FAVORITES_BY_PROJECT_SUCCESS = "FETCH_FAVORITES_BY_PROJECT_SUCCESS",
     FETCH_FAVORITES_FAILURE = "FETCH_FAVORITES_FAILURE",
   }
   
@@ -19,6 +21,10 @@ export interface FetchFavoritesRequestAction {
   
 export interface FetchFavoritesSuccessAction {
     type: FavoritesActionTypes.FETCH_FAVORITES_SUCCESS;
+    payload: Product[];
+  }
+export interface FetchFavoritesByProjectSuccessAction {
+    type: FavoritesActionTypes.FETCH_FAVORITES_BY_PROJECT_SUCCESS;
     payload: Product[];
   }
   
@@ -32,5 +38,6 @@ export type FavoritesAction =
     | FetchFavoritesRequestAction
     | FetchFavoritesSuccessAction
     | FetchFavoritesFailureAction
+    | FetchFavoritesByProjectSuccessAction
 
   
