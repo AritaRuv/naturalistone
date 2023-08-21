@@ -123,8 +123,6 @@ export default function CheckoutForm({ smallerThan740 }) {
     });
   };
 
-  console.log("formdad", formData);
-
   return (
     <>
       <Box
