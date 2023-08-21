@@ -9,6 +9,9 @@ import { FiltersHomeProps } from "./page";
 import { userInfo } from "@/store/login/actionsLogin";
 import { salesByCustomer, salesDetails } from "@/store/sales/actionsSales";
 import { SalesState } from "@/store/sales/typeSales";
+import { fetchFavorites } from "@/store/favorites/actionsFavorites";
+import { fetchProjectsCustomer } from "@/store/projects/actionsProjects";
+import { LoginState } from "@/store/login/typeLogin";
 
 const HomeProductContainer: React.FC<FiltersHomeProps> = ({
   productsFilter,
@@ -21,6 +24,10 @@ const HomeProductContainer: React.FC<FiltersHomeProps> = ({
 
   const { products } = useAppSelector(
     (state: { productReducer: ProductState }) => state.productReducer
+  );
+
+  const { user } = useAppSelector(
+    (state: { loginReducer: LoginState }) => state.loginReducer
   );
 
   let gridColumns = 4;
@@ -37,6 +44,11 @@ const HomeProductContainer: React.FC<FiltersHomeProps> = ({
     if (!products.length) dispatch(fetchProductsHome(material, colorId));
   }, [products]);
 
+  useEffect(() => {
+    dispatch(fetchFavorites(user.CustomerID));
+    dispatch(fetchProjectsCustomer(user.CustomerID));
+  }, [user]);
+
   return (
     <SimpleGrid
       pt={"8vh"}
@@ -49,7 +61,9 @@ const HomeProductContainer: React.FC<FiltersHomeProps> = ({
     >
       {homeProducts.length &&
         homeProducts.map((prod, index) => {
-          return <ProductCard product={prod} key={index} site={"home"} />;
+          return (
+            <ProductCard product={prod} key={index} site={"home"} user={user} />
+          );
         })}
     </SimpleGrid>
   );

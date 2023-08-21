@@ -27,11 +27,12 @@ import { PiHeartThin } from "react-icons/pi";
 import { MenuFavoriteProductCard } from "./MenuFavoriteProductCard";
 import { fetchFavorites } from "@/store/favorites/actionsFavorites";
 import { FavoritesState } from "@/store/favorites/typesFavorites";
-import { LoginState } from "@/store/login/typeLogin";
+import { LoginState, User } from "@/store/login/typeLogin";
 
-const ProductCard: React.FC<{ product: Product; site: string }> = ({
+const ProductCard: React.FC<{ product: Product; site: string; user: User }> = ({
   product,
   site,
+  user,
 }) => {
   const dispatch = useAppDispatch();
 
@@ -59,10 +60,6 @@ const ProductCard: React.FC<{ product: Product; site: string }> = ({
   const favorites = useAppSelector(
     (state: { favoritesReducer: FavoritesState }) =>
       state.favoritesReducer.favorites
-  );
-
-  const { user } = useAppSelector(
-    (state: { loginReducer: LoginState }) => state.loginReducer
   );
 
   const handleMouseEnter = () => {
@@ -95,10 +92,6 @@ const ProductCard: React.FC<{ product: Product; site: string }> = ({
   const handleClickCard = () => {
     dispatch(loadProduct(product));
   };
-
-  // useEffect(() => {
-  //   dispatch(fetchFavorites(3999));
-  // }, []);
 
   return (
     <Box position="relative">

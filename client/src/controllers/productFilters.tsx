@@ -24,7 +24,6 @@ const getProductsFiltered = (arrayProducts: RawProduct[], filters: Filters) => {
     );
   });
 
-  console.log("soy filtered en filtros", filtered);
   if (!filtered.length) {
     return "";
   }

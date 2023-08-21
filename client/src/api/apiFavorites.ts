@@ -15,11 +15,11 @@ export const getAllFavorites = async (id: number) => {
 
 export const postFavoritesProductProject = async (
   idProject: number,
-  idProjectName: number
+  idprodname: number
 ) => {
   try {
     const response = await axios.post(
-      `http://localhost:5000/api/favorites/productsproject/${idProject}/${idProjectName}`
+      `http://localhost:5000/api/favorites/productsproject/${idProject}/${idprodname}`
     );
     return response.data;
   } catch (error) {
@@ -30,11 +30,11 @@ export const postFavoritesProductProject = async (
 
 export const deleteFavoriteInProject = async (
   idProject: number,
-  idProjectName: number
+  idprodname: number
 ) => {
   try {
     const response = await axios.delete(
-      `http://localhost:5000/api/favorites/deletefavorites/${idProject}/${idProjectName}`
+      `http://localhost:5000/api/favorites/deletefavorites/${idProject}/${idprodname}`
     );
     return response.data;
   } catch (error) {

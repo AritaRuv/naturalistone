@@ -5,6 +5,8 @@ import {
   InputGroup,
   InputLeftElement,
   InputRightElement,
+  NumberInput,
+  NumberInputField,
   Text,
   VStack,
 } from "@chakra-ui/react";
@@ -64,6 +66,8 @@ export function PaymentMethodForm({
       });
     }
   }, [setFormData]);
+
+  console.log(formData);
 
   return (
     <>
@@ -141,24 +145,33 @@ export function PaymentMethodForm({
               <InputLeftElement>
                 <Text fontWeight={"semibold"}>MM</Text>
               </InputLeftElement>
-              <Input
-                w={"full"}
-                id={"ExpirationDateMonth"}
-                name={"ExpirationDateMonth"}
-                value={formData.Payment_Method.ExpirationDateMonth}
-                placeholder={""}
-                disabled={disabled}
-                border={"none"}
-                onChange={handleChangePaymentMethod}
-                _focus={{
-                  boxShadow: "0 0.0px 0.0px #f2f2f2 inset, 0 0 0px #f2f2f2",
-                }}
-                style={{
-                  borderBottom: "1px solid black",
-                  borderRadius: "0", // Ajusta el radio de las esquinas a cero
-                  outline: "none",
-                }}
-              />
+              <NumberInput min={1} max={12}>
+                <NumberInputField
+                  pl={"50px"}
+                  w={"full"}
+                  id={"ExpirationDateMonth"}
+                  name={"ExpirationDateMonth"}
+                  value={formData.Payment_Method.ExpirationDateMonth}
+                  onKeyDown={(evt) => {
+                    if (evt.key === "e" || evt.key === "E") {
+                      evt.preventDefault();
+                    }
+                  }}
+                  maxLength={2}
+                  placeholder={""}
+                  disabled={disabled}
+                  border={"none"}
+                  onChange={handleChangePaymentMethod}
+                  _focus={{
+                    boxShadow: "0 0.0px 0.0px #f2f2f2 inset, 0 0 0px #f2f2f2",
+                  }}
+                  style={{
+                    borderBottom: "1px solid black",
+                    borderRadius: "0", // Ajusta el radio de las esquinas a cero
+                    outline: "none",
+                  }}
+                />
+              </NumberInput>
               <InputRightElement w={"60px"}>
                 <Text fontWeight={"semibold"}></Text>
               </InputRightElement>
@@ -172,24 +185,33 @@ export function PaymentMethodForm({
               <InputLeftElement>
                 <Text fontWeight={"semibold"}>YY</Text>
               </InputLeftElement>
-              <Input
-                w={"full"}
-                id={"ExpirationDateYear"}
-                name={"ExpirationDateYear"}
-                value={formData.Payment_Method.ExpirationDateYear}
-                placeholder={""}
-                disabled={disabled}
-                border={"none"}
-                onChange={handleChangePaymentMethod}
-                _focus={{
-                  boxShadow: "0 0.0px 0.0px #f2f2f2 inset, 0 0 0px #f2f2f2",
-                }}
-                style={{
-                  borderBottom: "1px solid black",
-                  borderRadius: "0", // Ajusta el radio de las esquinas a cero
-                  outline: "none",
-                }}
-              />
+              <NumberInput>
+                <NumberInputField
+                  pl={"50px"}
+                  w={"full"}
+                  id={"ExpirationDateYear"}
+                  name={"ExpirationDateYear"}
+                  value={formData.Payment_Method.ExpirationDateYear}
+                  onKeyDown={(evt) => {
+                    if (evt.key === "e" || evt.key === "E") {
+                      evt.preventDefault();
+                    }
+                  }}
+                  maxLength={2}
+                  placeholder={""}
+                  disabled={disabled}
+                  border={"none"}
+                  onChange={handleChangePaymentMethod}
+                  _focus={{
+                    boxShadow: "0 0.0px 0.0px #f2f2f2 inset, 0 0 0px #f2f2f2",
+                  }}
+                  style={{
+                    borderBottom: "1px solid black",
+                    borderRadius: "0", // Ajusta el radio de las esquinas a cero
+                    outline: "none",
+                  }}
+                />
+              </NumberInput>
               <InputRightElement w={"60px"}>
                 <Text fontWeight={"semibold"}></Text>
               </InputRightElement>
@@ -201,26 +223,29 @@ export function PaymentMethodForm({
             </InputGroup>
           </Box>
           <InputGroup display={"flex"} flexDirection={"column"} h={"60px"}>
-            <Input
-              w={"full"}
-              id={"Cvv"}
-              name={"Cvv"}
-              value={formData.Payment_Method.Cvv}
-              placeholder={"CVV"}
-              type={"number"}
-              disabled={disabled}
-              maxLength={3}
-              border={"none"}
-              onChange={handleChangePaymentMethod}
-              _focus={{
-                boxShadow: "0 0.0px 0.0px #f2f2f2 inset, 0 0 0px #f2f2f2",
-              }}
-              style={{
-                borderBottom: "1px solid black",
-                borderRadius: "0", // Ajusta el radio de las esquinas a cero
-                outline: "none",
-              }}
-            />
+            <NumberInput>
+              <NumberInputField
+                w={"full"}
+                id={"Cvv"}
+                name={"Cvv"}
+                value={formData.Payment_Method.Cvv}
+                placeholder={"CVV"}
+                onKeyDown={(evt) => evt.key === "e" && evt.preventDefault()}
+                disabled={disabled}
+                maxLength={3}
+                border={"none"}
+                onChange={handleChangePaymentMethod}
+                _focus={{
+                  boxShadow: "0 0.0px 0.0px #f2f2f2 inset, 0 0 0px #f2f2f2",
+                }}
+                style={{
+                  borderBottom: "1px solid black",
+                  borderRadius: "0", // Ajusta el radio de las esquinas a cero
+                  outline: "none",
+                }}
+              />
+            </NumberInput>
+            {/* <Input /> */}
             <InputRightElement w={"60px"}>
               <Text fontWeight={"semibold"}></Text>
             </InputRightElement>

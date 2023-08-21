@@ -8,7 +8,6 @@ export const getProductsHome = async (material: string, colorId: string) => {
     const response = await axios.get(
       `http://localhost:5000/api/products?material=${material}&colorId=${colorId}`
     ); // Realiza la solicitud GET a la ruta /api/products de tu backend
-
     return response.data;
   } catch (error) {
     console.log(error);
@@ -53,7 +52,7 @@ export const getProduct = async (ProdNameID: number, DimensionID: number) => {
   }
 };
 
-export const getDimension = async (material:string) => {
+export const getDimension = async (material: string) => {
   try {
     const response = await axios.get(
       `http://localhost:5000/api/products/dimension/${material}`
@@ -67,11 +66,11 @@ export const getDimension = async (material:string) => {
 
 export const getProductsFilters = async (filters: Filters) => {
   try {
-    const materialParam = filters.material ? filters.material : '';
-    const typeParam = filters.type ? filters.type.join(',') : '';
-    const finishParam = filters.finish ? filters.finish.join(',') : '';
-    const thicknessParam = filters.thickness ? filters.thickness.join(',') : '';
-    const sizeParam = filters.size ? filters.size.join(',') : '';
+    const materialParam = filters.material ? filters.material : "";
+    const typeParam = filters.type ? filters.type.join(",") : "";
+    const finishParam = filters.finish ? filters.finish.join(",") : "";
+    const thicknessParam = filters.thickness ? filters.thickness.join(",") : "";
+    const sizeParam = filters.size ? filters.size.join(",") : "";
 
     const response = await axios.get(
       `http://localhost:5000/api/products/filters?material=${materialParam}&type=${typeParam}&finish=${finishParam}&thickness=${thicknessParam}&size=${sizeParam}`
@@ -84,7 +83,10 @@ export const getProductsFilters = async (filters: Filters) => {
   }
 };
 
-export const getProductImages = async (Material: string, Naturali_ProdName: string) => {
+export const getProductImages = async (
+  Material: string,
+  Naturali_ProdName: string
+) => {
   try {
     // const materialParam = filters.material ? filters.material.join(",") : "";
     // const typeParam = filters.type ? filters.type.join(",") : "";
@@ -94,7 +96,7 @@ export const getProductImages = async (Material: string, Naturali_ProdName: stri
     // console.log("action", sizeParam);
     const response = await axios.get(
       `http://localhost:5000/api/S3/${Material}/${Naturali_ProdName}`
-    ); 
+    );
     return response.data;
   } catch (error) {
     console.log(error);
@@ -102,9 +104,13 @@ export const getProductImages = async (Material: string, Naturali_ProdName: stri
   }
 };
 
-export const getProductValuesValidation = async ( finish:string, size:string, thickness:string, ProdNameID: number ) => {
+export const getProductValuesValidation = async (
+  finish: string,
+  size: string,
+  thickness: string,
+  ProdNameID: number
+) => {
   try {
-
     const response = await axios.get(
       `http://localhost:5000/api/products/valid/id/${ProdNameID}?finish=${finish}&size=${size}&thickness=${thickness}`
     );

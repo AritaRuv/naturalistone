@@ -15,7 +15,10 @@ import { validateCompletedInputsProject } from "../assets/validateForm";
 import CreateProjectForm from "./createProjectForm";
 import { postCustomerProject } from "@/store/projects/actionsProjects";
 import { useAppDispatch } from "@/store/hooks";
-import { postFavoritesProductInProject } from "@/store/favorites/actionsFavorites";
+import {
+  fetchFavorites,
+  postFavoritesProductInProject,
+} from "@/store/favorites/actionsFavorites";
 import { validateCompletedEditInputsProject } from "@/utils/validateForms";
 import { ErrorsProject } from "@/utils/types";
 
@@ -135,6 +138,7 @@ export const CreateNewProject: React.FC<Props> = ({
         }
       }
     }
+    dispatch(fetchFavorites(CustomerID));
   };
 
   const handleClose = () => {

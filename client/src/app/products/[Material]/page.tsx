@@ -144,7 +144,7 @@ export default function Products({ params }) {
 
   return (
     <>
-      <Box h={"93vh"}>
+      <Box h={"91vh"}>
         <Box
           pl={"80px"}
           w={"full"}

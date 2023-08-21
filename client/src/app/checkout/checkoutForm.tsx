@@ -75,6 +75,27 @@ export default function CheckoutForm({ smallerThan740 }) {
     if (event.target.name === "Cvv" && event.target.value.length > 3) {
       return;
     }
+    if (
+      event.target.name === "ExpirationDateMonth" &&
+      event.target.value.length > 2
+    ) {
+      if (event.target.value > 12) {
+        setFormData({
+          ...formData,
+          Payment_Method: {
+            ...formData.Payment_Method,
+            ExpirationDateMonth: "12",
+          },
+        });
+      }
+      return;
+    }
+    if (
+      event.target.name === "ExpirationDateYear" &&
+      event.target.value.length > 2
+    ) {
+      return;
+    }
     setFormData({
       ...formData,
       Payment_Method: {

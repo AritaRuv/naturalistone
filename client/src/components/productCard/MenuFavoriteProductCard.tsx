@@ -56,20 +56,26 @@ export function MenuFavoriteProductCard({ ProdNameID, favorites, user }) {
         duration: 4000,
         isClosable: true,
       });
-      return dispatch(fetchFavorites(3999));
     }
+    return dispatch(fetchFavorites(user?.CustomerID));
   };
 
   const handleDelete = async (idProject: number, idProdName: number) => {
     dispatch(deleteFavoriteProductInProject(idProject, idProdName));
+    if (!toast.isActive("deleteFavoriteProductProject")) {
+      toast({
+        id: "deleteFavoriteProductProject",
+        title: "Success",
+        status: "success",
+        description: "The product has been successfully deleted",
+        duration: 4000,
+        isClosable: true,
+      });
+    }
     setTimeout(() => {
-      dispatch(fetchFavorites(3999));
+      dispatch(fetchFavorites(user?.CustomerID));
     }, 1000);
   };
-
-  // useEffect(() => {
-  //   dispatch(fetchProjectsCustomer(3999));
-  // }, []);
 
   const objetoExisteEnArray = (array, ProdNameID, idProjects) => {
     if (Array.isArray(array)) {
@@ -168,7 +174,7 @@ export function MenuFavoriteProductCard({ ProdNameID, favorites, user }) {
                   w={"full"}
                 >
                   <CreateNewProject
-                    CustomerID={3999}
+                    CustomerID={user?.CustomerID}
                     postProductProject={true}
                     ProdNameID={ProdNameID}
                   />

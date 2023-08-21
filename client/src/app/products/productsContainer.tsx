@@ -9,6 +9,8 @@ import { useEffect } from "react";
 import { fetchFavorites } from "@/store/favorites/actionsFavorites";
 import { useDispatch } from "react-redux";
 import { fetchProjectsCustomer } from "@/store/projects/actionsProjects";
+import { LoginState } from "@/store/login/typeLogin";
+import { userInfo } from "@/store/login/actionsLogin";
 
 const ProductsContainer: React.FC<Filters> = () => {
   const [isExtraSmallScreen] = useMediaQuery("(max-width: 550px)");
@@ -21,11 +23,14 @@ const ProductsContainer: React.FC<Filters> = () => {
   const { products_filters } = useAppSelector(
     (state: { productReducer: ProductState }) => state.productReducer
   );
+
   const { products_by_material } = useAppSelector(
     (state: { productReducer: ProductState }) => state.productReducer
   );
 
-  console.log("filtersssssss", products_filters);
+  const { user } = useAppSelector(
+    (state: { loginReducer: LoginState }) => state.loginReducer
+  );
 
   let gridColumns = 5;
 
@@ -43,9 +48,13 @@ const ProductsContainer: React.FC<Filters> = () => {
   }
 
   useEffect(() => {
-    dispatch(fetchFavorites(3999));
-    dispatch(fetchProjectsCustomer(3999));
+    dispatch(userInfo());
   }, []);
+
+  useEffect(() => {
+    dispatch(fetchFavorites(user.CustomerID));
+    dispatch(fetchProjectsCustomer(user.CustomerID));
+  }, [user]);
 
   return (
     <>
@@ -71,6 +80,7 @@ const ProductsContainer: React.FC<Filters> = () => {
                       product={prod}
                       key={prod.ProdNameID}
                       site={"products"}
+                      user={user}
                     />
                   </Box>
                 );
@@ -83,6 +93,7 @@ const ProductsContainer: React.FC<Filters> = () => {
                       product={prod}
                       key={prod.ProdNameID}
                       site={"products"}
+                      user={user}
                     />
                   </Box>
                 );
@@ -90,8 +101,10 @@ const ProductsContainer: React.FC<Filters> = () => {
             : null}
         </SimpleGrid>
       ) : (
-        <Center w={"full"} h={"90vh"}>
-          <Text fontSize={"20px"}>No products found</Text>
+        <Center w={"full"} h={"87vh"}>
+          <Text fontSize={"1.4rem"} fontWeight={"thin"}>
+            No products found
+          </Text>
         </Center>
       )}
     </>
