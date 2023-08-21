@@ -64,7 +64,6 @@ export default function Products({ params }) {
 
     return () => {
       dispatch(ClearDimension());
-      dispatch(ClearMaterials());
       dispatch(ClearProductFilters());
       dispatch(ClearProductsByMaterial());
     };

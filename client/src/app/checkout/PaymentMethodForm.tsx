@@ -145,33 +145,33 @@ export function PaymentMethodForm({
               <InputLeftElement>
                 <Text fontWeight={"semibold"}>MM</Text>
               </InputLeftElement>
-              <NumberInput min={1} max={12}>
-                <NumberInputField
-                  pl={"50px"}
-                  w={"full"}
-                  id={"ExpirationDateMonth"}
-                  name={"ExpirationDateMonth"}
-                  value={formData.Payment_Method.ExpirationDateMonth}
-                  onKeyDown={(evt) => {
-                    if (evt.key === "e" || evt.key === "E") {
-                      evt.preventDefault();
-                    }
-                  }}
-                  maxLength={2}
-                  placeholder={""}
-                  disabled={disabled}
-                  border={"none"}
-                  onChange={handleChangePaymentMethod}
-                  _focus={{
-                    boxShadow: "0 0.0px 0.0px #f2f2f2 inset, 0 0 0px #f2f2f2",
-                  }}
-                  style={{
-                    borderBottom: "1px solid black",
-                    borderRadius: "0", // Ajusta el radio de las esquinas a cero
-                    outline: "none",
-                  }}
-                />
-              </NumberInput>
+              {/* <NumberInput min={1} max={12}> */}
+              <Input
+                // pl={"50px"}
+                w={"full"}
+                id={"ExpirationDateMonth"}
+                name={"ExpirationDateMonth"}
+                value={formData.Payment_Method.ExpirationDateMonth}
+                onKeyDown={(evt) => {
+                  if (evt.key === "e" || evt.key === "E") {
+                    evt.preventDefault();
+                  }
+                }}
+                maxLength={2}
+                placeholder={""}
+                disabled={disabled}
+                border={"none"}
+                onChange={handleChangePaymentMethod}
+                _focus={{
+                  boxShadow: "0 0.0px 0.0px #f2f2f2 inset, 0 0 0px #f2f2f2",
+                }}
+                style={{
+                  borderBottom: "1px solid black",
+                  borderRadius: "0", // Ajusta el radio de las esquinas a cero
+                  outline: "none",
+                }}
+              />
+              {/* </NumberInput> */}
               <InputRightElement w={"60px"}>
                 <Text fontWeight={"semibold"}></Text>
               </InputRightElement>
@@ -185,54 +185,21 @@ export function PaymentMethodForm({
               <InputLeftElement>
                 <Text fontWeight={"semibold"}>YY</Text>
               </InputLeftElement>
-              <NumberInput>
-                <NumberInputField
-                  pl={"50px"}
-                  w={"full"}
-                  id={"ExpirationDateYear"}
-                  name={"ExpirationDateYear"}
-                  value={formData.Payment_Method.ExpirationDateYear}
-                  onKeyDown={(evt) => {
-                    if (evt.key === "e" || evt.key === "E") {
-                      evt.preventDefault();
-                    }
-                  }}
-                  maxLength={2}
-                  placeholder={""}
-                  disabled={disabled}
-                  border={"none"}
-                  onChange={handleChangePaymentMethod}
-                  _focus={{
-                    boxShadow: "0 0.0px 0.0px #f2f2f2 inset, 0 0 0px #f2f2f2",
-                  }}
-                  style={{
-                    borderBottom: "1px solid black",
-                    borderRadius: "0", // Ajusta el radio de las esquinas a cero
-                    outline: "none",
-                  }}
-                />
-              </NumberInput>
-              <InputRightElement w={"60px"}>
-                <Text fontWeight={"semibold"}></Text>
-              </InputRightElement>
-              {showErrors && (
-                <Text color={"red"} mt={"0.5vh"} fontSize={"xs"}>
-                  {errors.ExpirationDateYear}
-                </Text>
-              )}
-            </InputGroup>
-          </Box>
-          <InputGroup display={"flex"} flexDirection={"column"} h={"60px"}>
-            <NumberInput>
-              <NumberInputField
+              {/* <NumberInput> */}
+              <Input
+                // pl={"50px"}
                 w={"full"}
-                id={"Cvv"}
-                name={"Cvv"}
-                value={formData.Payment_Method.Cvv}
-                placeholder={"CVV"}
-                onKeyDown={(evt) => evt.key === "e" && evt.preventDefault()}
+                id={"ExpirationDateYear"}
+                name={"ExpirationDateYear"}
+                value={formData.Payment_Method.ExpirationDateYear}
+                onKeyDown={(evt) => {
+                  if (evt.key === "e" || evt.key === "E") {
+                    evt.preventDefault();
+                  }
+                }}
+                maxLength={2}
+                placeholder={""}
                 disabled={disabled}
-                maxLength={3}
                 border={"none"}
                 onChange={handleChangePaymentMethod}
                 _focus={{
@@ -244,7 +211,40 @@ export function PaymentMethodForm({
                   outline: "none",
                 }}
               />
-            </NumberInput>
+              {/* </NumberInput> */}
+              <InputRightElement w={"60px"}>
+                <Text fontWeight={"semibold"}></Text>
+              </InputRightElement>
+              {showErrors && (
+                <Text color={"red"} mt={"0.5vh"} fontSize={"xs"}>
+                  {errors.ExpirationDateYear}
+                </Text>
+              )}
+            </InputGroup>
+          </Box>
+          <InputGroup display={"flex"} flexDirection={"column"} h={"60px"}>
+            {/* <NumberInput> */}
+            <Input
+              w={"full"}
+              id={"Cvv"}
+              name={"Cvv"}
+              value={formData.Payment_Method.Cvv}
+              placeholder={"CVV"}
+              onKeyDown={(evt) => evt.key === "e" && evt.preventDefault()}
+              disabled={disabled}
+              maxLength={3}
+              border={"none"}
+              onChange={handleChangePaymentMethod}
+              _focus={{
+                boxShadow: "0 0.0px 0.0px #f2f2f2 inset, 0 0 0px #f2f2f2",
+              }}
+              style={{
+                borderBottom: "1px solid black",
+                borderRadius: "0", // Ajusta el radio de las esquinas a cero
+                outline: "none",
+              }}
+            />
+            {/* </NumberInput> */}
             {/* <Input /> */}
             <InputRightElement w={"60px"}>
               <Text fontWeight={"semibold"}></Text>
