@@ -1,12 +1,10 @@
-/* eslint-disable indent */
-import React, { useEffect } from "react";
+import React from "react";
 import {
   Box,
   IconButton,
   Button,
   Text,
-  Center,
-  useDisclosure,
+  Center
 } from "@chakra-ui/react";
 import NextImage from "next/image";
 import { useState } from "react";
@@ -22,16 +20,12 @@ import {
 import Link from "next/link";
 import AddSampleProductToCart from "./addSampleToCartDropdown";
 import { css } from "@emotion/react";
-
-import { PiHeartThin } from "react-icons/pi";
 import { MenuFavoriteProductCard } from "./MenuFavoriteProductCard";
-import { fetchFavorites } from "@/store/favorites/actionsFavorites";
 import { FavoritesState } from "@/store/favorites/typesFavorites";
-import { LoginState, User } from "@/store/login/typeLogin";
+import { User } from "@/store/login/typeLogin";
 
 const ProductCard: React.FC<{ product: Product; site: string; user: User }> = ({
   product,
-  site,
   user,
 }) => {
   const dispatch = useAppDispatch();
@@ -114,27 +108,6 @@ const ProductCard: React.FC<{ product: Product; site: string; user: User }> = ({
           favorites={favorites}
           user={user}
         />
-        <Box
-          display={"flex"}
-          w={"260px"}
-          bg={"rgba(210, 210, 210, 0.5)"}
-          h={"40px"}
-          position={"absolute"}
-          bottom={0}
-          left={0}
-          hidden={disableBox}
-          placeContent={"center"}
-        >
-          <IconButton
-            display={"flex"}
-            placeContent={"center"}
-            icon={<PiCaretDownThin />}
-            variant={"unstyled"}
-            size={"lg"}
-            maxH={"30px"}
-            aria-label={"Description"}
-          />
-        </Box>
       </Box>
       <Box position="absolute" bottom={0} left={0} w={"100%"} zIndex={10}>
         {isDropdownOpen && (

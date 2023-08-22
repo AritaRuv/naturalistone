@@ -1,9 +1,8 @@
-import { Box, Checkbox, CheckboxGroup, HStack, VStack, Text, Button, Divider } from "@chakra-ui/react";
+import { Box, Checkbox, CheckboxGroup, HStack, VStack, Text, Button } from "@chakra-ui/react";
 import { useState } from "react";
-import { useAppDispatch, useAppSelector } from "@/store/hooks";
+import { useAppDispatch } from "@/store/hooks";
 import { postCart } from "@/store/cart/actionsCart";
 import { fetchProductsValuesValidation } from "@/store/products/actionsProducts";
-import { ProductState } from "@/store/products/typesProducts";
 
 
 interface ProductListProps {
@@ -21,11 +20,8 @@ interface ProductListProps {
 const ProductList: React.FC<ProductListProps> = ({ data, ProdNameID}) => {
 
   const dispatch = useAppDispatch();
-  console.log(data);
+
   const { size, thickness, finish, prodNameID } = data[ProdNameID];
-
-  const { productValuesValidation } = useAppSelector((state: { productReducer: ProductState }) => state.productReducer);
-
   const [selectedSize, setSelectedSize] = useState<string>("");
   const [selectedThickness, setSelectedThickness] = useState<string>("");
   const [selectedFinish, setSelectedFinish] = useState<string>("");

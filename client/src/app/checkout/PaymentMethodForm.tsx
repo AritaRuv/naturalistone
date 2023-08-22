@@ -5,8 +5,6 @@ import {
   InputGroup,
   InputLeftElement,
   InputRightElement,
-  NumberInput,
-  NumberInputField,
   Text,
   VStack,
 } from "@chakra-ui/react";
@@ -67,7 +65,6 @@ export function PaymentMethodForm({
     }
   }, [setFormData]);
 
-  console.log(formData);
 
   return (
     <>

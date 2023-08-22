@@ -167,6 +167,9 @@ export const CreateNewProject: React.FC<Props> = ({
         fontSize={"0.8rem"}
         textAlign={"end"}
         onClick={onOpen}
+        _hover={{
+          fontWeight: "semibold"
+        }}
       >
         + ADD PROJECT
       </Button>
