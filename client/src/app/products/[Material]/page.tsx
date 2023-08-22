@@ -30,10 +30,6 @@ export default function Products({ params }) {
     (state: { productReducer: ProductState }) => state.productReducer
   );
 
-  const { products_by_material } = useAppSelector(
-    (state: { productReducer: ProductState }) => state.productReducer
-  );
-
   const dispatch = useAppDispatch();
 
   useEffect(() => {
@@ -49,6 +45,7 @@ export default function Products({ params }) {
     finish: [],
     thickness: [],
     size: [],
+    orderBy: ""
   });
   const handleCheckboxChange = (filterName: string, value: string) => {
     setFilters((prevFilters) => {
@@ -82,30 +79,8 @@ export default function Products({ params }) {
   }, [filters, shouldTriggerEffect]);
 
   const handleChangeOrderBy = (e) => {
-    filtrar(e.target.value)
-  }
-
-  const filtrar = (criterio: String) => {
-    if (criterio === "AZ") {
-      products_by_material?.sort(
-        (p1, p2) => (p1.Naturali_ProdName > p2.Naturali_ProdName) ? 1 : (p1.Naturali_ProdName < p2.Naturali_ProdName) ? -1 : 0);
-    }
-    else {
-      products_by_material?.sort(
-        (p1, p2) => (p1.Naturali_ProdName < p2.Naturali_ProdName) ? 1 : (p1.Naturali_ProdName > p2.Naturali_ProdName) ? -1 : 0);
-    }
-    try {
-      dispatch({
-        type: ProductActionTypes.FETCH_PRODUCTS_BY_MATERIAL,
-        payload: products_by_material,
-      });
-    } catch (error) {
-      dispatch({
-        type: ProductActionTypes.FETCH_PRODUCTS_FAILURE,
-        error: "Error al obtener los product values",
-      });
-    }
-  }
+    setFilters({ ...filters, orderBy: e.target.value });
+  };
 
   return (
     <>

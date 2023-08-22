@@ -71,6 +71,7 @@ const ProductCardCart: React.FC<{ product: ProductCart }> = ({ product }) => {
         justifyContent={"space-around"}
         px={"5px"}
         py={"4px"}
+        backgroundColor={quantity === 0 ? "sampleItemCart.gray" : "white"}
       >
         {
           isExtraSmallScreen ? (
@@ -114,7 +115,11 @@ const ProductCardCart: React.FC<{ product: ProductCart }> = ({ product }) => {
           <Box>
             <Text textTransform={"uppercase"} fontSize={fontSubTitle}>{Material}</Text>
             <Text textTransform={"uppercase"} fontWeight={"bold"} fontSize={fontTitle}>{Naturali_ProdName}</Text>
-            <Text textTransform={"uppercase"} fontSize={"0.6rem"} color={"gray.600"}>{Finish} - {Size} - {Thickness}-{Type}</Text>
+            {
+              quantity > 0 ? (<Text textTransform={"uppercase"} fontSize={"0.6rem"} color={"gray.600"}>{Finish} - {Size} - {Thickness}-{Type}</Text>
+              ) : (<Text textTransform={"uppercase"} fontSize={"0.6rem"} color={"gray.600"}>{Finish} - {Thickness}-{Type}</Text>
+              )
+            }
           </Box>
           <Box>
             {

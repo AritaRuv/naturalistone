@@ -9,7 +9,9 @@ const theme = extendTheme({
     site: {
       lightGrey: "#E5E4E3"
     },
-    
+    sampleItemCart: {
+      gray: "#f4f4f4"
+    },
     buttons: {
     }
   },
