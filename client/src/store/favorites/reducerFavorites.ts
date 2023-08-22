@@ -1,5 +1,10 @@
+/* eslint-disable indent */
 // reducer.ts
-import { FavoritesAction, FavoritesActionTypes, FavoritesState } from "../favorites/typesFavorites";
+import {
+  FavoritesAction,
+  FavoritesActionTypes,
+  FavoritesState,
+} from "../favorites/typesFavorites";
 
 const initialState: FavoritesState = {
   favorites: [],
@@ -8,7 +13,10 @@ const initialState: FavoritesState = {
   error: null,
 };
 
-const favoritesReducer = (state = initialState, action: FavoritesAction): FavoritesState => {
+const favoritesReducer = (
+  state = initialState,
+  action: FavoritesAction
+): FavoritesState => {
   switch (action.type) {
   case FavoritesActionTypes.FETCH_FAVORITES_REQUEST:
     return {
@@ -36,7 +44,17 @@ const favoritesReducer = (state = initialState, action: FavoritesAction): Favori
     };
   default:
     return state;
+    case FavoritesActionTypes.POST_FAVORITES_PRODUCTS_PROJECT:
+      return {
+        ...state,
+      };
+    case FavoritesActionTypes.DELETE_FAVORITES_PRODUCT_PROJECT:
+      return {
+        ...state,
+      };
+    default:
+      return state;
   }
 };
 
-export default favoritesReducer ;
+export default favoritesReducer;

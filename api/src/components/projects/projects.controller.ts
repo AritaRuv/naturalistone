@@ -17,7 +17,7 @@ export async function getProjectsByCustomer(req: Request, res: Response) {
         }
         if (results.length === 0) {
           console.log("Error en projectRoutes.get /");
-          res.status(404).json("No projects");
+          res.status(200).json({ success: true, msg: "No projects", data: [] });
         } else {
           console.log("Data OK");
           res.status(200).json(results);
@@ -28,15 +28,17 @@ export async function getProjectsByCustomer(req: Request, res: Response) {
     res.status(409).send(error);
   }
 }
+
 export async function postNewProject(req: Request, res: Response) {
   const {
     ProjectName,
-    CustomerID,
     Shipping_State,
     Shipping_ZipCode,
     Shipping_City,
     Shipping_Address,
   } = req.body;
+
+  const { CustomerID } = req.params;
 
   try {
     const query = `INSERT INTO Projects (ProjectName, CustomerID, Shipping_State, Shipping_ZipCode, Shipping_City, Shipping_Address ) VALUES (?, ?, ?, ?, ?, ?)`;
@@ -57,15 +59,27 @@ export async function postNewProject(req: Request, res: Response) {
         results: RowDataPacket[],
         insertFields: FieldInfo[]
       ) => {
-        if (error) throw error;
+        if (error) {
+          return res.status(400).json({
+            success: false,
+            msg: "Error in create project",
+            err: error,
+          });
+        }
         if (results.length == 0) {
           console.log(
             "Error en projectRoutes.post /create-project/:customerID"
           );
-          res.status(200).json([]);
+          res
+            .status(404)
+            .json({ success: false, msg: "Error in create project", data: [] });
         } else {
           console.log("Project created successfully");
-          res.status(200).json(results);
+          res.status(200).json({
+            success: true,
+            msg: "Create project successfully",
+            data: results,
+          });
         }
       }
     );

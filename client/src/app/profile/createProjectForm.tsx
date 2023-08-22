@@ -6,19 +6,25 @@ import {
   Text,
   FormLabel,
 } from "@chakra-ui/react";
- 
-  
-export default function CreateProjectForm({formData, setFormData, validateCompletedInputsProject, errors, setErrors, setChangeInput}) {
-  
+
+export default function CreateProjectForm({
+  formData,
+  setFormData,
+  validateCompletedEditInputsProject,
+  errors,
+  setErrors,
+  setChangeInput,
+  showErrors,
+}) {
   const handleChange = (event) => {
     const { name, value } = event.target;
     // Actualizas solo la propiedad que cambió en el objeto de formData
-    setFormData((prevFormData) => ({
-      ...prevFormData,
+    setFormData({
+      ...formData,
       [name]: value,
-    }));
+    });
     setErrors(
-      validateCompletedInputsProject({
+      validateCompletedEditInputsProject({
         ...formData,
         [name]: value,
       })
@@ -36,7 +42,7 @@ export default function CreateProjectForm({formData, setFormData, validateComple
           pt={"4vh"}
           justifyContent={"space-between"}
         >
-          <FormControl bg={"red"}>
+          <FormControl>
             <FormLabel fontSize={"0.8rem"} fontWeight={"normal"}>
               PROJECT NAME
             </FormLabel>
@@ -51,11 +57,11 @@ export default function CreateProjectForm({formData, setFormData, validateComple
               value={formData.ProjectName}
               onChange={handleChange}
             />
-            {/* { errors.ProjectName && ( */}
-            <Text position={"absolute"} color={"web.error"} fontSize={"xs"}>
-              ERRORR
-            </Text>
-            {/* )} */}
+            {showErrors && errors.ProjectName && (
+              <Text position={"absolute"} color={"red"} fontSize={"xs"}>
+                {errors.ProjectName}
+              </Text>
+            )}
           </FormControl>
         </Box>
         <Box
@@ -81,8 +87,8 @@ export default function CreateProjectForm({formData, setFormData, validateComple
               value={formData.Shipping_Address}
               onChange={handleChange}
             />
-            {errors.Shipping_Address && (
-              <Text position={"absolute"} color={"web.error"} fontSize={"xs"}>
+            {showErrors && errors.Shipping_Address && (
+              <Text position={"absolute"} color={"red"} fontSize={"xs"}>
                 {errors.Shipping_Address}
               </Text>
             )}
@@ -111,8 +117,8 @@ export default function CreateProjectForm({formData, setFormData, validateComple
               value={formData.Shipping_City}
               onChange={handleChange}
             />
-            {errors.Shipping_City && (
-              <Text position={"absolute"} color={"web.error"} fontSize={"xs"}>
+            {showErrors && errors.Shipping_City && (
+              <Text position={"absolute"} color={"red"} fontSize={"xs"}>
                 {errors.Shipping_City}
               </Text>
             )}
@@ -149,8 +155,8 @@ export default function CreateProjectForm({formData, setFormData, validateComple
               value={formData.Shipping_State}
               onChange={handleChange}
             />
-            {errors.Shipping_State && (
-              <Text position={"absolute"} color={"web.error"} fontSize={"xs"}>
+            {showErrors && errors.Shipping_State && (
+              <Text position={"absolute"} color={"red"} fontSize={"xs"}>
                 {errors.Shipping_State}
               </Text>
             )}
@@ -179,8 +185,8 @@ export default function CreateProjectForm({formData, setFormData, validateComple
               value={formData.Shipping_ZipCode}
               onChange={handleChange}
             />
-            {errors.Shipping_ZipCode && (
-              <Text position={"absolute"} color={"web.error"} fontSize={"xs"}>
+            {showErrors && errors.Shipping_ZipCode && (
+              <Text position={"absolute"} color={"red"} fontSize={"xs"}>
                 {errors.Shipping_ZipCode}
               </Text>
             )}

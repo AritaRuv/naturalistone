@@ -1,12 +1,13 @@
+/* eslint-disable indent */
 import { LoginAction, LoginActionsType, LoginState } from "./typeLogin";
 
 const initialState: LoginState = {
   user: {
-    CustomerID: "",
+    CustomerID: 0,
     Contact_Name: "",
     Company: "",
     Username: "",
-    Customer_LoginID: "",
+    Customer_LoginID: 0,
     Phone: "",
     State: "",
     Address: "",
@@ -24,21 +25,21 @@ const loginReducer = (
   action: LoginAction
 ): LoginState => {
   switch (action.type) {
-  case LoginActionsType.GET_USER_INFO: {
-    return {
-      ...state,
-      user: action.payload,
-    };
-  }
-  case LoginActionsType.UPDATE_USER: {
-    return {
-      ...state,
-      user: action.payload,
-    };
-  }
-  default: {
-    return state;
-  }
+    case LoginActionsType.GET_USER_INFO: {
+      return {
+        ...state,
+        user: action.payload,
+      };
+    }
+    case LoginActionsType.UPDATE_USER: {
+      return {
+        ...state,
+        user: action.payload,
+      };
+    }
+    default: {
+      return state;
+    }
   }
 };
 

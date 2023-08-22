@@ -81,6 +81,7 @@ export function FiltersColors({
     setProductsFilter({
       material: "",
       colorId: "",
+      materialValue: "",
     });
     dispatch(fetchProductsHome("", ""));
     setActiveButton(null);

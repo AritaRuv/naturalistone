@@ -16,9 +16,57 @@ export interface ErrorsProfile {
 }
 
 export interface ErrorsProject {
-  projectName?: string;
-  shippingAddress?: string;
-  shippingCity?: string;
-  shippingState?: string;
-  shippingZipCode?: string;
+  ProjectName?: string;
+  Shipping_Address?: string;
+  Shipping_State?: string;
+  Shipping_City?: string;
+  Shipping_ZipCode?: string;
+}
+
+export interface Payments {
+  idPayments: number;
+  InvoiceID: number;
+  Amount: string;
+  Method: string;
+  Date: Date;
+  by?: string;
+}
+
+export interface DetailProdSolds {
+  ProdNameID?: number;
+  ProdID: number;
+  Quantity: number;
+  SalePrice: number;
+  Naturali_ProdName: string;
+  Material: string;
+  Status: string;
+}
+
+interface ShippingAddress {
+  FirstName: string;
+  LastName: string;
+  Company: string;
+  Email: string;
+  Shipping_Address: string;
+  Shipping_City: string;
+  Shipping_State: string;
+  Shipping_ZipCode: string;
+  Phone: string;
+}
+
+interface PaymentMethod {
+  Method: string;
+  CreditCardNumber: string;
+  ExpirationDateMonth: string;
+  ExpirationDateYear: string;
+  Cvv: string;
+}
+
+export interface CheckoutFormData {
+  Shipping_Address: ShippingAddress;
+  Shipping_Method: string;
+  Payment_Method: PaymentMethod;
+  SubTotal: string;
+  Shipping_Total: string;
+  Total: string;
 }

@@ -7,8 +7,9 @@ import { ProductState } from "../../store/products/typesProducts";
 import { useAppDispatch, useAppSelector } from "../../store/hooks";
 import { FiltersHomeProps } from "./page";
 import { userInfo } from "@/store/login/actionsLogin";
-import { SalesState } from "@/store/sales/typeSales";
-import { salesByProject } from "@/store/sales/actionsSales";
+import { fetchFavorites } from "@/store/favorites/actionsFavorites";
+import { fetchProjectsCustomer } from "@/store/projects/actionsProjects";
+import { LoginState } from "@/store/login/typeLogin";
 
 const HomeProductContainer: React.FC<FiltersHomeProps> = ({
   productsFilter,
@@ -21,20 +22,21 @@ const HomeProductContainer: React.FC<FiltersHomeProps> = ({
   const dispatch = useAppDispatch();
   const { material, colorId } = productsFilter;
 
-  // const { user } = useAppSelector(
-  //   (state: { loginReducer: LoginState }) => state.loginReducer
-  // );
-
   const { products } = useAppSelector(
     (state: { productReducer: ProductState }) => state.productReducer
   );
-
+  const { user } = useAppSelector(
+    (state: { loginReducer: LoginState }) => state.loginReducer
+  );
   let gridColumns = 6;
 
   if (isXLargeScreen) {
     gridColumns = 5;
   }
   if (isMediumScreen) {
+    gridColumns = 4;
+  }
+  if (isSmallScreen) {
     gridColumns = 2;
   }
   if (isLargeScreen) {
@@ -51,6 +53,11 @@ const HomeProductContainer: React.FC<FiltersHomeProps> = ({
     if (!products.length) dispatch(fetchProductsHome(material, colorId));
   }, [products]);
 
+  useEffect(() => {
+    dispatch(fetchFavorites(user.CustomerID));
+    dispatch(fetchProjectsCustomer(user.CustomerID));
+  }, [user]);
+
   return (
     <SimpleGrid
       pt={"8vh"}
@@ -63,9 +70,9 @@ const HomeProductContainer: React.FC<FiltersHomeProps> = ({
       minH={"500px"}
     >
       {homeProducts.length !== 0 &&
-        homeProducts.map((prod) => {
+        homeProducts.map((prod, index) => {
           return (
-            <ProductCard product={prod} key={prod.ProdNameID} site={"home"} />
+            <ProductCard product={prod} key={index} site={"home"} user={user} />
           );
         })}
     </SimpleGrid>

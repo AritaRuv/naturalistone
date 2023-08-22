@@ -9,7 +9,6 @@ import {
   ModalBody,
   ModalFooter,
   Button,
-  useToast,
   Box,
   Text,
   Input,
@@ -30,10 +29,7 @@ export function UpdateCustomer({
   id,
 }) {
   const [errors, setErrors] = useState<ErrorsProfile>({});
-  const toast = useToast();
-  const [isToastShowing, setIsToastShowing] = useState(false);
   const { isOpen, onOpen, onClose } = useDisclosure();
-  const [changeInput, setChangeInput] = useState(false);
   const dispatch = useAppDispatch();
   const [showErrors, setShowErrors] = useState(false);
 
@@ -55,7 +51,6 @@ export function UpdateCustomer({
 
   const handleClose = () => {
     setFormData({
-      customerId: "",
       fullName: "",
       company: "",
       email: "",
@@ -135,7 +130,11 @@ export function UpdateCustomer({
           }}
           onClick={onOpen}
         >
-          <Text fontSize={"0.7rem"} color={"#646464"} _hover={{fontWeight: "semibold"}}>
+          <Text
+            fontSize={"0.7rem"}
+            color={"#646464"}
+            _hover={{ fontWeight: "semibold" }}
+          >
             Edit
           </Text>
         </Button>

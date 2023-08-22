@@ -20,11 +20,7 @@ import {
 } from "@chakra-ui/react";
 import { useState, useEffect } from "react";
 import { useAppDispatch } from "@/store/hooks";
-import { patchUser } from "@/store/login/actionsLogin";
-import {
-  validateCompletedEditInputsProject,
-  validateCompletedInputsProfile,
-} from "@/utils/validateForms";
+import { validateCompletedEditInputsProject } from "@/utils/validateForms";
 import { ErrorsProject } from "@/utils/types";
 import { patchProject } from "@/store/projects/actionsProjects";
 import { Project } from "@/store/projects/typeProjects";
@@ -35,25 +31,27 @@ export function UpdateProject({ idProjects, project }) {
   const { isOpen, onOpen, onClose } = useDisclosure();
   const dispatch = useAppDispatch();
   const [showErrors, setShowErrors] = useState(false);
-  const [formData, setFormData] = useState<Project>({
+
+  const [formData, setFormData] = useState({
     idProjects: idProjects,
-    ProjectName: project.ProjectName,
-    Shipping_Address: project.Shipping_Address,
-    Shipping_ZipCode: project.Shipping_ZipCode,
-    Shipping_State: project.Shipping_State,
-    Shipping_City: project.Shipping_City,
+    ProjectName: project?.ProjectName,
+    Shipping_Address: project?.Shipping_Address,
+    Shipping_ZipCode: project?.Shipping_ZipCode,
+    Shipping_State: project?.Shipping_State,
+    Shipping_City: project?.Shipping_City,
   });
 
   const handleChange = (event) => {
     const name = event.target.name;
     const value = event.target.value;
-    setFormData((prevFormData) => ({
-      ...prevFormData,
+    setFormData({
+      ...formData,
       [name]: value,
-    }));
+    });
+
     setErrors(
       validateCompletedEditInputsProject({
-        ...project,
+        ...formData,
         [name]: value,
       })
     );
@@ -74,7 +72,11 @@ export function UpdateProject({ idProjects, project }) {
 
   const handleSubmit = async () => {
     setShowErrors(true);
-    if (errors && Object.values(errors).length) {
+    const newErrors = validateCompletedEditInputsProject(formData);
+    if (
+      Object.values(newErrors).length > 0 &&
+      Object.values(errors).length > 0
+    ) {
       return;
     }
     const data = await dispatch(patchProject(formData));
@@ -104,6 +106,17 @@ export function UpdateProject({ idProjects, project }) {
     onClose();
     return;
   };
+
+  useEffect(() => {
+    setFormData({
+      idProjects: idProjects,
+      ProjectName: project.ProjectName,
+      Shipping_Address: project.Shipping_Address,
+      Shipping_ZipCode: project.Shipping_ZipCode,
+      Shipping_State: project.Shipping_State,
+      Shipping_City: project.Shipping_City,
+    });
+  }, [project]);
 
   return (
     <>
@@ -176,9 +189,9 @@ export function UpdateProject({ idProjects, project }) {
                     defaultValue={project.ProjectName}
                     onChange={handleChange}
                   />
-                  {showErrors && errors.projectName && (
+                  {showErrors && errors.ProjectName && (
                     <Text position={"absolute"} color={"red"} fontSize={"xs"}>
-                      {errors.projectName}
+                      {errors.ProjectName}
                     </Text>
                   )}
                 </FormControl>
@@ -215,9 +228,9 @@ export function UpdateProject({ idProjects, project }) {
                     defaultValue={project.Shipping_Address}
                     onChange={handleChange}
                   />
-                  {showErrors && errors.shippingAddress && (
+                  {showErrors && errors.Shipping_Address && (
                     <Text position={"absolute"} color={"red"} fontSize={"xs"}>
-                      {errors.shippingAddress}
+                      {errors.Shipping_Address}
                     </Text>
                   )}
                 </FormControl>
@@ -254,9 +267,9 @@ export function UpdateProject({ idProjects, project }) {
                     defaultValue={project.Shipping_City}
                     onChange={handleChange}
                   />
-                  {showErrors && errors.shippingCity && (
+                  {showErrors && errors.Shipping_City && (
                     <Text position={"absolute"} color={"red"} fontSize={"xs"}>
-                      {errors.shippingCity}
+                      {errors.Shipping_City}
                     </Text>
                   )}
                 </FormControl>
@@ -293,9 +306,9 @@ export function UpdateProject({ idProjects, project }) {
                     defaultValue={project.Shipping_State}
                     onChange={handleChange}
                   />
-                  {showErrors && errors.shippingState && (
+                  {showErrors && errors.Shipping_State && (
                     <Text position={"absolute"} color={"red"} fontSize={"xs"}>
-                      {errors.shippingState}
+                      {errors.Shipping_State}
                     </Text>
                   )}
                 </FormControl>
@@ -332,9 +345,9 @@ export function UpdateProject({ idProjects, project }) {
                     defaultValue={project.Shipping_ZipCode}
                     onChange={handleChange}
                   />
-                  {showErrors && errors.shippingZipCode && (
+                  {showErrors && errors.Shipping_ZipCode && (
                     <Text position={"absolute"} color={"red"} fontSize={"xs"}>
-                      {errors.shippingZipCode}
+                      {errors.Shipping_ZipCode}
                     </Text>
                   )}
                 </FormControl>

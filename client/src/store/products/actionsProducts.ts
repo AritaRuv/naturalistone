@@ -1,6 +1,11 @@
 // actions.ts
 import { Dispatch } from "redux";
-import { ProductActionTypes, ProductAction, Product, RawProduct } from "./typesProducts";
+import {
+  ProductActionTypes,
+  ProductAction,
+  Product,
+  RawProduct,
+} from "./typesProducts";
 import {
   getProductValues,
   getProductsHome,
@@ -9,12 +14,11 @@ import {
   getDimension,
   getProductImages,
   getProductValuesValidation,
-  getProductsByMaterial
+  getProductsByMaterial,
 } from "../../api/apiProds"; // Importa tu función de solicitud a la API
 import { Filters } from "@/app/products/productFilters/types";
 import getProductsFiltered from "@/controllers/productFilters";
 import getProductsByProdName from "@/controllers/productByProdName";
-
 
 export const fetchProductsHome = (material: string, colorId: string) => {
   return async (dispatch: Dispatch<ProductAction>) => {
@@ -35,7 +39,7 @@ export const fetchProductsHome = (material: string, colorId: string) => {
   };
 };
 
-export const fetchProductsValues = ({ ProdNameID}) => {
+export const fetchProductsValues = ({ ProdNameID }) => {
   return async (dispatch: Dispatch<ProductAction>) => {
     try {
       const productValues = await getProductValues(ProdNameID); // Llama a tu función de solicitud a la API
@@ -103,14 +107,15 @@ export const fetchDimension = (material: string) => {
     }
   };
 };
-//Action que trae productos filtrados por type, finish, size y thickness, no hace pedido a la api y carga los estados product_filtered 
-export const fetchProductsFilters = (raw_products: RawProduct[], filters: Filters) => {
-  
+//Action que trae productos filtrados por type, finish, size y thickness, no hace pedido a la api y carga los estados product_filtered
+export const fetchProductsFilters = (
+  raw_products: RawProduct[],
+  filters: Filters
+) => {
   return async (dispatch: Dispatch<ProductAction>) => {
     dispatch({ type: ProductActionTypes.FETCH_PRODUCTS_REQUEST });
     try {
-      const result = await getProductsFiltered(raw_products,filters);
-      console.log(result);
+      const result = getProductsFiltered(raw_products, filters);
       dispatch({
         type: ProductActionTypes.FETCH_PRODUCTS_FILTERS_SUCCESS,
         payload: result,
@@ -190,7 +195,7 @@ export const fetchProductsByMaterial = (material: string) => {
       const result = getProductsByProdName(products);
       const data = {
         products,
-        result
+        result,
       };
       dispatch({
         type: ProductActionTypes.FETCH_PRODUCTS_BY_MATERIAL,
@@ -205,3 +210,50 @@ export const fetchProductsByMaterial = (material: string) => {
   };
 };
 
+export const ClearDimension = () => {
+  return async (dispatch: Dispatch<ProductAction>) => {
+    try {
+      dispatch({
+        type: ProductActionTypes.CLEAR_DIMENSION,
+      });
+    } catch (error) {
+      console.log("Error in dispatch clean dimensions");
+    }
+  };
+};
+
+export const ClearMaterials = () => {
+  return async (dispatch: Dispatch<ProductAction>) => {
+    try {
+      dispatch({
+        type: ProductActionTypes.CLEAR_MATERIALS,
+      });
+    } catch (error) {
+      console.log("Error in dispatch clean materials");
+    }
+  };
+};
+
+export const ClearProductFilters = () => {
+  return async (dispatch: Dispatch<ProductAction>) => {
+    try {
+      dispatch({
+        type: ProductActionTypes.CLEAR_PRODUCTS_FILTERS,
+      });
+    } catch (error) {
+      console.log("Error in dispatch clean product filters");
+    }
+  };
+};
+
+export const ClearProductsByMaterial = () => {
+  return async (dispatch: Dispatch<ProductAction>) => {
+    try {
+      dispatch({
+        type: ProductActionTypes.CLEAR_PRODUCTS_BY_MATERIAL,
+      });
+    } catch (error) {
+      console.log("Error in dispatch clean products by material");
+    }
+  };
+};

@@ -18,7 +18,6 @@ export async function signUp(req: Request, res: Response) {
 
       mysqlConnection.query(query, function (err, results) {
         if (results.length) {
-          console.log("soy reuslts", results);
           return res
             .status(400)
             .json({ success: false, msg: "Email already Exists" });
@@ -27,7 +26,6 @@ export async function signUp(req: Request, res: Response) {
         const _query = `INSERT INTO Customers (Contact_Name, Email) Values("${fullName}", "${email}")`;
 
         mysqlConnection.query(_query, function (err, results, fields) {
-          console.log("soy restuls1", results);
           if (err) {
             res
               .status(400)
@@ -52,11 +50,7 @@ export async function signUp(req: Request, res: Response) {
                 });
               }
 
-              console.log("results_customer_login", results_customer_login);
-
               const token = await generateJWT(results_customer_login.insertId);
-
-              console.log("entree", token);
 
               results_customer_login.token = token;
 
@@ -69,8 +63,6 @@ export async function signUp(req: Request, res: Response) {
                     throw err;
                   });
                 }
-
-                console.log("SignUp committed successfully");
 
                 return res.status(200).json({
                   success: true,
@@ -104,7 +96,7 @@ function rollbackAndRespond(
 
 export async function generateJWT(user = "", expiresAt = 0) {
   const payload = user;
-  console.log("soy payload", payload);
+
   const SECRETKEY = process.env.SECRET_KEY;
 
   const options: any = {};
@@ -129,13 +121,10 @@ export async function validateJWT(
     return res.status(401).json({ success: false, msg: "no token" });
   }
 
-  console.log("soy token", token);
-
   // token = token.split(" ")[1];
 
   verify(token, process.env.SECRET_KEY, function (err, data) {
     if (err) {
-      console.log("erro", err);
       return res.status(401).json("invalid_token");
     }
     next();
@@ -154,8 +143,6 @@ export async function signIn(req: Request, res: Response) {
           .status(400)
           .json({ success: false, msg: "customer not found" });
       }
-
-      console.log("results", results);
 
       const token = await generateJWT(results[0].Customer_LoginID);
 
@@ -183,19 +170,18 @@ export async function userInfo(req: Request, res: Response) {
       return res.status(401).json({ success: false, msg: "no token" });
     }
 
-    console.log("soy token,", token);
-
     const customerLoginId = verify(token, process.env.SECRET_KEY);
 
     console.log("soy validate", customerLoginId);
 
-    const query_ = `SELECT Customers.*, Customer_Login.Username, Customer_Login.Customer_LoginID,
+    const query_ = `SELECT Customers.CustomerID, Customers.Contact_Name, Customers.Company, Customers.Phone, Customers.Address, 
+    Customers.State, Customers.ZipCode, Customers.Billing_Address, Customers.Billing_State, Customers.Billing_ZipCode, Customers.Billing_City,
+    Customers.City, Customers.Company_Position, Customer_Login.Username, Customer_Login.Customer_LoginID,
     Customer_Login.Password FROM Customers
     LEFT JOIN Customer_Login ON Customer_Login.CustomerID = Customers.CustomerID
     WHERE Customer_Login.Customer_LoginID = "${customerLoginId}"`;
 
     mysqlConnection.query(query_, function (err, results) {
-      console.log("soy resutkls", results);
       if (!results?.length) {
         return res.status(400).json({ success: false, msg: "User not found" });
       }
@@ -232,8 +218,6 @@ export async function updateUser(req: Request, res: Response) {
     if (!token) {
       return res.status(401).json({ success: false, msg: "no token" });
     }
-
-    console.log("soy token,", token);
 
     const customerLoginId = verify(token, process.env.SECRET_KEY);
 

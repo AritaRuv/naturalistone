@@ -12,7 +12,13 @@ import {
   useToast,
 } from "@chakra-ui/react";
 import { useState } from "react";
-import { PiUserCircleThin, PiLockThin, PiEnvelopeOpenThin, PiEyeSlashThin, PiEyeThin  } from "react-icons/pi";
+import {
+  PiUserCircleThin,
+  PiLockThin,
+  PiEnvelopeOpenThin,
+  PiEyeSlashThin,
+  PiEyeThin,
+} from "react-icons/pi";
 import { Props } from "./Login";
 import { FormErrors, validateCompletedInputs } from "@/utils/validateForms";
 import { SignUp } from "@/store/login/typeLogin";
@@ -63,14 +69,27 @@ const SignUp: React.FC<Props> = ({ setActiveLogin, smallerThan600 }) => {
 
   const handleRegister = async () => {
     setShowErrors(true);
-    if (Object.keys(errors).length) {
+    const newErrors = validateCompletedInputs(formData);
+    if (Object.values(newErrors).length || Object.values(errors).length) {
+      if (!toast.isActive("signup")) {
+        return toast({
+          id: "signup",
+          title: "Sign Up",
+          description: "Please complete the fields.",
+          status: "error",
+          variant: "subtle",
+          duration: 4000,
+          isClosable: true,
+        });
+      }
       return;
     }
     const response = await postSignUp(formData);
     if (response.success === false) {
-      if (!isToastShowing) {
+      if (!toast.isActive("signup")) {
         setIsToastShowing(true);
         return toast({
+          id: "signup",
           title: "Sign Up",
           description: "Email already exists.",
           status: "warning",
@@ -82,9 +101,10 @@ const SignUp: React.FC<Props> = ({ setActiveLogin, smallerThan600 }) => {
       }
     }
     if (response.success === true) {
-      if (!isToastShowing) {
+      if (!toast.isActive("signup")) {
         setIsToastShowing(true);
         toast({
+          id: "signup",
           title: "Sign Up",
           description: "Account has been created.",
           status: "success",
@@ -129,7 +149,9 @@ const SignUp: React.FC<Props> = ({ setActiveLogin, smallerThan600 }) => {
         h={"24vh"}
         w={"80%"}
       >
-        <Text fontWeight={"thin"} fontSize={"1.4rem"}>SIGN UP</Text>
+        <Text fontWeight={"thin"} fontSize={"1.4rem"}>
+          SIGN UP
+        </Text>
       </Box>
       <Center
         display={"flex"}
@@ -141,8 +163,12 @@ const SignUp: React.FC<Props> = ({ setActiveLogin, smallerThan600 }) => {
         h={"35vh"}
       >
         <Box w={"full"}>
-          <InputGroup h={"60px"} display={"flex"} flexDir={"column"} >
-            <InputLeftElement top={"-10px"} textAlign={"center"} pointerEvents="none" >
+          <InputGroup h={"60px"} display={"flex"} flexDir={"column"}>
+            <InputLeftElement
+              top={"-10px"}
+              textAlign={"center"}
+              pointerEvents="none"
+            >
               <IconButton
                 display={"flex"}
                 textAlign={"center"}
@@ -180,15 +206,19 @@ const SignUp: React.FC<Props> = ({ setActiveLogin, smallerThan600 }) => {
           </InputGroup>
         </Box>
         <Box w={"full"}>
-          <InputGroup h={"60px"}  display={"flex"} flexDir={"column"}>
-            <InputLeftElement top={"-10px"} textAlign={"center"} pointerEvents="none">
+          <InputGroup h={"60px"} display={"flex"} flexDir={"column"}>
+            <InputLeftElement
+              top={"-10px"}
+              textAlign={"center"}
+              pointerEvents="none"
+            >
               <IconButton
                 display={"flex"}
                 textAlign={"center"}
                 aria-label="User-icon"
                 variant="unstyled"
                 fontSize="2xl"
-                icon={<PiEnvelopeOpenThin/>}
+                icon={<PiEnvelopeOpenThin />}
               />
             </InputLeftElement>
             <Input
@@ -219,8 +249,12 @@ const SignUp: React.FC<Props> = ({ setActiveLogin, smallerThan600 }) => {
           </InputGroup>
         </Box>
         <Box w={"full"}>
-          <InputGroup h={"60px"}  display={"flex"} flexDir={"column"}>
-            <InputLeftElement top={"-10px"} textAlign={"center"} pointerEvents="none">
+          <InputGroup h={"60px"} display={"flex"} flexDir={"column"}>
+            <InputLeftElement
+              top={"-10px"}
+              textAlign={"center"}
+              pointerEvents="none"
+            >
               <IconButton
                 aria-label="Password-icon"
                 variant="unstyled"
@@ -252,30 +286,30 @@ const SignUp: React.FC<Props> = ({ setActiveLogin, smallerThan600 }) => {
               placeholder={"PASSWORD"}
             />
             <InputRightElement
-              top={"-10px"} 
+              top={"-10px"}
               textAlign={"center"}
               aria-label="Password-icon"
               onClick={handleShowPassword}
             >
-              {
-                showPassword ?
-                  <IconButton
-                    aria-label="Password-icon"
-                    variant="unstyled"
-                    fontSize="2xl"
-                    display={"flex"}
-                    textAlign={"center"}
-                    icon={<PiEyeSlashThin />}
-                  /> :
-                  <IconButton
-                    aria-label="Password-icon"
-                    variant="unstyled"
-                    fontSize="2xl"
-                    display={"flex"}
-                    textAlign={"center"}
-                    icon={<PiEyeThin />}
-                  />
-              }
+              {showPassword ? (
+                <IconButton
+                  aria-label="Password-icon"
+                  variant="unstyled"
+                  fontSize="2xl"
+                  display={"flex"}
+                  textAlign={"center"}
+                  icon={<PiEyeSlashThin />}
+                />
+              ) : (
+                <IconButton
+                  aria-label="Password-icon"
+                  variant="unstyled"
+                  fontSize="2xl"
+                  display={"flex"}
+                  textAlign={"center"}
+                  icon={<PiEyeThin />}
+                />
+              )}
             </InputRightElement>
             {showErrors && (
               <Text color={"red"} fontSize={"xs"} mt={"0.5vh"}>
@@ -285,8 +319,12 @@ const SignUp: React.FC<Props> = ({ setActiveLogin, smallerThan600 }) => {
           </InputGroup>
         </Box>
         <Box w={"full"}>
-          <InputGroup h={"60px"}  display={"flex"} flexDir={"column"}>
-            <InputLeftElement top={"-10px"} textAlign={"center"} pointerEvents="none">
+          <InputGroup h={"60px"} display={"flex"} flexDir={"column"}>
+            <InputLeftElement
+              top={"-10px"}
+              textAlign={"center"}
+              pointerEvents="none"
+            >
               <IconButton
                 aria-label="Password-icon"
                 variant="unstyled"
@@ -318,30 +356,30 @@ const SignUp: React.FC<Props> = ({ setActiveLogin, smallerThan600 }) => {
               placeholder={"CONFIRM PASSWORD"}
             />
             <InputRightElement
-              top={"-10px"} 
+              top={"-10px"}
               textAlign={"center"}
               aria-label="Password-icon"
               onClick={handleShowConfirmPassword}
             >
-              {
-                showConfirmPassword ?
-                  <IconButton
-                    aria-label="Password-icon"
-                    variant="unstyled"
-                    fontSize="2xl"
-                    display={"flex"}
-                    textAlign={"center"}
-                    icon={<PiEyeSlashThin />}
-                  /> :
-                  <IconButton
-                    aria-label="Password-icon"
-                    variant="unstyled"
-                    fontSize="2xl"
-                    display={"flex"}
-                    textAlign={"center"}
-                    icon={<PiEyeThin />}
-                  />
-              }
+              {showConfirmPassword ? (
+                <IconButton
+                  aria-label="Password-icon"
+                  variant="unstyled"
+                  fontSize="2xl"
+                  display={"flex"}
+                  textAlign={"center"}
+                  icon={<PiEyeSlashThin />}
+                />
+              ) : (
+                <IconButton
+                  aria-label="Password-icon"
+                  variant="unstyled"
+                  fontSize="2xl"
+                  display={"flex"}
+                  textAlign={"center"}
+                  icon={<PiEyeThin />}
+                />
+              )}
             </InputRightElement>
             {showErrors && (
               <Text color={"red"} fontSize={"xs"} mt={"0.5vh"}>
@@ -366,14 +404,14 @@ const SignUp: React.FC<Props> = ({ setActiveLogin, smallerThan600 }) => {
           backgroundColor={"transparent"}
           _hover={{
             backgroundColor: "transparent",
-            fontWeight: "semibold"
+            fontWeight: "semibold",
           }}
           _focus={{
             backgroundColor: "transparent",
             border: "none",
           }}
         >
-              CREATE ACCOUNT
+          CREATE ACCOUNT
         </Button>
         <Box
           display={"flex"}
@@ -385,7 +423,7 @@ const SignUp: React.FC<Props> = ({ setActiveLogin, smallerThan600 }) => {
           alignItems={"flex-end"}
         >
           <Center color={"#6A6969"}>
-            <Text fontWeight={"light"}> Already have an account?</Text>    
+            <Text fontWeight={"light"}> Already have an account?</Text>
           </Center>
           <Center ml={"10px"}>
             <Button

@@ -9,7 +9,7 @@ import {
 
 const projectsRouter: Router = Router();
 
-projectsRouter.post("/", postNewProject);
+projectsRouter.post("/create/:CustomerID", postNewProject);
 projectsRouter.patch("/delete/:id", deleteProject);
 projectsRouter.patch("/editproject/:id", updateProject);
 projectsRouter.get("/project/:id", getProjectByID);

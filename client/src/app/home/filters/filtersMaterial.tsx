@@ -39,6 +39,7 @@ export function FiltersMaterials({
     setProductsFilter((prevState) => ({
       ...prevState,
       material: event.target.value,
+      materialValue: event.target.value,
     }));
     try {
       const products = await dispatch(
@@ -92,8 +93,10 @@ export function FiltersMaterials({
           bg={"none"}
           border={"none"}
           onChange={handleClick}
+          value={productsFilter.materialValue}
           icon={<MdOutlineArrowDropDownCircle />}
         >
+          <option value="">All Materials</option>
           {materials?.map((material, i) => (
             <option value={material} key={i}>
               {material}

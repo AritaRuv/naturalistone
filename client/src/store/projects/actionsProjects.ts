@@ -11,7 +11,7 @@ import {
 
 export interface BodyProject {
   ProjectName: string;
-  CustomerID: number;
+  CustomerID?: number;
   Shipping_Address: string;
   Shipping_ZipCode: string;
   Shipping_State: string;
@@ -37,11 +37,11 @@ export const fetchProjectsCustomer = (CustomerID: number) => {
 
 export const postCustomerProject = (
   CustomerID: number,
-  bodyCart: BodyProject
+  bodyProject: BodyProject
 ) => {
   return async (dispatch: Dispatch<ProjectsAction>) => {
     try {
-      const res = await createProject(bodyCart);
+      const res = await createProject(bodyProject, CustomerID);
       const projects = await getProjects(CustomerID);
 
       dispatch({
@@ -53,6 +53,7 @@ export const postCustomerProject = (
         type: ProjectsActionsType.FETCH_PROJECTS_BY_CUSTOMER,
         payload: projects,
       });
+      return res;
     } catch (error) {
       console.error(
         `Error al obtener los projectos del Customer: ${CustomerID}`,
