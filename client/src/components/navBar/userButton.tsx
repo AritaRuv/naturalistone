@@ -8,42 +8,49 @@ import {
   DrawerOverlay,
   DrawerContent,
   DrawerCloseButton,
-  useDisclosure, 
+  useDisclosure,
   Center,
-  Box
+  Box,
 } from "@chakra-ui/react";
 import { PiUserCircleThin } from "react-icons/pi";
 import "./_navBar.css";
 import UserButtonsContainer from "@/app/profile/userButtonsContainer";
 import NextImage from "next/image";
-
+import { useRouter } from "next/navigation";
+import { LoginState } from "@/store/login/typeLogin";
+import { useAppSelector } from "@/store/hooks";
 
 const UserButton: React.FC = () => {
-
   const { isOpen, onOpen, onClose } = useDisclosure();
-  const URL = "https://naturalistone-images.s3.amazonaws.com/muestra/bernard-hermant-H6lV0I-SZjg-unsplash.jpg";
+  const { user } = useAppSelector(
+    (state: { loginReducer: LoginState }) => state.loginReducer
+  );
+  const router = useRouter(); // Get the router instance
 
-  return(
+  const userNotLogin = () => {
+    if (user?.CustomerID === 0) {
+      return router.push("/signin");
+    } else {
+      onOpen();
+    }
+  };
+
+  const URL =
+    "https://naturalistone-images.s3.amazonaws.com/muestra/bernard-hermant-H6lV0I-SZjg-unsplash.jpg";
+
+  return (
     <>
       <IconButton
         aria-label="Cart-icon"
         variant="unstyled"
         fontSize="2xl"
-        icon={<PiUserCircleThin/>}
-        onClick={onOpen}
+        icon={<PiUserCircleThin />}
+        onClick={userNotLogin}
       />
-      <Drawer
-        isOpen={isOpen}
-        placement='right'
-        onClose={onClose}
-        size={"full"}
-      >
-        <DrawerOverlay/>
-        <DrawerContent
-          h={"100vh"}
-          w={"100vw"} 
-        >
-          <NextImage objectFit="cover" fill src={URL} alt="img"/>
+      <Drawer isOpen={isOpen} placement="right" onClose={onClose} size={"full"}>
+        <DrawerOverlay />
+        <DrawerContent h={"100vh"} w={"100vw"}>
+          <NextImage objectFit="cover" fill src={URL} alt="img" />
           <Box
             position="absolute"
             top={0}
@@ -52,23 +59,18 @@ const UserButton: React.FC = () => {
             height="100%"
             bg="rgba(0, 0, 0, 0.4)"
           />
-          <DrawerCloseButton color={"white"}/>
-          <DrawerBody display={"flex"} justifyContent={"flex-end"} >
+          <DrawerCloseButton color={"white"} />
+          <DrawerBody display={"flex"} justifyContent={"flex-end"}>
             <Center mr={"16vw"}>
-              <UserButtonsContainer site={"navbar"} onClose={onClose}/>
+              <UserButtonsContainer site={"navbar"} onClose={onClose} />
             </Center>
           </DrawerBody>
 
-          <DrawerFooter>
-          </DrawerFooter>
+          <DrawerFooter></DrawerFooter>
         </DrawerContent>
       </Drawer>
     </>
-     
   );
 };
 
 export default UserButton;
-
-
-

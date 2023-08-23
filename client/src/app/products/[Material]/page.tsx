@@ -1,5 +1,4 @@
-/* eslint-disable indent */
-/* eslint-disable quotes */
+
 "use client";
 import {
   Box,
@@ -116,16 +115,16 @@ export default function Products({ params }) {
         p1.Naturali_ProdName > p2.Naturali_ProdName
           ? 1
           : p1.Naturali_ProdName < p2.Naturali_ProdName
-          ? -1
-          : 0
+            ? -1
+            : 0
       );
     } else {
       products_by_material?.sort((p1, p2) =>
         p1.Naturali_ProdName < p2.Naturali_ProdName
           ? 1
           : p1.Naturali_ProdName > p2.Naturali_ProdName
-          ? -1
-          : 0
+            ? -1
+            : 0
       );
     }
     try {
@@ -140,6 +139,7 @@ export default function Products({ params }) {
       });
     }
   };
+
 
   return (
     <>
@@ -164,13 +164,11 @@ export default function Products({ params }) {
                   HOME
                 </BreadcrumbLink>
               </BreadcrumbItem>
-
               <BreadcrumbItem>
                 <BreadcrumbLink href="/products" fontSize={"0.7rem"}>
                   COLLECTIONS
                 </BreadcrumbLink>
               </BreadcrumbItem>
-
               <BreadcrumbItem isCurrentPage>
                 <BreadcrumbLink
                   href="#"

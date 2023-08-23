@@ -47,7 +47,7 @@ function newCartEntry(req, res) {
                                 });
                                 return;
                             }
-                            // Maneja el resultado undefined de la query, en caso de que la convinacion ProdNameID y DimensionID no 
+                            // Maneja el resultado undefined de la query, en caso de que la convinacion ProdNameID y DimensionID no
                             // exista en la db
                             // ---------------------------------
                             if (prodResults.length === 0) {
@@ -62,7 +62,12 @@ function newCartEntry(req, res) {
                             const product = prodResults[0];
                             const productSalePrice = product.SalePrice === null ? 1 : product.SalePrice;
                             const queryInsertCart = "INSERT INTO Cart(CustomerID, ProductID, Quantity, SalePrice) VALUES (?, ?, ?, ?)";
-                            const cartValues = [customerID, product.ProdID, 0, productSalePrice];
+                            const cartValues = [
+                                customerID,
+                                product.ProdID,
+                                0,
+                                productSalePrice,
+                            ];
                             db_1.default.query(queryInsertCart, cartValues, (insertError, insertResults, insertFields) => {
                                 if (insertError) {
                                     console.log("Error en la consulta queryInsertCart: ", insertError);
@@ -77,12 +82,16 @@ function newCartEntry(req, res) {
                                             console.log("Error al realizar el commit: ", commitError);
                                             db_1.default.rollback(() => {
                                                 console.log("Rollback realizado debido a un error en el commit");
-                                                res.status(500).json({ error: commitError.message });
+                                                res
+                                                    .status(500)
+                                                    .json({ error: commitError.message });
                                             });
                                         }
                                         else {
                                             console.log("Datos OK");
-                                            res.status(200).send("Nueva entrada en el carrito creada");
+                                            res
+                                                .status(200)
+                                                .send("Nueva entrada en el carrito creada");
                                         }
                                     });
                                 }
@@ -101,7 +110,7 @@ function newCartEntry(req, res) {
                             });
                             return;
                         }
-                        // Maneja el resultado undefined de la query, en caso de que la convinacion ProdNameID y DimensionID no 
+                        // Maneja el resultado undefined de la query, en caso de que la convinacion ProdNameID y DimensionID no
                         // exista en la db
                         // ---------------------------------
                         if (prodResults.length === 0) {
@@ -141,12 +150,16 @@ function newCartEntry(req, res) {
                                                 console.log("Error al realizar el commit: ", commitError);
                                                 db_1.default.rollback(() => {
                                                     console.log("Rollback realizado debido a un error en el commit");
-                                                    res.status(500).json({ error: commitError.message });
+                                                    res
+                                                        .status(500)
+                                                        .json({ error: commitError.message });
                                                 });
                                             }
                                             else {
                                                 console.log("Datos OK");
-                                                res.status(200).send("Nueva entrada en el carrito creada");
+                                                res
+                                                    .status(200)
+                                                    .send("Nueva entrada en el carrito creada");
                                             }
                                         });
                                     }
@@ -185,7 +198,7 @@ function getCartProducts(req, res) {
                     LEFT JOIN Products ON Cart.ProductID = Products.ProdID
                     LEFT JOIN Dimension ON Products.DimensionID = Dimension.DimensionID
                     LEFT JOIN ProdNames ON Products.ProdNameID = ProdNames.ProdNameID
-                    WHERE Cart.CustomerID = 1938;
+                    WHERE Cart.CustomerID = ${customerID};
                     `;
             db_1.default.query(query, [customerID], (error, results, fields) => {
                 if (error) {
@@ -218,7 +231,9 @@ function updateCartProducts(req, res) {
                 }
                 if (results.length === 0) {
                     console.log(`Error en cart.update cartEntry: ${idCartEntry}`);
-                    res.status(404).json(`Error en cart.update cartEntry: ${idCartEntry}`);
+                    res
+                        .status(404)
+                        .json(`Error en cart.update cartEntry: ${idCartEntry}`);
                 }
                 else {
                     console.log("Data OK");

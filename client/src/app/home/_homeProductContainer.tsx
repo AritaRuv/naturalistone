@@ -6,7 +6,6 @@ import { fetchProductsHome } from "../../store/products/actionsProducts";
 import { ProductState } from "../../store/products/typesProducts";
 import { useAppDispatch, useAppSelector } from "../../store/hooks";
 import { FiltersHomeProps } from "./page";
-import { userInfo } from "@/store/login/actionsLogin";
 import { salesByCustomer, salesDetails } from "@/store/sales/actionsSales";
 import { SalesState } from "@/store/sales/typeSales";
 import { fetchFavorites } from "@/store/favorites/actionsFavorites";
@@ -40,7 +39,6 @@ const HomeProductContainer: React.FC<FiltersHomeProps> = ({
   const homeProducts = products.slice(0, 4);
 
   useEffect(() => {
-    dispatch(userInfo());
     if (!products.length) dispatch(fetchProductsHome(material, colorId));
   }, [products]);
 

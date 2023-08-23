@@ -24,7 +24,6 @@ import { useRouter } from "next/navigation";
 import { useContext } from "react";
 import { AppContext } from "@/app/appContext";
 import { LoginState } from "@/store/login/typeLogin";
-import { userInfo } from "@/store/login/actionsLogin";
 
 export function DeleteProject({ idProjects, project }) {
   const { isOpen, onOpen, onClose } = useDisclosure();
@@ -35,10 +34,6 @@ export function DeleteProject({ idProjects, project }) {
   const { user } = useAppSelector(
     (state: { loginReducer: LoginState }) => state.loginReducer
   );
-
-  useEffect(() => {
-    dispatch(userInfo());
-  }, []);
 
   const handleSubmit = async () => {
     const response = await dispatch(deleteUserProject(idProjects));

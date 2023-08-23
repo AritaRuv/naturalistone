@@ -7,8 +7,8 @@ import Projects from "./projects";
 import { AppContext } from "../appContext";
 import { useAppDispatch, useAppSelector } from "@/store/hooks";
 import { LoginState, User } from "@/store/login/typeLogin";
-import { userInfo } from "../../store/login/actionsLogin";
 import AddressInfo from "./addressInfo";
+import { useRouter } from "next/navigation";
 
 export interface IFormData {
   customerId: string;
@@ -43,6 +43,17 @@ export interface userButton {
   onClose: () => void;
 }
 export default function Profile() {
+  const { user } = useAppSelector(
+    (state: { loginReducer: LoginState }) => state.loginReducer
+  );
+  const router = useRouter(); // Get the router instance
+
+  useEffect(() => {
+    if (user?.Username?.length < 1) {
+      router.push("/signin"); // Redirect to the login page
+    }
+  }, [user, router]);
+
   const appContext = useContext(AppContext);
 
   const dispatch = useAppDispatch();
@@ -73,13 +84,6 @@ export default function Profile() {
       [name]: value,
     });
   };
-
-  const { user } = useAppSelector(
-    (state: { loginReducer: LoginState }) => state.loginReducer
-  );
-  useEffect(() => {
-    dispatch(userInfo());
-  }, []);
 
   return (
     <>

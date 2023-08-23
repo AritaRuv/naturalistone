@@ -1,7 +1,7 @@
 "use client";
 
 import { Box, useMediaQuery } from "@chakra-ui/react";
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import Logo from "./logo";
 import TextButtonsNavBar from "./textButtonsNavBar";
 import IconButtonsNavBar from "./iconButtonsNavBar";
@@ -9,6 +9,8 @@ import Menu from "./menu";
 import DropDownMenu from "./dropDownMenu";
 import MenuDrawer from "./menuDrawer";
 import CartButton from "./cartButton";
+import { useAppDispatch } from "@/store/hooks";
+import { userInfo } from "@/store/login/actionsLogin";
 
 const NavBar: React.FC = () => {
 
@@ -17,6 +19,7 @@ const NavBar: React.FC = () => {
   const [active, setActive] = useState(false);
   const [smallerThan1200] = useMediaQuery("(max-width: 1200px)");
   const [smallerThan740] = useMediaQuery("(max-width: 740px)");
+  const dispatch = useAppDispatch();
 
   const handleMenu =() => {
     setMenuVisible(!menuVisible);
@@ -37,6 +40,10 @@ const NavBar: React.FC = () => {
   const handleMouseLeave = () => {
     setHover(false);
   };
+
+  useEffect(() => {
+    dispatch(userInfo());
+  }, []);
 
   return(
     <>

@@ -10,7 +10,6 @@ import { fetchFavorites } from "@/store/favorites/actionsFavorites";
 import { useDispatch } from "react-redux";
 import { fetchProjectsCustomer } from "@/store/projects/actionsProjects";
 import { LoginState } from "@/store/login/typeLogin";
-import { userInfo } from "@/store/login/actionsLogin";
 
 const ProductsContainer: React.FC<Filters> = () => {
   const [isExtraSmallScreen] = useMediaQuery("(max-width: 550px)");
@@ -46,10 +45,6 @@ const ProductsContainer: React.FC<Filters> = () => {
   if (isExtraSmallScreen) {
     gridColumns = 1;
   }
-
-  useEffect(() => {
-    dispatch(userInfo());
-  }, []);
 
   useEffect(() => {
     dispatch(fetchFavorites(user.CustomerID));
