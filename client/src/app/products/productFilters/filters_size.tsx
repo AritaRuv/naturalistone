@@ -9,7 +9,7 @@ const FiltersSize: React.FC<UniqueFilter> = ({ size, handleCheckboxChange }) => 
   const top5sizes = size?.slice(0,amount);
   return (
     <>
-      <Box h={"fit-content"}  my={"2vh"}>
+      <Box h={"fit-content"}  my={"1vh"}>
         <Text justifySelf={"flex-start"} fontWeight={"bold"} fontSize={"0.9rem"}>SIZE</Text>
         <Box justifySelf={"flex-start"} w={"90%"} display={"flex"} flexDir={"column"} mt={"2vh"}>
           {

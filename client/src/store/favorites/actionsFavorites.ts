@@ -43,7 +43,10 @@ export const fetchFavoritesByProject = (idProjects: number) => {
       dispatch({
         type: FavoritesActionTypes.FETCH_FAVORITES_FAILURE,
         error: "Error al obtener los favoritos",
-      });
+      });}
+  };
+};
+
 export const postFavoritesProductInProject = (
   idProject: number,
   idProjectName: number

@@ -1,18 +1,16 @@
-/* eslint-disable indent */
 "use client";
 import { SimpleGrid, useMediaQuery, Box, Center, Text } from "@chakra-ui/react";
 import ProductCard from "../../components/productCard/_productCard";
 import { ProductState } from "../../store/products/typesProducts";
 import { useAppDispatch, useAppSelector } from "../../store/hooks";
-import { Filters } from "./productFilters/types";
 import { useEffect } from "react";
 import { fetchFavorites } from "@/store/favorites/actionsFavorites";
-import { useDispatch } from "react-redux";
 import { fetchProjectsCustomer } from "@/store/projects/actionsProjects";
 import { LoginState } from "@/store/login/typeLogin";
 import { userInfo } from "@/store/login/actionsLogin";
+import { Path } from "./path";
 
-const ProductsContainer: React.FC<Filters> = () => {
+const ProductsContainer = ({params}) => {
   const [isExtraSmallScreen] = useMediaQuery("(max-width: 550px)");
   const [isSmallScreen] = useMediaQuery("(max-width: 1000px)");
   const [is1200Screen] = useMediaQuery("(max-width: 1200px)");
@@ -57,23 +55,21 @@ const ProductsContainer: React.FC<Filters> = () => {
   }, [user]);
 
   return (
-    <>
+    <Box>
       {typeof products_filters !== "string" ? (
-        <SimpleGrid
-          zIndex={1}
-          position={"fixed"}
-          left={!is1200Screen ? "20vw" : 0}
-          top={"10vh"}
-          spacingY={"10vh"}
-          py={"2%"}
-          w={is1200Screen ? "80vw" : "80vw"}
-          columns={gridColumns} // Establece el número de columnas dinámicamente
-          h={"100%"}
-          minH={"90vh"}
+        <Box
+          h={"80vh"}
           overflow={"auto"}
-        >
-          {products_filters.length !== 0
-            ? products_filters.map((prod) => {
+          py={"2%"}
+          w={"88vw"}>
+          <SimpleGrid
+            justifyItems={"center"}
+            spacingY={"10vh"}
+            columns={gridColumns} // Establece el número de columnas dinámicamente
+
+          >
+            {products_filters.length !== 0
+              ? products_filters.map((prod) => {
                 return (
                   <Box>
                     <ProductCard
@@ -85,21 +81,22 @@ const ProductsContainer: React.FC<Filters> = () => {
                   </Box>
                 );
               })
-            : products_by_material?.length !== 0
-            ? products_by_material?.slice(0, 20).map((prod) => {
-                return (
-                  <Box>
-                    <ProductCard
-                      product={prod}
-                      key={prod.ProdNameID}
-                      site={"products"}
-                      user={user}
-                    />
-                  </Box>
-                );
-              })
-            : null}
-        </SimpleGrid>
+              : products_by_material?.length !== 0
+                ? products_by_material?.slice(0, 20).map((prod) => {
+                  return (
+                    <Box>
+                      <ProductCard
+                        product={prod}
+                        key={prod.ProdNameID}
+                        site={"products"}
+                        user={user}
+                      />
+                    </Box>
+                  );
+                })
+                : null}
+          </SimpleGrid>
+        </Box>
       ) : (
         <Center w={"full"} h={"87vh"}>
           <Text fontSize={"1.4rem"} fontWeight={"thin"}>
@@ -107,7 +104,7 @@ const ProductsContainer: React.FC<Filters> = () => {
           </Text>
         </Center>
       )}
-    </>
+    </Box>
   );
 };
 

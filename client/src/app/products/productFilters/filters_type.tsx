@@ -9,7 +9,7 @@ const FiltersType: React.FC<UniqueFilter> = ({ type, handleCheckboxChange }) => 
   const top5type = type?.slice(0,amount);
   return (
     <>
-      <Box h={"fit-content"} my={"2vh"}>
+      <Box h={"fit-content"} my={"1vh"}>
         <Text justifySelf={"flex-start"} fontWeight={"semibold"} fontSize={"0.9rem"}>TYPE</Text>
         <Box justifySelf={"flex-start"} w={"90%"} display={"flex"} flexDir={"column"} mt={"2vh"}>
           {

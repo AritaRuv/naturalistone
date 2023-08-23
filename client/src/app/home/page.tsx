@@ -55,7 +55,7 @@ export default function Home() {
           "https://cdn.coverr.co/videos/coverr-bathroom-in-a-mobile-home-3685/1080p.mp4"
         }
       /> */}
-      {/* <HomeMaterialContainer/> */}
+      <HomeMaterialContainer/>
       <HomeProductContainer
         productsFilter={productsFilter}
         setProductsFilter={setProductsFilter}

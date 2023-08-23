@@ -24,7 +24,7 @@ import { MenuFavoriteProductCard } from "./MenuFavoriteProductCard";
 import { FavoritesState } from "@/store/favorites/typesFavorites";
 import { User } from "@/store/login/typeLogin";
 
-const ProductCard: React.FC<{ product: Product; site: string; user: User }> = ({
+const ProductCard: React.FC<{ product: Product; site?: string; user?: User }> = ({
   product,
   user,
 }) => {

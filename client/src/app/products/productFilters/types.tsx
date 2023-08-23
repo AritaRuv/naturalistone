@@ -15,7 +15,9 @@ export interface Filters {
   size: string[];
 }
 
-
+interface ProductParams {
+  Material: string;
+}
 export interface UniqueFilter {
     type?:  string[] 
     finish?:  string[];
@@ -28,5 +30,6 @@ export interface FiltersState {
     setFilters: (filters: Filters) => void;
     filters: Filters;
     handleCheckboxChange: (filterName: string, value: string) => void;
+    params: ProductParams;
   }
   

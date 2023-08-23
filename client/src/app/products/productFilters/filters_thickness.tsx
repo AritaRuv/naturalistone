@@ -9,7 +9,7 @@ const FiltersThickness: React.FC<UniqueFilter> = ({ thickness, handleCheckboxCha
   const top5thickness = thickness?.slice(0,amount);
   return (
     <>
-      <Box h={"fit-content"}  my={"2vh"}>
+      <Box h={"fit-content"}  my={"1vh"}>
         <Text justifySelf={"flex-start"} fontWeight={"bold"} fontSize={"0.9rem"}>THICKNESS</Text>
         <Box justifySelf={"flex-start"} w={"90%"} display={"flex"} flexDir={"column"}  mt={"2vh"}>
           {

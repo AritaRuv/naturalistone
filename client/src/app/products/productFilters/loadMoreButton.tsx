@@ -10,7 +10,7 @@ const LoadMoreButton = ({setAmount, amount}) => {
       mt={"1vh"} 
       textTransform={"uppercase"} 
       fontWeight={"light"}  
-      fontSize={"0.8rem"} 
+      fontSize={"0.7rem"} 
       variant={"unstyled"} 
       display={"flex"}
       onClick={()=>setAmount(amount + 5)} 

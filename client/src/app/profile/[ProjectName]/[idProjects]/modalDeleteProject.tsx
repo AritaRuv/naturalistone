@@ -27,6 +27,7 @@ import { LoginState } from "@/store/login/typeLogin";
 import { userInfo } from "@/store/login/actionsLogin";
 
 export function DeleteProject({ idProjects, project }) {
+
   const { isOpen, onOpen, onClose } = useDisclosure();
   const dispatch = useAppDispatch();
   const toast = useToast();
@@ -73,21 +74,17 @@ export function DeleteProject({ idProjects, project }) {
         <Button
           h={"5px"}
           w={"5px"}
-          fontWeight={"normal"}
+          fontWeight={"thin"}
+          variant={"unstyled"}
           border={"none"}
-          backgroundColor={"transparent"}
-          _hover={{
-            backgroundColor: "transparent",
-          }}
-          _focus={{
-            backgroundColor: "transparent",
-            border: "none",
-          }}
           onClick={onOpen}
+          _hover={{
+            fontWeight: "semibold"
+          }}
+          fontSize={"0.8rem"}
+          color={"logo.grey"}
         >
-          <Text fontSize={"0.8rem"} color={"#646464"}>
             Delete project
-          </Text>
         </Button>
       </Box>
       <Modal size={"2xl"} isOpen={isOpen} onClose={onClose} isCentered={true}>

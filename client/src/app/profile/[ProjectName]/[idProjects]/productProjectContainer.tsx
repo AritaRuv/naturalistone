@@ -10,23 +10,24 @@ export default function ProductsProjectContainer() {
   const { project_favorites } = useAppSelector(
     (state: { favoritesReducer: FavoritesState }) => state.favoritesReducer
   );
-  console.log(project_favorites);
   return (
     <>
-      <SimpleGrid p={"5vh"} mt={"6vh"} spacingY={"2.5vh"} rounded={"sm"} w={"70vw"} h={"55vh"} columns={4} border={"2px solid red"} overflow={"auto"}>
-        {
-          project_favorites.length !== 0 && (
-            typeof project_favorites !== "string" ? (
-              project_favorites.map(prod => {
-                return(
-                  <ProductCard product={prod} site=""/>
-                );
-              })):(
-              <Text>{project_favorites}</Text>
+      <Box w={"75vw"} h={"65vh"} overflow={"auto"} p={"20px"} >
+        <SimpleGrid justifyItems="center" spacingY={"20px"} rounded={"sm"} columns={4}>
+          {
+            project_favorites.length !== 0 && (
+              typeof project_favorites !== "string" ? (
+                project_favorites.map(prod => {
+                  return(
+                    <ProductCard product={prod}/>
+                  );
+                })):(
+                <Text>{project_favorites}</Text>
+              )
             )
-          )
-        }
-      </SimpleGrid>
+          }
+        </SimpleGrid>
+      </Box>
     </>
   );
 }

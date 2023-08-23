@@ -42,8 +42,6 @@ const favoritesReducer = (
       loading: false,
       error: action.error,
     };
-  default:
-    return state;
     case FavoritesActionTypes.POST_FAVORITES_PRODUCTS_PROJECT:
       return {
         ...state,
