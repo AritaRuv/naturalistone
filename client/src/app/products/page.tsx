@@ -2,19 +2,13 @@
 import { fetchMaterials } from "@/store/products/actionsProducts";
 import { useAppDispatch, useAppSelector } from "@/store/hooks";
 import {
-  ProductActionTypes,
   ProductState,
 } from "@/store/products/typesProducts";
 import { useEffect } from "react";
 import {
   SimpleGrid,
   Box,
-  Center,
-  Select,
-  HStack,
-  Flex,
-  Spacer,
-  Text,
+  Center
 } from "@chakra-ui/react";
 import MaterialCard from "./materialCard";
 
@@ -33,7 +27,7 @@ export default function Collections() {
         <SimpleGrid
           w={"100vw"}
           m={"8vw"}
-          mt={"4vh"}
+          mt={"16vh"}
           columns={4}
           spacingY={"30px"}
         >

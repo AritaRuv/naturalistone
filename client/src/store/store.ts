@@ -14,7 +14,7 @@ const rootReducer = combineReducers({
   projectsReducer,
   loginReducer,
   salesReducer,
-  favoritesReducer,
+  favoritesReducer
 });
 
 export const store = configureStore({

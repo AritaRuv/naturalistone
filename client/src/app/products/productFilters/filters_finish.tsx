@@ -9,7 +9,7 @@ const FiltersFinish: React.FC<UniqueFilter> = ({ finish, handleCheckboxChange })
   const top5finish = finish?.slice(0,amount);
   return (
     <>
-      <Box h={"fit-content"}  my={"2vh"}>
+      <Box h={"fit-content"}  my={"1vh"}>
         <Text justifySelf={"flex-start"} fontWeight={"semibold"} fontSize={"0.9rem"}>FINISH</Text>
         <Box justifySelf={"flex-start"} w={"90%"} display={"flex"} flexDir={"column"} mt={"2vh"}>
           {

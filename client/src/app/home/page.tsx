@@ -4,6 +4,7 @@ import Carousel from "./_carousel";
 import CarouselVideo from "./carouselVideo";
 import { Filters } from "./filters/filters";
 import { useState } from "react";
+import HomeMaterialContainer from "./homeProductMaterial";
 
 const cards = [
   {
@@ -43,17 +44,18 @@ export default function Home() {
   return (
     <>
       <Carousel mt={"-10vh"} items={cards} />
-      <CarouselVideo
+      {/* <CarouselVideo
         source={
           "https://naturalistone-images.s3.amazonaws.com/131642+(Original).mp4"
         }
-      />
+      /> */}
       <Carousel mt={"0px"} items={cards} />
-      <CarouselVideo
+      {/* <CarouselVideo
         source={
           "https://cdn.coverr.co/videos/coverr-bathroom-in-a-mobile-home-3685/1080p.mp4"
         }
-      />
+      /> */}
+      <HomeMaterialContainer/>
       <HomeProductContainer
         productsFilter={productsFilter}
         setProductsFilter={setProductsFilter}

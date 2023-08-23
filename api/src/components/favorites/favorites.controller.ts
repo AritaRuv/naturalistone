@@ -1,5 +1,3 @@
-/* eslint-disable indent */
-/* eslint-disable quotes */
 import { MysqlError } from "mysql";
 import { Request, Response } from "express";
 import mysqlConnection from "../../db";
@@ -9,7 +7,7 @@ export async function getAllFavorites(req: Request, res: Response) {
   try {
     const { customer_id } = req.params;
 
-    const query = ` SELECT DISTINCT ProdNames.*, Projects.idProjects from Project_ProdName
+    const query = ` SELECT DISTINCT ProdNames.*, Project_ProdName.*, Projects.idProjects  from Project_ProdName
                     LEFT JOIN ProdNames ON ProdNames.ProdNameID = Project_ProdName.ProdNameID
                     LEFT JOIN Projects ON Projects.idProjects = Project_ProdName.idProjects
                     LEFT JOIN Customers ON Projects.CustomerID = Customers.CustomerID
@@ -36,12 +34,43 @@ export async function getAllFavorites(req: Request, res: Response) {
   }
 }
 
+export async function getProjectFavorites(req: Request, res: Response) {
+  try {
+    const { idProjects } = req.params;
+
+    const query = ` SELECT DISTINCT ProdNames.*, Project_ProdName.* from Project_ProdName
+                    LEFT JOIN ProdNames ON ProdNames.ProdNameID = Project_ProdName.ProdNameID
+                    LEFT JOIN Projects ON Projects.idProjects = Project_ProdName.idProjects
+                    WHERE Projects.idProjects = ${idProjects}
+                  `;
+
+    mysqlConnection.query(
+      query, 
+      (error: MysqlError, results: RowDataPacket[]) => {
+        if (error) {
+          throw error;
+        }
+        if (results.length === 0) {
+          console.log("Error en favortiesRoutes.get /");
+          res.status(200).json(`No favorites in project ${idProjects}`);
+        } else {
+          console.log(`Favorites in project ${idProjects} OK`);
+          res.status(200).json(results);
+        }
+      }
+    );
+  } catch (error) {
+    res.status(409).send(error);
+  }
+}
+
+
 export async function postFavoritesProductProject(req: Request, res: Response) {
   const { idproject, idprodname } = req.params;
 
   try {
-    const querySelect = `SELECT * FROM Project_ProdName WHERE idProjects = ? AND ProdNameID = ?`;
-    const queryInsert = `INSERT INTO Project_ProdName (idProjects, ProdNameID) values (?, ?)`;
+    const querySelect = "SELECT * FROM Project_ProdName WHERE idProjects = ? AND ProdNameID = ?";
+    const queryInsert = "INSERT INTO Project_ProdName (idProjects, ProdNameID) values (?, ?)";
 
     mysqlConnection.query(
       querySelect,

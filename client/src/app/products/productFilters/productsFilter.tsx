@@ -7,14 +7,19 @@ import FiltersType from "./filters_type";
 import FiltersFinish from "./filters_finish";
 import FiltersThickness from "./filters_thickness";
 import { FiltersState } from "./types";
+import { useEffect } from "react";
+import { useAppDispatch } from "@/store/hooks";
+import { fetchDimension } from "@/store/products/actionsProducts";
 
-
-const ProductsFilters: React.FC<FiltersState> = ({ handleCheckboxChange}) => {
-
+const ProductsFilters: React.FC<FiltersState> = ({ handleCheckboxChange, params}) => {
+  const dispatch = useAppDispatch();
   const { dimensions } = useAppSelector(
     (state: { productReducer: ProductState }) => state.productReducer
   );
 
+  useEffect(()=>{
+    if(!dimensions) dispatch(fetchDimension(params.Material)); 
+  },[dimensions]);
 
   return (
     <>
@@ -22,11 +27,10 @@ const ProductsFilters: React.FC<FiltersState> = ({ handleCheckboxChange}) => {
         flexDir={"column"} 
         w={"12vw"} 
         p={"15px"} 
-        position={"fixed"} 
-        h={"85vh"} 
-        top={"12vh"} 
-        left={"2vw"} 
+        h={"90vh"} 
         overflow={"auto"}
+        mt={"2vh"}
+        ml={"1vw"}
       >
         {
           dimensions && (

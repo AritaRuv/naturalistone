@@ -1,4 +1,3 @@
-
 "use client";
 import {
   Box,
@@ -7,9 +6,6 @@ import {
   Select,
   Spacer,
   Text,
-  Breadcrumb,
-  BreadcrumbItem,
-  BreadcrumbLink,
   useMediaQuery,
 } from "@chakra-ui/react";
 import ProductsFilters from "../productFilters/productsFilter";
@@ -33,9 +29,8 @@ import {
   ProductState,
 } from "@/store/products/typesProducts";
 import { Filters } from "../productFilters/types";
-
-import Link from "next/link";
-import { ChevronRightIcon } from "@chakra-ui/icons";
+import { PiCaretDownThin } from "react-icons/pi";
+import { Path } from "../path";
 
 export default function Products({ params }) {
   // Flag para evitar que  dispatch(fetchProductsFilters(products_by_material, filters)) se despache en el primer renderizado
@@ -115,16 +110,16 @@ export default function Products({ params }) {
         p1.Naturali_ProdName > p2.Naturali_ProdName
           ? 1
           : p1.Naturali_ProdName < p2.Naturali_ProdName
-            ? -1
-            : 0
+          ? -1
+          : 0
       );
     } else {
       products_by_material?.sort((p1, p2) =>
         p1.Naturali_ProdName < p2.Naturali_ProdName
           ? 1
           : p1.Naturali_ProdName > p2.Naturali_ProdName
-            ? -1
-            : 0
+          ? -1
+          : 0
       );
     }
     try {
@@ -140,99 +135,76 @@ export default function Products({ params }) {
     }
   };
 
-
   return (
     <>
-      <Box h={"91vh"}>
-        <Box
-          pl={"80px"}
-          w={"full"}
-          display={"flex"}
-          flexDir={"row"}
-          h={"30px"}
-          // bg={"green"}
-          justifyContent={"space-between"}
-          // alignItems={"flex-start"}
-        >
-          <Box>
-            <Breadcrumb
-              spacing="8px"
-              separator={<ChevronRightIcon color="gray.500" />}
+      <Box h={"92.5vh"} w={"100%"} display={"flex"} flexDir={"row"}>
+        <ProductsFilters
+          setFilters={setFilters}
+          filters={filters}
+          handleCheckboxChange={handleCheckboxChange}
+          params={params}
+        />
+        <Box>
+          <Box
+            w={"88vw"}
+            px={"1vw"}
+            h={"12vh"}
+            display={"flex"}
+            justifyContent={"space-between"}
+            alignItems={"flex-end"}
+          >
+            <Path params={params} />
+            <Select
+              icon={<PiCaretDownThin />}
+              w={"7vw"}
+              fontSize={"0.8rem"}
+              h={"15px"}
+              placeholder="ORDER BY"
+              fontWeight={"light"}
+              focusBorderColor="none"
+              border={"none"}
+              name="s"
+              onChange={(e) => handleChangeOrderBy(e)}
             >
-              <BreadcrumbItem>
-                <BreadcrumbLink href="/home" fontSize={"0.7rem"}>
-                  HOME
-                </BreadcrumbLink>
-              </BreadcrumbItem>
-              <BreadcrumbItem>
-                <BreadcrumbLink href="/products" fontSize={"0.7rem"}>
-                  COLLECTIONS
-                </BreadcrumbLink>
-              </BreadcrumbItem>
-              <BreadcrumbItem isCurrentPage>
-                <BreadcrumbLink
-                  href="#"
-                  fontSize={"0.7rem"}
-                  fontWeight={"semibold"}
-                >
-                  {decodeURIComponent(params.Material.toUpperCase())}
-                </BreadcrumbLink>
-              </BreadcrumbItem>
-            </Breadcrumb>
+              <option value="AZ"> A-Z </option>
+              <option value="ZA"> Z-A</option>
+            </Select>
           </Box>
-          <Flex p="4">
-            <Spacer />
-            <HStack>
-              <Text w="100%" align={"end"}>
-                order by
-              </Text>
-              <Select
-                placeholder="Select option"
-                name="s"
-                onChange={(e) => handleChangeOrderBy(e)}
-              >
-                <option value="AZ"> A-Z </option>
-                <option value="ZA"> Z-A</option>
-              </Select>
-            </HStack>
-          </Flex>
+          <ProductsContainer params={params} />
         </Box>
 
-        {!isSmallScreen ? (
+        {/* {!isSmallScreen && (
           <>
-            <Box display={"flex"} flexDir={"row"} w={"100vw"}>
-              <ProductsFilters
-                setFilters={setFilters}
-                filters={filters}
-                handleCheckboxChange={handleCheckboxChange}
-              />
-              <ProductsContainer {...filters} />
+            <Box display={"flex"} flexDir={"row"}border={"2px solid orange"}>
+
+              <ProductsContainer params={params} />
             </Box>
           </>
-        ) : (
-          <>
-            <FilterButtons
-              setFilters={setFilters}
-              filters={filters}
-              setShowMenu={setShowMenu}
-              showMenu={showMenu}
-            />
-            {showMenu !== "" && (
-              <FiltersDropDownMenu
-                setShowMenu={setShowMenu}
-                showMenu={showMenu}
-                finish={dimensions?.Finish}
-                size={dimensions?.Size}
-                materials={materials}
-                thickness={dimensions?.Thickness}
-                type={dimensions?.Type}
-              />
-            )}
-            <Box zIndex={2}>
-              <ProductsContainer {...filters} />
-            </Box>
-          </>
-        )}
+          )} */}
+        {/* //)
+        //  : (
+        //   <>
+        //     <FilterButtons
+        //       setFilters={setFilters}
+        //       filters={filters}
+        //       setShowMenu={setShowMenu}
+        //       showMenu={showMenu}
+        //     />
+        //     {showMenu !== "" && (
+        //       <FiltersDropDownMenu
+        //         setShowMenu={setShowMenu}
+        //         showMenu={showMenu}
+        //         finish={dimensions?.Finish}
+        //         size={dimensions?.Size}
+        //         materials={materials}
+        //         thickness={dimensions?.Thickness}
+        //         type={dimensions?.Type}
+        //       />
+        //     )}
+        //       <ProductsContainer params={params} />
+        //   </>
+        // )}
+        // */}
       </Box>
     </>
   );

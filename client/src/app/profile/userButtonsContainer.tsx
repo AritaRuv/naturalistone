@@ -66,23 +66,16 @@ const UserButtonsContainer: React.FC<userButton> = ({
                   </Link>
                 ):(
                   <Button
-                    borderLeft={
-                      site === "navbar"
-                        ? "unset"
-                        : appContext?.showMenu === button.name
-                          ? "3px solid black"
-                          : "unset"
-                    }
                     _hover={{
-                      fontWeight: "semibold",
+                      color: "logo.orange"
                     }}
                     rounded={0}
                     h={"4vh"}
                     onClick={handleClick}
                     pl={"2vw"}
-                    fontSize="0.9rem"
+                    fontSize="1.2rem"
                     variant="unstyled"
-                    fontWeight={"normal"}
+                    fontWeight={appContext?.showMenu === button.name ? "normal" : "hairline"}
                     name={button.name}
                     textTransform={"uppercase"}
                   >

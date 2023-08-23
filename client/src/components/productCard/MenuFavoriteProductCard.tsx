@@ -1,6 +1,4 @@
-/* eslint-disable indent */
 import { useAppDispatch, useAppSelector } from "@/store/hooks";
-import { fetchProjectsCustomer } from "@/store/projects/actionsProjects";
 import { ProjectsState } from "@/store/projects/typeProjects";
 import {
   Box,
@@ -10,9 +8,8 @@ import {
   MenuDivider,
   MenuItem,
   MenuList,
-  useToast,
 } from "@chakra-ui/react";
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import { PiHeartStraightThin, PiHeartStraightFill } from "react-icons/pi";
 import {
   deleteFavoriteProductInProject,
@@ -21,7 +18,12 @@ import {
 } from "@/store/favorites/actionsFavorites";
 import { CreateNewProject } from "@/app/profile/addProjectModal";
 
-export function MenuFavoriteProductCard({ ProdNameID, favorites, user }) {
+export function MenuFavoriteProductCard({
+  ProdNameID,
+  favorites,
+  user,
+  dropDownZIndex,
+}) {
   const dispatch = useAppDispatch();
   const customerProjects = useAppSelector(
     (state: { projectsReducer: ProjectsState }) =>
@@ -29,7 +31,6 @@ export function MenuFavoriteProductCard({ ProdNameID, favorites, user }) {
   );
 
   const [bgHeart, setBgHeart] = useState(false);
-  const toast = useToast();
 
   const handleSubmit = async (idProject: number) => {
     await dispatch(postFavoritesProductInProject(idProject, ProdNameID));
@@ -57,7 +58,7 @@ export function MenuFavoriteProductCard({ ProdNameID, favorites, user }) {
         w={"full"}
         display={"flex"}
         position={"absolute"}
-        zIndex={16}
+        zIndex={dropDownZIndex > 5 ? 15 : 0}
         justifyContent={"end"}
       >
         <Menu closeOnSelect={false}>
@@ -66,9 +67,10 @@ export function MenuFavoriteProductCard({ ProdNameID, favorites, user }) {
               <MenuButton
                 as={IconButton}
                 variant="unstyled"
-                pr="15px"
+                pr="20px"
+                pt={"10px"}
                 fontSize="34px"
-                color="#E47424"
+                color={"logo.orange"}
                 onMouseEnter={() => setBgHeart(true)}
                 onMouseLeave={() => setBgHeart(false)}
               >
@@ -81,10 +83,11 @@ export function MenuFavoriteProductCard({ ProdNameID, favorites, user }) {
                 )}
               </MenuButton>
               <MenuList
+                bg={"site.lightGrey"}
                 display={"flex"}
-                width={"260px"}
-                minHeight={"325px"}
-                maxHeight={"325px"}
+                w={"260px"}
+                h={"322px"}
+                rounded={"none"}
                 overflowY={"auto"}
                 css={{
                   "&::-webkit-scrollbar": {
@@ -110,8 +113,10 @@ export function MenuFavoriteProductCard({ ProdNameID, favorites, user }) {
                     );
                     return (
                       <MenuItem
-                        fontSize={"0.7rem"}
+                        fontSize={"0.8rem"}
                         width={"full"}
+                        bg={"site.lightGrey"}
+                        alignContent={"center"}
                         onClick={() =>
                           favorite
                             ? handleDelete(el.idProjects, ProdNameID)
@@ -124,10 +129,10 @@ export function MenuFavoriteProductCard({ ProdNameID, favorites, user }) {
                         {favorite === true ? (
                           <PiHeartStraightFill
                             style={{ color: "#E47424" }}
-                            fontSize={"15px"}
+                            fontSize={"20px"}
                           />
                         ) : (
-                          <PiHeartStraightThin fontSize={"15px"} />
+                          <PiHeartStraightThin fontSize={"20px"} />
                         )}
                       </MenuItem>
                     );
@@ -138,6 +143,7 @@ export function MenuFavoriteProductCard({ ProdNameID, favorites, user }) {
                   display={"flex"}
                   alignItems={"start"}
                   w={"full"}
+                  bg={"site.lightGrey"}
                 >
                   <CreateNewProject
                     CustomerID={user?.CustomerID}

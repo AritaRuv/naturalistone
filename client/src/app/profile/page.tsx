@@ -8,6 +8,7 @@ import { AppContext } from "../appContext";
 import { useAppDispatch, useAppSelector } from "@/store/hooks";
 import { LoginState, User } from "@/store/login/typeLogin";
 import AddressInfo from "./addressInfo";
+import Favorites from "./favorites";
 import { useRouter } from "next/navigation";
 
 export interface IFormData {
@@ -59,6 +60,7 @@ export default function Profile() {
   const dispatch = useAppDispatch();
   const [isSmallThan750] = useMediaQuery("(max-width: 750px)");
   const [formData, setFormData] = useState({
+    customerId: "",
     fullName: "",
     company: "",
     email: "",
@@ -92,12 +94,12 @@ export default function Profile() {
         h={"72.5vh"}
         display={"flex"}
         alignItems={"center"}
+        justifyContent={"space-between"}
         flexDir={isSmallThan750 ? "column" : "row"}
       >
         <UserMenu
           isSmallThan750={isSmallThan750}
           user={user}
-          formData={formData}
           setFormData={setFormData}
         />
         <Box display={"flex"}>
@@ -123,7 +125,12 @@ export default function Profile() {
           )}
           {appContext?.showMenu === "projects" && (
             <>
-              <Projects formData={formData} setFormData={setFormData} />
+              <Projects />
+            </>
+          )}
+          {appContext?.showMenu === "favorites" && (
+            <>
+              <Favorites />
             </>
           )}
         </Box>

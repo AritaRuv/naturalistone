@@ -124,21 +124,17 @@ export function UpdateProject({ idProjects, project }) {
         <Button
           h={"5px"}
           w={"5px"}
-          fontWeight={"normal"}
+          fontWeight={"thin"}
+          variant={"unstyled"}
           border={"none"}
-          backgroundColor={"transparent"}
-          _hover={{
-            backgroundColor: "transparent",
-          }}
-          _focus={{
-            backgroundColor: "transparent",
-            border: "none",
-          }}
           onClick={onOpen}
+          _hover={{
+            fontWeight: "semibold"
+          }}
+          fontSize={"0.8rem"}
+          color={"logo.grey"}
         >
-          <Text fontSize={"0.8rem"} color={"#646464"}>
             Edit Information
-          </Text>
         </Button>
       </Box>
       <Modal size={"2xl"} isOpen={isOpen} onClose={() => handleClose()}>

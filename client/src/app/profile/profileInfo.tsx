@@ -31,7 +31,7 @@ const ProfileInfo: React.FC<IShowMenu> = ({
     <>
       <Box
         pl={isSmallThan750 ? 0 : "5vw"}
-        w={isSmallThan750 ? "100vw" : "70vw"}
+        w={isSmallThan750 ? "100vw" : "75vw"}
         mt={isSmallThan750 ? "5vh" : 0}
       >
         <Text

@@ -15,28 +15,39 @@ import { LoginState } from "@/store/login/typeLogin";
 const HomeProductContainer: React.FC<FiltersHomeProps> = ({
   productsFilter,
 }) => {
-  const [isSmallScreen] = useMediaQuery("(max-width: 950px)");
-  const [isMediumScreen] = useMediaQuery("(max-width: 1280px)");
-  const [isExtraSmallScreen] = useMediaQuery("(max-width: 480px)");
+  const [isSmallScreen] = useMediaQuery("(max-width: 800px)");
+  const [isMediumScreen] = useMediaQuery("(max-width: 1200px)");
+  const [isXLargeScreen] = useMediaQuery("(max-width: 1800px)");
+  const [isLargeScreen] = useMediaQuery("(max-width: 1550px)");
+  const [isExtraSmallScreen] = useMediaQuery("(max-width: 620px)");
   const dispatch = useAppDispatch();
   const { material, colorId } = productsFilter;
 
   const { products } = useAppSelector(
     (state: { productReducer: ProductState }) => state.productReducer
   );
-
   const { user } = useAppSelector(
     (state: { loginReducer: LoginState }) => state.loginReducer
   );
+  let gridColumns = 6;
 
-  let gridColumns = 4;
+  if (isXLargeScreen) {
+    gridColumns = 5;
+  }
+  if (isMediumScreen) {
+    gridColumns = 4;
+  }
   if (isSmallScreen) {
     gridColumns = 2;
+  }
+  if (isLargeScreen) {
+    gridColumns = 4;
   }
   if (isExtraSmallScreen) {
     gridColumns = 1;
   }
-  const homeProducts = products.slice(0, 4);
+
+  const homeProducts = products.slice(0, gridColumns > 4 ? gridColumns : 4);
 
   useEffect(() => {
     if (!products.length) dispatch(fetchProductsHome(material, colorId));
@@ -51,13 +62,14 @@ const HomeProductContainer: React.FC<FiltersHomeProps> = ({
     <SimpleGrid
       pt={"8vh"}
       spacingY={10}
-      px={isMediumScreen && !isSmallScreen ? "5%" : "10%"}
+      px={isMediumScreen && !isSmallScreen ? "15%" : "5%"}
       w={"100%"}
       placeItems={"center"}
       columns={gridColumns}
-      bg={"#f2f2f2"}
+      bg={"site.lightBg"}
+      minH={"500px"}
     >
-      {homeProducts.length &&
+      {homeProducts.length !== 0 &&
         homeProducts.map((prod, index) => {
           return (
             <ProductCard product={prod} key={index} site={"home"} user={user} />

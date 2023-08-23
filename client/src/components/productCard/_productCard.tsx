@@ -1,16 +1,8 @@
-/* eslint-disable indent */
-import React, { useEffect } from "react";
-import {
-  Box,
-  IconButton,
-  Button,
-  Text,
-  Center,
-  useDisclosure,
-} from "@chakra-ui/react";
+import React from "react";
+import { Box, IconButton, Button, Text, Center } from "@chakra-ui/react";
 import NextImage from "next/image";
 import { useState } from "react";
-import { PiCaretDownThin, PiHeartStraightThin } from "react-icons/pi";
+import { PiCaretDownThin } from "react-icons/pi";
 import "../../app/assets/styleSheet.css";
 import { Product, ProductState } from "@/store/products/typesProducts";
 import AddProductToCart from "./addToCartDropdown";
@@ -22,18 +14,15 @@ import {
 import Link from "next/link";
 import AddSampleProductToCart from "./addSampleToCartDropdown";
 import { css } from "@emotion/react";
-
-import { PiHeartThin } from "react-icons/pi";
 import { MenuFavoriteProductCard } from "./MenuFavoriteProductCard";
-import { fetchFavorites } from "@/store/favorites/actionsFavorites";
 import { FavoritesState } from "@/store/favorites/typesFavorites";
-import { LoginState, User } from "@/store/login/typeLogin";
+import { User } from "@/store/login/typeLogin";
 
-const ProductCard: React.FC<{ product: Product; site: string; user: User }> = ({
-  product,
-  site,
-  user,
-}) => {
+const ProductCard: React.FC<{
+  product: Product;
+  site?: string;
+  user?: User;
+}> = ({ product, user }) => {
   const dispatch = useAppDispatch();
 
   const [isDropdownOpen, setIsDropdownOpen] = useState(false);
@@ -92,7 +81,6 @@ const ProductCard: React.FC<{ product: Product; site: string; user: User }> = ({
   const handleClickCard = () => {
     dispatch(loadProduct(product));
   };
-
   return (
     <Box position="relative">
       <Box
@@ -109,49 +97,14 @@ const ProductCard: React.FC<{ product: Product; site: string; user: User }> = ({
         >
           <NextImage objectFit="cover" fill src={URL} alt="img" />
         </Link>
-        {/* <Box position={"absolute"} bg={"blue"} zIndex={10} w={"full"}> */}
-        <Box
-          w={"full"}
-          display={"flex"}
-          position={"absolute"}
-          zIndex={10}
-          justifyContent={"end"}
-          pr="15px"
-          fontSize="34px"
-          color="#E47424"
-          pt={"2.5px"}
-        >
-          <PiHeartStraightThin />
-        </Box>
-        {/* <MenuFavoriteProductCard
+        <MenuFavoriteProductCard
           ProdNameID={ProdNameID}
           favorites={favorites}
           user={user}
-        /> */}
-        {/* </Box> */}
-        <Box
-          display={"flex"}
-          w={"260px"}
-          bg={"rgba(210, 210, 210, 0.5)"}
-          h={"40px"}
-          position={"absolute"}
-          bottom={0}
-          left={0}
-          hidden={disableBox}
-          placeContent={"center"}
-        >
-          <IconButton
-            display={"flex"}
-            placeContent={"center"}
-            icon={<PiCaretDownThin />}
-            variant={"unstyled"}
-            size={"lg"}
-            maxH={"30px"}
-            aria-label={"Description"}
-          />
-        </Box>
+          dropDownZIndex={dropDownZIndex}
+        />
       </Box>
-      <Box position="absolute" bottom={0} left={0} w={"100%"} zIndex={12}>
+      <Box position="absolute" bottom={0} left={0} w={"100%"} zIndex={10}>
         {isDropdownOpen && (
           <Box
             onMouseEnter={handleMouseEnter}
@@ -163,11 +116,6 @@ const ProductCard: React.FC<{ product: Product; site: string; user: User }> = ({
             className="custom-popover"
             bg={"rgba(0, 0, 0, 0.35)"}
           >
-            <MenuFavoriteProductCard
-              ProdNameID={ProdNameID}
-              favorites={favorites}
-              user={user}
-            />
             <Box
               h={"370px"}
               //bg={!showAddToCart ? "rgba(210, 210, 210, 0.7)" : (site === "products" ? "rgba(210, 210, 210, 0.7)" : "white")}
