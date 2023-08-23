@@ -147,7 +147,7 @@ export default function Products({ params }) {
           params={params}
         />
         <Box>
-          <Box w={"88vw"} mx={"1vw"} h={"12vh"} display={"flex"} justifyContent={"space-between"} alignItems={"flex-end"}>
+          <Box w={"88vw"} px={"1vw"} h={"12vh"} display={"flex"} justifyContent={"space-between"} alignItems={"flex-end"}>
             <Path params={params}/>
             <Select
               icon={<PiCaretDownThin/>}
@@ -156,6 +156,7 @@ export default function Products({ params }) {
               h={"15px"}
               placeholder="ORDER BY"
               fontWeight={"light"}
+              focusBorderColor="none"
               border={"none"}
               name="s"
               onChange={(e) => handleChangeOrderBy(e)}

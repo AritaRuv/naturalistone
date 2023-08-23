@@ -86,7 +86,6 @@ const ProductCard: React.FC<{ product: Product; site?: string; user?: User }> = 
   const handleClickCard = () => {
     dispatch(loadProduct(product));
   };
-
   return (
     <Box position="relative">
       <Box
@@ -107,6 +106,7 @@ const ProductCard: React.FC<{ product: Product; site?: string; user?: User }> = 
           ProdNameID={ProdNameID}
           favorites={favorites}
           user={user}
+          dropDownZIndex={dropDownZIndex}
         />
       </Box>
       <Box position="absolute" bottom={0} left={0} w={"100%"} zIndex={10}>

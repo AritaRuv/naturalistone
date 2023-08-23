@@ -18,7 +18,7 @@ import {
 } from "@/store/favorites/actionsFavorites";
 import { CreateNewProject } from "@/app/profile/addProjectModal";
 
-export function MenuFavoriteProductCard({ ProdNameID, favorites, user }) {
+export function MenuFavoriteProductCard({ ProdNameID, favorites, user, dropDownZIndex }) {
   const dispatch = useAppDispatch();
   const customerProjects = useAppSelector(
     (state: { projectsReducer: ProjectsState }) =>
@@ -86,8 +86,8 @@ export function MenuFavoriteProductCard({ ProdNameID, favorites, user }) {
       <Box
         w={"full"}
         display={"flex"}
-        position={"relative"}
-        zIndex={23}
+        position={"absolute"}
+        zIndex={dropDownZIndex > 5 ? 15 : 0}
         justifyContent={"end"}
       >
         <Menu>
