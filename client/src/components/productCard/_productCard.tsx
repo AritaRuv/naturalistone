@@ -10,7 +10,7 @@ import {
 } from "@chakra-ui/react";
 import NextImage from "next/image";
 import { useState } from "react";
-import { PiCaretDownThin } from "react-icons/pi";
+import { PiCaretDownThin, PiHeartStraightThin } from "react-icons/pi";
 import "../../app/assets/styleSheet.css";
 import { Product, ProductState } from "@/store/products/typesProducts";
 import AddProductToCart from "./addToCartDropdown";
@@ -109,11 +109,26 @@ const ProductCard: React.FC<{ product: Product; site: string; user: User }> = ({
         >
           <NextImage objectFit="cover" fill src={URL} alt="img" />
         </Link>
-        <MenuFavoriteProductCard
+        {/* <Box position={"absolute"} bg={"blue"} zIndex={10} w={"full"}> */}
+        <Box
+          w={"full"}
+          display={"flex"}
+          position={"absolute"}
+          zIndex={10}
+          justifyContent={"end"}
+          pr="15px"
+          fontSize="34px"
+          color="#E47424"
+          pt={"2.5px"}
+        >
+          <PiHeartStraightThin />
+        </Box>
+        {/* <MenuFavoriteProductCard
           ProdNameID={ProdNameID}
           favorites={favorites}
           user={user}
-        />
+        /> */}
+        {/* </Box> */}
         <Box
           display={"flex"}
           w={"260px"}
@@ -136,7 +151,7 @@ const ProductCard: React.FC<{ product: Product; site: string; user: User }> = ({
           />
         </Box>
       </Box>
-      <Box position="absolute" bottom={0} left={0} w={"100%"} zIndex={10}>
+      <Box position="absolute" bottom={0} left={0} w={"100%"} zIndex={12}>
         {isDropdownOpen && (
           <Box
             onMouseEnter={handleMouseEnter}
@@ -148,6 +163,11 @@ const ProductCard: React.FC<{ product: Product; site: string; user: User }> = ({
             className="custom-popover"
             bg={"rgba(0, 0, 0, 0.35)"}
           >
+            <MenuFavoriteProductCard
+              ProdNameID={ProdNameID}
+              favorites={favorites}
+              user={user}
+            />
             <Box
               h={"370px"}
               //bg={!showAddToCart ? "rgba(210, 210, 210, 0.7)" : (site === "products" ? "rgba(210, 210, 210, 0.7)" : "white")}

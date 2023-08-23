@@ -3,6 +3,11 @@ import mysqlConnection from "../../db";
 import { Response, Request, NextFunction } from "express";
 import { sign, verify } from "jsonwebtoken";
 import bcrypt from "bcrypt";
+import { MysqlError } from "mysql";
+import { RowDataPacket } from "mysql2";
+import { aleatoryNumber } from "../../utils/aleatoryNumber";
+import { tokenDate } from "../../utils/tokenDate";
+import { sendEmailUser } from "../../utils/email";
 
 export async function signUp(req: Request, res: Response) {
   const { fullName, email, password } = req.body;
@@ -291,5 +296,162 @@ export async function updateUser(req: Request, res: Response) {
   } catch (error) {
     console.log(error);
     return res.status(500).json({ data: "General error" });
+  }
+}
+
+export async function generateResetToken(req: Request, res: Response) {
+  const { email } = req.body;
+
+  try {
+    mysqlConnection.beginTransaction(function (err: MysqlError) {
+      if (err) {
+        return res
+          .status(400)
+          .json({ success: false, msg: "Error in mysql transaction" });
+      }
+
+      const verifyUserQuery = `SELECT * FROM Customer_Login WHERE Username = "${email}"`;
+
+      mysqlConnection.query(
+        verifyUserQuery,
+        function (err: MysqlError, result: RowDataPacket) {
+          if (err) {
+            return res
+              .status(400)
+              .json({ success: false, msg: "Email not found" });
+          }
+
+          const customerId = result[0].CustomerID;
+
+          if (!result.length) {
+            return res
+              .status(400)
+              .json({ success: false, msg: "Email not found" });
+          }
+
+          const resetToken = aleatoryNumber(100000, 999999);
+
+          const resetTokenDate = tokenDate();
+
+          const postTokenUserQuery = `UPDATE Customer_Login SET Reset_Token_Date = ${resetTokenDate}, Reset_Token = ${resetToken}
+          WHERE CustomerID = ${customerId}`;
+          mysqlConnection.query(
+            postTokenUserQuery,
+            function (err: MysqlError, result: RowDataPacket) {
+              if (err) {
+                res
+                  .status(400)
+                  .json({ success: false, msg: "Error in set reset token" });
+                return mysqlConnection.rollback(function (err) {
+                  throw err;
+                });
+              }
+
+              mysqlConnection.commit(function (err) {
+                if (err) {
+                  res.status(400).json({
+                    success: false,
+                    msg: "Error in commit transaction reset token",
+                  });
+                }
+                sendEmailUser(resetToken, email);
+
+                return res.status(200).json({
+                  success: true,
+                  msg: "Token sent to email successfully",
+                });
+              });
+            }
+          );
+        }
+      );
+    });
+  } catch (error) {
+    return res.status(500).json({ success: false, msg: "General error" });
+  }
+}
+
+export async function validateResetToken(req: Request, res: Response) {
+  const { token } = req.params;
+  const { email } = req.body;
+
+  try {
+    const getResetTokenQuery = `SELECT * FROM Customer_Login WHERE Username = "${email}"`;
+
+    mysqlConnection.query(
+      getResetTokenQuery,
+      function (err: MysqlError, result: RowDataPacket) {
+        if (err) {
+          return res
+            .status(400)
+            .json({ success: false, msg: "Error in get reset token" });
+        }
+
+        const resetTokenDateBD = result[0].Reset_Token_Date;
+        const resetTokenBD = result[0].Reset_Token;
+
+        const dateNow = Date.now();
+
+        if (token !== resetTokenBD || dateNow > resetTokenDateBD) {
+          return res
+            .status(400)
+            .json({ success: false, msg: "Token invalid or expired" });
+        }
+
+        return res
+          .status(200)
+          .json({ success: true, msg: "Token get successful" });
+      }
+    );
+  } catch (error) {
+    return res.status(500).json({ success: false, msg: "General error" });
+  }
+}
+
+export async function changePassword(req: Request, res: Response) {
+  const { newPassword, email } = req.body;
+  try {
+    const searchPasswordQuery = `SELECT * FROM Customer_Login WHERE Username = "${email}"`;
+
+    mysqlConnection.query(
+      searchPasswordQuery,
+      function (err: MysqlError, result: RowDataPacket) {
+        if (err) {
+          return res
+            .status(400)
+            .json({ success: false, msg: "User not valid" });
+        }
+
+        const oldPassword = result[0].Password;
+
+        if (oldPassword === newPassword) {
+          return res.status(400).json({
+            success: false,
+            msg: "Please choose a different password ",
+          });
+        }
+
+        const changePasswordQuery = `UPDATE Customer_Login SET Password = "${newPassword}" WHERE Username = "${email}"`;
+
+        mysqlConnection.query(
+          changePasswordQuery,
+          function (err: MysqlError, result: RowDataPacket) {
+            if (err) {
+              return res
+                .status(400)
+                .json({ success: false, msg: "Error in change password" });
+            }
+
+            return res
+              .status(200)
+              .json({ success: true, msg: "Password change successful" });
+          }
+        );
+      }
+    );
+  } catch (error) {
+    return res
+      .status(500)
+      .json({ success: false, msg: "General error", error });
   }
 }

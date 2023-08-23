@@ -32,46 +32,12 @@ export function MenuFavoriteProductCard({ ProdNameID, favorites, user }) {
   const toast = useToast();
 
   const handleSubmit = async (idProject: number) => {
-    const response = await dispatch(
-      postFavoritesProductInProject(idProject, ProdNameID)
-    );
-    if (!response.success) {
-      if (!toast.isActive("favProductProject")) {
-        return toast({
-          id: "favProductProject",
-          title: "Error",
-          status: "error",
-          description: "Error in add product in the project",
-          duration: 4000,
-          isClosable: true,
-        });
-      }
-    }
-    if (!toast.isActive("favProductProject")) {
-      toast({
-        id: "favProductProject",
-        title: "Success",
-        status: "success",
-        description: "The product has been successfully added to the project",
-        duration: 4000,
-        isClosable: true,
-      });
-    }
+    await dispatch(postFavoritesProductInProject(idProject, ProdNameID));
     return dispatch(fetchFavorites(user?.CustomerID));
   };
 
   const handleDelete = async (idProject: number, idProdName: number) => {
     dispatch(deleteFavoriteProductInProject(idProject, idProdName));
-    if (!toast.isActive("deleteFavoriteProductProject")) {
-      toast({
-        id: "deleteFavoriteProductProject",
-        title: "Success",
-        status: "success",
-        description: "The product has been successfully deleted",
-        duration: 4000,
-        isClosable: true,
-      });
-    }
     setTimeout(() => {
       dispatch(fetchFavorites(user?.CustomerID));
     }, 1000);
@@ -90,11 +56,11 @@ export function MenuFavoriteProductCard({ ProdNameID, favorites, user }) {
       <Box
         w={"full"}
         display={"flex"}
-        position={"relative"}
-        zIndex={23}
+        position={"absolute"}
+        zIndex={16}
         justifyContent={"end"}
       >
-        <Menu>
+        <Menu closeOnSelect={false}>
           {({ isOpen }) => (
             <>
               <MenuButton
