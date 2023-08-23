@@ -53,8 +53,12 @@ const theme = extendTheme({
             borderColor: "black",
             borderWidth: "0.85px",
             borderRadius: "0",
+          },
+          _disabled: {
+            borderColor: "blue",
+            borderWidth: "0.85px",
+            borderRadius: "0",
           }
-
         },
       },
     },

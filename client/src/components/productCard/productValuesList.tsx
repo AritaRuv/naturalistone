@@ -4,6 +4,7 @@ import { useAppDispatch, useAppSelector } from "@/store/hooks";
 import { postCart } from "@/store/cart/actionsCart";
 import { fetchProductsValuesValidation } from "@/store/products/actionsProducts";
 import { ProductState } from "@/store/products/typesProducts";
+import sizesCheckboxList from "./sizesCheckboxList";
 
 
 interface ProductListProps {
@@ -18,10 +19,9 @@ interface ProductListProps {
   ProdNameID: number
 }
 
-const ProductList: React.FC<ProductListProps> = ({ data, ProdNameID}) => {
+const ProductList: React.FC<ProductListProps> = ({ data, ProdNameID }) => {
 
   const dispatch = useAppDispatch();
-  console.log(data);
   const { size, thickness, finish, prodNameID } = data[ProdNameID];
 
   const { productValuesValidation } = useAppSelector((state: { productReducer: ProductState }) => state.productReducer);
@@ -29,20 +29,40 @@ const ProductList: React.FC<ProductListProps> = ({ data, ProdNameID}) => {
   const [selectedSize, setSelectedSize] = useState<string>("");
   const [selectedThickness, setSelectedThickness] = useState<string>("");
   const [selectedFinish, setSelectedFinish] = useState<string>("");
+  const [sizes, setSizes] = useState<string>("");
 
-  const handleCheckboxChange = (value: string, setState: React.Dispatch<React.SetStateAction<string>>, name:string) => {
+  const { raw_products } = useAppSelector(
+    (state: { productReducer: ProductState }) => state.productReducer
+  );
+
+
+
+  const handleCheckboxChange = (value: string, setState: React.Dispatch<React.SetStateAction<string>>, name: string) => {
+    //console.log(raw_products);
+
+    const result = raw_products.filter((prod) => prod.ProdNameID === ProdNameID);
+
     setState(prevState => prevState === value ? "" : value);
-    if(name === "finish"){
+    if (name === "finish") {
+      const result2 = result.filter((prod) => prod.Finish === value);
+      setSizes("");
+      const aux = [];
+      for (let index = 0; index < result2.length; index++) {
+        const element: string = result2[index].Size;
+        if (element != null)
+          aux.push(element);
+        setSizes(aux);
+
+      }
       dispatch(fetchProductsValuesValidation(value, selectedSize, selectedThickness, prodNameID));
     }
-    if(name === "size"){
+    if (name === "size") {
       dispatch(fetchProductsValuesValidation(selectedFinish, value, selectedThickness, prodNameID));
     }
-    if(name === "thickness"){
+    if (name === "thickness") {
       dispatch(fetchProductsValuesValidation(selectedFinish, selectedSize, value, prodNameID));
     }
   };
-  // console.log({productValuesValidation})
 
   const handleAddToCart = async () => {
     const bodyCust = {
@@ -52,14 +72,14 @@ const ProductList: React.FC<ProductListProps> = ({ data, ProdNameID}) => {
       ProdNameID: ProdNameID,
       customerID: 1938
     };
-  
+
     dispatch(postCart(bodyCust));
     setSelectedSize("");
     setSelectedThickness("");
     setSelectedFinish("");
 
   };
-  
+
   return (
     <>
       <HStack align="start" spacing={1} w={"100%"} mb={"4%"}>
@@ -83,8 +103,11 @@ const ProductList: React.FC<ProductListProps> = ({ data, ProdNameID}) => {
           </VStack>
         </CheckboxGroup>
         <CheckboxGroup colorScheme='whiteAlpha' value={[selectedSize]}>
-          <VStack align="start"  w={"80px"}>
+          <VStack align="start" w={"80px"}>
             <Text fontSize='0.7rem' fontWeight={"semibold"}>SIZE</Text>
+            {/* <sizesCheckboxList >
+
+            </sizesCheckboxList> */}
             {size.map(size => (
               <Box key={size} fontSize={"0.7rem"} display={"flex"} justifyContent={"space-between"} w={"60px"}>
                 {size}
@@ -94,6 +117,7 @@ const ProductList: React.FC<ProductListProps> = ({ data, ProdNameID}) => {
                   iconColor="orange"
                   borderColor={"blackAlpha.600"}
                   isChecked={selectedSize === size}
+                  isDisabled={!sizes.includes(size)}
                   onChange={() => handleCheckboxChange(size, setSelectedSize, "size")}
                 />
               </Box>
@@ -101,7 +125,7 @@ const ProductList: React.FC<ProductListProps> = ({ data, ProdNameID}) => {
           </VStack>
         </CheckboxGroup>
         <CheckboxGroup colorScheme='whiteAlpha' value={[selectedThickness]}>
-          <VStack align="start"  w={"80px"}>
+          <VStack align="start" w={"80px"}>
             <Text fontSize='0.7rem' fontWeight={"semibold"}>THICKNESS</Text>
             {thickness.map(thickness => (
               <Box key={thickness} fontSize={"0.7rem"} display={"flex"} justifyContent={"space-between"} w={"60px"}>

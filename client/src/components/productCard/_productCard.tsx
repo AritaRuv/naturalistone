@@ -1,5 +1,5 @@
 import React from "react";
-import { Box, IconButton, Button, Text, Center } from "@chakra-ui/react";
+import { Box, IconButton, Button, Text, Center, useOutsideClick } from "@chakra-ui/react";
 import NextImage from "next/image";
 import { useState } from "react";
 import { PiCaretDownThin } from "react-icons/pi";
@@ -12,21 +12,19 @@ import Link from "next/link";
 import AddSampleProductToCart from "./addSampleToCartDropdown";
 import { css } from "@emotion/react";
 
-
-
 const ProductCard: React.FC<{ product: Product; site: string }> = ({
   product,
   site,
 }) => {
   const dispatch = useAppDispatch();
+  const ref = React.useRef();
 
   const [isDropdownOpen, setIsDropdownOpen] = useState(false);
   const [disableBox, setDisableBox] = useState(false);
   const [showAddToCart, setShowAddToCart] = useState(false);
-  const [ dropDownZIndex, setDropDownZIndex ] = useState(0);
+  const [dropDownZIndex, setDropDownZIndex] = useState(0);
   const [showAddSampleToCart, setShowAddSmapleToCart] = useState(false);
-
-  const { Naturali_ProdName, Material, ProdNameID  } = product;
+  const { Naturali_ProdName, Material, ProdNameID } = product;
 
   const URL = `https://naturalistone-images.s3.amazonaws.com/${Material}/${Naturali_ProdName}/${Naturali_ProdName}_0.jpg`;
   const buttonGradientStyle = css`
@@ -37,6 +35,10 @@ const ProductCard: React.FC<{ product: Product; site: string }> = ({
     );
   `;
 
+  useOutsideClick({
+    ref: ref,
+    handler: () => handleMouseLeave(),
+  })
 
   const { productValues } = useAppSelector(
     (state: { productReducer: ProductState }) => state.productReducer
@@ -81,7 +83,8 @@ const ProductCard: React.FC<{ product: Product; site: string }> = ({
         position={"relative"}
         overflow={"hidden"}
         onMouseEnter={handleMouseEnter}
-        onMouseLeave={handleMouseLeave}
+        //onMouseLeave={handleMouseLeave}
+        ref={ref}
       >
         <Link href={`/products/${Material}/${Naturali_ProdName}/${ProdNameID}`} onClick={handleClickCard}>
           <NextImage objectFit="cover" fill src={URL} alt="img" />
@@ -92,16 +95,16 @@ const ProductCard: React.FC<{ product: Product; site: string }> = ({
         {isDropdownOpen && (
           <Box
             onMouseEnter={handleMouseEnter}
-            onMouseLeave={handleMouseLeave}
+            ref={ref}
             position={"relative"}
             w={"260px"}
             h={"370px"}
             zIndex={dropDownZIndex}
             className="custom-popover"
-            bg={ "rgba(0, 0, 0, 0.35)" }
+            bg={"rgba(0, 0, 0, 0.35)"}
           >
             <Box h={"370px"}
-              //bg={!showAddToCart ? "rgba(210, 210, 210, 0.7)" : (site === "products" ? "rgba(210, 210, 210, 0.7)" : "white")}
+            //bg={!showAddToCart ? "rgba(210, 210, 210, 0.7)" : (site === "products" ? "rgba(210, 210, 210, 0.7)" : "white")}
             >
               <Center h={"100%"} flexDir={"column"}>
                 <Text fontSize={"0.7rem"} fontWeight={"normal"} color={"white"} textTransform={"uppercase"}>
@@ -139,20 +142,20 @@ const ProductCard: React.FC<{ product: Product; site: string }> = ({
                   hidden={showAddSampleToCart == true || showAddToCart == true ? true : false}
                 />
               </Box>
-              { 
+              {
                 showAddToCart || showAddSampleToCart ? (
                   <>
                     <Box
                       w={"260px"}
-                      px={"10px"} 
-                      mt={"-45px"} 
-                      h={"45px"} 
-                      display={"flex"} 
-                      justifyContent={"space-between"} 
+                      px={"10px"}
+                      mt={"-45px"}
+                      h={"45px"}
+                      display={"flex"}
+                      justifyContent={"space-between"}
                     >
                       <Button
                         fontSize={"0.8rem"}
-                        fontWeight={ showAddSampleToCart ? "semibold" : "light"}
+                        fontWeight={showAddSampleToCart ? "semibold" : "light"}
                         variant={"unstyled"}
                         color={"white"}
                         _hover={{
@@ -164,7 +167,7 @@ const ProductCard: React.FC<{ product: Product; site: string }> = ({
                       </Button>
                       <Button
                         fontSize={"0.8rem"}
-                        fontWeight={ showAddToCart ? "semibold" : "light"}
+                        fontWeight={showAddToCart ? "semibold" : "light"}
                         color={"white"}
                         variant={"unstyled"}
                         _hover={{
@@ -178,20 +181,20 @@ const ProductCard: React.FC<{ product: Product; site: string }> = ({
                     {
                       showAddToCart && (
                         <Box position={"relative"} zIndex={100}>
-                          <AddProductToCart ProdNameID={ProdNameID} productValues={productValues}/>
+                          <AddProductToCart ProdNameID={ProdNameID} productValues={productValues} />
                         </Box>
                       )
                     }
                     {
                       showAddSampleToCart && (
                         <Box position={"relative"} zIndex={100}>
-                          <AddSampleProductToCart ProdNameID={ProdNameID} productValues={productValues}/>
+                          <AddSampleProductToCart ProdNameID={ProdNameID} productValues={productValues} />
                         </Box>
                       )
                     }
 
                   </>
-                ):(
+                ) : (
                   null
                 )
               }
