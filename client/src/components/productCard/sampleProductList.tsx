@@ -19,7 +19,7 @@ interface ProductListProps {
 const SampleProductList: React.FC<ProductListProps> = ({ data, ProdNameID }) => {
 
   const dispatch = useAppDispatch();
-  const { thickness, finish, prodNameID } = data[ProdNameID];
+  const { thickness, finish } = data[ProdNameID];
 
   const [selectedThickness, setSelectedThickness] = useState<string>("");
   const [selectedFinish, setSelectedFinish] = useState<string>("");

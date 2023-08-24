@@ -17,7 +17,7 @@ const ProductCard: React.FC<{ product: Product; site: string }> = ({
   site,
 }) => {
   const dispatch = useAppDispatch();
-  const ref = React.useRef();
+  // const ref = React.useRef();
 
   const [isDropdownOpen, setIsDropdownOpen] = useState(false);
   const [disableBox, setDisableBox] = useState(false);
@@ -35,10 +35,10 @@ const ProductCard: React.FC<{ product: Product; site: string }> = ({
     );
   `;
 
-  useOutsideClick({
-    ref: ref,
-    handler: () => handleMouseLeave(),
-  })
+  // useOutsideClick({
+  //   ref: ref,
+  //   handler: () => handleMouseLeave(),
+  // })
 
   const { productValues } = useAppSelector(
     (state: { productReducer: ProductState }) => state.productReducer
@@ -83,8 +83,8 @@ const ProductCard: React.FC<{ product: Product; site: string }> = ({
         position={"relative"}
         overflow={"hidden"}
         onMouseEnter={handleMouseEnter}
-        //onMouseLeave={handleMouseLeave}
-        ref={ref}
+        onMouseLeave={handleMouseLeave}
+      //ref={ref}
       >
         <Link href={`/products/${Material}/${Naturali_ProdName}/${ProdNameID}`} onClick={handleClickCard}>
           <NextImage objectFit="cover" fill src={URL} alt="img" />
@@ -95,7 +95,9 @@ const ProductCard: React.FC<{ product: Product; site: string }> = ({
         {isDropdownOpen && (
           <Box
             onMouseEnter={handleMouseEnter}
-            ref={ref}
+            onMouseLeave={handleMouseLeave}
+
+            //ref={ref}
             position={"relative"}
             w={"260px"}
             h={"370px"}
