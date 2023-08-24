@@ -6,11 +6,10 @@ import { fetchProductsHome } from "../../store/products/actionsProducts";
 import { ProductState } from "../../store/products/typesProducts";
 import { useAppDispatch, useAppSelector } from "../../store/hooks";
 import { FiltersHomeProps } from "./page";
-import { salesByCustomer, salesDetails } from "@/store/sales/actionsSales";
-import { SalesState } from "@/store/sales/typeSales";
 import { fetchFavorites } from "@/store/favorites/actionsFavorites";
 import { fetchProjectsCustomer } from "@/store/projects/actionsProjects";
 import { LoginState } from "@/store/login/typeLogin";
+import { userInfo } from "@/store/login/actionsLogin";
 
 const HomeProductContainer: React.FC<FiltersHomeProps> = ({
   productsFilter,
@@ -29,6 +28,12 @@ const HomeProductContainer: React.FC<FiltersHomeProps> = ({
   const { user } = useAppSelector(
     (state: { loginReducer: LoginState }) => state.loginReducer
   );
+
+  useEffect(() => {
+    dispatch(userInfo());
+  }, []);
+
+  console.log("soy user", user);
   let gridColumns = 6;
 
   if (isXLargeScreen) {

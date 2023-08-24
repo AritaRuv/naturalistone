@@ -10,6 +10,8 @@ import { LoginState, User } from "@/store/login/typeLogin";
 import AddressInfo from "./addressInfo";
 import Favorites from "./favorites";
 import { useRouter } from "next/navigation";
+import { userInfo } from "@/store/login/actionsLogin";
+import Cookies from "js-cookie";
 
 export interface IFormData {
   customerId: string;
@@ -50,7 +52,14 @@ export default function Profile() {
   const router = useRouter(); // Get the router instance
 
   useEffect(() => {
-    if (user?.Username?.length < 1) {
+    if (user?.CustomerID === 0) {
+      dispatch(userInfo());
+    }
+  }, []);
+
+  useEffect(() => {
+    const sessionId = Cookies.get("sessionId");
+    if (!sessionId) {
       router.push("/signin"); // Redirect to the login page
     }
   }, [user, router]);

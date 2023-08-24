@@ -1,12 +1,9 @@
 "use client";
-import { Box} from "@chakra-ui/react";
+import { Box } from "@chakra-ui/react";
 import UserButtonsContainer from "./userButtonsContainer";
 import { IShowMenu } from "./page";
 
-const UserMenu: React.FC<IShowMenu> = ({
-  isSmallThan750,
-  user,
-}) => {
+const UserMenu: React.FC<IShowMenu> = ({ isSmallThan750, user }) => {
   return (
     <>
       <Box
@@ -16,13 +13,10 @@ const UserMenu: React.FC<IShowMenu> = ({
         justifyContent={"flex-start"}
         hidden={isSmallThan750 ? true : false}
       >
-        <UserButtonsContainer
-          isSmallThan750={isSmallThan750}
-        />
+        <UserButtonsContainer />
       </Box>
     </>
   );
 };
 
 export default UserMenu;
-
