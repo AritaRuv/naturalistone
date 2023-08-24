@@ -33,7 +33,7 @@ const HomeProductContainer: React.FC<FiltersHomeProps> = ({
     dispatch(userInfo());
   }, []);
 
-  console.log("soy user", user);
+
   let gridColumns = 6;
 
   if (isXLargeScreen) {
