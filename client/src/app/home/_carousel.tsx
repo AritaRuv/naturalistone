@@ -10,7 +10,7 @@ import {
 import Slider from "react-slick";
 import { IoIosArrowDown } from "react-icons/io";
 
-export default function Carousel({ mt, items }) {
+export default function Carousel({items }) {
   // As we have used custom buttons, we need a reference variable to
   // change the state
   const [slider, setSlider] = React.useState<Slider | null>(null);
@@ -43,11 +43,9 @@ export default function Carousel({ mt, items }) {
   return (
     <>
       <Box
-        position={"relative"}
-        height={"40%"}
+        height={"100vh"}
         width={"100%"}
         overflow={"hidden"}
-        mt={mt}
       >
         {/* CSS files for react-slick */}
         <link
@@ -73,7 +71,7 @@ export default function Carousel({ mt, items }) {
               backgroundSize="cover"
               backgroundImage={`url(${elem.img})`}
             >
-              <Box
+              {/* <Box
                 position="absolute"
                 bottom={0}
                 left={0}
@@ -97,8 +95,8 @@ export default function Carousel({ mt, items }) {
                   color={"black"}
                   bg={"none"}
                 ></IconButton>
-              </Box>
-              {isDropdownOpen && (
+              </Box> */}
+              {/* {isDropdownOpen && (
                 <Box
                   w={"full"}
                   h={"14.5vh"}
@@ -159,7 +157,7 @@ export default function Carousel({ mt, items }) {
                     </Box>
                   </Box>
                 </Box>
-              )}
+              )} */}
             </Box>
           ))}
         </Slider>

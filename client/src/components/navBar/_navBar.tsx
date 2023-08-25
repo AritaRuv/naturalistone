@@ -53,7 +53,7 @@ const NavBar: React.FC = () => {
   return (
     <>
       {!smallerThan1200 ? (
-        <Box display={"flex"} flexDir={"column"} position={"relative"}>
+        <Box display={"flex"} flexDir={"column"} position={"fixed"} top={0} left={0} right={0} zIndex={100}>
           <Box
             bg={active ? "white" : hover ? "white" : "none"}
             onMouseEnter={handleMouseEnter}

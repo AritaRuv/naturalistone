@@ -14,16 +14,16 @@ export function Filters({ setProductsFilter, productsFilter }: FiltersHomeProps 
         <Box
           display={"flex"}
           w={"full"}
-          bg={"#f2f2f2"}
           alignItems={"center"}
           justifyContent={"center"}
           flexDirection={"column"}
           pt={"10vh"}
+          
         >
           <Text fontSize={"0.9rem"} fontWeight={"light"}>
             QUICK SEARCH
           </Text>
-          <Box display={"flex"} flexDir={"row"}>
+          <Box display={"flex"} flexDir={"row"} alignItems={"center"} mt={"2vh"}>
             <FiltersMaterials setProductsFilter={setProductsFilter} productsFilter={productsFilter} />
             <FiltersColors setProductsFilter={setProductsFilter} productsFilter={productsFilter} />
           </Box>

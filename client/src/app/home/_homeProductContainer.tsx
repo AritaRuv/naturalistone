@@ -71,7 +71,6 @@ const HomeProductContainer: React.FC<FiltersHomeProps> = ({
       w={"100%"}
       placeItems={"center"}
       columns={gridColumns}
-      bg={"site.lightBg"}
       minH={"500px"}
     >
       {homeProducts.length !== 0 &&
