@@ -3,6 +3,7 @@ import { useState } from "react";
 import { useAppDispatch, useAppSelector } from "@/store/hooks";
 import { postCart } from "@/store/cart/actionsCart";
 import { ProductState } from "@/store/products/typesProducts";
+import { LoginState } from "@/store/login/typeLogin";
 
 
 interface ProductListProps {
@@ -30,11 +31,14 @@ const ProductList: React.FC<ProductListProps> = ({ data, ProdNameID }) => {
   const [finishes, setFinishes] = useState<string[]>([]);
   const [cantFiltros, setCantFiltros] = useState<number>(0);
 
+
   const { raw_products } = useAppSelector(
     (state: { productReducer: ProductState }) => state.productReducer
   );
 
-
+  const { user } = useAppSelector(
+    (state: { loginReducer: LoginState }) => state.loginReducer
+  );
 
   const handleCheckboxChange = (value: string, setState: React.Dispatch<React.SetStateAction<string>>, name: string) => {
 
@@ -167,7 +171,7 @@ const ProductList: React.FC<ProductListProps> = ({ data, ProdNameID }) => {
       thickness: selectedThickness,
       finish: selectedFinish,
       ProdNameID: ProdNameID,
-      customerID: 1938
+      customerID: user?.CustomerID
     };
 
     dispatch(postCart(bodyCust));

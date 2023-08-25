@@ -37,7 +37,7 @@ const CartButton: React.FC = () => {
 
   useEffect(() => {
     dispatch(fetchCart(user?.CustomerID));
-  }, []);
+  }, [user]);
 
   return (
     <>

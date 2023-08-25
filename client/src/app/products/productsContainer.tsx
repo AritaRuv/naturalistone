@@ -60,22 +60,22 @@ const ProductsContainer = ({ params }) => {
             columns={gridColumns} // Establece el número de columnas dinámicamente
           >
             {products_filters.length !== 0
-              ? products_filters.map((prod) => {
-                  return (
-                    <Box>
-                      <ProductCard
-                        product={prod}
-                        key={prod.ProdNameID}
-                        site={"products"}
-                        user={user}
-                      />
-                    </Box>
-                  );
-                })
+              ? products_filters.map((prod, i) => {
+                return (
+                  <Box key={i}>
+                    <ProductCard
+                      product={prod}
+                      key={prod.ProdNameID}
+                      site={"products"}
+                      user={user}
+                    />
+                  </Box>
+                );
+              })
               : products_by_material?.length !== 0
-              ? products_by_material?.slice(0, 20).map((prod) => {
+                ? products_by_material?.slice(0, 20).map((prod, i) => {
                   return (
-                    <Box>
+                    <Box key={i}>
                       <ProductCard
                         product={prod}
                         key={prod.ProdNameID}
@@ -85,7 +85,7 @@ const ProductsContainer = ({ params }) => {
                     </Box>
                   );
                 })
-              : null}
+                : null}
           </SimpleGrid>
         </Box>
       ) : (

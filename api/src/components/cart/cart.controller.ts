@@ -91,7 +91,7 @@ export async function newCartEntry(req: Request, res: Response) {
                 const cartValues = [
                   customerID,
                   product.ProdID,
-                  0,
+                  1,
                   productSalePrice,
                 ];
 
