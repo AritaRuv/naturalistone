@@ -30,7 +30,6 @@ const ProductCard: React.FC<{
   const [disableBox, setDisableBox] = useState(false);
   const [showAddToCart, setShowAddToCart] = useState(false);
   const [dropDownZIndex, setDropDownZIndex] = useState(0);
-  const [dropDownZIndex, setDropDownZIndex] = useState(0);
   const [showAddSampleToCart, setShowAddSmapleToCart] = useState(false);
 
   const { Naturali_ProdName, Material, ProdNameID } = product;
@@ -119,7 +118,6 @@ const ProductCard: React.FC<{
             h={"370px"}
             zIndex={dropDownZIndex}
             className="custom-popover"
-            bg={"rgba(0, 0, 0, 0.35)"}
             bg={"rgba(0, 0, 0, 0.35)"}
           >
             <Box
