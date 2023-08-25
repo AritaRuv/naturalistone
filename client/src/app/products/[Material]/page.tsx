@@ -1,23 +1,16 @@
 "use client";
 import {
   Box,
-  Flex,
-  HStack,
   Select,
-  Spacer,
-  Text,
   useMediaQuery,
 } from "@chakra-ui/react";
 import ProductsFilters from "../productFilters/productsFilter";
 import ProductsContainer from "../productsContainer";
-import FilterButtons from "../productFilters/filters_buttons";
 import { useState } from "react";
-import FiltersDropDownMenu from "../productFilters/filters_dropDownMenu";
 import { useEffect } from "react";
 import { useAppDispatch, useAppSelector } from "@/store/hooks";
 import {
   ClearDimension,
-  ClearMaterials,
   ClearProductFilters,
   ClearProductsByMaterial,
   fetchDimension,
@@ -25,7 +18,6 @@ import {
   fetchProductsFilters,
 } from "@/store/products/actionsProducts";
 import {
-  ProductActionTypes,
   ProductState,
 } from "@/store/products/typesProducts";
 import { Filters } from "../productFilters/types";
@@ -109,7 +101,7 @@ export default function Products({ params }) {
 
   return (
     <>
-      <Box h={"92.5vh"} w={"100%"} display={"flex"} flexDir={"row"}>
+      <Box h={"100vh"} w={"100%"} display={"flex"} flexDir={"row"}>
         {
         // smallerThan1200 ? 
         //   <FiltersDropDownMenu
@@ -120,28 +112,28 @@ export default function Products({ params }) {
         //       setFilters={setFilters}
         //       filters={filters}/>
         //   :
-        !smallerThan1200 ? 
-        <ProductsFilters
-          setFilters={setFilters}
-          filters={filters}
-          handleCheckboxChange={handleCheckboxChange}
-          params={params}
-          />
-          : null
+          !smallerThan1200 ? 
+            <ProductsFilters
+              setFilters={setFilters}
+              filters={filters}
+              handleCheckboxChange={handleCheckboxChange}
+              params={params}
+            />
+            : null
         }
         <Box>
-          <Box w={"88vw"} px={"1vw"} h={"12vh"} display={"flex"} justifyContent={"space-between"} alignItems={"flex-end"}>
+          <Box w={"85vw"} px={"1vw"} h={"12vh"} display={"flex"} justifyContent={"space-between"} alignItems={"flex-end"}>
             <Path params={params}/>
             <Select
               icon={<PiCaretDownThin />}
               w={"7vw"}
-              minW={'120px'}
+              minW={"120px"}
               fontSize={"0.8rem"}
               h={"16px"}
               placeholder="ORDER BY"
               fontWeight={"light"}
               focusBorderColor="none"
-              border={'none'}
+              border={"none"}
               name="s"
               onChange={(e) => handleChangeOrderBy(e)}
             >

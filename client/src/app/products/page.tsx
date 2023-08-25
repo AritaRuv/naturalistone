@@ -29,16 +29,16 @@ export default function Collections() {
 
   return (
     <>
-      <Center >
+      <Center>
         <SimpleGrid
-          mt={smallerThan1200 ? "8vh" : "12vh"}
+          mt={smallerThan1200 ? "8vh" : "20vh"}
           columns={  
-                    smallerThan1800 ? 
-                      smallerThan1200 ? 
-                       smallerThan740 ? 1 : 2 
-                      : 3 
-                    : 4 
-                  }
+            smallerThan1800 ? 
+              smallerThan1200 ? 
+                smallerThan740 ? 1 : 2 
+                : 3 
+              : 4 
+          }
           spacingY={"40px"}
           spacingX={"60px"}
         >

@@ -127,8 +127,7 @@ const ProductCardCart: React.FC<{ product: ProductCart }> = ({ product }) => {
                 />
               </Box>
             </Box>
-          </Box>
-        )}
+          )}
 
         <Box h={isExtraSmallScreen ? "120px" : "140px"} w={"220px"} display={"flex"} flexDir={"column"} justifyContent={"space-between"}>
           <Box>
@@ -143,7 +142,7 @@ const ProductCardCart: React.FC<{ product: ProductCart }> = ({ product }) => {
           <Box>
             {quantity > 0 && (
               <>
-                <Box display={"flex"} h={"28px"} justifyContent={"space-between"} alignItems={'center'}>
+                <Box display={"flex"} h={"28px"} justifyContent={"space-between"} alignItems={"center"}>
                   <Text textTransform={"uppercase"} fontSize={fontSubTitle}>Price sqf</Text>
                   <Center w={"80px"}>
                     <Text textTransform={"uppercase"} fontSize={"0.8rem"}>
@@ -151,7 +150,7 @@ const ProductCardCart: React.FC<{ product: ProductCart }> = ({ product }) => {
                     </Text>
                   </Center>
                 </Box>
-                <Box display={"flex"} h={"28px"} justifyContent={"space-between"} alignItems={'center'}>
+                <Box display={"flex"} h={"28px"} justifyContent={"space-between"} alignItems={"center"}>
                   <Text textTransform={"uppercase"} fontSize={fontSubTitle}>Quantity</Text>
                   <Center w={"80px"} display={"flex"} flexDir={"row"} alignItems={"center"} justifyItems={"flex-end"}>
                     <Button
