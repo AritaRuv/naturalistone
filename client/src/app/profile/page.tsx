@@ -100,7 +100,7 @@ export default function Profile() {
           user={user}
           setFormData={setFormData}
         />
-        <Box display={"flex"} border={'1px solid red'}>
+        <Box display={"flex"}>
           {appContext?.showMenu === "profile" && (
             <>
               <ProfileInfo
