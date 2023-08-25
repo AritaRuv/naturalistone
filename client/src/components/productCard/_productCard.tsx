@@ -1,5 +1,5 @@
 import React from "react";
-import { Box, IconButton, Button, Text, Center } from "@chakra-ui/react";
+import { Box, IconButton, Button, Text, Center, useOutsideClick } from "@chakra-ui/react";
 import NextImage from "next/image";
 import { useState } from "react";
 import { PiCaretDownThin } from "react-icons/pi";
@@ -24,10 +24,12 @@ const ProductCard: React.FC<{
   user?: User;
 }> = ({ product, user }) => {
   const dispatch = useAppDispatch();
+  // const ref = React.useRef();
 
   const [isDropdownOpen, setIsDropdownOpen] = useState(false);
   const [disableBox, setDisableBox] = useState(false);
   const [showAddToCart, setShowAddToCart] = useState(false);
+  const [dropDownZIndex, setDropDownZIndex] = useState(0);
   const [dropDownZIndex, setDropDownZIndex] = useState(0);
   const [showAddSampleToCart, setShowAddSmapleToCart] = useState(false);
 
@@ -90,6 +92,7 @@ const ProductCard: React.FC<{
         overflow={"hidden"}
         onMouseEnter={handleMouseEnter}
         onMouseLeave={handleMouseLeave}
+      //ref={ref}
       >
         <Link
           href={`/products/${Material}/${Naturali_ProdName}/${ProdNameID}`}
@@ -109,11 +112,14 @@ const ProductCard: React.FC<{
           <Box
             onMouseEnter={handleMouseEnter}
             onMouseLeave={handleMouseLeave}
+
+            //ref={ref}
             position={"relative"}
             w={"260px"}
             h={"370px"}
             zIndex={dropDownZIndex}
             className="custom-popover"
+            bg={"rgba(0, 0, 0, 0.35)"}
             bg={"rgba(0, 0, 0, 0.35)"}
           >
             <Box

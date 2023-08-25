@@ -10,7 +10,9 @@ const theme = extendTheme({
       lightGrey: "#E5E4E3",
       lightBg: "#f2f2f2",
     },
-    
+    sampleItemCart: {
+      gray: "#f4f4f4"
+    },
     buttons: {
     }
   },
@@ -52,8 +54,12 @@ const theme = extendTheme({
             borderColor: "black",
             borderWidth: "0.85px",
             borderRadius: "0",
+          },
+          _disabled: {
+            borderColor: "blue",
+            borderWidth: "0.85px",
+            borderRadius: "0",
           }
-
         },
       },
     },
