@@ -1,11 +1,5 @@
 import React from "react";
-import {
-  Box,
-  IconButton,
-  Button,
-  Text,
-  Center
-} from "@chakra-ui/react";
+import { Box, IconButton, Button, Text, Center, useOutsideClick } from "@chakra-ui/react";
 import NextImage from "next/image";
 import { useState } from "react";
 import { PiCaretDownThin } from "react-icons/pi";
@@ -24,11 +18,13 @@ import { MenuFavoriteProductCard } from "./MenuFavoriteProductCard";
 import { FavoritesState } from "@/store/favorites/typesFavorites";
 import { User } from "@/store/login/typeLogin";
 
-const ProductCard: React.FC<{ product: Product; site?: string; user?: User }> = ({
-  product,
-  user,
-}) => {
+const ProductCard: React.FC<{
+  product: Product;
+  site?: string;
+  user?: User;
+}> = ({ product, user }) => {
   const dispatch = useAppDispatch();
+  // const ref = React.useRef();
 
   const [isDropdownOpen, setIsDropdownOpen] = useState(false);
   const [disableBox, setDisableBox] = useState(false);
@@ -95,6 +91,7 @@ const ProductCard: React.FC<{ product: Product; site?: string; user?: User }> = 
         overflow={"hidden"}
         onMouseEnter={handleMouseEnter}
         onMouseLeave={handleMouseLeave}
+      //ref={ref}
       >
         <Link
           href={`/products/${Material}/${Naturali_ProdName}/${ProdNameID}`}
@@ -114,6 +111,8 @@ const ProductCard: React.FC<{ product: Product; site?: string; user?: User }> = 
           <Box
             onMouseEnter={handleMouseEnter}
             onMouseLeave={handleMouseLeave}
+
+            //ref={ref}
             position={"relative"}
             w={"260px"}
             h={"370px"}

@@ -14,7 +14,7 @@ import {
   useToast,
 } from "@chakra-ui/react";
 import { useEffect, useState } from "react";
-import { MdOutlineArrowDropDownCircle } from "react-icons/md";
+import { PiCaretDownThin } from "react-icons/pi";
 import { FiltersHomeProps } from "../page";
 
 export function FiltersMaterials({
@@ -70,40 +70,29 @@ export function FiltersMaterials({
       display={"flex"}
       h={"100px"}
       w={"300px"}
-      // minW={""}
       alignItems={"center"}
       justifyContent={"center"}
-      // marginLeft={"auto"}
-      // bg={"green"}
+      
     >
-      <Box
-        display={"flex"}
-        h={"80px"}
-        w={"220px"}
-        minW={"220px"}
-        // bg={"blue"}
-        alignItems={"center"}
-        justifyContent={"center"}
-        marginLeft={boxMarginLeft}
+      <Select
+        name="materials"
+        id="material"
+        w={"180px"}
+        bg={"none"}
+        fontWeight={"light"}
+        fontSize={"0.9rem"}
+        border={"none"}
+        onChange={handleClick}
+        value={productsFilter.materialValue}
+        icon={<PiCaretDownThin />}
       >
-        <Select
-          name="materials"
-          id="material"
-          w={"140px"}
-          bg={"none"}
-          border={"none"}
-          onChange={handleClick}
-          value={productsFilter.materialValue}
-          icon={<MdOutlineArrowDropDownCircle />}
-        >
-          <option value="">All Materials</option>
-          {materials?.map((material, i) => (
-            <option value={material} key={i}>
-              {material}
-            </option>
-          ))}
-        </Select>
-      </Box>
+        <option value="">ALL MATERIALS</option>
+        {materials?.map((material, i) => (
+          <option value={material} key={i}>
+            {material}
+          </option>
+        ))}
+      </Select>
     </Box>
   );
 }

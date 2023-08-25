@@ -16,12 +16,12 @@ const fromEmail = "irina@naturalistone.com";
 const imgDrive =
   "https://netorg8591642-my.sharepoint.com/:i:/g/personal/irina_naturalistone_com/EUJMsPLT2jBLokqZ-cz1SVMBijZhI9_At-atEYcxV48L7Q?e=46P25n";
 
-function sendEmailUser() {
+export function sendEmailUser(resetToken: number, toEmail: string) {
   const optionsEmail = {
     From: fromEmail,
-    To: "eduardo@avilatek.dev",
+    To: toEmail,
     Subject: "Hello from Postmark",
-    HtmlBody: "<strong>Hello</strong> dear Postmark user.",
+    HtmlBody: `<strong>Hello</strong> ${resetToken}`,
     TextBody: "Hello from Postmark!",
     MessageStream: "outbound",
   };

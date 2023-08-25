@@ -9,7 +9,7 @@ import {
 import {
   Box,
   Button,
-  Center,
+  Text,
   Heading,
   IconButton,
   useMediaQuery,
@@ -91,59 +91,46 @@ export function FiltersColors({
     <Box
       display={"flex"}
       flexDirection={"column"}
-      h={"260px"}
-      w={"390px"}
-      // bg={"yellow"}
-      alignItems="center"
+      alignItems={"center"}
       justifyContent={"center"}
       mr={boxMargin ? "0px" : "200px"}
       flexDir={"row"}
     >
       <Box
-        // bg={"red"}
-        w={"250px"}
-        h={"200px"}
         display={"flex"}
         flexDirection={"column"}
         justifyContent={"center"}
         alignItems={"center"}
-        mb={"2vw"}
         marginLeft={boxMargin ? "65px" : "0px"}
-        // marginRight={"65px"}
       >
-
-        <Center marginTop={3}>
-          <Box
-            display={"flex"}
-            flexDirection={"row"}
-            justifyContent={"space-between"}
-            w={"240px"}
-            h={"40px"}
-            minW={"220px"}
-            // bg={"green"}
-            // border={"2px solid red"}
-          >
-            {homeColors.map((c, index) => (
-              <Button
-                key={c.ColorID}
-                aria-label={c.Color}
-                background={c.Color}
-                height={activeButton === index ? "38px" : "35px"}
-                width={activeButton === index ? "38px" : "35px"}
-                padding={0}
-                minWidth="unset"
-                borderRadius="50%"
-                borderColor={activeButton === index ? "gray.700" : "primary"}
-                borderWidth={activeButton === index ? "4px" : "0px"}
-                boxShadow={"0px 2px 4px rgba(0, 0, 0, 0.8)"}
-                _active={{ borderColor: "black" }}
-                _hover={{ background: c.Color }}
-                onClick={() => handleClick(index)}
-              ></Button>
-            ))}
-          </Box>
-        </Center>
-        <Center mt={"25px"}>Shop {color}</Center>
+        <Box
+          display={"flex"}
+          flexDirection={"row"}
+          justifyContent={"space-between"}
+          w={"240px"}
+          h={"40px"}
+          minW={"220px"}
+        >
+          {homeColors.map((c, index) => (
+            <Button
+              key={c.ColorID}
+              aria-label={c.Color}
+              background={c.Color}
+              height={activeButton === index ? "38px" : "35px"}
+              width={activeButton === index ? "38px" : "35px"}
+              padding={0}
+              minWidth="unset"
+              borderRadius="50%"
+              borderColor={activeButton === index ? "gray.700" : "primary"}
+              borderWidth={activeButton === index ? "4px" : "0px"}
+              boxShadow={"0px 2px 4px rgba(0, 0, 0, 0.8)"}
+              _active={{ borderColor: "black" }}
+              _hover={{ background: c.Color }}
+              onClick={() => handleClick(index)}
+            ></Button>
+          ))}
+        </Box>
+        {/* <Text mt={"25px"}>Shop {color}</Text> */}
       </Box>
       <Box
         w={"full"}

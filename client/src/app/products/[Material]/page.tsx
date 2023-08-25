@@ -32,8 +32,6 @@ import { Filters } from "../productFilters/types";
 import { PiCaretDownThin } from "react-icons/pi";
 import { Path } from "../path";
 
-
-
 export default function Products({ params }) {
   // Flag para evitar que  dispatch(fetchProductsFilters(products_by_material, filters)) se despache en el primer renderizado
   const [shouldTriggerEffect, setShouldTriggerEffect] = useState(false);
@@ -45,10 +43,6 @@ export default function Products({ params }) {
     (state: { productReducer: ProductState }) => state.productReducer
   );
   const { raw_products } = useAppSelector(
-    (state: { productReducer: ProductState }) => state.productReducer
-  );
-
-  const { products_by_material } = useAppSelector(
     (state: { productReducer: ProductState }) => state.productReducer
   );
 
@@ -77,6 +71,7 @@ export default function Products({ params }) {
     finish: [],
     thickness: [],
     size: [],
+    orderBy: ""
   });
   const handleCheckboxChange = (filterName: string, value: string) => {
     setFilters((prevFilters) => {
@@ -98,6 +93,10 @@ export default function Products({ params }) {
     });
     setShouldTriggerEffect(true);
   };
+  const handleChangeOrderBy = (e) => {
+    setFilters({ ...filters, orderBy: e.target.value });
+    setShouldTriggerEffect(true);
+  };
 
   useEffect(() => {
     // Activa el efecto solo si shouldTriggerEffect es true
@@ -106,40 +105,7 @@ export default function Products({ params }) {
     }
   }, [filters, shouldTriggerEffect]);
 
-  const handleChangeOrderBy = (e) => {
-    filtrar(e.target.value);
-  };
 
-  const filtrar = (criterio: string) => {
-    if (criterio === "AZ") {
-      products_by_material?.sort((p1, p2) =>
-        p1.Naturali_ProdName > p2.Naturali_ProdName
-          ? 1
-          : p1.Naturali_ProdName < p2.Naturali_ProdName
-            ? -1
-            : 0
-      );
-    } else {
-      products_by_material?.sort((p1, p2) =>
-        p1.Naturali_ProdName < p2.Naturali_ProdName
-          ? 1
-          : p1.Naturali_ProdName > p2.Naturali_ProdName
-            ? -1
-            : 0
-      );
-    }
-    try {
-      dispatch({
-        type: ProductActionTypes.FETCH_PRODUCTS_BY_MATERIAL,
-        payload: products_by_material,
-      });
-    } catch (error) {
-      dispatch({
-        type: ProductActionTypes.FETCH_PRODUCTS_FAILURE,
-        error: "Error al obtener los product values",
-      });
-    }
-  };
 
   return (
     <>
@@ -164,19 +130,10 @@ export default function Products({ params }) {
           : null
         }
         <Box>
-          <Box 
-            w={smallerThan1200 ? "96vw" : "86vw"} 
-            px={
-              smallerThan1200 ? 
-                smallerThan740 ? "6vw" 
-                : "3vw" 
-              : "1vw"} 
-            mb={'20px'} 
-            h={smallerThan1200 ? "8vh" : "12vh"} 
-            display={"flex"} justifyContent={"space-between"} alignItems={"flex-end"}>
+          <Box w={"88vw"} px={"1vw"} h={"12vh"} display={"flex"} justifyContent={"space-between"} alignItems={"flex-end"}>
             <Path params={params}/>
             <Select
-              icon={<PiCaretDownThin/>}
+              icon={<PiCaretDownThin />}
               w={"7vw"}
               minW={'120px'}
               fontSize={"0.8rem"}
@@ -192,7 +149,7 @@ export default function Products({ params }) {
               <option value="ZA"> Z-A</option>
             </Select>
           </Box>
-          <ProductsContainer params={params}/>
+          <ProductsContainer params={params} />
         </Box>
       </Box> 
     </>

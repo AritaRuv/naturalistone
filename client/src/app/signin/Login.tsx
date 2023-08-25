@@ -204,7 +204,7 @@ const Login: React.FC<Props> = ({ setActiveLogin, smallerThan600, smallerThan120
             </InputGroup>
           </Box>
           <Box display={"flex"}  w={"18vw"} minW={"300px"}>
-            <InputGroup h={"60px"}>
+            <InputGroup h={"60px"} flexDirection={"column"}>
               <InputLeftElement top={"-5px"} textAlign={"center"} pointerEvents="none">
                 <IconButton
                   display={"flex"}

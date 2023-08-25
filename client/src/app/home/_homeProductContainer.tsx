@@ -6,10 +6,10 @@ import { fetchProductsHome } from "../../store/products/actionsProducts";
 import { ProductState } from "../../store/products/typesProducts";
 import { useAppDispatch, useAppSelector } from "../../store/hooks";
 import { FiltersHomeProps } from "./page";
-import { userInfo } from "@/store/login/actionsLogin";
 import { fetchFavorites } from "@/store/favorites/actionsFavorites";
 import { fetchProjectsCustomer } from "@/store/projects/actionsProjects";
 import { LoginState } from "@/store/login/typeLogin";
+import { userInfo } from "@/store/login/actionsLogin";
 
 const HomeProductContainer: React.FC<FiltersHomeProps> = ({
   productsFilter,
@@ -28,6 +28,12 @@ const HomeProductContainer: React.FC<FiltersHomeProps> = ({
   const { user } = useAppSelector(
     (state: { loginReducer: LoginState }) => state.loginReducer
   );
+
+  useEffect(() => {
+    dispatch(userInfo());
+  }, []);
+
+
   let gridColumns = 6;
 
   if (isXLargeScreen) {
@@ -46,10 +52,9 @@ const HomeProductContainer: React.FC<FiltersHomeProps> = ({
     gridColumns = 1;
   }
 
-  const homeProducts = products.slice(0,gridColumns > 4 ? gridColumns : 4);
+  const homeProducts = products.slice(0, gridColumns > 4 ? gridColumns : 4);
 
   useEffect(() => {
-    dispatch(userInfo());
     if (!products.length) dispatch(fetchProductsHome(material, colorId));
   }, [products]);
 
@@ -62,11 +67,10 @@ const HomeProductContainer: React.FC<FiltersHomeProps> = ({
     <SimpleGrid
       pt={"8vh"}
       spacingY={10}
-      px={(isMediumScreen && !isSmallScreen) ? "15%" : "5%" }
+      px={isMediumScreen && !isSmallScreen ? "15%" : "5%"}
       w={"100%"}
       placeItems={"center"}
       columns={gridColumns}
-      bg={"site.lightBg"}
       minH={"500px"}
     >
       {homeProducts.length !== 0 &&

@@ -1,21 +1,40 @@
 import React, { useState } from "react";
-import { Box, Button, Input, Text, useMediaQuery, Center } from "@chakra-ui/react";
+import {
+  Box,
+  Button,
+  Input,
+  Text,
+  useMediaQuery,
+  Center,
+} from "@chakra-ui/react";
 import NextImage from "next/image";
 import "../../app/assets/styleSheet.css";
 import { ProductCart } from "@/store/cart/typesCart";
 import { deleteCart, updateCart } from "@/store/cart/actionsCart";
-import { useAppDispatch } from "@/store/hooks";
-
+import { useAppDispatch, useAppSelector } from "@/store/hooks";
+import { LoginState } from "@/store/login/typeLogin";
 
 const ProductCardCart: React.FC<{ product: ProductCart }> = ({ product }) => {
-
-  const { CustomerID, Finish, Material, Naturali_ProdName, Quantity, SalePrice, Size, Thickness, Type, idCartEntry } = product;
+  const {
+    CustomerID,
+    Finish,
+    Material,
+    Naturali_ProdName,
+    Quantity,
+    SalePrice,
+    Size,
+    Thickness,
+    Type,
+    idCartEntry,
+  } = product;
 
   const URL = `https://naturalistone-images.s3.amazonaws.com/${Material}/${Naturali_ProdName}/${Naturali_ProdName}_0.jpg`;
 
   const [isExtraSmallScreen] = useMediaQuery("(max-width: 480px)");
   const [isExtraExtraSmallScreen] = useMediaQuery("(max-width: 400px)");
-
+  const { user } = useAppSelector(
+    (state: { loginReducer: LoginState }) => state.loginReducer
+  );
   const fontSubTitle = isExtraExtraSmallScreen ? "0.6rem" : "0.7rem";
   const fontTitle = isExtraExtraSmallScreen ? "0.7rem" : "0.9rem";
 
@@ -57,7 +76,7 @@ const ProductCardCart: React.FC<{ product: ProductCart }> = ({ product }) => {
   };
 
   const handleDelete = () => {
-    dispatch(deleteCart(idCartEntry, 1938));
+    dispatch(deleteCart(idCartEntry, user?.CustomerID));
   };
 
   return (
@@ -71,6 +90,7 @@ const ProductCardCart: React.FC<{ product: ProductCart }> = ({ product }) => {
         justifyContent={"space-around"}
         px={"5px"}
         py={"4px"}
+        backgroundColor={quantity === 0 ? "sampleItemCart.gray" : "white"}
       >
         {
           isExtraSmallScreen ? (
@@ -107,23 +127,28 @@ const ProductCardCart: React.FC<{ product: ProductCart }> = ({ product }) => {
                 />
               </Box>
             </Box>
-          )
-        }
+          </Box>
+        )}
 
         <Box h={isExtraSmallScreen ? "120px" : "140px"} w={"220px"} display={"flex"} flexDir={"column"} justifyContent={"space-between"}>
           <Box>
             <Text textTransform={"uppercase"} fontSize={fontSubTitle}>{Material}</Text>
             <Text textTransform={"uppercase"} fontWeight={"bold"} fontSize={fontTitle}>{Naturali_ProdName}</Text>
-            <Text textTransform={"uppercase"} fontSize={"0.6rem"} color={"gray.600"}>{Finish} - {Size} - {Thickness}-{Type}</Text>
+            {
+              quantity > 0 ? (<Text textTransform={"uppercase"} fontSize={"0.6rem"} color={"gray.600"}>{Finish} - {Size} - {Thickness}-{Type}</Text>
+              ) : (<Text textTransform={"uppercase"} fontSize={"0.6rem"} color={"gray.600"}>{Finish} - {Thickness}-{Type}</Text>
+              )
+            }
           </Box>
           <Box>
-            {
-              quantity > 0 &&
+            {quantity > 0 && (
               <>
                 <Box display={"flex"} h={"28px"} justifyContent={"space-between"} alignItems={'center'}>
                   <Text textTransform={"uppercase"} fontSize={fontSubTitle}>Price sqf</Text>
                   <Center w={"80px"}>
-                    <Text textTransform={"uppercase"} fontSize={"0.8rem"}>${price}</Text>
+                    <Text textTransform={"uppercase"} fontSize={"0.8rem"}>
+                      ${price}
+                    </Text>
                   </Center>
                 </Box>
                 <Box display={"flex"} h={"28px"} justifyContent={"space-between"} alignItems={'center'}>
@@ -133,7 +158,10 @@ const ProductCardCart: React.FC<{ product: ProductCart }> = ({ product }) => {
                       variant={"unstyled"}
                       size={"xs"}
                       onClick={decreaseQuantity}
-                      fontWeight={"thin"}>-</Button>
+                      fontWeight={"thin"}
+                    >
+                      -
+                    </Button>
                     <Input
                       fontSize={"0.8rem"}
                       border={"none"}
@@ -145,12 +173,22 @@ const ProductCardCart: React.FC<{ product: ProductCart }> = ({ product }) => {
                       min={1}
                       onChange={handleQuantityChange}
                       onBlur={handleQuantityBlur}
-                      size={"xs"} textAlign={"center"} w={quantity.toString().length < 1 ? "30px" : "35px"} />
-                    <Button variant={"unstyled"} size={"xs"} onClick={increaseQuantity} fontWeight={"thin"}>+</Button>
+                      size={"xs"}
+                      textAlign={"center"}
+                      w={quantity.toString().length < 1 ? "30px" : "35px"}
+                    />
+                    <Button
+                      variant={"unstyled"}
+                      size={"xs"}
+                      onClick={increaseQuantity}
+                      fontWeight={"thin"}
+                    >
+                      +
+                    </Button>
                   </Center>
                 </Box>
               </>
-            }
+            )}
           </Box>
         </Box>
       </Box>
@@ -159,4 +197,3 @@ const ProductCardCart: React.FC<{ product: ProductCart }> = ({ product }) => {
 };
 
 export default ProductCardCart;
-

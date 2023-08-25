@@ -6,7 +6,6 @@ import { useAppDispatch, useAppSelector } from "@/store/hooks";
 import { fetchProjectsCustomer } from "@/store/projects/actionsProjects";
 import { ProjectsState } from "@/store/projects/typeProjects";
 import { CreateNewProject } from "./addProjectModal";
-import { userInfo } from "@/store/login/actionsLogin";
 import { LoginState } from "@/store/login/typeLogin";
 
 const Projects: React.FC<IShowMenu> = () => {
@@ -18,10 +17,6 @@ const Projects: React.FC<IShowMenu> = () => {
   const { user } = useAppSelector(
     (state: { loginReducer: LoginState }) => state.loginReducer
   );
-
-  useEffect(() => {
-    dispatch(userInfo());
-  }, []);
 
   const [isSmallerThan1520] = useMediaQuery("(max-width: 1520px)");
 

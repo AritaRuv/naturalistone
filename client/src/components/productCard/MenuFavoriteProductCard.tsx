@@ -7,7 +7,7 @@ import {
   MenuButton,
   MenuDivider,
   MenuItem,
-  MenuList
+  MenuList,
 } from "@chakra-ui/react";
 import { useState } from "react";
 import { PiHeartStraightThin, PiHeartStraightFill } from "react-icons/pi";
@@ -18,7 +18,12 @@ import {
 } from "@/store/favorites/actionsFavorites";
 import { CreateNewProject } from "@/app/profile/addProjectModal";
 
-export function MenuFavoriteProductCard({ ProdNameID, favorites, user, dropDownZIndex }) {
+export function MenuFavoriteProductCard({
+  ProdNameID,
+  favorites,
+  user,
+  dropDownZIndex,
+}) {
   const dispatch = useAppDispatch();
   const customerProjects = useAppSelector(
     (state: { projectsReducer: ProjectsState }) =>
@@ -28,46 +33,12 @@ export function MenuFavoriteProductCard({ ProdNameID, favorites, user, dropDownZ
   const [bgHeart, setBgHeart] = useState(false);
 
   const handleSubmit = async (idProject: number) => {
-    const response = await dispatch(
-      postFavoritesProductInProject(idProject, ProdNameID)
-    );
-    // if (!response.success) {
-    //   if (!toast.isActive("favProductProject")) {
-    //     return toast({
-    //       id: "favProductProject",
-    //       title: "Error",
-    //       status: "error",
-    //       description: "Error in add product in the project",
-    //       duration: 4000,
-    //       isClosable: true,
-    //     });
-    //   }
-    // }
-    // if (!toast.isActive("favProductProject")) {
-    //   toast({
-    //     id: "favProductProject",
-    //     title: "Success",
-    //     status: "success",
-    //     description: "The product has been successfully added to the project",
-    //     duration: 4000,
-    //     isClosable: true,
-    //   });
-    // }
+    await dispatch(postFavoritesProductInProject(idProject, ProdNameID));
     return dispatch(fetchFavorites(user?.CustomerID));
   };
 
   const handleDelete = async (idProject: number, idProdName: number) => {
     dispatch(deleteFavoriteProductInProject(idProject, idProdName));
-    // if (!toast.isActive("deleteFavoriteProductProject")) {
-    //   toast({
-    //     id: "deleteFavoriteProductProject",
-    //     title: "Success",
-    //     status: "success",
-    //     description: "The product has been successfully deleted",
-    //     duration: 4000,
-    //     isClosable: true,
-    //   });
-    // }
     setTimeout(() => {
       dispatch(fetchFavorites(user?.CustomerID));
     }, 1000);
@@ -90,7 +61,7 @@ export function MenuFavoriteProductCard({ ProdNameID, favorites, user, dropDownZ
         zIndex={dropDownZIndex > 5 ? 15 : 0}
         justifyContent={"end"}
       >
-        <Menu>
+        <Menu closeOnSelect={false}>
           {({ isOpen }) => (
             <>
               <MenuButton

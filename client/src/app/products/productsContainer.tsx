@@ -10,7 +10,7 @@ import { LoginState } from "@/store/login/typeLogin";
 import { userInfo } from "@/store/login/actionsLogin";
 import { Path } from "./path";
 
-const ProductsContainer = ({params}) => {
+const ProductsContainer = ({ params }) => {
   const [isExtraSmallScreen] = useMediaQuery("(max-width: 550px)");
   const [isSmallScreen] = useMediaQuery("(max-width: 1000px)");
   const [is1200Screen] = useMediaQuery("(max-width: 1200px)");
@@ -47,10 +47,6 @@ const ProductsContainer = ({params}) => {
   }
 
   useEffect(() => {
-    dispatch(userInfo());
-  }, []);
-
-  useEffect(() => {
     dispatch(fetchFavorites(user.CustomerID));
     dispatch(fetchProjectsCustomer(user.CustomerID));
   }, [user]);
@@ -69,12 +65,11 @@ const ProductsContainer = ({params}) => {
             spacingY={"6vh"}
             spacingX={"60px"}
             columns={gridColumns} // Establece el número de columnas dinámicamente
-
           >
             {products_filters.length !== 0
-              ? products_filters.map((prod) => {
+              ? products_filters.map((prod, i) => {
                 return (
-                  <Box>
+                  <Box key={i}>
                     <ProductCard
                       product={prod}
                       key={prod.ProdNameID}
@@ -85,9 +80,9 @@ const ProductsContainer = ({params}) => {
                 );
               })
               : products_by_material?.length !== 0
-                ? products_by_material?.slice(0, 20).map((prod) => {
+                ? products_by_material?.slice(0, 20).map((prod, i) => {
                   return (
-                    <Box>
+                    <Box key={i}>
                       <ProductCard
                         product={prod}
                         key={prod.ProdNameID}

@@ -1,5 +1,5 @@
 "use client";
-import React, { useEffect } from "react";
+import React, { useEffect, useRef } from "react";
 import {
   Box,
   IconButton,
@@ -20,31 +20,36 @@ import { useAppSelector, useAppDispatch } from "@/store/hooks";
 import { CartState } from "@/store/cart/typesCart";
 import { fetchCart } from "@/store/cart/actionsCart";
 import ProductCardCart from "./cartProducts";
+import { useRouter } from "next/router";
 import "./_navBar.css";
 import Link from "next/link";
 import { LoginState } from "@/store/login/typeLogin";
 
 const CartButton: React.FC = () => {
   const { isOpen, onOpen, onClose } = useDisclosure();
-  const { cart } = useAppSelector(
+  const { cart, loading, error } = useAppSelector(
     (state: { cartReducer: CartState }) => state.cartReducer
   );
-  const dispatch = useAppDispatch();
-
   const { user } = useAppSelector(
     (state: { loginReducer: LoginState }) => state.loginReducer
   );
+  const dispatch = useAppDispatch();
+  // const router = useRouter();
 
   useEffect(() => {
     dispatch(fetchCart(user?.CustomerID));
-  }, [user]);
+  }, []);
+
+  // const handleClickCheckout = () => {
+  //   router.push("/checkout");
+  // }
 
   return (
     <>
       <IconButton
         aria-label="Cart-icon"
         variant="unstyled"
-        fontSize="2xl"
+        fontSize="3xl"
         icon={<PiShoppingCartThin />}
         onClick={onOpen}
       />

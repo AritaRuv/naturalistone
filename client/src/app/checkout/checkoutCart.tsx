@@ -5,6 +5,7 @@ import { useEffect } from "react";
 import { useAppDispatch, useAppSelector } from "@/store/hooks";
 import { fetchCart } from "@/store/cart/actionsCart";
 import { CartState } from "@/store/cart/typesCart";
+import { LoginState } from "@/store/login/typeLogin";
 
 export default function CheckoutCart() {
   const dispatch = useAppDispatch();
@@ -16,9 +17,13 @@ export default function CheckoutCart() {
   const [smallerThan1200] = useMediaQuery("(max-width: 1200px)");
   const [smallerThan740] = useMediaQuery("(max-width: 740px)");
 
+  const { user } = useAppSelector(
+    (state: { loginReducer: LoginState }) => state.loginReducer
+  );
+
   useEffect(() => {
     if (cart.length === 0) {
-      dispatch(fetchCart(1938));
+      dispatch(fetchCart(user?.CustomerID));
     }
   }, [cart]);
 
