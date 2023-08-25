@@ -56,9 +56,13 @@ const theme = extendTheme({
             borderRadius: "0",
           },
           _disabled: {
-            borderColor: "blue",
+            borderColor: "gray",
             borderWidth: "0.85px",
             borderRadius: "0",
+            backgroundColor: "lightgray", // Cambiar el color de fondo cuando está deshabilitado
+            color: "gray", // Cambiar el color del texto cuando está deshabilitado
+            textDecoration: "line-through", // Agregar texto tachado
+            cursor: "not-allowed", // Cambiar el cursor cuando está deshabilitado
           }
         },
       },

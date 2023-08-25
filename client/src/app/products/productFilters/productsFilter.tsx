@@ -29,7 +29,7 @@ const ProductsFilters: React.FC<FiltersState> = ({ handleCheckboxChange, params}
         p={"15px"} 
         h={"90vh"} 
         overflow={"auto"}
-        mt={"2vh"}
+        mt={"8vh"}
         ml={"1vw"}
       >
         {

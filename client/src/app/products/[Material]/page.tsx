@@ -89,6 +89,10 @@ export default function Products({ params }) {
     });
     setShouldTriggerEffect(true);
   };
+  const handleChangeOrderBy = (e) => {
+    setFilters({ ...filters, orderBy: e.target.value });
+    setShouldTriggerEffect(true);
+  };
 
   useEffect(() => {
     // Activa el efecto solo si shouldTriggerEffect es true
@@ -97,13 +101,11 @@ export default function Products({ params }) {
     }
   }, [filters, shouldTriggerEffect]);
 
-  const handleChangeOrderBy = (e) => {
-    setFilters({ ...filters, orderBy: e.target.value });
-  };
+
 
   return (
     <>
-      <Box h={"92.5vh"} w={"100%"} display={"flex"} flexDir={"row"}>
+      <Box h={"100vh"} w={"100%"} display={"flex"} flexDir={"row"}>
         <ProductsFilters
           setFilters={setFilters}
           filters={filters}
