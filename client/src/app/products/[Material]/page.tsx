@@ -65,8 +65,12 @@ export default function Products({ params }) {
     };
   }, []);
 
-  const [isSmallScreen] = useMediaQuery("(max-width: 1200px)");
+  const [smallerThan1800] = useMediaQuery("(max-width: 1800px)");
+  const [smallerThan1200] = useMediaQuery("(max-width: 1200px)");
+  const [smallerThan740] = useMediaQuery("(max-width: 740px)");
+
   const [showMenu, setShowMenu] = useState("");
+
   const [filters, setFilters] = useState<Filters>({
     material: params.Material,
     type: [],
@@ -140,24 +144,47 @@ export default function Products({ params }) {
   return (
     <>
       <Box h={"92.5vh"} w={"100%"} display={"flex"} flexDir={"row"}>
+        {
+        // smallerThan1200 ? 
+        //   <FiltersDropDownMenu
+        //       showMenu={showMenu}
+        //       setShowMenu={setShowMenu}
+        //       handleCheckboxChange={handleCheckboxChange}
+        //       params={params} 
+        //       setFilters={setFilters}
+        //       filters={filters}/>
+        //   :
+        !smallerThan1200 ? 
         <ProductsFilters
           setFilters={setFilters}
           filters={filters}
           handleCheckboxChange={handleCheckboxChange}
           params={params}
-        />
+          />
+          : null
+        }
         <Box>
-          <Box w={"88vw"} px={"1vw"} h={"12vh"} display={"flex"} justifyContent={"space-between"} alignItems={"flex-end"}>
+          <Box 
+            w={smallerThan1200 ? "96vw" : "86vw"} 
+            px={
+              smallerThan1200 ? 
+                smallerThan740 ? "6vw" 
+                : "3vw" 
+              : "1vw"} 
+            mb={'20px'} 
+            h={smallerThan1200 ? "8vh" : "12vh"} 
+            display={"flex"} justifyContent={"space-between"} alignItems={"flex-end"}>
             <Path params={params}/>
             <Select
               icon={<PiCaretDownThin/>}
               w={"7vw"}
+              minW={'120px'}
               fontSize={"0.8rem"}
-              h={"15px"}
+              h={"16px"}
               placeholder="ORDER BY"
               fontWeight={"light"}
               focusBorderColor="none"
-              border={"none"}
+              border={'none'}
               name="s"
               onChange={(e) => handleChangeOrderBy(e)}
             >
@@ -167,41 +194,6 @@ export default function Products({ params }) {
           </Box>
           <ProductsContainer params={params}/>
         </Box>
-       
-
-       
-        {/* {!isSmallScreen && (
-          <>
-            <Box display={"flex"} flexDir={"row"}border={"2px solid orange"}>
-
-              <ProductsContainer params={params} />
-            </Box>
-          </>
-          )} */}
-        {/* //)
-        //  : (
-        //   <>
-        //     <FilterButtons
-        //       setFilters={setFilters}
-        //       filters={filters}
-        //       setShowMenu={setShowMenu}
-        //       showMenu={showMenu}
-        //     />
-        //     {showMenu !== "" && (
-        //       <FiltersDropDownMenu
-        //         setShowMenu={setShowMenu}
-        //         showMenu={showMenu}
-        //         finish={dimensions?.Finish}
-        //         size={dimensions?.Size}
-        //         materials={materials}
-        //         thickness={dimensions?.Thickness}
-        //         type={dimensions?.Type}
-        //       />
-        //     )}
-        //       <ProductsContainer params={params} />
-        //   </>
-        // )}
-        // */}
       </Box> 
     </>
   );

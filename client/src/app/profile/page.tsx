@@ -41,13 +41,15 @@ export interface IShowMenu {
 }
 export interface userButton {
   site?: string;
-  onClose: () => void;
+  onClose?: () => void;
 }
 export default function Profile() {
   const appContext = useContext(AppContext);
 
   const dispatch = useAppDispatch();
   const [isSmallThan750] = useMediaQuery("(max-width: 750px)");
+  const [isSmallThan1200] = useMediaQuery("(max-width: 1200px)");
+
   const [formData, setFormData] = useState({
     customerId: "",
     fullName: "",
@@ -86,7 +88,7 @@ export default function Profile() {
   return (
     <>
       <Box
-        px={"5vw"}
+        px={isSmallThan750 ? "0vw" : "5vw"}
         h={"72.5vh"}
         display={"flex"}
         alignItems={"center"}
@@ -98,7 +100,7 @@ export default function Profile() {
           user={user}
           setFormData={setFormData}
         />
-        <Box display={"flex"}>
+        <Box display={"flex"} border={'1px solid red'}>
           {appContext?.showMenu === "profile" && (
             <>
               <ProfileInfo

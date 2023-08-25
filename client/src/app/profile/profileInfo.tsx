@@ -81,7 +81,8 @@ const ProfileInfo: React.FC<IShowMenu> = ({
                   >
                     <Input
                       h={"30px"}
-                      w={"230px"}
+                      w={"14vw"}
+                      minW={'180px'}
                       position={"relative"}
                       id={"fullName"}
                       name={"fullName"}
@@ -123,7 +124,8 @@ const ProfileInfo: React.FC<IShowMenu> = ({
                   >
                     <Input
                       h={"30px"}
-                      w={"230px"}
+                      w={"14vw"}
+                      minW={'180px'}
                       position={"relative"}
                       id={"phone"}
                       name={"phone"}
@@ -173,7 +175,8 @@ const ProfileInfo: React.FC<IShowMenu> = ({
                   >
                     <Input
                       h={"30px"}
-                      w={"230px"}
+                      w={"14vw"}
+                      minW={'180px'}
                       position={"relative"}
                       id={"company"}
                       name={"company"}
@@ -215,7 +218,8 @@ const ProfileInfo: React.FC<IShowMenu> = ({
                   >
                     <Input
                       h={"30px"}
-                      w={"230px"}
+                      w={"14vw"}
+                      minW={'180px'}
                       position={"relative"}
                       id={"companyPosition"}
                       name={"companyPosition"}
@@ -271,7 +275,8 @@ const ProfileInfo: React.FC<IShowMenu> = ({
                   >
                     <Input
                       h={"30px"}
-                      w={"230px"}
+                      w={"14vw"}
+                      minW={'180px'}
                       position={"relative"}
                       id={"email"}
                       name={"email"}
@@ -314,7 +319,8 @@ const ProfileInfo: React.FC<IShowMenu> = ({
                   >
                     <Input
                       h={"30px"}
-                      w={"230px"}
+                      w={"14vw"}
+                      minW={'180px'}
                       position={"relative"}
                       id={"password"}
                       name={"password"}

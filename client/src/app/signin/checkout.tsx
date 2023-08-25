@@ -2,14 +2,16 @@
 import { Box, Button, Center } from "@chakra-ui/react";
 import { Props } from "./Login";
 
-const Checkout: React.FC<Props> = ({ smallerThan600 }) => {
+const Checkout: React.FC<Props> = ({ smallerThan600, smallerThan1200, smallerThan1450 }) => {
   return (
     <>
       <Box
         display={"flex"}
-        h={"68vh"}
-        maxH={"600px"}
-        w={smallerThan600 ? "80%" : "22vw"}
+        h={smallerThan600 ? "66vh" : smallerThan1200 ? "50vh" : "68vh"}
+        maxH={smallerThan1200 ? "700px" : "600px"}
+        // maxH={"600px"}
+        // w={smallerThan600 ? "80%" : "22vw"}
+        w={smallerThan600 ? "100vw" : smallerThan1200 ? "38vw" : smallerThan1450 ? "26vw" : "22vw"}
         minW={"300px"}
         flexDirection={"column"}
       >

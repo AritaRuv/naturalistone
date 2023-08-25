@@ -16,9 +16,7 @@ const UserMenu: React.FC<IShowMenu> = ({
         justifyContent={"flex-start"}
         hidden={isSmallThan750 ? true : false}
       >
-        <UserButtonsContainer
-          isSmallThan750={isSmallThan750}
-        />
+        <UserButtonsContainer/>
       </Box>
     </>
   );

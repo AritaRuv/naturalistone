@@ -4,6 +4,7 @@ import { PiCaretRightLight } from "react-icons/pi";
 export const Path = ({params}) => {
   return(
     <Breadcrumb
+      mb={'3px'}
       separator={<PiCaretRightLight color={"logo.grey"} />}
     >
       <BreadcrumbItem>

@@ -26,6 +26,7 @@ const ProductsFilters: React.FC<FiltersState> = ({ handleCheckboxChange, params}
       <Flex
         flexDir={"column"} 
         w={"12vw"} 
+        minW={'12vw'}
         p={"15px"} 
         h={"90vh"} 
         overflow={"auto"}

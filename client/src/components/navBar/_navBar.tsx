@@ -42,7 +42,7 @@ const NavBar: React.FC = () => {
     <>
       {
         !smallerThan1200 ? (
-          <Box display={"flex"} flexDir={"column"} position={"relative"}>
+          <Box display={"flex"} flexDir={"column"} position={"fixed"} top={0} left={0} right={0} zIndex={100}>
             <Box 
               bg={active ? "white" : hover ? "white" : "none"}
               onMouseEnter={handleMouseEnter}
@@ -80,40 +80,50 @@ const NavBar: React.FC = () => {
           :
           !smallerThan740 ? 
             (
-              <Box 
-                id={"navbar"}
-                display={"flex"} 
-                flexDir={"row"}
-                w={"100%"} 
-                h={"6vh"} 
-                minH={"60px"} 
-                maxH={"80px"}
-                zIndex={1}
-                alignItems={"center"}  
-                justifyContent={"space-between"} 
-                px={"4%"}
-              >
-                <MenuDrawer handleHome={handleHome} smallerThan740={smallerThan740}/>
-                <Logo/>
-                <IconButtonsNavBar/>
+              <Box display={"flex"} flexDir={"column"} position={"fixed"} top={0} left={0} right={0} zIndex={100}>
+                <Box 
+                  bg={active ? "white" : hover ? "white" : "none"}
+                  onMouseEnter={handleMouseEnter}
+                  onMouseLeave={handleMouseLeave}
+                  id={"navbar"}
+                  display={"flex"} 
+                  flexDir={"row"}
+                  w={"100%"} 
+                  h={"6vh"} 
+                  minH={"60px"} 
+                  maxH={"80px"}
+                  zIndex={1}
+                  alignItems={"center"}  
+                  justifyContent={"space-between"} 
+                  px={"4%"}
+                >
+                  <MenuDrawer handleHome={handleHome} smallerThan740={smallerThan740}/>
+                  <Logo/>
+                  <IconButtonsNavBar/>
+                </Box>
               </Box>
             ):(
-              <Box
-                id={"navbar"}
-                display={"flex"} 
-                flexDir={"row"}
-                w={"100%"} 
-                h={"6vh"} 
-                zIndex={1}
-                minH={"60px"} 
-                maxH={"80px"}
-                alignItems={"center"}  
-                justifyContent={"space-between"} 
-                px={"4%"}
-              >
-                <MenuDrawer handleHome={handleHome} smallerThan740={smallerThan740}/>
-                <Logo/>
-                <CartButton/>
+              <Box display={"flex"} flexDir={"column"} position={"fixed"} top={0} left={0} right={0} zIndex={100}>
+                <Box 
+                  bg={active ? "white" : hover ? "white" : "none"}
+                  onMouseEnter={handleMouseEnter}
+                  onMouseLeave={handleMouseLeave}
+                  id={"navbar"}
+                  display={"flex"} 
+                  flexDir={"row"}
+                  w={"100%"} 
+                  h={"6vh"} 
+                  zIndex={1}
+                  minH={"60px"} 
+                  maxH={"80px"}
+                  alignItems={"center"}  
+                  justifyContent={"space-between"} 
+                  px={"4%"}
+                >
+                  <MenuDrawer handleHome={handleHome} smallerThan740={smallerThan740}/>
+                  <Logo/>
+                  <CartButton/>
+                </Box>   
               </Box>   
             )
       }

@@ -2,22 +2,25 @@ import React from "react";
 import { SimpleGrid, Button, Box, Tooltip, Text,Checkbox, IconButton, useMediaQuery } from "@chakra-ui/react";
 import "../../../components/navBar/_navBar.css";
 import { IoIosArrowUp } from "react-icons/io";
+import { useAppDispatch, useAppSelector } from "@/store/hooks";
+import { ProductState } from "@/store/products/typesProducts";
+import { useEffect } from 'react';
+import { fetchDimension } from "@/store/products/actionsProducts";
+import { FilterButtonsProps, FiltersState } from "./types";
 
 
-
-
-interface FilterButtonsProps {
-  setShowMenu: (menu: string) => void;
-  showMenu: string
-  materials: string[]
-  size: string[] | undefined
-  thickness: string[] | undefined
-  type: string[] | undefined
-  finish: string[] | undefined
-}
-
-const FiltersDropDownMenu: React.FC<FilterButtonsProps> = ({ showMenu, materials, size, thickness, type, finish, setShowMenu }) => {
+const FiltersDropDownMenu: React.FC<FiltersState & FilterButtonsProps> = ({handleCheckboxChange, params, showMenu, setShowMenu, filters, setFilters}) => {
   
+  
+  const dispatch = useAppDispatch();
+  const { dimensions } = useAppSelector(
+    (state: { productReducer: ProductState }) => state.productReducer
+  );
+
+  useEffect(()=>{
+    if(!dimensions) dispatch(fetchDimension(params.Material)); 
+  },[dimensions]);
+
   const [isExtraSmallScreen] = useMediaQuery("(max-width: 480px)");
   const [isSmallScreen] = useMediaQuery("(max-width: 1000px)");
   const [isMediumScreen] = useMediaQuery("(max-width: 1400px)");
@@ -34,7 +37,7 @@ const FiltersDropDownMenu: React.FC<FilterButtonsProps> = ({ showMenu, materials
 
   return (
     <>
-      <Box position={"relative"} zIndex={100} bg={"white"} >
+      <Box position={"relative"} zIndex={100} bg={"white"} border={'2px solid red'} h={'200px'} >
         <SimpleGrid w={"100vw"} minH={"15vh"} columns={gridColumns} spacingY={4} p={"2%"} >
           {/* {
           showMenu === 'Material' && (
@@ -63,7 +66,7 @@ const FiltersDropDownMenu: React.FC<FilterButtonsProps> = ({ showMenu, materials
             </>
           )
         } */}
-          {
+          {/* {
             showMenu === "Finish" && (
               <>
                 {
@@ -166,7 +169,7 @@ const FiltersDropDownMenu: React.FC<FilterButtonsProps> = ({ showMenu, materials
                 }
               </>
             )
-          }
+          } */}
         </SimpleGrid>
         <IconButton onClick={handleClose} w={"100vw"} display={"flex"} placeItems={"center"} variant={"unstyled"} icon={<IoIosArrowUp/>} aria-label="arrow"/>
       </Box>

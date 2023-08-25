@@ -66,7 +66,8 @@ const AddressInfo: React.FC<IShowMenu> = ({
                   >
                     <Input
                       h={"30px"}
-                      w={"230px"}
+                      w={"14vw"}
+                      minW={'180px'}
                       position={"relative"}
                       id={"billingAddress"}
                       name={"billingAddress"}
@@ -108,7 +109,8 @@ const AddressInfo: React.FC<IShowMenu> = ({
                   >
                     <Input
                       h={"30px"}
-                      w={"230px"}
+                      w={"14vw"}
+                      minW={'180px'}
                       position={"relative"}
                       id={"billingUnitNumber"}
                       name={"billingUnitNumber"}
@@ -158,7 +160,8 @@ const AddressInfo: React.FC<IShowMenu> = ({
                   >
                     <Input
                       h={"30px"}
-                      w={"230px"}
+                      w={"14vw"}
+                      minW={'180px'}
                       position={"relative"}
                       id={"billingCity"}
                       name={"billingCity"}
@@ -200,7 +203,8 @@ const AddressInfo: React.FC<IShowMenu> = ({
                   >
                     <Input
                       h={"30px"}
-                      w={"230px"}
+                      w={"14vw"}
+                      minW={'180px'}
                       position={"relative"}
                       id={"billingZipCode"}
                       name={"billingZipCode"}
@@ -250,7 +254,8 @@ const AddressInfo: React.FC<IShowMenu> = ({
                   >
                     <Input
                       h={"30px"}
-                      w={"230px"}
+                      w={"14vw"}
+                      minW={'180px'}
                       position={"relative"}
                       id={"billingState"}
                       name={"billingState"}
@@ -292,7 +297,8 @@ const AddressInfo: React.FC<IShowMenu> = ({
                   >
                     <Input
                       h={"30px"}
-                      w={"230px"}
+                      w={"14vw"}
+                      minW={'180px'}
                       position={"relative"}
                       id={"addressObservations"}
                       name={"addressObservations"}
@@ -349,7 +355,8 @@ const AddressInfo: React.FC<IShowMenu> = ({
                 >
                   <Input
                     h={"30px"}
-                    w={"230px"}
+                    w={"14vw"}
+                      minW={'180px'}
                     position={"relative"}
                     id={"address"}
                     name={"address"}
@@ -391,7 +398,8 @@ const AddressInfo: React.FC<IShowMenu> = ({
                 >
                   <Input
                     h={"30px"}
-                    w={"230px"}
+                    w={"14vw"}
+                      minW={'180px'}
                     position={"relative"}
                     id={"unitNumber"}
                     name={"unitNumber"}
@@ -441,7 +449,8 @@ const AddressInfo: React.FC<IShowMenu> = ({
                 >
                   <Input
                     h={"30px"}
-                    w={"230px"}
+                    w={"14vw"}
+                      minW={'180px'}
                     position={"relative"}
                     id={"city"}
                     name={"city"}
@@ -484,7 +493,8 @@ const AddressInfo: React.FC<IShowMenu> = ({
                 >
                   <Input
                     h={"30px"}
-                    w={"230px"}
+                    w={"14vw"}
+                      minW={'180px'}
                     position={"relative"}
                     id={"zipCode"}
                     name={"zipCode"}
@@ -534,7 +544,8 @@ const AddressInfo: React.FC<IShowMenu> = ({
                 >
                   <Input
                     h={"30px"}
-                    w={"230px"}
+                    w={"14vw"}
+                      minW={'180px'}
                     position={"relative"}
                     id={"state"}
                     name={"state"}
@@ -576,7 +587,8 @@ const AddressInfo: React.FC<IShowMenu> = ({
                 >
                   <Input
                     h={"30px"}
-                    w={"230px"}
+                    w={"14vw"}
+                      minW={'180px'}
                     position={"relative"}
                     id={"addressObservations"}
                     name={"addressObservations"}

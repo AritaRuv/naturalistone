@@ -16,6 +16,7 @@ const ProductsContainer = ({params}) => {
   const [is1200Screen] = useMediaQuery("(max-width: 1200px)");
   const [isMediumScreen] = useMediaQuery("(max-width: 1400px)");
   const [isLargeScreen] = useMediaQuery("(max-width: 1650px)");
+
   const dispatch = useAppDispatch();
 
   const { products_filters } = useAppSelector(
@@ -61,10 +62,12 @@ const ProductsContainer = ({params}) => {
           h={"80vh"}
           overflow={"auto"}
           py={"2%"}
-          w={"88vw"}>
+          px={'3%'}
+          w={ is1200Screen ? "100vw" : "86vw"}>
           <SimpleGrid
             justifyItems={"center"}
-            spacingY={"10vh"}
+            spacingY={"6vh"}
+            spacingX={"60px"}
             columns={gridColumns} // Establece el número de columnas dinámicamente
 
           >

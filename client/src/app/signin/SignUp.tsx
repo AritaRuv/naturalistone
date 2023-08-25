@@ -25,7 +25,7 @@ import { SignUp } from "@/store/login/typeLogin";
 import { postSignUp } from "@/api/apiLogin";
 import { useRouter } from "next/navigation";
 
-const SignUp: React.FC<Props> = ({ setActiveLogin, smallerThan600 }) => {
+const SignUp: React.FC<Props> = ({ setActiveLogin, smallerThan600, smallerThan1200 }) => {
   const [formData, setFormData] = useState<SignUp>({
     fullName: "",
     email: "",

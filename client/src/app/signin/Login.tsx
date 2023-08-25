@@ -27,9 +27,11 @@ import { useRouter } from "next/navigation";
 export interface Props {
   setActiveLogin: React.Dispatch<React.SetStateAction<boolean>>;
   smallerThan600: boolean;
+  smallerThan1200: boolean;
+  smallerThan1450: boolean;
 }
 
-const Login: React.FC<Props> = ({ setActiveLogin, smallerThan600 }) => {
+const Login: React.FC<Props> = ({ setActiveLogin, smallerThan600, smallerThan1200 }) => {
   const [formData, setFormData] = useState<SignIn>({
     email: "",
     password: "",
@@ -42,6 +44,7 @@ const Login: React.FC<Props> = ({ setActiveLogin, smallerThan600 }) => {
   const toast = useToast();
   const router = useRouter();
   const [isToastShowing, setIsToastShowing] = useState(false);
+
   const [smallerThan600h] = useMediaQuery("(max-height: 600px)");
 
   const handleChange = (event) => {
@@ -115,9 +118,9 @@ const Login: React.FC<Props> = ({ setActiveLogin, smallerThan600 }) => {
   return (
     <Box
       display={"flex"}
-      h={smallerThan600 ? "60vh" : "68vh"}
-      maxH={"600px"}
-      w={smallerThan600 ? "100vw" : "30vw"}
+      h={smallerThan600 ? "60vh" : smallerThan1200 ? "50vh" : "68vh"}
+      maxH={smallerThan1200 ? "700px" : "600px"}
+      w={smallerThan600 ? "100vw" : smallerThan1200 ? "48vw" : "30vw"}
       minW={"450px"}
       bg={"#f2f2f2"}
       flexDirection={"column"}

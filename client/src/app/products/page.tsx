@@ -8,7 +8,8 @@ import { useEffect } from "react";
 import {
   SimpleGrid,
   Box,
-  Center
+  Center,
+  useMediaQuery
 } from "@chakra-ui/react";
 import MaterialCard from "./materialCard";
 
@@ -17,19 +18,29 @@ export default function Collections() {
   const { materials } = useAppSelector(
     (state: { productReducer: ProductState }) => state.productReducer
   );
+
+  const [smallerThan1800] = useMediaQuery("(max-width: 1800px)");
+  const [smallerThan1200] = useMediaQuery("(max-width: 1200px)");
+  const [smallerThan740] = useMediaQuery("(max-width: 740px)");
+
   useEffect(() => {
     dispatch(fetchMaterials());
   }, []);
 
   return (
     <>
-      <Center>
+      <Center >
         <SimpleGrid
-          w={"100vw"}
-          m={"8vw"}
-          mt={"16vh"}
-          columns={4}
-          spacingY={"30px"}
+          mt={smallerThan1200 ? "8vh" : "12vh"}
+          columns={  
+                    smallerThan1800 ? 
+                      smallerThan1200 ? 
+                       smallerThan740 ? 1 : 2 
+                      : 3 
+                    : 4 
+                  }
+          spacingY={"40px"}
+          spacingX={"60px"}
         >
           {materials &&
             materials.map((material, i) => {
