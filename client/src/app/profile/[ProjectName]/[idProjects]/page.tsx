@@ -8,14 +8,13 @@ import { useAppDispatch } from "@/store/hooks";
 import { fetchFavoritesByProject } from "@/store/favorites/actionsFavorites";
 import ProjectMenu from "./projectMenu";
 import { useState } from "react";
+import OrderHistory from "./orderHistory";
 
-
-export default function Project({params}) {
-
-  const [ focus, setFocus ] = useState("favorites");
+export default function Project({ params }) {
+  const [focus, setFocus] = useState("favorites");
 
   const dispatch = useAppDispatch();
-  
+
   useEffect(() => {
     dispatch(fetchProjectByID(params.idProjects));
     dispatch(fetchFavoritesByProject(params.idProjects));
@@ -23,21 +22,18 @@ export default function Project({params}) {
 
   return (
     <>
-      <Box display={"flex"} flexDir={"row"} mb={"5vh"} alignItems={"flex-end"} justifyContent={"space-between"} >
-        <ProjectMenu params={params} focus={focus} setFocus={setFocus}/>
-        {
-          (focus === "favorites") && (
-            <ProductsProjectContainer/>
-          )
-        }
-        {
-          (focus === "information") && (
-            <ProjecteInfo params={params}/>
-          )
-        }
-
+      <Box
+        display={"flex"}
+        flexDir={"row"}
+        mb={"5vh"}
+        alignItems={"flex-end"}
+        justifyContent={"space-between"}
+      >
+        <ProjectMenu params={params} focus={focus} setFocus={setFocus} />
+        {focus === "favorites" && <ProductsProjectContainer />}
+        {focus === "information" && <ProjecteInfo params={params} />}
+        {focus === "order history" && <OrderHistory params={params} />}
       </Box>
-      
     </>
   );
 }
