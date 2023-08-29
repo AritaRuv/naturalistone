@@ -1,8 +1,18 @@
-import { Box, Checkbox, CheckboxGroup, VStack, Text, Button, Flex } from "@chakra-ui/react";
+import {
+  Box,
+  Checkbox,
+  CheckboxGroup,
+  VStack,
+  Text,
+  Button,
+  Flex,
+} from "@chakra-ui/react";
 import { useState } from "react";
 import { useAppDispatch, useAppSelector } from "@/store/hooks";
 import { postCart } from "@/store/cart/actionsCart";
 import { ProductState } from "@/store/products/typesProducts";
+import CartButton from "../navBar/cartButton";
+import { LoginState } from "@/store/login/typeLogin";
 
 interface ProductListProps {
   data: {
@@ -12,12 +22,14 @@ interface ProductListProps {
       finish: string[];
       prodNameID: number;
     };
-  },
-  ProdNameID: number
+  };
+  ProdNameID: number;
 }
 
-const SampleProductList: React.FC<ProductListProps> = ({ data, ProdNameID }) => {
-
+const SampleProductList: React.FC<ProductListProps> = ({
+  data,
+  ProdNameID,
+}) => {
   const dispatch = useAppDispatch();
   const { thickness, finish } = data[ProdNameID];
 
@@ -26,18 +38,27 @@ const SampleProductList: React.FC<ProductListProps> = ({ data, ProdNameID }) => 
   const [thicknesses, setThicknesses] = useState<string[]>([]);
   const [finishes, setFinishes] = useState<string[]>([]);
   const [cantFiltros, setCantFiltros] = useState<number>(0);
+  const [isCartModalOpen, setIsCartModalOpen] = useState(false);
+  const { user } = useAppSelector(
+    (state: { loginReducer: LoginState }) => state.loginReducer
+  );
 
   const { raw_products } = useAppSelector(
     (state: { productReducer: ProductState }) => state.productReducer
   );
 
-  const handleCheckboxChange = (value: string, setState: React.Dispatch<React.SetStateAction<string>>, name: string) => {
-
+  const handleCheckboxChange = (
+    value: string,
+    setState: React.Dispatch<React.SetStateAction<string>>,
+    name: string
+  ) => {
     //filtro raw_products por ProdNameID
-    const result = raw_products.filter((prod) => prod.ProdNameID === ProdNameID);
-    setState(prevState => prevState === value ? "" : value);
+    const result = raw_products.filter(
+      (prod) => prod.ProdNameID === ProdNameID
+    );
+    setState((prevState) => (prevState === value ? "" : value));
 
-    // //creo un array igual que result 
+    // //creo un array igual que result
     let resultadoFiltrado = result;
 
     if (name === "finish") {
@@ -46,8 +67,7 @@ const SampleProductList: React.FC<ProductListProps> = ({ data, ProdNameID }) => 
         setCantFiltros(cantFiltros + 1);
         setSelectedFinish(value);
         resultadoFiltrado = result.filter((prod) => prod.Finish === value);
-      }
-      else {
+      } else {
         setSelectedFinish("");
         setCantFiltros(cantFiltros - 1);
       }
@@ -55,7 +75,9 @@ const SampleProductList: React.FC<ProductListProps> = ({ data, ProdNameID }) => 
       //si previamente se selecciono un thickness, el array filtrado o no por finish, se filtra por thickness
 
       if (selectedThickness) {
-        resultadoFiltrado = resultadoFiltrado.filter((prod) => prod.Thickness === selectedThickness);
+        resultadoFiltrado = resultadoFiltrado.filter(
+          (prod) => prod.Thickness === selectedThickness
+        );
       }
 
       //recorro los  productos filtrados y si los thickness no son null
@@ -65,70 +87,53 @@ const SampleProductList: React.FC<ProductListProps> = ({ data, ProdNameID }) => 
       const thicknessMatches: string[] = [];
       for (let index = 0; index < resultadoFiltrado.length; index++) {
         const element: string = resultadoFiltrado[index].Thickness;
-        if (element != null)
-          thicknessMatches.push(element);
+        if (element != null) thicknessMatches.push(element);
         setThicknesses(thicknessMatches);
       }
-
     }
-
-    if (name === "thickness") {
-
-      if (selectedThickness.length === 0) {
-        setSelectedThickness(value);
-        setCantFiltros(cantFiltros + 1);
-        resultadoFiltrado = result.filter((prod) => prod.Thickness === value);
-      }
-      else {
-        setCantFiltros(cantFiltros - 1);
-        setSelectedThickness("");
-      }
-
-      if (selectedFinish) {
-        resultadoFiltrado = resultadoFiltrado.filter((prod) => prod.Finish === selectedFinish);
-      }
-
-      const aux: string[] = [];
-      for (let index = 0; index < resultadoFiltrado.length; index++) {
-        const element: string = resultadoFiltrado[index].Finish;
-        if (element != null)
-          aux.push(element);
-        setFinishes(aux);
-      }
-
-    }
-
-
   };
 
   //maneja los checkboxes para controlar que solo 1 este clickeado a la vez
 
   const handleAddToCart = async () => {
-
     const bodyCust = {
       size: "",
-      thickness: selectedThickness[0],
-      finish: selectedFinish[0],
+      thickness: "",
+      finish: selectedFinish,
       ProdNameID: ProdNameID,
-      customerID: 1938,
-      quantity: 0
+      customerID: user?.CustomerID,
+      quantity: 0,
     };
 
     dispatch(postCart(bodyCust));
-    //ahoramismo estoy intentando que la logica general funcione. Voy a necesitar agregar logica para controlar los chcekcbox
-    // ya que en este momento admite convinaciones inexistentes. Al clickear 1 checkbox filtra los demas x resultados existentes 
-    //o algo por el estilo. 
+
+    setTimeout(() => {
+      setIsCartModalOpen(true);
+    }, 1000);
   };
 
   return (
     <>
-      <Flex align="start" flexDir={"row"} justifyContent={"space-around"} w={"100%"} mb={"4%"}>
-
-        <CheckboxGroup value={[selectedFinish]} colorScheme='whiteAlpha'>
+      <Flex
+        align="start"
+        flexDir={"row"}
+        justifyContent={"space-around"}
+        w={"100%"}
+        mb={"4%"}
+      >
+        <CheckboxGroup value={[selectedFinish]} colorScheme="whiteAlpha">
           <VStack align="start" w={"80px"}>
-            <Text fontSize='0.7rem' fontWeight={"semibold"}>FINISH</Text>
-            {finish.map(finish => (
-              <Box key={finish} fontSize={"0.7rem"} display={"flex"} justifyContent={"space-between"} w={"100%"}>
+            <Text fontSize="0.7rem" fontWeight={"semibold"}>
+              FINISH
+            </Text>
+            {finish.map((finish) => (
+              <Box
+                key={finish}
+                fontSize={"0.7rem"}
+                display={"flex"}
+                justifyContent={"space-between"}
+                w={"100%"}
+              >
                 {finish}
                 <Checkbox
                   size={"sm"}
@@ -136,28 +141,14 @@ const SampleProductList: React.FC<ProductListProps> = ({ data, ProdNameID }) => 
                   iconColor="orange"
                   borderColor={"blackAlpha.400"}
                   isChecked={selectedFinish.includes(finish)}
-                  isDisabled={finishes.length > 0 && !finishes.includes(finish) && cantFiltros > 0}
-                  onChange={() => handleCheckboxChange(finish, setSelectedFinish, "finish")}
-                />
-              </Box>
-            ))}
-          </VStack>
-        </CheckboxGroup>
-
-        <CheckboxGroup colorScheme='whiteAlpha' value={[selectedThickness]}>
-          <VStack align="start" w={"80px"}>
-            <Text fontSize='0.7rem' fontWeight={"semibold"}>THICKNESS</Text>
-            {thickness.map(thickness => (
-              <Box key={thickness} fontSize={"0.7rem"} display={"flex"} justifyContent={"space-between"} w={"100%"}>
-                {thickness}
-                <Checkbox
-                  size={"sm"}
-                  value={thickness}
-                  iconColor="orange"
-                  borderColor={"blackAlpha.400"}
-                  isChecked={selectedThickness.includes(thickness)}
-                  onChange={() => handleCheckboxChange(thickness, setSelectedThickness, "thickness")}
-                  isDisabled={thicknesses.length > 0 && !thicknesses.includes(thickness) && cantFiltros > 0}
+                  isDisabled={
+                    finishes.length > 0 &&
+                    !finishes.includes(finish) &&
+                    cantFiltros > 0
+                  }
+                  onChange={() =>
+                    handleCheckboxChange(finish, setSelectedFinish, "finish")
+                  }
                 />
               </Box>
             ))}
@@ -171,9 +162,16 @@ const SampleProductList: React.FC<ProductListProps> = ({ data, ProdNameID }) => 
         _hover={{
           fontWeight: "bold",
         }}
-        onClick={handleAddToCart}>
+        onClick={handleAddToCart}
+      >
         ADD SAMPLE
       </Button>
+      <CartButton
+        icon={false}
+        isCartModalOpen={isCartModalOpen}
+        setIsCartModalOpen={setIsCartModalOpen}
+        sample={true}
+      />
     </>
   );
 };

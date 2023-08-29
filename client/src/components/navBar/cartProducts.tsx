@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import {
   Box,
   Button,
@@ -14,7 +14,11 @@ import { deleteCart, updateCart } from "@/store/cart/actionsCart";
 import { useAppDispatch, useAppSelector } from "@/store/hooks";
 import { LoginState } from "@/store/login/typeLogin";
 
-const ProductCardCart: React.FC<{ product: ProductCart }> = ({ product }) => {
+const ProductCardCart: React.FC<{
+  product: ProductCart;
+  inputRef: any;
+  sample: boolean;
+}> = ({ product, inputRef, sample }) => {
   const {
     CustomerID,
     Finish,
@@ -79,6 +83,14 @@ const ProductCardCart: React.FC<{ product: ProductCart }> = ({ product }) => {
     dispatch(deleteCart(idCartEntry, user?.CustomerID));
   };
 
+  useEffect(() => {
+    if (!sample) {
+      if (inputRef && inputRef.current) {
+        inputRef?.current?.focus();
+      }
+    }
+  }, []);
+
   return (
     <>
       <Box
@@ -92,14 +104,18 @@ const ProductCardCart: React.FC<{ product: ProductCart }> = ({ product }) => {
         py={"4px"}
         backgroundColor={quantity === 0 ? "sampleItemCart.gray" : "white"}
       >
-        {
-          isExtraSmallScreen ? (
-            <Box h={"110px"} w={"110px"} position={"relative"} overflow={"hidden"}>
-              <NextImage objectFit="cover" fill src={URL} alt="img" />
-            </Box>
-          ) : (
-            <Box position="relative" display={"flex"} alignContent={"center"}>
-              {/* <IconButton
+        {isExtraSmallScreen ? (
+          <Box
+            h={"110px"}
+            w={"110px"}
+            position={"relative"}
+            overflow={"hidden"}
+          >
+            <NextImage objectFit="cover" fill src={URL} alt="img" />
+          </Box>
+        ) : (
+          <Box position="relative" display={"flex"} alignContent={"center"}>
+            {/* <IconButton
                 position="absolute"
                 aria-label="Delete X"
                 top="0px"
@@ -115,44 +131,88 @@ const ProductCardCart: React.FC<{ product: ProductCart }> = ({ product }) => {
                 _focus={{ boxShadow: "none" }}
                 onClick={handleDelete}
               /> */}
-              <Box h="140px" w="140px"
-                position={"relative"}
-                overflow={"hidden"}
-                zIndex="0">
-                <NextImage
-                  objectFit="cover"
-                  src={URL}
-                  alt="Imagen"
-                  fill
-                />
-              </Box>
+            <Box
+              h="140px"
+              w="140px"
+              position={"relative"}
+              overflow={"hidden"}
+              zIndex="0"
+            >
+              <NextImage objectFit="cover" src={URL} alt="Imagen" fill />
             </Box>
-          )}
+          </Box>
+        )}
 
-        <Box h={isExtraSmallScreen ? "120px" : "140px"} w={"220px"} display={"flex"} flexDir={"column"} justifyContent={"space-between"}>
+        <Box
+          h={isExtraSmallScreen ? "120px" : "140px"}
+          w={"220px"}
+          display={"flex"}
+          flexDir={"column"}
+          justifyContent={"space-between"}
+        >
           <Box>
-            <Text textTransform={"uppercase"} fontSize={fontSubTitle}>{Material}</Text>
-            <Text textTransform={"uppercase"} fontWeight={"bold"} fontSize={fontTitle}>{Naturali_ProdName}</Text>
-            {
-              quantity > 0 ? (<Text textTransform={"uppercase"} fontSize={"0.6rem"} color={"gray.600"}>{Finish} - {Size} - {Thickness}-{Type}</Text>
-              ) : (<Text textTransform={"uppercase"} fontSize={"0.6rem"} color={"gray.600"}>{Finish} - {Thickness}-{Type}</Text>
-              )
-            }
+            <Text textTransform={"uppercase"} fontSize={fontSubTitle}>
+              {Material}
+            </Text>
+            <Text
+              textTransform={"uppercase"}
+              fontWeight={"bold"}
+              fontSize={fontTitle}
+            >
+              {Naturali_ProdName}
+            </Text>
+            {quantity > 0 ? (
+              <Text
+                textTransform={"uppercase"}
+                fontSize={"0.6rem"}
+                color={"gray.600"}
+              >
+                {Finish} - {Size} - {Thickness}-{Type}
+              </Text>
+            ) : (
+              <Text
+                textTransform={"uppercase"}
+                fontSize={"0.6rem"}
+                color={"gray.600"}
+              >
+                {Finish} - {Thickness}-{Type}
+              </Text>
+            )}
           </Box>
           <Box>
             {quantity > 0 && (
               <>
-                <Box display={"flex"} h={"28px"} justifyContent={"space-between"} alignItems={"center"}>
-                  <Text textTransform={"uppercase"} fontSize={fontSubTitle}>Price sqf</Text>
+                <Box
+                  display={"flex"}
+                  h={"28px"}
+                  justifyContent={"space-between"}
+                  alignItems={"center"}
+                >
+                  <Text textTransform={"uppercase"} fontSize={fontSubTitle}>
+                    Price sqf
+                  </Text>
                   <Center w={"80px"}>
                     <Text textTransform={"uppercase"} fontSize={"0.8rem"}>
                       ${price}
                     </Text>
                   </Center>
                 </Box>
-                <Box display={"flex"} h={"28px"} justifyContent={"space-between"} alignItems={"center"}>
-                  <Text textTransform={"uppercase"} fontSize={fontSubTitle}>Quantity</Text>
-                  <Center w={"80px"} display={"flex"} flexDir={"row"} alignItems={"center"} justifyItems={"flex-end"}>
+                <Box
+                  display={"flex"}
+                  h={"28px"}
+                  justifyContent={"space-between"}
+                  alignItems={"center"}
+                >
+                  <Text textTransform={"uppercase"} fontSize={fontSubTitle}>
+                    Quantity
+                  </Text>
+                  <Center
+                    w={"80px"}
+                    display={"flex"}
+                    flexDir={"row"}
+                    alignItems={"center"}
+                    justifyItems={"flex-end"}
+                  >
                     <Button
                       variant={"unstyled"}
                       size={"xs"}
@@ -162,6 +222,7 @@ const ProductCardCart: React.FC<{ product: ProductCart }> = ({ product }) => {
                       -
                     </Button>
                     <Input
+                      ref={inputRef}
                       fontSize={"0.8rem"}
                       border={"none"}
                       borderBottom={"1px solid"}

@@ -144,7 +144,13 @@ export async function newCartEntry(req: Request, res: Response) {
           }
         );
       } else {
-        const queryGetProdID = `SELECT * FROM NaturaliStone.Products WHERE Products.ProdNameID = ${ProdNameID}`;
+        const queryGetProdID = `SELECT Dimension.*, Products.* FROM Products
+        LEFT JOIN Dimension ON Products.DimensionID = Dimension.DimensionID
+        WHERE Dimension.Finish = "${finish}"
+        AND Dimension.Type = "Sample"
+        AND Products.ProdNameID = ${ProdNameID}
+        `;
+        // const queryGetProdID = `SELECT * FROM NaturaliStone.Products WHERE Products.ProdNameID = ${ProdNameID}`;
 
         mysqlConnection.query(
           queryGetProdID,
@@ -182,6 +188,8 @@ export async function newCartEntry(req: Request, res: Response) {
             }
             //----------------------------------
             const product = prodResults[0];
+
+            console.log("prou", product);
 
             const queryCheckCart = `SELECT ProductID FROM Cart WHERE ProductID = ${product.ProdID}`;
             mysqlConnection.query(
