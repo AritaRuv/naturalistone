@@ -95,6 +95,7 @@ export const fetchDimension = (material: string) => {
     dispatch({ type: ProductActionTypes.FETCH_PRODUCTS_REQUEST });
     try {
       const data = await getDimension(material); // Llama a tu función de solicitud a la API
+      console.log("data", data);
       dispatch({
         type: ProductActionTypes.FETCH_DIMENSION,
         payload: data,

@@ -26,14 +26,6 @@ const ProductsFilters: React.FC<FiltersState> = ({
     if (!dimensions) dispatch(fetchDimension(params.Material));
   }, [dimensions]);
 
-  const sortDimensionsType = dimensions?.Type.sort();
-  const filterDimensionSize = dimensions?.Size.filter((el) => el !== null);
-  const sortDimensionSize =
-    filterDimensionSize && filterDimensionSize.sort(compareValues);
-  const sortDimensionFinish = dimensions?.Finish.sort();
-  const thicknessNotNull = dimensions?.Thickness.filter((el) => el !== null);
-  const sortDimensionThickness = sortedFractions(thicknessNotNull);
-
   return (
     <>
       <Flex
@@ -49,19 +41,19 @@ const ProductsFilters: React.FC<FiltersState> = ({
         {dimensions && (
           <>
             <FiltersType
-              type={sortDimensionsType}
+              type={dimensions.Type}
               handleCheckboxChange={handleCheckboxChange}
             />
             <FiltersSize
-              size={sortDimensionSize}
+              size={dimensions.Size}
               handleCheckboxChange={handleCheckboxChange}
             />
             <FiltersFinish
-              finish={sortDimensionFinish}
+              finish={dimensions.Finish}
               handleCheckboxChange={handleCheckboxChange}
             />
             <FiltersThickness
-              thickness={sortDimensionThickness}
+              thickness={dimensions.Thickness}
               handleCheckboxChange={handleCheckboxChange}
             />
           </>

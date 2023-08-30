@@ -102,7 +102,7 @@ export default function OrderHistory({ params }) {
                   textTransform={"uppercase"}
                   textAlign={"center"}
                 >
-                  Value Date
+                  Value
                 </Th>
               </Tr>
             </Thead>
@@ -138,7 +138,7 @@ export default function OrderHistory({ params }) {
                         {el.Status}
                       </Td>
                       <Td fontWeight={"light"} fontSize={"0.9rem"}>
-                        {el.Value}
+                        $ {el.Value.toLocaleString("en-US")}
                       </Td>
                     </Tr>
                   );

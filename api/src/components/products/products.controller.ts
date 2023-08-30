@@ -5,6 +5,8 @@ import { Request, Response } from "express";
 import mysqlConnection from "../../db";
 import { RowDataPacket } from "mysql2";
 import { productDimensions } from "../../controllers/productDimensions";
+import { compareValues } from "../../utils/orderThickness";
+import { sortedFractions } from "../../utils/orderFractionsThickness";
 //import { productDimensionsCheckboxes } from "../../controllers/productDimensionsCheckboxes";
 
 export async function getAllProducts(req: Request, res: Response) {
@@ -184,6 +186,18 @@ export async function getAllDimensionProperties(req: Request, res: Response) {
           );
 
           if (property === "Finish") {
+            dimensionProperties.Type = dimensionProperties?.Type.sort();
+            const filterDimensionSize = dimensionProperties.Size.filter(
+              (el) => el !== null
+            );
+            dimensionProperties.Size = filterDimensionSize.sort(compareValues);
+            dimensionProperties.Finish = dimensionProperties?.Finish.sort();
+            const filterDimensionThickness =
+              dimensionProperties.Thickness.filter((el) => el !== null);
+            dimensionProperties.Thickness = sortedFractions(
+              filterDimensionThickness
+            );
+            console.log(dimensionProperties);
             res.status(200).json(dimensionProperties);
           }
         }
