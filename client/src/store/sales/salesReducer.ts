@@ -5,30 +5,16 @@ const initialState: SalesState = {
   salesProject: [],
   salesCustomer: [],
   salesDetail: {
-    Naturali_Invoice: 0,
-    Value: 0,
-    ProjectID: 0,
-    ShippingMethod: "",
-    ProdID: 0,
-    Quantity: 0,
-    SalePrice: 0,
-    Status: "",
-    Naturali_ProdName: "",
-    Material: "",
-    Amount: 0,
-    Method: "",
-    payments: [],
-    prodSolds: [],
     sale: {
       Naturali_Invoice: 0,
       Value: 0,
       ProjectID: 0,
-      SellerID: 0,
       ShippingMethod: "",
       ShipTo: "",
       Status: "",
-      ModificationFlag: "",
     },
+    payments: [],
+    prodSolds: [],
   },
 };
 
@@ -48,6 +34,11 @@ const salesReducer = (
         salesCustomer: action.payload,
       };
     case SalesActionsType.GET_SALES_DETAILS:
+      return {
+        ...state,
+        salesDetail: action.payload,
+      };
+    case SalesActionsType.CLEAN_SALES_DETAILS:
       return {
         ...state,
         salesDetail: action.payload,

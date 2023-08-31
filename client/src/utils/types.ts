@@ -24,9 +24,9 @@ export interface ErrorsProject {
 }
 
 export interface Payments {
-  idPayments: number;
+  idPayments?: number;
   InvoiceID: number;
-  Amount: string;
+  Amount: number;
   Method: string;
   Date: Date;
   by?: string;
@@ -40,6 +40,10 @@ export interface DetailProdSolds {
   Naturali_ProdName: string;
   Material: string;
   Status: string;
+  Type: string;
+  Size: string;
+  Thickness: string;
+  Finish: string;
 }
 
 interface ShippingAddress {

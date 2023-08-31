@@ -16,8 +16,8 @@ import { LoginState } from "@/store/login/typeLogin";
 
 const ProductCardCart: React.FC<{
   product: ProductCart;
-  inputRef: any;
-  sample: boolean;
+  inputRef?: any;
+  sample?: boolean;
 }> = ({ product, inputRef, sample }) => {
   const {
     CustomerID,

@@ -37,12 +37,11 @@ export default function OrderHistory({ params }) {
   return (
     <>
       <Box
-        w={"70vw"}
+        w={"75vw"}
         h={"65vh"}
         display={"flex"}
         justifyContent={"center"}
         alignItems={"center"}
-        // bg={"green"}
       >
         <TableContainer w={"90%"} h={"80%"}>
           <Table variant="simple">
@@ -75,22 +74,6 @@ export default function OrderHistory({ params }) {
                 <Th
                   fontWeight={"hairline"}
                   fontSize={"0.9rem"}
-                  textTransform={"uppercase"}
-                  textAlign={"center"}
-                >
-                  Shipping Method
-                </Th>
-                <Th
-                  fontWeight={"hairline"}
-                  fontSize={"0.9rem"}
-                  textTransform={"uppercase"}
-                  textAlign={"center"}
-                >
-                  Ship to
-                </Th>
-                <Th
-                  fontWeight={"hairline"}
-                  fontSize={"0.9rem"}
                   textAlign={"center"}
                   textTransform={"uppercase"}
                 >
@@ -108,37 +91,52 @@ export default function OrderHistory({ params }) {
             </Thead>
             <Tbody>
               {salesProject &&
-                salesProject.map((el) => {
+                salesProject.map((sale, index) => {
                   return (
                     <Tr
                       _hover={{
                         color: "logo.orange",
                       }}
                       cursor={"pointer"}
-                      onClick={() => handleSubmit(el)}
+                      onClick={() => handleSubmit(sale)}
+                      key={index}
                     >
-                      <Td fontWeight={"light"} fontSize={"0.9rem"}>
-                        {el.Naturali_Invoice}
+                      <Td
+                        fontWeight={"light"}
+                        fontSize={"0.9rem"}
+                        textAlign={"center"}
+                      >
+                        {sale.Naturali_Invoice}
                       </Td>
-                      <Td fontWeight={"light"} fontSize={"0.9rem"}>
-                        {el.InvoiceDate &&
-                          el.InvoiceDate.toString().slice(0, 10)}
+                      <Td
+                        fontWeight={"light"}
+                        fontSize={"0.9rem"}
+                        textAlign={"center"}
+                      >
+                        {sale.InvoiceDate &&
+                          sale.InvoiceDate.toString().slice(0, 10)}
                       </Td>
-                      <Td fontWeight={"light"} fontSize={"0.9rem"}>
-                        {el.EstDelivery_Date &&
-                          el.EstDelivery_Date.toString().slice(0, 10)}
+                      <Td
+                        fontWeight={"light"}
+                        fontSize={"0.9rem"}
+                        textAlign={"center"}
+                      >
+                        {sale.EstDelivery_Date &&
+                          sale.EstDelivery_Date.toString().slice(0, 10)}
                       </Td>
-                      <Td fontWeight={"light"} fontSize={"0.9rem"}>
-                        {el.ShippingMethod}
+                      <Td
+                        fontWeight={"light"}
+                        fontSize={"0.9rem"}
+                        textAlign={"center"}
+                      >
+                        {sale.Status}
                       </Td>
-                      <Td fontWeight={"light"} fontSize={"0.9rem"}>
-                        {el.ShipTo}
-                      </Td>
-                      <Td fontWeight={"light"} fontSize={"0.9rem"}>
-                        {el.Status}
-                      </Td>
-                      <Td fontWeight={"light"} fontSize={"0.9rem"}>
-                        $ {el.Value.toLocaleString("en-US")}
+                      <Td
+                        fontWeight={"light"}
+                        fontSize={"0.9rem"}
+                        textAlign={"center"}
+                      >
+                        $ {sale.Value.toLocaleString("en-US")}
                       </Td>
                     </Tr>
                   );
