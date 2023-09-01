@@ -111,7 +111,7 @@ export default function DetailPayment({ salesDetail }) {
             </Table>
           </TableContainer>
         ) : (
-          <Center>
+          <Center w={"full"} h={"full"}>
             <Text fontSize={"1.2rem"} fontWeight={"light"}>
               No payments found
             </Text>

@@ -12,6 +12,7 @@ import CartButton from "./cartButton";
 import { useAppDispatch, useAppSelector } from "@/store/hooks";
 import { userInfo } from "@/store/login/actionsLogin";
 import { LoginState } from "@/store/login/typeLogin";
+import { fetchFavorites } from "@/store/favorites/actionsFavorites";
 
 const NavBar: React.FC = () => {
   const [menuVisible, setMenuVisible] = useState(true);
@@ -50,81 +51,88 @@ const NavBar: React.FC = () => {
     }
   }, []);
 
+  useEffect(() => {
+    dispatch(fetchFavorites(user?.CustomerID));
+  });
+
   return (
     <>
-      {
-        !smallerThan1200 ? (
-          <Box display={"flex"} flexDir={"column"} position={"fixed"} top={0} left={0} right={0} zIndex={100}>
-            <Box 
-              bg={active ? "white" : hover ? "white" : "none"}
-              onMouseEnter={handleMouseEnter}
-              onMouseLeave={handleMouseLeave}
-              id={"navbar"}
-              w={"100%"} 
-              h={"6vh"} 
-              minH={"60px"} 
-              maxH={"80px"} 
-              display={"flex"} 
+      {!smallerThan1200 ? (
+        <Box
+          display={"flex"}
+          flexDir={"column"}
+          position={"fixed"}
+          top={0}
+          left={0}
+          right={0}
+          zIndex={100}
+        >
+          <Box
+            bg={active ? "white" : hover ? "white" : "none"}
+            onMouseEnter={handleMouseEnter}
+            onMouseLeave={handleMouseLeave}
+            id={"navbar"}
+            w={"100%"}
+            h={"6vh"}
+            minH={"60px"}
+            maxH={"80px"}
+            display={"flex"}
+            flexDir={"row"}
+            zIndex={1}
+            justifyContent={"space-between"}
+            px={"4%"}
+          >
+            <Logo />
+            {!smallerThan740 && <TextButtonsNavBar menuVisible={menuVisible} />}
+            <Box
+              display={"flex"}
               flexDir={"row"}
-              zIndex={1}
-              justifyContent={"space-between"} 
-              px={"4%"}
+              w={"16%"}
+              justifyContent={"space-between"}
+              alignItems="center"
             >
-              <Logo />
-              {
-                !smallerThan740 &&( 
-                  <TextButtonsNavBar menuVisible={menuVisible}/>
-                )
-              }
-              <Box display={"flex"} flexDir={"row"} w={"16%"} justifyContent={"space-between"} alignItems="center">
-                <IconButtonsNavBar/>
-                <Menu handleMenu={handleMenu}/>
-              </Box>
-
+              <IconButtonsNavBar />
+              <Menu handleMenu={handleMenu} />
             </Box>
           </Box>
-        )
-          :
-          !smallerThan740 ? 
-            (
-              <Box 
-                id={"navbar"}
-                display={"flex"} 
-                flexDir={"row"}
-                w={"100%"} 
-                h={"6vh"} 
-                minH={"60px"} 
-                maxH={"80px"}
-                zIndex={1}
-                alignItems={"center"}  
-                justifyContent={"space-between"} 
-                px={"4%"}
-              >
-                <MenuDrawer handleHome={handleHome} smallerThan740={smallerThan740}/>
-                <Logo/>
-                <IconButtonsNavBar/>
-              </Box>
-            ):(
-              <Box
-                id={"navbar"}
-                display={"flex"} 
-                flexDir={"row"}
-                w={"100%"} 
-                h={"6vh"} 
-                zIndex={1}
-                minH={"60px"} 
-                maxH={"80px"}
-                alignItems={"center"}  
-                justifyContent={"space-between"} 
-                px={"4%"}
-              >
-                <MenuDrawer handleHome={handleHome} smallerThan740={smallerThan740}/>
-                <Logo/>
-                <CartButton/>
-              </Box>   
-            )
-      }
-
+        </Box>
+      ) : !smallerThan740 ? (
+        <Box
+          id={"navbar"}
+          display={"flex"}
+          flexDir={"row"}
+          w={"100%"}
+          h={"6vh"}
+          minH={"60px"}
+          maxH={"80px"}
+          zIndex={1}
+          alignItems={"center"}
+          justifyContent={"space-between"}
+          px={"4%"}
+        >
+          <MenuDrawer handleHome={handleHome} smallerThan740={smallerThan740} />
+          <Logo />
+          <IconButtonsNavBar />
+        </Box>
+      ) : (
+        <Box
+          id={"navbar"}
+          display={"flex"}
+          flexDir={"row"}
+          w={"100%"}
+          h={"6vh"}
+          zIndex={1}
+          minH={"60px"}
+          maxH={"80px"}
+          alignItems={"center"}
+          justifyContent={"space-between"}
+          px={"4%"}
+        >
+          <MenuDrawer handleHome={handleHome} smallerThan740={smallerThan740} />
+          <Logo />
+          <CartButton sample={false} />
+        </Box>
+      )}
     </>
   );
 };

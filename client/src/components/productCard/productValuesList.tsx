@@ -7,12 +7,15 @@ import {
   Text,
   Button,
 } from "@chakra-ui/react";
-import { useState } from "react";
+import { useState, useContext } from "react";
 import { useAppDispatch, useAppSelector } from "@/store/hooks";
 import { postCart } from "@/store/cart/actionsCart";
 import { ProductState } from "@/store/products/typesProducts";
 import { LoginState } from "@/store/login/typeLogin";
 import CartButton from "../navBar/cartButton";
+import { AppContext } from "@/app/appContext";
+import { IProductCart } from "../../utils/types";
+import axios from "axios";
 
 interface ProductListProps {
   data: {
@@ -38,6 +41,7 @@ const ProductList: React.FC<ProductListProps> = ({ data, ProdNameID }) => {
   const [finishes, setFinishes] = useState<string[]>([]);
   const [cantFiltros, setCantFiltros] = useState<number>(0);
   const [isCartModalOpen, setIsCartModalOpen] = useState(false);
+  const appContext = useContext(AppContext);
 
   const { raw_products } = useAppSelector(
     (state: { productReducer: ProductState }) => state.productReducer
@@ -175,15 +179,33 @@ const ProductList: React.FC<ProductListProps> = ({ data, ProdNameID }) => {
   };
 
   const handleAddToCart = async () => {
-    const bodyCust = {
-      size: selectedSize,
-      thickness: selectedThickness,
-      finish: selectedFinish,
-      ProdNameID: ProdNameID,
-      customerID: user?.CustomerID,
-    };
-
-    dispatch(postCart(bodyCust));
+    if (appContext && appContext.userLog) {
+      const bodyCust = {
+        size: selectedSize,
+        thickness: selectedThickness,
+        finish: selectedFinish,
+        ProdNameID: ProdNameID,
+        customerID: user?.CustomerID,
+      };
+      dispatch(postCart(bodyCust));
+    } else {
+      const bodyCust: any = {
+        Size: selectedSize,
+        Thickness: selectedThickness,
+        Finish: selectedFinish,
+        ProdNameID: ProdNameID,
+      };
+      const product = await axios.get(
+        "http://localhost:5000/api/cart/productlocal",
+        bodyCust
+      );
+      const arrayProducts = JSON.parse(
+        localStorage.getItem("cartProducts") || "[]"
+      );
+      arrayProducts.push(product.data.data);
+      console.log("arra product", product);
+      localStorage.setItem("cartProducts", JSON.stringify(arrayProducts));
+    }
     setSelectedSize("");
     setSelectedThickness("");
     setSelectedFinish("");

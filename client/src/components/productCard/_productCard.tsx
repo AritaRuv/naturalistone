@@ -1,5 +1,12 @@
 import React from "react";
-import { Box, IconButton, Button, Text, Center, useOutsideClick } from "@chakra-ui/react";
+import {
+  Box,
+  IconButton,
+  Button,
+  Text,
+  Center,
+  useOutsideClick,
+} from "@chakra-ui/react";
 import NextImage from "next/image";
 import { useState } from "react";
 import { PiCaretDownThin } from "react-icons/pi";
@@ -91,7 +98,7 @@ const ProductCard: React.FC<{
         overflow={"hidden"}
         onMouseEnter={handleMouseEnter}
         onMouseLeave={handleMouseLeave}
-      //ref={ref}
+        //ref={ref}
       >
         <Link
           href={`/products/${Material}/${Naturali_ProdName}/${ProdNameID}`}
@@ -111,7 +118,6 @@ const ProductCard: React.FC<{
           <Box
             onMouseEnter={handleMouseEnter}
             onMouseLeave={handleMouseLeave}
-
             //ref={ref}
             position={"relative"}
             w={"260px"}

@@ -1,5 +1,5 @@
 "use client";
-import React, { useEffect, useRef, useState } from "react";
+import React, { useEffect, useRef, useContext, useState } from "react";
 import {
   Box,
   IconButton,
@@ -23,6 +23,7 @@ import ProductCardCart from "./cartProducts";
 import "./_navBar.css";
 import Link from "next/link";
 import { LoginState } from "@/store/login/typeLogin";
+import { AppContext } from "@/app/appContext";
 
 const CartButton: React.FC<{
   icon?: boolean;
@@ -39,8 +40,10 @@ const CartButton: React.FC<{
   const { user } = useAppSelector(
     (state: { loginReducer: LoginState }) => state.loginReducer
   );
+  const [arrayProducts, setArrayProducts] = useState([]);
 
   const inputRef = useRef(cart.length);
+  const appContext = useContext(AppContext);
 
   useEffect(() => {
     dispatch(fetchCart(user?.CustomerID));
@@ -54,6 +57,14 @@ const CartButton: React.FC<{
       setIsCartModalOpen && setIsCartModalOpen(false);
     }
   }, [isCartModalOpen, isOpen]);
+
+  useEffect(() => {
+    if (appContext && !appContext.userLog) {
+      setArrayProducts(
+        JSON.parse(localStorage.getItem("cartProducts") || "[]")
+      );
+    }
+  }, []);
 
   return (
     <>
@@ -75,18 +86,35 @@ const CartButton: React.FC<{
           <DrawerHeader>CART ITEMS</DrawerHeader>
           <DrawerBody>
             <Box h={"85%"} overflow={"auto"}>
-              {cart?.map((product, index) => {
-                return (
-                  <Box key={product.idCartEntry}>
-                    <ProductCardCart
-                      product={product}
-                      inputRef={index === inputRef.current ? inputRef : null}
-                      sample={sample}
-                    />
-                    <Divider borderColor={"gray.300"} />
-                  </Box>
-                );
-              })}
+              {appContext && appContext.userLog
+                ? cart?.map((product, index) => {
+                    return (
+                      <Box key={product.idCartEntry}>
+                        <ProductCardCart
+                          product={product}
+                          inputRef={
+                            index === inputRef.current ? inputRef : null
+                          }
+                          sample={sample}
+                        />
+                        <Divider borderColor={"gray.300"} />
+                      </Box>
+                    );
+                  })
+                : arrayProducts?.map((product, index) => {
+                    return (
+                      <Box key={index}>
+                        <ProductCardCart
+                          product={product}
+                          inputRef={
+                            index === inputRef.current ? inputRef : null
+                          }
+                          sample={sample}
+                        />
+                        <Divider borderColor={"gray.300"} />
+                      </Box>
+                    );
+                  })}
             </Box>
             <Box
               w={"100%"}

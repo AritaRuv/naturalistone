@@ -74,3 +74,11 @@ export interface CheckoutFormData {
   Shipping_Total: string;
   Total: string;
 }
+
+export interface IProductCart {
+  size: string;
+  thickness: string;
+  finish: string;
+  ProdNameID: number;
+  customerID: number;
+}

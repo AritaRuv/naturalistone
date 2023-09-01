@@ -59,7 +59,6 @@ export default function Profile() {
 
   useEffect(() => {
     const sessionId = Cookies.get("sessionId");
-    console.log("sessiob", sessionId);
     if (!sessionId) {
       router.push("/signin"); // Redirect to the login page
     }

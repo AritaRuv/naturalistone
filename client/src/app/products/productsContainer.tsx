@@ -3,12 +3,12 @@ import { SimpleGrid, useMediaQuery, Box, Center, Text } from "@chakra-ui/react";
 import ProductCard from "../../components/productCard/_productCard";
 import { ProductState } from "../../store/products/typesProducts";
 import { useAppDispatch, useAppSelector } from "../../store/hooks";
-import { useEffect } from "react";
+import { useEffect, useState, useContext } from "react";
 import { fetchFavorites } from "@/store/favorites/actionsFavorites";
 import { fetchProjectsCustomer } from "@/store/projects/actionsProjects";
 import { LoginState } from "@/store/login/typeLogin";
-import { userInfo } from "@/store/login/actionsLogin";
-import { Path } from "./path";
+import Cookies from "js-cookie";
+import { AppContext } from "../appContext";
 
 const ProductsContainer = ({ params }) => {
   const [isExtraSmallScreen] = useMediaQuery("(max-width: 550px)");
@@ -26,6 +26,8 @@ const ProductsContainer = ({ params }) => {
   const { products_by_material } = useAppSelector(
     (state: { productReducer: ProductState }) => state.productReducer
   );
+
+  const appContext = useContext(AppContext);
 
   const { user } = useAppSelector(
     (state: { loginReducer: LoginState }) => state.loginReducer
@@ -51,6 +53,15 @@ const ProductsContainer = ({ params }) => {
     dispatch(fetchProjectsCustomer(user.CustomerID));
   }, [user]);
 
+  useEffect(() => {
+    const sessionId = Cookies.get("sessionId");
+    if (sessionId) {
+      appContext && appContext.setUserLog(true);
+    } else {
+      appContext && appContext.setUserLog(false);
+    }
+  }, []);
+
   return (
     <Box>
       {typeof products_filters !== "string" ? (
@@ -58,8 +69,9 @@ const ProductsContainer = ({ params }) => {
           h={"80vh"}
           overflow={"auto"}
           py={"2%"}
-          px={'3%'}
-          w={ is1200Screen ? "100vw" : "86vw"}>
+          px={"3%"}
+          w={is1200Screen ? "100vw" : "86vw"}
+        >
           <SimpleGrid
             justifyItems={"center"}
             spacingY={"6vh"}
@@ -68,19 +80,6 @@ const ProductsContainer = ({ params }) => {
           >
             {products_filters.length !== 0
               ? products_filters.map((prod, i) => {
-                return (
-                  <Box key={i}>
-                    <ProductCard
-                      product={prod}
-                      key={prod.ProdNameID}
-                      site={"products"}
-                      user={user}
-                    />
-                  </Box>
-                );
-              })
-              : products_by_material?.length !== 0
-                ? products_by_material?.slice(0, 20).map((prod, i) => {
                   return (
                     <Box key={i}>
                       <ProductCard
@@ -92,7 +91,20 @@ const ProductsContainer = ({ params }) => {
                     </Box>
                   );
                 })
-                : null}
+              : products_by_material?.length !== 0
+              ? products_by_material?.slice(0, 20).map((prod, i) => {
+                  return (
+                    <Box key={i}>
+                      <ProductCard
+                        product={prod}
+                        key={prod.ProdNameID}
+                        site={"products"}
+                        user={user}
+                      />
+                    </Box>
+                  );
+                })
+              : null}
           </SimpleGrid>
         </Box>
       ) : (
