@@ -399,7 +399,8 @@ export async function getAllProductsByMaterial(req: Request, res: Response) {
                           Dimension.Type, 
                           Dimension.Size, 
                           Dimension.Thickness, 
-                          Dimension.Finish
+                          Dimension.Finish,
+                          Products.SalePrice
                   FROM Products
                   LEFT JOIN ProdNames ON Products.ProdNameID = ProdNames.ProdNameID
                   LEFT JOIN Dimension ON Products.DimensionID = Dimension.DimensionID

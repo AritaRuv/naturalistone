@@ -189,21 +189,24 @@ const ProductList: React.FC<ProductListProps> = ({ data, ProdNameID }) => {
       };
       dispatch(postCart(bodyCust));
     } else {
-      const bodyCust: any = {
-        Size: selectedSize,
-        Thickness: selectedThickness,
-        Finish: selectedFinish,
-        ProdNameID: ProdNameID,
+      const product = raw_products.find((product) => {
+        return (
+          product.ProdNameID === ProdNameID &&
+          product.Size === selectedSize &&
+          product.Thickness === selectedThickness &&
+          product.Finish === selectedFinish
+        );
+      });
+      const productNotLogin = {
+        ...product,
+        CustomerID: 0,
+        idCartEntry: 0,
+        Quantity: 1,
       };
-      const product = await axios.get(
-        "http://localhost:5000/api/cart/productlocal",
-        bodyCust
-      );
       const arrayProducts = JSON.parse(
         localStorage.getItem("cartProducts") || "[]"
       );
-      arrayProducts.push(product.data.data);
-      console.log("arra product", product);
+      arrayProducts.push(productNotLogin);
       localStorage.setItem("cartProducts", JSON.stringify(arrayProducts));
     }
     setSelectedSize("");

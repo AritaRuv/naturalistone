@@ -13,6 +13,7 @@ export interface RawProduct {
   Finish: string;
   Type: string;
   ProdID: number;
+  SalePrice?: number;
 }
 
 export interface ProductData {

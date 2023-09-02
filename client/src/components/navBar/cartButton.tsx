@@ -29,7 +29,7 @@ const CartButton: React.FC<{
   icon?: boolean;
   isCartModalOpen?: boolean;
   setIsCartModalOpen?: React.Dispatch<React.SetStateAction<boolean>>;
-  sample: boolean;
+  sample?: boolean;
 }> = ({ icon = true, isCartModalOpen, setIsCartModalOpen, sample }) => {
   const { isOpen, onOpen, onClose } = useDisclosure();
   const { cart } = useAppSelector(
@@ -43,7 +43,9 @@ const CartButton: React.FC<{
   const [arrayProducts, setArrayProducts] = useState([]);
 
   const inputRef = useRef(cart.length);
+  const inputLocalRef = useRef(arrayProducts.length);
   const appContext = useContext(AppContext);
+  console.log("soy priodcts ar", inputLocalRef);
 
   useEffect(() => {
     dispatch(fetchCart(user?.CustomerID));
@@ -58,13 +60,13 @@ const CartButton: React.FC<{
     }
   }, [isCartModalOpen, isOpen]);
 
-  useEffect(() => {
-    if (appContext && !appContext.userLog) {
-      setArrayProducts(
-        JSON.parse(localStorage.getItem("cartProducts") || "[]")
-      );
-    }
-  }, []);
+  // useEffect(() => {
+  //   if (appContext && !appContext.userLog) {
+  //     setArrayProducts(
+  //       JSON.parse(localStorage.getItem("cartProducts") || "[]")
+  //     );
+  //   }
+  // }, [arrayProducts]);
 
   return (
     <>
@@ -107,7 +109,9 @@ const CartButton: React.FC<{
                         <ProductCardCart
                           product={product}
                           inputRef={
-                            index === inputRef.current ? inputRef : null
+                            index === inputLocalRef.current
+                              ? inputLocalRef
+                              : null
                           }
                           sample={sample}
                         />

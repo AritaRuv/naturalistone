@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, useContext } from "react";
 import {
   Box,
   Button,
@@ -13,12 +13,14 @@ import { ProductCart } from "@/store/cart/typesCart";
 import { deleteCart, updateCart } from "@/store/cart/actionsCart";
 import { useAppDispatch, useAppSelector } from "@/store/hooks";
 import { LoginState } from "@/store/login/typeLogin";
+import { AppContext } from "@/app/appContext";
 
 const ProductCardCart: React.FC<{
   product: ProductCart;
   inputRef?: any;
   sample?: boolean;
-}> = ({ product, inputRef, sample }) => {
+  arrayProducts?: any;
+}> = ({ product, inputRef, sample, arrayProducts }) => {
   const {
     CustomerID,
     Finish,
@@ -30,6 +32,7 @@ const ProductCardCart: React.FC<{
     Thickness,
     Type,
     idCartEntry,
+    ProdID,
   } = product;
 
   const URL = `https://naturalistone-images.s3.amazonaws.com/${Material}/${Naturali_ProdName}/${Naturali_ProdName}_0.jpg`;
@@ -45,19 +48,44 @@ const ProductCardCart: React.FC<{
   const [quantity, setQuantity] = useState(Quantity);
   const price = Number(SalePrice);
   const dispatch = useAppDispatch();
+  const appContext = useContext(AppContext);
+
+  const cartStorage = JSON.parse(localStorage.getItem("cartProducts") || "[]");
+  const productStorage = cartStorage.find((product) => {
+    return (
+      product.Size === Size &&
+      product.Thickness === Thickness &&
+      product.Finish === Finish &&
+      product.ProdID === ProdID
+    );
+  });
 
   const decreaseQuantity = () => {
-    if (quantity > 1) {
+    if (appContext?.userLog) {
+      if (quantity > 1) {
+        const newQuantity = quantity - 1;
+        setQuantity(newQuantity);
+        updateCartQuantity(newQuantity);
+      }
+    } else {
       const newQuantity = quantity - 1;
       setQuantity(newQuantity);
-      updateCartQuantity(newQuantity);
+      productStorage.Quantity = productStorage.Quantity - 1;
+      localStorage.setItem("cartProducts", JSON.stringify(cartStorage));
     }
   };
 
   const increaseQuantity = () => {
-    const newQuantity = quantity + 1;
-    setQuantity(newQuantity);
-    updateCartQuantity(newQuantity);
+    if (appContext?.userLog) {
+      const newQuantity = quantity + 1;
+      setQuantity(newQuantity);
+      updateCartQuantity(newQuantity);
+    } else {
+      const newQuantity = quantity + 1;
+      setQuantity(newQuantity);
+      productStorage.Quantity = productStorage.Quantity + 1;
+      localStorage.setItem("cartProducts", JSON.stringify(cartStorage));
+    }
   };
 
   const updateCartQuantity = (newQuantity) => {
@@ -82,6 +110,8 @@ const ProductCardCart: React.FC<{
   const handleDelete = () => {
     dispatch(deleteCart(idCartEntry, user?.CustomerID));
   };
+
+  console.log("soy inputref", inputRef);
 
   useEffect(() => {
     if (!sample) {
