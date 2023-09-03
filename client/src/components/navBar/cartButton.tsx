@@ -30,7 +30,14 @@ const CartButton: React.FC<{
   isCartModalOpen?: boolean;
   setIsCartModalOpen?: React.Dispatch<React.SetStateAction<boolean>>;
   sample?: boolean;
-}> = ({ icon = true, isCartModalOpen, setIsCartModalOpen, sample }) => {
+  array: any[];
+}> = ({
+  icon = true,
+  isCartModalOpen,
+  setIsCartModalOpen,
+  sample,
+  array = [] as any[],
+}) => {
   const { isOpen, onOpen, onClose } = useDisclosure();
   const { cart } = useAppSelector(
     (state: { cartReducer: CartState }) => state.cartReducer
@@ -40,12 +47,17 @@ const CartButton: React.FC<{
   const { user } = useAppSelector(
     (state: { loginReducer: LoginState }) => state.loginReducer
   );
-  const [arrayProducts, setArrayProducts] = useState([]);
+  const [arrayProducts, setArrayProducts] = useState(() => {
+    if (typeof window !== "undefined") {
+      const localData = localStorage.getItem("cartProducts") || "[]";
+      return localData ? JSON.parse(localData) : [];
+    }
+    return [];
+  });
 
   const inputRef = useRef(cart.length);
   const inputLocalRef = useRef(arrayProducts.length);
   const appContext = useContext(AppContext);
-  console.log("soy priodcts ar", inputLocalRef);
 
   useEffect(() => {
     dispatch(fetchCart(user?.CustomerID));
@@ -60,13 +72,11 @@ const CartButton: React.FC<{
     }
   }, [isCartModalOpen, isOpen]);
 
-  // useEffect(() => {
-  //   if (appContext && !appContext.userLog) {
-  //     setArrayProducts(
-  //       JSON.parse(localStorage.getItem("cartProducts") || "[]")
-  //     );
-  //   }
-  // }, [arrayProducts]);
+  useEffect(() => {
+    if (appContext && !appContext.userLog) {
+      JSON.parse(localStorage.getItem("cartProducts") || "[]");
+    }
+  }, [array]);
 
   return (
     <>
@@ -96,6 +106,23 @@ const CartButton: React.FC<{
                           product={product}
                           inputRef={
                             index === inputRef.current ? inputRef : null
+                          }
+                          sample={sample}
+                        />
+                        <Divider borderColor={"gray.300"} />
+                      </Box>
+                    );
+                  })
+                : array.length > 0
+                ? array?.map((product, index) => {
+                    return (
+                      <Box key={index}>
+                        <ProductCardCart
+                          product={product}
+                          inputRef={
+                            index === inputLocalRef.current
+                              ? inputLocalRef
+                              : null
                           }
                           sample={sample}
                         />

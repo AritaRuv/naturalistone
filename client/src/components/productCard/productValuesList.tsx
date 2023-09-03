@@ -7,7 +7,7 @@ import {
   Text,
   Button,
 } from "@chakra-ui/react";
-import { useState, useContext } from "react";
+import { useState, useContext, useEffect } from "react";
 import { useAppDispatch, useAppSelector } from "@/store/hooks";
 import { postCart } from "@/store/cart/actionsCart";
 import { ProductState } from "@/store/products/typesProducts";
@@ -178,6 +178,8 @@ const ProductList: React.FC<ProductListProps> = ({ data, ProdNameID }) => {
     }
   };
 
+  const [array, setArray] = useState([]);
+
   const handleAddToCart = async () => {
     if (appContext && appContext.userLog) {
       const bodyCust = {
@@ -206,6 +208,9 @@ const ProductList: React.FC<ProductListProps> = ({ data, ProdNameID }) => {
       const arrayProducts = JSON.parse(
         localStorage.getItem("cartProducts") || "[]"
       );
+      const newArray: any = [...arrayProducts];
+      newArray.push(productNotLogin);
+      setArray(newArray);
       arrayProducts.push(productNotLogin);
       localStorage.setItem("cartProducts", JSON.stringify(arrayProducts));
     }
@@ -338,6 +343,7 @@ const ProductList: React.FC<ProductListProps> = ({ data, ProdNameID }) => {
         isCartModalOpen={isCartModalOpen}
         setIsCartModalOpen={setIsCartModalOpen}
         sample={false}
+        array={array}
       />
     </>
   );

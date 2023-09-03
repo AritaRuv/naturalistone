@@ -51,14 +51,6 @@ const ProductCardCart: React.FC<{
   const appContext = useContext(AppContext);
 
   const cartStorage = JSON.parse(localStorage.getItem("cartProducts") || "[]");
-  const productStorage = cartStorage.find((product) => {
-    return (
-      product.Size === Size &&
-      product.Thickness === Thickness &&
-      product.Finish === Finish &&
-      product.ProdID === ProdID
-    );
-  });
 
   const decreaseQuantity = () => {
     if (appContext?.userLog) {
@@ -70,6 +62,15 @@ const ProductCardCart: React.FC<{
     } else {
       const newQuantity = quantity - 1;
       setQuantity(newQuantity);
+
+      const productStorage = cartStorage.find((product) => {
+        return (
+          product.Size === Size &&
+          product.Thickness === Thickness &&
+          product.Finish === Finish &&
+          product.ProdID === ProdID
+        );
+      });
       productStorage.Quantity = productStorage.Quantity - 1;
       localStorage.setItem("cartProducts", JSON.stringify(cartStorage));
     }
@@ -83,6 +84,14 @@ const ProductCardCart: React.FC<{
     } else {
       const newQuantity = quantity + 1;
       setQuantity(newQuantity);
+      const productStorage = cartStorage.find((product) => {
+        return (
+          product.Size === Size &&
+          product.Thickness === Thickness &&
+          product.Finish === Finish &&
+          product.ProdID === ProdID
+        );
+      });
       productStorage.Quantity = productStorage.Quantity + 1;
       localStorage.setItem("cartProducts", JSON.stringify(cartStorage));
     }
@@ -110,8 +119,6 @@ const ProductCardCart: React.FC<{
   const handleDelete = () => {
     dispatch(deleteCart(idCartEntry, user?.CustomerID));
   };
-
-  console.log("soy inputref", inputRef);
 
   useEffect(() => {
     if (!sample) {

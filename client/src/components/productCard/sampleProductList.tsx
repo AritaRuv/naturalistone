@@ -7,12 +7,13 @@ import {
   Button,
   Flex,
 } from "@chakra-ui/react";
-import { useState } from "react";
+import { useState, useContext } from "react";
 import { useAppDispatch, useAppSelector } from "@/store/hooks";
 import { postCart } from "@/store/cart/actionsCart";
 import { ProductState } from "@/store/products/typesProducts";
 import CartButton from "../navBar/cartButton";
 import { LoginState } from "@/store/login/typeLogin";
+import { AppContext } from "@/app/appContext";
 
 interface ProductListProps {
   data: {
@@ -42,6 +43,7 @@ const SampleProductList: React.FC<ProductListProps> = ({
   const { user } = useAppSelector(
     (state: { loginReducer: LoginState }) => state.loginReducer
   );
+  const appContext = useContext(AppContext);
 
   const { raw_products } = useAppSelector(
     (state: { productReducer: ProductState }) => state.productReducer
@@ -95,17 +97,47 @@ const SampleProductList: React.FC<ProductListProps> = ({
 
   //maneja los checkboxes para controlar que solo 1 este clickeado a la vez
 
-  const handleAddToCart = async () => {
-    const bodyCust = {
-      size: "",
-      thickness: "",
-      finish: selectedFinish,
-      ProdNameID: ProdNameID,
-      customerID: user?.CustomerID,
-      quantity: 0,
-    };
+  const [array, setArray] = useState([]);
 
-    dispatch(postCart(bodyCust));
+  console.log("raw, 0", raw_products);
+
+  const handleAddToCart = async () => {
+    if (appContext && appContext.userLog) {
+      const bodyCust = {
+        size: "",
+        thickness: "",
+        finish: selectedFinish,
+        ProdNameID: ProdNameID,
+        customerID: user?.CustomerID,
+        quantity: 0,
+      };
+      dispatch(postCart(bodyCust));
+    } else {
+      const product = raw_products.find((product) => {
+        return (
+          product.ProdNameID === ProdNameID &&
+          product.Finish === selectedFinish &&
+          product.Type === "Sample"
+        );
+      });
+      console.log("Prodnamkeid", ProdNameID);
+      console.log("finish", selectedFinish);
+      console.log("soy product", product);
+      const productNotLogin = {
+        ...product,
+        CustomerID: 0,
+        idCartEntry: 0,
+        Quantity: 0,
+      };
+      const arrayProducts = JSON.parse(
+        localStorage.getItem("cartProducts") || "[]"
+      );
+      const newArray: any = [...arrayProducts];
+      newArray.push(productNotLogin);
+      setArray(newArray);
+      arrayProducts.push(productNotLogin);
+      localStorage.setItem("cartProducts", JSON.stringify(arrayProducts));
+    }
 
     setTimeout(() => {
       setIsCartModalOpen(true);
@@ -171,6 +203,7 @@ const SampleProductList: React.FC<ProductListProps> = ({
         isCartModalOpen={isCartModalOpen}
         setIsCartModalOpen={setIsCartModalOpen}
         sample={true}
+        array={array}
       />
     </>
   );
