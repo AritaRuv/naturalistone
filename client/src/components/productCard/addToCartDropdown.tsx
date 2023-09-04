@@ -6,7 +6,7 @@ import { Product } from "@/store/products/typesProducts";
 interface AddProductToCartProps {
   ProdNameID: number;
   productValues: any;
-  product: Product;
+  product?: Product;
 }
 
 const AddProductToCart: React.FC<AddProductToCartProps> = ({

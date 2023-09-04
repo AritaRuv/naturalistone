@@ -3,14 +3,18 @@ export interface Product {
   ProdNameID: number;
   Naturali_ProdName: string;
   Material: string;
-  ColorID: number;
+  ColorID?: number;
   DimensionID: number;
   Finish: string;
   Size: string;
   Thickness: string;
   Type: string;
-  idColorProduct: number;
+  idColorProduct?: number;
   SalePrice: number;
+  Quantity: number;
+  idCartEntry: number;
+  CustomerID: number;
+  ProdID: number;
 }
 export interface RawProduct {
   ProdNameID: number;

@@ -24,19 +24,20 @@ import "./_navBar.css";
 import Link from "next/link";
 import { LoginState } from "@/store/login/typeLogin";
 import { AppContext } from "@/app/appContext";
+import { Product } from "@/store/products/typesProducts";
 
 const CartButton: React.FC<{
   icon?: boolean;
   isCartModalOpen?: boolean;
   setIsCartModalOpen?: React.Dispatch<React.SetStateAction<boolean>>;
   sample?: boolean;
-  array: any[];
+  array?: Product[];
 }> = ({
   icon = true,
   isCartModalOpen,
   setIsCartModalOpen,
   sample,
-  array = [] as any[],
+  array = [] as Product[],
 }) => {
   const { isOpen, onOpen, onClose } = useDisclosure();
   const { cart } = useAppSelector(

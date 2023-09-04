@@ -27,7 +27,7 @@ interface ProductListProps {
     };
   };
   ProdNameID: number;
-  product: Product;
+  product?: Product;
 }
 
 const ProductList: React.FC<ProductListProps> = ({

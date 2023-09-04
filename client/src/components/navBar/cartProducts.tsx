@@ -14,13 +14,13 @@ import { deleteCart, updateCart } from "@/store/cart/actionsCart";
 import { useAppDispatch, useAppSelector } from "@/store/hooks";
 import { LoginState } from "@/store/login/typeLogin";
 import { AppContext } from "@/app/appContext";
+import { Product } from "@/store/products/typesProducts";
 
 const ProductCardCart: React.FC<{
-  product: ProductCart;
+  product: ProductCart | Product;
   inputRef?: any;
   sample?: boolean;
-  arrayProducts?: any;
-}> = ({ product, inputRef, sample, arrayProducts }) => {
+}> = ({ product, inputRef, sample }) => {
   const {
     CustomerID,
     Finish,

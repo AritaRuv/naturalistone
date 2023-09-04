@@ -1,18 +1,6 @@
-import React, { useEffect, useState } from "react";
-import {
-  Box,
-  Button,
-  Input,
-  Text,
-  useMediaQuery,
-  Center,
-} from "@chakra-ui/react";
+import React from "react";
+import { Box, Text, useMediaQuery, Center } from "@chakra-ui/react";
 import NextImage from "next/image";
-// import "../../app/assets/styleSheet.css";
-import { ProductCart } from "@/store/cart/typesCart";
-import { deleteCart, updateCart } from "@/store/cart/actionsCart";
-import { useAppDispatch, useAppSelector } from "@/store/hooks";
-import { LoginState } from "@/store/login/typeLogin";
 import { DetailProdSolds } from "@/utils/types";
 
 const ProductCardDetail: React.FC<{
