@@ -19,6 +19,8 @@ const initialState: ProductState = {
   dimensions: null,
   product_images: [],
   raw_products: [],
+  raw_products_by_material: [],
+
 };
 
 const productReducer = (
@@ -93,6 +95,11 @@ const productReducer = (
       ...state,
       products_by_material: action.payload.result,
       raw_products: action.payload.products,
+    };
+  case ProductActionTypes.FETCH_PRODUCTS_BY_PRODNAME:
+    return {
+      ...state,
+      raw_products_by_material: action.payload,
     };
   case ProductActionTypes.CLEAR_DIMENSION:
     return {

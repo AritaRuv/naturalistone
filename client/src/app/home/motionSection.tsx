@@ -1,14 +1,17 @@
 import React from "react";
-import { motion} from "framer-motion";
+import { motion } from "framer-motion";
 import "./styles.css";
 
-const Section = ({ children}) => {
+interface SectionProps {
+  children: React.ReactNode;
+}
+
+const Section = React.forwardRef<HTMLDivElement, SectionProps>(({ children }, ref) => {
   return (
-    <motion.section
-    >
+    <motion.section ref={ref}>
       {children}
     </motion.section>
   );
-};
+});
 
 export default Section;

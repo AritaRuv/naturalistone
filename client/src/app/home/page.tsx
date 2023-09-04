@@ -2,17 +2,20 @@
 import HomeProductContainer from "@/app/home/_homeProductContainer";
 import Carousel from "./_carousel";
 import { Filters } from "./filters/filters";
-import { useState} from "react";
 import HomeMaterialContainer from "./homeProductMaterial";
-import { Box } from "@chakra-ui/react";
+import { Box, Button, Center, Text } from "@chakra-ui/react";
 import Section from "./motionSection";
+import React, { useState, useEffect, useRef } from "react";
+import ImgButton from "./imgButton";
+
 
 const card1 = [
   {
     material: "Terrazo",
     name: "Calacatta especial",
     img: "https://images.unsplash.com/photo-1539778100343-71fcce08a31a?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=2340&q=80",
-  }];
+  }
+];
 const card2 = [
   {
     material: "Terrazo",
@@ -49,23 +52,69 @@ export default function Home() {
       materialValue: "",
     }
   );
+  const [visibleSection, setVisibleSection] = useState(0); // Inicialmente, ninguna sección está visible.
 
+  const sectionRefs = [
+    useRef<HTMLDivElement>(null), // Referencia a la primera sección
+    useRef<HTMLDivElement>(null),
+    useRef<HTMLDivElement>(null),
+    useRef<HTMLDivElement>(null),
+    useRef<HTMLDivElement>(null),
+  ];
+
+  // Esta función manejará la detección de la sección actualmente visible
+  const handleScroll = () => {
+    const scrollPosition = window.scrollY + window.innerHeight / 2;
+  
+    sectionRefs.forEach((ref, index) => {
+      if (ref.current) {
+        const sectionTop = ref.current.offsetTop;
+        const sectionBottom = sectionTop + ref.current.clientHeight;
+  
+        if (scrollPosition >= sectionTop && scrollPosition <= sectionBottom) {
+          setVisibleSection(index);
+        }
+      }
+    });
+  };
+  
+  useEffect(() => {
+    window.addEventListener("scroll", handleScroll);
+    return () => {
+      window.removeEventListener("scroll", handleScroll);
+    };
+  }, []);
 
   return (
     <>
-      <Section>
+      { 
+        (visibleSection === 0) && (
+          <ImgButton color={"logo.gray"} name={"Pietra Serena"} material={"Limestone"}/>
+        )
+      }
+      { 
+        (visibleSection === 1) && (
+          <ImgButton color={"white"} name={"Black Callacata"} material={"Marble"}/>
+        )
+      }
+      { 
+        (visibleSection === 2) && (
+          <ImgButton color={"logo.gray"} name={"White Callacata"} material={"Porcelain"}/>
+        )
+      }
+      <Section ref={sectionRefs[0]}>
         <Carousel items={card1} />
       </Section>
-      <Section>
+      <Section ref={sectionRefs[1]}>
         <Carousel items={card2} />
       </Section>
-      <Section> 
+      <Section ref={sectionRefs[2]}>  
         <Carousel items={card3} />
       </Section>
-      {/* <Section>
+      <Section ref={sectionRefs[3]}>
         <HomeMaterialContainer/>
-      </Section> */}
-      <Section>
+      </Section>
+      <Section ref={sectionRefs[4]}>
         <Box h={"100vh"} w={"100vw"} bg={"site.lightBg"} pt={"10vh"}>
           <HomeProductContainer
             productsFilter={productsFilter}

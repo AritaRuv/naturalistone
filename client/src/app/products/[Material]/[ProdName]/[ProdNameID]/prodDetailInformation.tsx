@@ -1,17 +1,15 @@
 "use client";
 import React, { useEffect } from "react";
 import {
-  Box, Flex, useMediaQuery
+  Box, Flex, useMediaQuery, TableContainer, Table, Tbody, Tr, Td
 } from "@chakra-ui/react";
 import { useAppDispatch, useAppSelector } from "@/store/hooks";
-import { ProductState } from "@/store/products/typesProducts";
+import { ProductState, RawProduct } from "@/store/products/typesProducts";
 import { fetchProductsValues } from "@/store/products/actionsProducts";
-import AddProductToCart from "@/components/productCard/addToCartDropdown";
-import AddSampleProductToCart from "@/components/productCard/addSampleToCartDropdown";
 import ProdDetailName from "./prodDetailName";
 
 
-export default function ProdDetailInformation({ params }) {
+export default function ProdDetailInformation({ params, raw_products_by_material }) {
 
   const [smallerThan740] = useMediaQuery("(max-width: 740px)");
   const { ProdNameID } = params;
@@ -20,30 +18,47 @@ export default function ProdDetailInformation({ params }) {
 
   const dispatch = useAppDispatch();
 
-  useEffect(()=>{
-    if(!productValues.hasOwnProperty(ProdNameID)) {
+  useEffect(() => {
+    if (!productValues || !(ProdNameID in productValues)) {
       dispatch(fetchProductsValues({ ProdNameID }));
     }
-  },[]);
+  }, []);
+  
 
   return (
     <>
-      <Flex flexDir={"column"} w={!smallerThan740 ? "50%" : "100%"} h={!smallerThan740 ? "500px" : "300px"} minH={"300px"}>
-        <Box w={!smallerThan740 ? "90%" : "100%"} minW={"520px"}>
-          {
-            !smallerThan740 ?
-              <ProdDetailName params={params}/>
-              : null
-          }
-          {
-            productValues.hasOwnProperty(ProdNameID) ?  
-              <Box display={"flex"} flexDir={"row"} justifyContent={"space-between"} mt={!smallerThan740 ? 0 : 10}>
-                <AddSampleProductToCart ProdNameID={ProdNameID} productValues={productValues}/>
-                <AddProductToCart ProdNameID={ProdNameID} productValues={productValues}/>
-              </Box>
-              : null
-          }
+      <Flex flexDir={"column"} w={"75vw"}>
+        <Box pt={"20vh"} pl={"5vh"}>
+          <ProdDetailName params={params}/>
+          <Box w={"24vw"} mt={"5vh"}>
+            <TableContainer>
+              <Table size={"sm"} variant={"unstyled"}>
+                <Tbody>
+                  {
+                    raw_products_by_material.length > 0 ? (
+                      raw_products_by_material.map((prod: RawProduct, i:number) => {
+                        console.log(prod);
+                        return(
+                          <Tr key={i}>
+                            <Td fontSize={"0.9rem"} fontWeight={"thin"}>{prod.Type}</Td>
+                            <Td fontSize={"0.9rem"} fontWeight={"thin"}>{prod.Size}</Td>
+                            <Td fontSize={"0.9rem"} fontWeight={"thin"}>{prod.Thickness}</Td>
+                            <Td fontSize={"0.9rem"} fontWeight={"thin"}>{prod.Finish}</Td>
+                            <Td fontSize={"0.9rem"} fontWeight={"thin"}>$ {prod.SalePrice}</Td>
+                          </Tr>
+                        );
+                      })
+                    ):(
+                      null
+                    )
+                  }
+                </Tbody>
+              </Table>
+            </TableContainer>
+          </Box>
+
         </Box>
+
       </Flex>
     </>
   );

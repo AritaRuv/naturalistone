@@ -80,6 +80,9 @@ const NavBar: React.FC = () => {
                 <IconButtonsNavBar/>
                 <Menu handleMenu={handleMenu}/>
               </Box>
+              {!menuVisible && (
+                <DropDownMenu handleHome={handleHome} active={active} />
+              )}
 
             </Box>
           </Box>

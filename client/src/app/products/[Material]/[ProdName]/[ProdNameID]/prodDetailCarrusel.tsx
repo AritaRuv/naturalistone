@@ -1,11 +1,10 @@
 "use client";
 import React, { useEffect, useState } from "react";
 import { useAppDispatch, useAppSelector } from "@/store/hooks";
-import { Box, Flex, useMediaQuery } from "@chakra-ui/react";
+import { Box, useMediaQuery } from "@chakra-ui/react";
 import { Carousel } from "react-responsive-carousel";
 import "react-responsive-carousel/lib/styles/carousel.min.css";
 import { boolean, number, text } from "@storybook/addon-knobs";
-import Slider from "react-slick";
 import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
 import "./styles.css";
@@ -35,7 +34,7 @@ export default function ProdDetailCarousel({params}) {
 
 
   const getConfigurableProps = () => ({
-    showArrows: boolean("showArrows", true, tooglesGroupId),
+    showArrows: boolean("showArrows", false, tooglesGroupId),
     showStatus: boolean("showStatus", false, tooglesGroupId),
     showIndicators: boolean("showIndicators", true, tooglesGroupId),
     infiniteLoop: boolean("infiniteLoop", true, tooglesGroupId),
@@ -48,15 +47,15 @@ export default function ProdDetailCarousel({params}) {
     emulateTouch: boolean("emulateTouch", true, tooglesGroupId),
     autoFocus: boolean("autoFocus", false, tooglesGroupId),
     selectedItem: number("selectedItem", 0, {}, valuesGroupId),
-    interval: number("interval", 10000, {}, valuesGroupId),
+    interval: number("interval", 7000, {}, valuesGroupId),
     transitionTime: number("transitionTime", 500, {}, valuesGroupId),
     swipeScrollTolerance: number("swipeScrollTolerance", 5, {}, valuesGroupId),
     ariaLabel: text("ariaLabel", ariaLabel),
   });
 
   const imageStyle: React.CSSProperties = {
-    width: "100%", // Ajusta el ancho de la imagen al 100% del contenedor 
-    height: smallerThan740 ? "500px" : "300px",
+    width: "35vw", // Ajusta el ancho de la imagen al 100% del contenedor 
+    height: "100vh",
     objectFit: "cover", // Ajusta el valor de objectFit a "cover" o "contain"
   };
 
@@ -75,40 +74,29 @@ export default function ProdDetailCarousel({params}) {
 
 
   return (
-    <Flex justifyContent="center" alignItems="center"
-      w={!smallerThan740 ? 
-        !smallerThan1200 ? 
-          "50%" 
-          : "100%" 
-        : "100%"
-      } 
-      pr={"1%"}  
-      minH={"300px"}>
-      <Box w={!smallerThan740 ? "90%" : "100%"} minW={"520px"}>
-
-        {/* Carrusel Grande */}
-        <Box w={"100%"}>
-          <Carousel
-            {...getConfigurableProps()}
-            infiniteLoop
-            selectedItem={selectedItem}
-            onChange={(index) => {
-              setSelectedItem(index);
-              setSelectedThumbnail(index);
-            }}
-          >
-            {thumbnailURLs.map((imageData, index) => (
-              <Box key={index}>
-                <img src={imageData.url} style={imageStyle}/>
-              </Box>
-            ))}
-          </Carousel>
-        </Box>
+    <Box w={"35vw"}>
+      {/* Carrusel Grande */}
+      <Box>
+        <Carousel
+          {...getConfigurableProps()}
+          infiniteLoop
+          selectedItem={selectedItem}
+          onChange={(index) => {
+            setSelectedItem(index);
+            setSelectedThumbnail(index);
+          }}
+        >
+          {thumbnailURLs.map((imageData, index) => (
+            <Box key={index}>
+              <img src={imageData.url} style={imageStyle}/>
+            </Box>
+          ))}
+        </Carousel>
         {/* Carrusel Grande */}   
 
 
         {/* Carrusel Chico */}     
-        {
+        {/* {
           !smallerThan740 ?  (
             thumbnailURLs.length > 4 ? (
               <Box mt={6} w={"100%"}  maxH={"120px"}>
@@ -141,9 +129,9 @@ export default function ProdDetailCarousel({params}) {
           )
             :
             null
-        }
+        } */}
         {/* Carrusel Chico */}  
       </Box>
-    </Flex>
+    </Box>
   );
 }

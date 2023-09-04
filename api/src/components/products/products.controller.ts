@@ -382,6 +382,7 @@ export async function getAllProductsByMaterial(req: Request, res: Response) {
                           ProdNames.Naturali_ProdName, 
                           ProdNames.ProdNameID, 
                           Products.ProdID, 
+                          Products.SalePrice, 
                           Dimension.Type, 
                           Dimension.Size, 
                           Dimension.Thickness, 
