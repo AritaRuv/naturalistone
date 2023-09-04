@@ -14,10 +14,13 @@ export async function getAllProducts(req: Request, res: Response) {
     const { material, colorId } = req.query;
 
     const query = `
-              SELECT DISTINCT ProdNames.Material, ProdNames.Naturali_ProdName, ProdNames.ProdNameID,
-              Product_Colors.ColorID, Product_Colors.idColorProduct FROM ProdNames
-              LEFT JOIN Product_Colors ON Product_Colors.ProdNameID = ProdNames.ProdNameID
-              ${material ? `WHERE Material = "${material}"` : ""}
+              SELECT DISTINCT Dimension.DimensionID, Dimension.Material, Dimension.Type, Dimension.Size, Dimension.Thickness,
+              Dimension.Finish, Products.ProdNameID, Products.SalePrice, ProdNames.Material, ProdNames.Naturali_ProdName, 
+              ProdNames.ProdNameID, Product_Colors.ColorID, Product_Colors.idColorProduct FROM ProdNames
+              LEFT JOIN Products ON ProdNames.ProdNameID = Products.ProdNameID
+              LEFT JOIN Dimension ON Products.DimensionID = Dimension.DimensionID
+              LEFT JOIN Product_Colors ON ProdNames.ProdNameID = Product_Colors.ProdNameID
+              ${material ? `WHERE ProdNames.Material = "${material}"` : ""}
               ${
                 colorId
                   ? `${material ? "AND" : "WHERE"} ColorID = "${colorId}"`

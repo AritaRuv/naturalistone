@@ -10,7 +10,7 @@ import {
 import { useState, useContext } from "react";
 import { useAppDispatch, useAppSelector } from "@/store/hooks";
 import { postCart } from "@/store/cart/actionsCart";
-import { ProductState } from "@/store/products/typesProducts";
+import { Product, ProductState } from "@/store/products/typesProducts";
 import CartButton from "../navBar/cartButton";
 import { LoginState } from "@/store/login/typeLogin";
 import { AppContext } from "@/app/appContext";
@@ -25,11 +25,13 @@ interface ProductListProps {
     };
   };
   ProdNameID: number;
+  product: Product;
 }
 
 const SampleProductList: React.FC<ProductListProps> = ({
   data,
   ProdNameID,
+  product,
 }) => {
   const dispatch = useAppDispatch();
   const { thickness, finish } = data[ProdNameID];
@@ -99,8 +101,6 @@ const SampleProductList: React.FC<ProductListProps> = ({
 
   const [array, setArray] = useState([]);
 
-  console.log("raw, 0", raw_products);
-
   const handleAddToCart = async () => {
     if (appContext && appContext.userLog) {
       const bodyCust = {
@@ -113,18 +113,18 @@ const SampleProductList: React.FC<ProductListProps> = ({
       };
       dispatch(postCart(bodyCust));
     } else {
-      const product = raw_products.find((product) => {
-        return (
-          product.ProdNameID === ProdNameID &&
-          product.Finish === selectedFinish &&
-          product.Type === "Sample"
-        );
-      });
-      console.log("Prodnamkeid", ProdNameID);
-      console.log("finish", selectedFinish);
-      console.log("soy product", product);
+      const productInProducts =
+        raw_products.length &&
+        raw_products.find((product) => {
+          return (
+            product.ProdNameID === ProdNameID &&
+            product.Finish === selectedFinish &&
+            product.Type === "Sample"
+          );
+        });
+      const productInCart = raw_products.length ? productInProducts : product;
       const productNotLogin = {
-        ...product,
+        ...productInCart,
         CustomerID: 0,
         idCartEntry: 0,
         Quantity: 0,

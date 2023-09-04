@@ -10,7 +10,7 @@ import {
 import { useState, useContext, useEffect } from "react";
 import { useAppDispatch, useAppSelector } from "@/store/hooks";
 import { postCart } from "@/store/cart/actionsCart";
-import { ProductState } from "@/store/products/typesProducts";
+import { Product, ProductState } from "@/store/products/typesProducts";
 import { LoginState } from "@/store/login/typeLogin";
 import CartButton from "../navBar/cartButton";
 import { AppContext } from "@/app/appContext";
@@ -27,9 +27,14 @@ interface ProductListProps {
     };
   };
   ProdNameID: number;
+  product: Product;
 }
 
-const ProductList: React.FC<ProductListProps> = ({ data, ProdNameID }) => {
+const ProductList: React.FC<ProductListProps> = ({
+  data,
+  ProdNameID,
+  product,
+}) => {
   const dispatch = useAppDispatch();
   const { size, thickness, finish } = data[ProdNameID];
 
@@ -191,16 +196,19 @@ const ProductList: React.FC<ProductListProps> = ({ data, ProdNameID }) => {
       };
       dispatch(postCart(bodyCust));
     } else {
-      const product = raw_products.find((product) => {
-        return (
-          product.ProdNameID === ProdNameID &&
-          product.Size === selectedSize &&
-          product.Thickness === selectedThickness &&
-          product.Finish === selectedFinish
-        );
-      });
+      const productInProducts =
+        raw_products.length &&
+        raw_products.find((product) => {
+          return (
+            product.ProdNameID === ProdNameID &&
+            product.Size === selectedSize &&
+            product.Thickness === selectedThickness &&
+            product.Finish === selectedFinish
+          );
+        });
+      const productInCart = raw_products.length ? productInProducts : product;
       const productNotLogin = {
-        ...product,
+        ...productInCart,
         CustomerID: 0,
         idCartEntry: 0,
         Quantity: 1,

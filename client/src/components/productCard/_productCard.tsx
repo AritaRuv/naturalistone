@@ -215,6 +215,7 @@ const ProductCard: React.FC<{
                       <AddProductToCart
                         ProdNameID={ProdNameID}
                         productValues={productValues}
+                        product={product}
                       />
                     </Box>
                   )}
@@ -223,6 +224,7 @@ const ProductCard: React.FC<{
                       <AddSampleProductToCart
                         ProdNameID={ProdNameID}
                         productValues={productValues}
+                        product={product}
                       />
                     </Box>
                   )}
