@@ -166,7 +166,9 @@ export async function getAllDimensionProperties(req: Request, res: Response) {
       FROM Dimension D
       JOIN Products P ON D.DimensionID = P.DimensionID
       JOIN ProdNames PN ON P.ProdNameID = PN.ProdNameID
-      WHERE PN.Material = ?
+      WHERE 
+      PN.Material = ? 
+      AND NOT D.Type = "Sample" 
       GROUP BY Type
       ORDER BY Frequency DESC;
     `;
@@ -189,18 +191,43 @@ export async function getAllDimensionProperties(req: Request, res: Response) {
           );
 
           if (property === "Finish") {
-            dimensionProperties.Type = dimensionProperties?.Type.sort();
+            dimensionProperties.Type = dimensionProperties?.Type.filter(
+              (el) =>
+                el !== null &&
+                el !== "" &&
+                el !== "null" &&
+                el !== "undefined" &&
+                el !== undefined
+            ).sort();
             const filterDimensionSize = dimensionProperties.Size.filter(
-              (el) => el !== null
+              (el) =>
+                el !== null &&
+                el !== "" &&
+                el !== "null" &&
+                el !== "undefined" &&
+                el !== undefined
             );
             dimensionProperties.Size = filterDimensionSize.sort(compareValues);
-            dimensionProperties.Finish = dimensionProperties?.Finish.sort();
+            dimensionProperties.Finish = dimensionProperties?.Finish.filter(
+              (el) =>
+                el !== null &&
+                el !== "" &&
+                el !== "null" &&
+                el !== "undefined" &&
+                el !== undefined
+            ).sort();
             const filterDimensionThickness =
-              dimensionProperties.Thickness.filter((el) => el !== null);
+              dimensionProperties.Thickness.filter(
+                (el) =>
+                  el !== null &&
+                  el !== "" &&
+                  el !== "null" &&
+                  el !== "undefined" &&
+                  el !== undefined
+              );
             dimensionProperties.Thickness = sortedFractions(
               filterDimensionThickness
             );
-            console.log(dimensionProperties);
             res.status(200).json(dimensionProperties);
           }
         }
@@ -407,7 +434,7 @@ export async function getAllProductsByMaterial(req: Request, res: Response) {
                   FROM Products
                   LEFT JOIN ProdNames ON Products.ProdNameID = ProdNames.ProdNameID
                   LEFT JOIN Dimension ON Products.DimensionID = Dimension.DimensionID
-                  ${material ? `WHERE ProdNames.Material = "${material}"` : ``}
+                  ${material ? `AND ProdNames.Material = "${material}"` : ``}
                   `;
 
     mysqlConnection.query(

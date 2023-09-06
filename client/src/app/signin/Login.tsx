@@ -114,6 +114,7 @@ const Login: React.FC<Props> = ({
           email: "",
           password: "",
         });
+        localStorage.removeItem("path");
         return;
       }
     }
