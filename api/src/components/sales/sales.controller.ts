@@ -65,9 +65,9 @@ export async function getSalesByUser(req: Request, res: Response) {
   const { id } = req.params;
   try {
     const _query = `SELECT Sales.*, Projects.ProjectName, Projects.Active, Projects.CustomerID
-    FROM Customers
-    LEFT JOIN Projects ON Projects.CustomerID = Customers.CustomerID
-    LEFT JOIN Sales ON Sales.ProjectID = Projects.idProjects
+    FROM Sales
+    LEFT JOIN Projects ON Sales.ProjectID = Projects.idProjects
+    LEFT JOIN Customers ON Projects.CustomerID = Customers.CustomerID
     WHERE Customers.CustomerID = ${id}`;
 
     mysqlConnection.query(

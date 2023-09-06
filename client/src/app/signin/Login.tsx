@@ -16,10 +16,15 @@ import {
   InputRightElement,
   Text,
   useToast,
-  useMediaQuery
+  useMediaQuery,
 } from "@chakra-ui/react";
 import React, { useState } from "react";
-import { PiUserCircleThin, PiLockThin, PiEyeSlashThin, PiEyeThin } from "react-icons/pi";
+import {
+  PiUserCircleThin,
+  PiLockThin,
+  PiEyeSlashThin,
+  PiEyeThin,
+} from "react-icons/pi";
 import { PiUserThin } from "react-icons/pi";
 import { postSignin } from "@/api/apiLogin";
 import { useRouter } from "next/navigation";
@@ -31,12 +36,16 @@ export interface Props {
   smallerThan1450: boolean;
 }
 
-const Login: React.FC<Props> = ({ setActiveLogin, smallerThan600, smallerThan1200 }) => {
+const Login: React.FC<Props> = ({
+  setActiveLogin,
+  smallerThan600,
+  smallerThan1200,
+}) => {
   const [formData, setFormData] = useState<SignIn>({
     email: "",
     password: "",
   });
-
+  const pathname = window.localStorage.getItem("path");
 
   const [errors, setErrors] = useState<FormErrorsLogin>({});
   const [show, setShow] = useState(false);
@@ -100,7 +109,7 @@ const Login: React.FC<Props> = ({ setActiveLogin, smallerThan600, smallerThan120
             onCloseComplete: () => setIsToastShowing(false),
           });
         }
-        router.push("/home");
+        router.replace(pathname ? pathname : "/home");
         setFormData({
           email: "",
           password: "",
@@ -130,20 +139,23 @@ const Login: React.FC<Props> = ({ setActiveLogin, smallerThan600, smallerThan120
     >
       <Box
         display={"flex"}
-        h={smallerThan600h ? "20vh":"30vh"}
+        h={smallerThan600h ? "20vh" : "30vh"}
         alignItems={"center"}
         justifyContent={"flex-start"}
         flexDirection={"column"}
       >
         <Avatar
-          icon={<PiUserThin fontSize={"5rem"}/>}
+          icon={<PiUserThin fontSize={"5rem"} />}
           mt={"-40px"}
           h={smallerThan600h ? "100px" : "180px"}
           w={smallerThan600h ? "100px" : "180px"}
           bg={"#a9a9a9"}
         />
-        <Center mt={"3vh"} hidden={smallerThan600h ? true : false} >
-          <Text  fontWeight={"thin"} fontSize={"1.4rem"}> LOG IN </Text>
+        <Center mt={"3vh"} hidden={smallerThan600h ? true : false}>
+          <Text fontWeight={"thin"} fontSize={"1.4rem"}>
+            {" "}
+            LOG IN{" "}
+          </Text>
         </Center>
       </Box>
       <Box
@@ -166,7 +178,11 @@ const Login: React.FC<Props> = ({ setActiveLogin, smallerThan600, smallerThan120
         >
           <Box display={"flex"} w={"18vw"} minW={"300px"}>
             <InputGroup flexDirection={"column"} h={"60px"}>
-              <InputLeftElement top={"-5px"} textAlign={"center"} pointerEvents="none">
+              <InputLeftElement
+                top={"-5px"}
+                textAlign={"center"}
+                pointerEvents="none"
+              >
                 <IconButton
                   display={"flex"}
                   textAlign={"center"}
@@ -203,9 +219,13 @@ const Login: React.FC<Props> = ({ setActiveLogin, smallerThan600, smallerThan120
               )}
             </InputGroup>
           </Box>
-          <Box display={"flex"}  w={"18vw"} minW={"300px"}>
+          <Box display={"flex"} w={"18vw"} minW={"300px"}>
             <InputGroup h={"60px"} flexDirection={"column"}>
-              <InputLeftElement top={"-5px"} textAlign={"center"} pointerEvents="none">
+              <InputLeftElement
+                top={"-5px"}
+                textAlign={"center"}
+                pointerEvents="none"
+              >
                 <IconButton
                   display={"flex"}
                   textAlign={"center"}
@@ -247,25 +267,25 @@ const Login: React.FC<Props> = ({ setActiveLogin, smallerThan600, smallerThan120
                 fontSize="xl"
                 onClick={handleShow}
               >
-                {
-                  show ?
-                    <IconButton
-                      aria-label="Password-icon"
-                      variant="unstyled"
-                      fontSize="2xl"
-                      display={"flex"}
-                      textAlign={"center"}
-                      icon={<PiEyeSlashThin />}
-                    /> :
-                    <IconButton
-                      aria-label="Password-icon"
-                      variant="unstyled"
-                      fontSize="2xl"
-                      display={"flex"}
-                      textAlign={"center"}
-                      icon={<PiEyeThin />}
-                    />
-                }
+                {show ? (
+                  <IconButton
+                    aria-label="Password-icon"
+                    variant="unstyled"
+                    fontSize="2xl"
+                    display={"flex"}
+                    textAlign={"center"}
+                    icon={<PiEyeSlashThin />}
+                  />
+                ) : (
+                  <IconButton
+                    aria-label="Password-icon"
+                    variant="unstyled"
+                    fontSize="2xl"
+                    display={"flex"}
+                    textAlign={"center"}
+                    icon={<PiEyeThin />}
+                  />
+                )}
               </InputRightElement>
             </InputGroup>
           </Box>
@@ -285,15 +305,14 @@ const Login: React.FC<Props> = ({ setActiveLogin, smallerThan600, smallerThan120
           backgroundColor={"transparent"}
           _hover={{
             backgroundColor: "transparent",
-            fontWeight: "semibold"
-
+            fontWeight: "semibold",
           }}
           _focus={{
             backgroundColor: "transparent",
             border: "none",
           }}
         >
-              LOG IN
+          LOG IN
         </Button>
         <Box
           display={"flex"}

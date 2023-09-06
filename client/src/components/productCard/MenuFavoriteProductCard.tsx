@@ -19,6 +19,7 @@ import {
 import { CreateNewProject } from "@/app/profile/addProjectModal";
 import { useRouter } from "next/navigation";
 import { AppContext } from "../../app/appContext";
+import { usePathname } from "next/navigation";
 
 export function MenuFavoriteProductCard({
   ProdNameID,
@@ -35,6 +36,7 @@ export function MenuFavoriteProductCard({
   const [bgHeart, setBgHeart] = useState(false);
   const router = useRouter();
   const appContext = useContext(AppContext);
+  const pathname = usePathname();
 
   const handleSubmit = async (idProject: number) => {
     await dispatch(postFavoritesProductInProject(idProject, ProdNameID));
@@ -63,7 +65,8 @@ export function MenuFavoriteProductCard({
   const iconFavorite = productFavorite.includes(ProdNameID);
 
   const handleLogin = () => {
-    router.push("/signin");
+    localStorage.setItem("path", pathname || "/home");
+    router.replace("/signin");
   };
 
   return (

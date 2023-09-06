@@ -14,27 +14,27 @@ import {
   Thead,
   Tr,
 } from "@chakra-ui/react";
-import { salesByProject } from "@/store/sales/actionsSales";
+import { salesByCustomer } from "@/store/sales/actionsSales";
 import { useRouter } from "next/navigation";
 import { LoginState } from "@/store/login/typeLogin";
 
-export default function OrderHistory({ params }) {
-  const { salesProject } = useAppSelector(
+export default function OrderHistoryUser({ user }) {
+  const { salesCustomer } = useAppSelector(
     (state: { salesReducer: SalesState }) => state.salesReducer
   );
+
+  console.log("soy sales", salesCustomer);
 
   const dispatch = useAppDispatch();
 
   useEffect(() => {
-    dispatch(salesByProject(423)); //params.idProjects 423
+    dispatch(salesByCustomer(1703)); //user.CustomerID 1703
   }, []);
 
   const router = useRouter();
 
   const handleSubmit = (el) => {
-    router.push(
-      `/profile/${params.ProjectName}/${params.idProjects}/${el.Naturali_Invoice}`
-    );
+    router.push(`/profile/saleDetail/${el.Naturali_Invoice}`);
   };
 
   return (
@@ -46,8 +46,8 @@ export default function OrderHistory({ params }) {
         justifyContent={"center"}
         alignItems={"center"}
       >
-        {salesProject && salesProject.length ? (
-          <TableContainer w={"90%"} h={"80%"}>
+        {salesCustomer && salesCustomer.length ? (
+          <TableContainer w={"90%"} h={"80%"} overflowY={"auto"}>
             <Table variant="simple">
               <Thead>
                 <Tr>
@@ -91,11 +91,19 @@ export default function OrderHistory({ params }) {
                   >
                     Value
                   </Th>
+                  <Th
+                    fontWeight={"hairline"}
+                    fontSize={"0.9rem"}
+                    textTransform={"uppercase"}
+                    textAlign={"center"}
+                  >
+                    Project
+                  </Th>
                 </Tr>
               </Thead>
               <Tbody>
-                {salesProject &&
-                  salesProject.map((sale, index) => {
+                {salesCustomer &&
+                  salesCustomer.map((sale, index) => {
                     return (
                       <Tr
                         _hover={{
@@ -110,37 +118,44 @@ export default function OrderHistory({ params }) {
                           fontSize={"0.9rem"}
                           textAlign={"center"}
                         >
-                          {sale.Naturali_Invoice}
+                          {sale?.Naturali_Invoice}
                         </Td>
                         <Td
                           fontWeight={"light"}
                           fontSize={"0.9rem"}
                           textAlign={"center"}
                         >
-                          {sale.InvoiceDate &&
-                            sale.InvoiceDate.toString().slice(0, 10)}
+                          {sale?.InvoiceDate &&
+                            sale?.InvoiceDate.toString().slice(0, 10)}
                         </Td>
                         <Td
                           fontWeight={"light"}
                           fontSize={"0.9rem"}
                           textAlign={"center"}
                         >
-                          {sale.EstDelivery_Date &&
-                            sale.EstDelivery_Date.toString().slice(0, 10)}
+                          {sale?.EstDelivery_Date &&
+                            sale?.EstDelivery_Date.toString().slice(0, 10)}
                         </Td>
                         <Td
                           fontWeight={"light"}
                           fontSize={"0.9rem"}
                           textAlign={"center"}
                         >
-                          {sale.Status}
+                          {sale?.Status}
                         </Td>
                         <Td
                           fontWeight={"light"}
                           fontSize={"0.9rem"}
                           textAlign={"center"}
                         >
-                          $ {sale.Value.toLocaleString("en-US")}
+                          $ {sale?.Value.toLocaleString("en-US")}
+                        </Td>
+                        <Td
+                          fontWeight={"light"}
+                          fontSize={"0.9rem"}
+                          textAlign={"center"}
+                        >
+                          {sale?.ProjectName}
                         </Td>
                       </Tr>
                     );
