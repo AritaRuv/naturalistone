@@ -233,39 +233,6 @@ const ProductList: React.FC<ProductListProps> = ({
   return (
     <>
       <HStack align="start" spacing={1} w={"100%"} mb={"4%"}>
-        <CheckboxGroup value={[selectedFinish]} colorScheme="whiteAlpha">
-          <VStack align="start" w={"80px"}>
-            <Text fontSize="0.7rem" fontWeight={"semibold"}>
-              FINISH
-            </Text>
-            {finish.map((finish) => (
-              <Box
-                key={finish}
-                fontSize={"0.7rem"}
-                display={"flex"}
-                justifyContent={"space-between"}
-                w={"60px"}
-              >
-                {finish}
-                <Checkbox
-                  size={"sm"}
-                  value={finish}
-                  iconColor="orange"
-                  borderColor={"blackAlpha.600"}
-                  isChecked={selectedFinish === finish}
-                  isDisabled={
-                    finishes.length > 0 &&
-                    !finishes.includes(finish) &&
-                    cantFiltros > 0
-                  }
-                  onChange={() =>
-                    handleCheckboxChange(finish, setSelectedFinish, "finish")
-                  }
-                />
-              </Box>
-            ))}
-          </VStack>
-        </CheckboxGroup>
         <CheckboxGroup colorScheme="whiteAlpha" value={[selectedSize]}>
           <VStack align="start" w={"80px"}>
             <Text fontSize="0.7rem" fontWeight={"semibold"}>
@@ -328,6 +295,39 @@ const ProductList: React.FC<ProductListProps> = ({
                     thicknesses.length > 0 &&
                     !thicknesses.includes(thickness) &&
                     cantFiltros > 0
+                  }
+                />
+              </Box>
+            ))}
+          </VStack>
+        </CheckboxGroup>
+        <CheckboxGroup value={[selectedFinish]} colorScheme="whiteAlpha">
+          <VStack align="start" w={"80px"}>
+            <Text fontSize="0.7rem" fontWeight={"semibold"}>
+              FINISH
+            </Text>
+            {finish.map((finish) => (
+              <Box
+                key={finish}
+                fontSize={"0.7rem"}
+                display={"flex"}
+                justifyContent={"space-between"}
+                w={"60px"}
+              >
+                {finish}
+                <Checkbox
+                  size={"sm"}
+                  value={finish}
+                  iconColor="orange"
+                  borderColor={"blackAlpha.600"}
+                  isChecked={selectedFinish === finish}
+                  isDisabled={
+                    finishes.length > 0 &&
+                    !finishes.includes(finish) &&
+                    cantFiltros > 0
+                  }
+                  onChange={() =>
+                    handleCheckboxChange(finish, setSelectedFinish, "finish")
                   }
                 />
               </Box>

@@ -434,7 +434,12 @@ export async function getAllProductsByMaterial(req: Request, res: Response) {
                   FROM Products
                   LEFT JOIN ProdNames ON Products.ProdNameID = ProdNames.ProdNameID
                   LEFT JOIN Dimension ON Products.DimensionID = Dimension.DimensionID
-                  ${material ? `AND ProdNames.Material = "${material}"` : ``}
+                  WHERE (
+                    (ProdNames.Material IN ("Porcelain", "Terrazzo"))
+                    OR (ProdNames.Material NOT IN ("Porcelain", "Terrazzo") AND Dimension.Type != "Slab")
+                    )
+                    ${material ? `AND ProdNames.Material = "${material}"` : ``}
+                  ORDER BY ProdNames.Naturali_ProdName ASC
                   `;
 
     mysqlConnection.query(
