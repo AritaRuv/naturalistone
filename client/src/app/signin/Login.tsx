@@ -45,7 +45,9 @@ const Login: React.FC<Props> = ({
     email: "",
     password: "",
   });
-  const pathname = window.localStorage.getItem("path");
+
+  const pathname =
+    typeof window !== "undefined" ? localStorage.getItem("path") : "/home";
 
   const [errors, setErrors] = useState<FormErrorsLogin>({});
   const [show, setShow] = useState(false);

@@ -156,7 +156,7 @@ export default function Products({ params }) {
               <option value="ZA"> Z-A</option>
             </Select>
           </Box>
-          <ProductsContainer params={params} />
+          <ProductsContainer params={params}/>
         </Box>
       </Box>
     </>

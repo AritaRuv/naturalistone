@@ -38,20 +38,20 @@ export default function Collections() {
           spacingX={"60px"}
         >
           {materials &&
-            materials.map(
-              (material, i) => {
-                if (material !== "Fraanciaaa") {
-                  return (
-                    <Box key={i}>
-                      <MaterialCard material={material} />
-                    </Box>
-                  );
-                }
-              },
-              <Box>
-                <MaterialCard material={"all"} />
-              </Box>
-            )}
+            materials.map((material, i) => {
+              if (material !== "Fraanciaaa") {
+                return (
+                  <Box key={i}>
+                    <MaterialCard material={material} />
+                  </Box>
+                );
+              }
+            })}
+          {materials && materials.length > 0 && (
+            <Box>
+              <MaterialCard material={"all"} />
+            </Box>
+          )}
         </SimpleGrid>
       </Center>
     </>
