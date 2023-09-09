@@ -431,7 +431,15 @@ export async function getAllProductsByMaterial(req: Request, res: Response) {
                           Dimension.Size, 
                           Dimension.Thickness, 
                           Dimension.Finish,
-                          Products.SalePrice
+                          Products.SalePrice,
+                          CASE
+                            WHEN 
+                              Dimension.Type = "Tile" AND ProdNames.Material != "Porcelain" 
+                            THEN 
+                              (SUBSTRING_INDEX(Dimension.Size, 'x', 1) * SUBSTRING_INDEX(Dimension.Size, 'x', -1)) / 144
+                            ELSE
+                              NULL
+                          END AS sqft
                   FROM Products
                   LEFT JOIN ProdNames ON Products.ProdNameID = ProdNames.ProdNameID
                   LEFT JOIN Dimension ON Products.DimensionID = Dimension.DimensionID
