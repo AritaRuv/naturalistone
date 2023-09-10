@@ -16,19 +16,16 @@ import {
 } from "@chakra-ui/react";
 import { salesByCustomer } from "@/store/sales/actionsSales";
 import { useRouter } from "next/navigation";
-import { LoginState } from "@/store/login/typeLogin";
 
 export default function OrderHistoryUser({ user }) {
   const { salesCustomer } = useAppSelector(
     (state: { salesReducer: SalesState }) => state.salesReducer
   );
 
-  console.log("soy sales", salesCustomer);
-
   const dispatch = useAppDispatch();
 
   useEffect(() => {
-    dispatch(salesByCustomer(1703)); //user.CustomerID 1703
+    dispatch(salesByCustomer(user.CustomerID)); //user.CustomerID 1703
   }, []);
 
   const router = useRouter();
