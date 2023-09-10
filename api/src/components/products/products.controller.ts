@@ -14,7 +14,7 @@ export async function getAllProducts(req: Request, res: Response) {
     const { material, colorId } = req.query;
 
     const query = `
-              SELECT DISTINCT Dimension.DimensionID, Dimension.Material, Dimension.Type, Dimension.Size, Dimension.Thickness,
+              SELECT DISTINCT Dimension.DimensionID, Dimension.Type, Dimension.Size, Dimension.Thickness,
               Dimension.Finish, Products.ProdNameID, Products.SalePrice, ProdNames.Material, ProdNames.Naturali_ProdName, 
               ProdNames.ProdNameID, Product_Colors.ColorID, Product_Colors.idColorProduct FROM ProdNames
               LEFT JOIN Products ON ProdNames.ProdNameID = Products.ProdNameID
