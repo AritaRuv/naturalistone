@@ -166,3 +166,41 @@ export async function getDetailOfSale(req: Request, res: Response) {
       .json({ success: false, msg: "General error", error });
   }
 }
+
+export async function postSales(req: Request, res: Response) {
+  try {
+    const { naturaliInvoice, value, projectID, invoiceDate, estDelivery_Date, sellerID, shippingMethod, shipTo,
+      warehouse_Stamp, payment_Stamp, statusSale, modificationFlag, lastInsertDate, updated_Date, paymentTerms, p_O_No } = req.params;
+
+    const saleValues = [naturaliInvoice, value, projectID, invoiceDate, estDelivery_Date, sellerID, shippingMethod, shipTo, warehouse_Stamp,
+      payment_Stamp, statusSale, modificationFlag, lastInsertDate, updated_Date, paymentTerms, p_O_No];
+
+    const queryInsertSale =
+      `INSERT INTO Sales(Naturali_Invoice, Value, ProjectID, InvoiceDate,EstDelivery_Date,SellerID,ShippingMethod,ShipTo,Payment_Stamp,
+              Status,ModificationFlag,LastInsertDate,Updated_Date,PaymentTerms,P_O_No) VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)`;
+
+    mysqlConnection.query(
+      queryInsertSale,
+      saleValues,
+      function (err: MysqlError, results: RowDataPacket) {
+        if (err) {
+          return res.status(400).json({
+            success: false,
+            msg: "Error in inserting sale",
+          });
+        }
+
+        return res.status(200).json({
+          success: true,
+          msg: "Insert sale successful",
+        });
+      }
+    );
+  } catch (error) {
+    return res.status(500).json({
+      success: false,
+      msg: "General error in post sale",
+    });
+  }
+}
+

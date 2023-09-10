@@ -18,6 +18,8 @@
     "@googlemaps/react-wrapper": "^1.1.35",
     "@react-google-maps/api": "^2.19.0",
     "@reduxjs/toolkit": "^1.9.5",
+    "@stripe/react-stripe-js": "^2.1.2",
+    "@stripe/stripe-js": "^2.1.0",
     "@types/googlemaps": "^3.43.3",
     "axios": "^1.4.0",
     "formik": "^2.4.3",
@@ -34,7 +36,8 @@
     "react-router-dom": "^6.14.2",
     "react-slick": "^0.29.0",
     "redux": "^4.2.1",
-    "slick-carousel": "^1.8.1"
+    "slick-carousel": "^1.8.1",
+    "stripe": "^13.3.0"
   },
   "devDependencies": {
     "@storybook/addon-knobs": "^7.0.2",

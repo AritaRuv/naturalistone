@@ -1,5 +1,5 @@
 import { FieldInfo, MysqlError } from "mysql";
-import express, { Request, Response } from "express";
+import { Request, Response } from "express";
 import mysqlConnection from "../../db";
 import { RowDataPacket, FieldPacket } from "mysql2";
 
@@ -83,16 +83,14 @@ export async function newCartEntry(req: Request, res: Response) {
                 //----------------------------------
                 const product = prodResults[0];
 
-                const productSalePrice =
-                  product.SalePrice === null ? 1 : product.SalePrice;
-
                 const queryInsertCart =
-                  "INSERT INTO Cart(CustomerID, ProductID, Quantity, SalePrice) VALUES (?, ?, ?, ?)";
+                  "INSERT INTO Cart(CustomerID, ProductID, Quantity,ToInvoice,AddExtra) VALUES (?, ?, ?, ?, ?)";
                 const cartValues = [
                   customerID,
                   product.ProdID,
                   1,
-                  productSalePrice,
+                  0,
+                  0
                 ];
 
                 mysqlConnection.query(
@@ -207,8 +205,8 @@ export async function newCartEntry(req: Request, res: Response) {
 
                 if (prodResults.length === 0) {
                   const queryInsertCart =
-                    "INSERT INTO Cart(CustomerID, ProductID, Quantity, SalePrice) VALUES (?, ?, ?, ?)";
-                  const cartValues = [customerID, product.ProdID, 0, 0];
+                    "INSERT INTO Cart(CustomerID, ProductID, Quantity) VALUES (?, ?, ?, )";
+                  const cartValues = [customerID, product.ProdID, 0, ];
 
                   mysqlConnection.query(
                     queryInsertCart,
@@ -275,7 +273,9 @@ export async function getCartProducts(req: Request, res: Response) {
     const query = `SELECT 
                       Cart.idCartEntry,
                       Cart.Quantity,
-                      Cart.CustomerID, 
+                      Cart.CustomerID,
+                      Cart.AddExtra,
+                      Cart.ToInvoice,
                       Products.SalePrice,
                       Dimension.Type,
                       Dimension.Size,
@@ -313,9 +313,9 @@ export async function getCartProducts(req: Request, res: Response) {
 
 export async function updateCartProducts(req: Request, res: Response) {
   try {
-    const { Quantity, idCartEntry } = req.body;
+    const { Quantity, idCartEntry, toInvoice,addExtra } = req.body;
 
-    const query = `UPDATE NaturaliStone.Cart SET Quantity = ${Quantity} WHERE idCartEntry = ${idCartEntry}`;
+    const query = `UPDATE NaturaliStone.Cart SET Quantity = ${Quantity}, ToInvoice =${toInvoice},AddExtra =${addExtra} WHERE idCartEntry = ${idCartEntry}`;
 
     mysqlConnection.query(
       query,
@@ -324,6 +324,7 @@ export async function updateCartProducts(req: Request, res: Response) {
           throw error;
         }
         if (results.length === 0) {
+
           console.log(`Error en cart.update cartEntry: ${idCartEntry}`);
           res
             .status(404)

@@ -1,15 +1,17 @@
 "use client";
 import { Box, Button, Center, Text, VStack } from "@chakra-ui/react";
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import {
   validateCompletedInputsCheckout,
   validateInputsFormEmail,
 } from "@/utils/validateForms";
-import { Field, Form, Formik } from "formik";
 import { ShippingAddresForm } from "./ShippingAddresForm";
 import { ShippingMethodForm } from "./ShippingMethodForm";
-import { PaymentMethodForm } from "./PaymentMethodForm";
 import { CheckoutFormData } from "../../utils/types";
+import { createCheckout } from "@/api/apiCheckout";
+import { useAppSelector } from "@/store/hooks";
+import { LoginState } from "@/store/login/typeLogin";
+import WrapperStripe from "./wrapperStripe";
 
 export default function CheckoutForm({ smallerThan740 }) {
   const [formData, setFormData] = useState<CheckoutFormData>({
@@ -38,6 +40,24 @@ export default function CheckoutForm({ smallerThan740 }) {
   });
   const [errors, setErrors] = useState({});
   const [showErrors, setShowErrors] = useState(false);
+  const [clientSecret, setClientSecret] = useState("");
+  const { user } = useAppSelector(
+    (state: { loginReducer: LoginState }) => state.loginReducer
+  );
+
+  async function handleLoadStripe() {
+    //llamo a la api para que calcule el monto final del carrito y genera el clientSecret para renderizar el componente stripe
+    const response = await createCheckout(user.CustomerID);
+    setClientSecret(() => (
+      response.intento.client_secret,
+   ));
+  }
+
+  useEffect(() => {
+    handleLoadStripe();
+
+  }, []);
+  console.log(clientSecret)
 
   const handleChangeFormData = (event) => {
     setFormData({
@@ -71,60 +91,9 @@ export default function CheckoutForm({ smallerThan740 }) {
     );
   };
 
-  const handleChangePaymentMethod = (event) => {
-    if (event.target.name === "Cvv" && event.target.value.length > 3) {
-      return;
-    }
-    setFormData({
-      ...formData,
-      Payment_Method: {
-        ...formData.Payment_Method,
-        [event.target.name]: event.target.value,
-      },
-    });
-
-    setErrors(
-      validateCompletedInputsCheckout({
-        ...formData,
-        Payment_Method: {
-          ...formData.Payment_Method,
-          [event.target.name]: event.target.value,
-        },
-      })
-    );
-  };
-
-  const handleClick = async () => {
-    setShowErrors(true);
-    if (Object.keys(errors).length) return;
-    setFormData({
-      Shipping_Address: {
-        FirstName: "",
-        LastName: "",
-        Company: "",
-        Email: "",
-        Shipping_Address: "",
-        Shipping_City: "",
-        Shipping_State: "",
-        Shipping_ZipCode: "",
-        Phone: "",
-      },
-      Shipping_Method: "",
-      Payment_Method: {
-        Method: "creditCard",
-        CreditCardNumber: "",
-        ExpirationDateMonth: "",
-        ExpirationDateYear: "",
-        Cvv: "",
-      },
-      SubTotal: "",
-      Shipping_Total: "",
-      Total: "",
-    });
-  };
-
   return (
     <>
+
       <Box
         h={"full"}
         w={smallerThan740 ? "full" : "50%"}
@@ -147,14 +116,23 @@ export default function CheckoutForm({ smallerThan740 }) {
           handleChangeFormData={handleChangeFormData}
           errors={errors}
         />
-        <PaymentMethodForm
+        <Box w={"90%"} pl={"60px"}>
+          {
+            clientSecret != "" && <WrapperStripe clientSecret={clientSecret} formData={formData} errors={errors} setShowErrors={setShowErrors} />
+          }
+
+        </Box>
+        {/* <PaymentMethodForm
           showErrors={showErrors}
           formData={formData}
           handleChangePaymentMethod={handleChangePaymentMethod}
           errors={errors}
           setFormData={setFormData}
-        />
-        <Center w={"90%"} pt={"60px"} h={"200px"}>
+        /> */}
+
+
+
+        {/* <Center w={"90%"} pt={"60px"} h={"200px"}>
           <Button
             onClick={handleClick}
             bg={"transparent"}
@@ -162,7 +140,7 @@ export default function CheckoutForm({ smallerThan740 }) {
           >
             PLACE ORDER
           </Button>
-        </Center>
+        </Center> */}
       </Box>
     </>
   );

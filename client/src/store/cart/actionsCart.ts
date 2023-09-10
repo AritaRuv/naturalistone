@@ -9,12 +9,16 @@ export interface bodyCart {
   finish: string;
   ProdNameID: number;
   customerID: number;
+  AddMore: number;
+  ToInvoice: number;
 }
 
 export interface bodyCartUpdate {
   Quantity: number;
   idCartEntry: number;
   customerID: number;
+  AddMore:number;
+  ToInvoice:number;
 }
 
 export const fetchCart = (id: number) => {
@@ -68,7 +72,6 @@ export const postCart = (body: bodyCart) => {
 };
 
 export const updateCart = (body: bodyCartUpdate) => {
-
   return async (dispatch: Dispatch<CartAction>) => {
 
     dispatch({ type: CartActionTypes.FETCH_CART_REQUEST });

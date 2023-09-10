@@ -1,11 +1,13 @@
 import { Box, Button, Divider, Text, useMediaQuery } from "@chakra-ui/react";
 import ProductCardCart from "../../components/navBar/cartProducts";
 import Link from "next/link";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import { useAppDispatch, useAppSelector } from "@/store/hooks";
 import { fetchCart } from "@/store/cart/actionsCart";
 import { CartState } from "@/store/cart/typesCart";
 import { LoginState } from "@/store/login/typeLogin";
+import getStripe from "@/utils/getStripe";
+import { createCheckout } from "@/api/apiCheckout";
 
 export default function CheckoutCart() {
   const dispatch = useAppDispatch();
@@ -26,6 +28,17 @@ export default function CheckoutCart() {
       dispatch(fetchCart(user?.CustomerID));
     }
   }, [cart]);
+
+
+  const handleClickCheckout = async () => {
+    const stripe = await getStripe();
+    const response = await createCheckout(user.CustomerID);
+    const sisionId: string = response.sessionId;
+
+    //stripe.redirectToCheckout({ sessionId: sisionId });
+    setClientSecret(response.intento.client_secret);
+    
+  };
 
   return (
     <>
@@ -107,6 +120,7 @@ export default function CheckoutCart() {
               fontSize="0.9rem"
               variant="unstyled"
               className="customButton"
+              onClick={handleClickCheckout}
             >
               {" "}
               CHECK OUT{" "}

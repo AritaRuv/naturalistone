@@ -6,6 +6,10 @@ import {
   Text,
   useMediaQuery,
   Center,
+  Checkbox,
+  VStack,
+  HStack,
+  Stack
 } from "@chakra-ui/react";
 import NextImage from "next/image";
 import "../../app/assets/styleSheet.css";
@@ -14,7 +18,7 @@ import { deleteCart, updateCart } from "@/store/cart/actionsCart";
 import { useAppDispatch, useAppSelector } from "@/store/hooks";
 import { LoginState } from "@/store/login/typeLogin";
 
-const ProductCardCart: React.FC<{ product: ProductCart }> = ({ product }) => {
+const ProductCardCart: React.FC<{ product: ProductCart }> = ({ product, preCheckout }) => {
   const {
     CustomerID,
     Finish,
@@ -26,6 +30,8 @@ const ProductCardCart: React.FC<{ product: ProductCart }> = ({ product }) => {
     Thickness,
     Type,
     idCartEntry,
+    ToInvoice,
+    AddExtra,
   } = product;
 
   const URL = `https://naturalistone-images.s3.amazonaws.com/${Material}/${Naturali_ProdName}/${Naturali_ProdName}_0.jpg`;
@@ -39,6 +45,9 @@ const ProductCardCart: React.FC<{ product: ProductCart }> = ({ product }) => {
   const fontTitle = isExtraExtraSmallScreen ? "0.7rem" : "0.9rem";
 
   const [quantity, setQuantity] = useState(Quantity);
+  const [toInvoice, setToInvoice] = useState(ToInvoice);
+  const [addExtra, setAddExtra] = useState(AddExtra);
+
   const price = Number(SalePrice);
   const dispatch = useAppDispatch();
 
@@ -46,44 +55,56 @@ const ProductCardCart: React.FC<{ product: ProductCart }> = ({ product }) => {
     if (quantity > 1) {
       const newQuantity = quantity - 1;
       setQuantity(newQuantity);
-      updateCartQuantity(newQuantity);
+      updateCartQuantity(newQuantity, addExtra,toInvoice);
     }
   };
 
   const increaseQuantity = () => {
     const newQuantity = quantity + 1;
     setQuantity(newQuantity);
-    updateCartQuantity(newQuantity);
+    updateCartQuantity(newQuantity, addExtra, toInvoice);
   };
 
-  const updateCartQuantity = (newQuantity) => {
+  const updateToInvoice = () => {
+    if(toInvoice === 0)
+      setToInvoice(1);
+    else
+      setToInvoice(0);
+
+    
+    updateCartQuantity(newQuantity, addExtra, toInvoice);
+  };
+
+  const updateCartQuantity = (newQuantity: number, addExtra: number, toInvoice: number) => {
     const bodyUpd = {
       Quantity: newQuantity,
       idCartEntry: idCartEntry,
       customerID: CustomerID,
+      addExtra: addExtra,
+      toInvoice: toInvoice
     };
+    console.log(bodyUpd)
     dispatch(updateCart(bodyUpd));
   };
 
   const handleQuantityChange = (event) => {
     const newQuantity = Number(event.target.value);
     setQuantity(newQuantity);
-    updateCartQuantity(newQuantity);
+    updateCartQuantity(newQuantity, addExtra, toInvoice);
   };
 
   const handleQuantityBlur = () => {
-    updateCartQuantity(quantity);
+    //updateCartQuantity(quantity, addExtra, toInvoice);
   };
 
   const handleDelete = () => {
     dispatch(deleteCart(idCartEntry, user?.CustomerID));
   };
-
   return (
     <>
       <Box
         h={"175px"}
-        w={isExtraSmallScreen ? "100%" : "440px"}
+        w={isExtraSmallScreen ? "100%" : "740px"}
         overflow={"hidden"}
         display={"flex"}
         alignItems={"center"}
@@ -92,9 +113,12 @@ const ProductCardCart: React.FC<{ product: ProductCart }> = ({ product }) => {
         py={"4px"}
         backgroundColor={quantity === 0 ? "sampleItemCart.gray" : "white"}
       >
+        <Stack w={"100%"} ms={12} direction={['column', 'row']} spacing='24px'>
+
+       
         {
           isExtraSmallScreen ? (
-            <Box h={"110px"} w={"110px"} position={"relative"} overflow={"hidden"}>
+            <Box h={"110px"} w={"120px"} position={"relative"} overflow={"hidden"}>
               <NextImage objectFit="cover" fill src={URL} alt="img" />
             </Box>
           ) : (
@@ -129,7 +153,7 @@ const ProductCardCart: React.FC<{ product: ProductCart }> = ({ product }) => {
             </Box>
           )}
 
-        <Box h={isExtraSmallScreen ? "120px" : "140px"} w={"220px"} display={"flex"} flexDir={"column"} justifyContent={"space-between"}>
+        <Box h={isExtraSmallScreen ? "120px" : "140px"} ms={2}  w={"220px"} display={"flex"} flexDir={"column"} justifyContent={"space-between"}>
           <Box>
             <Text textTransform={"uppercase"} fontSize={fontSubTitle}>{Material}</Text>
             <Text textTransform={"uppercase"} fontWeight={"bold"} fontSize={fontTitle}>{Naturali_ProdName}</Text>
@@ -150,7 +174,7 @@ const ProductCardCart: React.FC<{ product: ProductCart }> = ({ product }) => {
                     </Text>
                   </Center>
                 </Box>
-                <Box display={"flex"} h={"28px"} justifyContent={"space-between"} alignItems={"center"}>
+                <Box w={"100%"} display={"flex"} h={"28px"} justifyContent={"space-between"} alignItems={"center"}>
                   <Text textTransform={"uppercase"} fontSize={fontSubTitle}>Quantity</Text>
                   <Center w={"80px"} display={"flex"} flexDir={"row"} alignItems={"center"} justifyItems={"flex-end"}>
                     <Button
@@ -186,10 +210,29 @@ const ProductCardCart: React.FC<{ product: ProductCart }> = ({ product }) => {
                     </Button>
                   </Center>
                 </Box>
+                {
+                  preCheckout && 
+                  <Box>
+                      <Checkbox size="sm" defaultChecked>Add 10% more</Checkbox>
+                  </Box>
+
+                }
               </>
             )}
           </Box>
         </Box>
+        <Box>
+          <VStack >
+            <Checkbox defaultChecked>Facturar</Checkbox>
+            <Text
+              h={"30px"}
+              fontWeight={"semibold"}
+              textAlign={"center"}>
+              $ {price * quantity}
+            </Text>
+          </VStack>
+        </Box>
+        </Stack>
       </Box>
     </>
   );

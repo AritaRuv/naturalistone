@@ -10,6 +10,8 @@ export interface ProductCart {
     Finish: string;
     Naturali_ProdName: string;
     Material: string;
+    ToInvoice: number;
+    AddExtra: number;
     }
   
 export interface CartState {

@@ -256,24 +256,24 @@ export const validateCompletedInputsCheckout = (formData) => {
   if (formData.Shipping_Method === "")
     errors.Shipping_Method = "Please enter Shipping Method";
 
-  if (formData.Payment_Method.Method === "")
-    errors.Method = "Please enter a method";
+  // if (formData.Payment_Method.Method === "")
+  //   errors.Method = "Please enter a method";
 
-  if (formData.Payment_Method.CreditCardNumber === "")
-    errors.CreditCardNumber = "Please enter a creditcard number";
-  if (formData.Payment_Method.CreditCardNumber !== "") {
-    if (!regexCard.test(formData.Payment_Method.CreditCardNumber)) {
-      errors.CreditCardNumber = "Please enter a valid credit card";
-    }
-  }
+  // if (formData.Payment_Method.CreditCardNumber === "")
+  //   errors.CreditCardNumber = "Please enter a creditcard number";
+  // if (formData.Payment_Method.CreditCardNumber !== "") {
+  //   if (!regexCard.test(formData.Payment_Method.CreditCardNumber)) {
+  //     errors.CreditCardNumber = "Please enter a valid credit card";
+  //   }
+  // }
 
-  if (formData.Payment_Method.ExpirationDateMonth === "")
-    errors.ExpirationDateMonth = "Please enter a expiration date month";
+  // if (formData.Payment_Method.ExpirationDateMonth === "")
+  //   errors.ExpirationDateMonth = "Please enter a expiration date month";
 
-  if (formData.Payment_Method.ExpirationDateYear === "")
-    errors.ExpirationDateYear = "Please enter a expiration date year";
+  // if (formData.Payment_Method.ExpirationDateYear === "")
+  //   errors.ExpirationDateYear = "Please enter a expiration date year";
 
-  if (formData.Payment_Method.Cvv === "") errors.Cvv = "Please enter a cvv";
+  // if (formData.Payment_Method.Cvv === "") errors.Cvv = "Please enter a cvv";
 
   return errors;
 };
