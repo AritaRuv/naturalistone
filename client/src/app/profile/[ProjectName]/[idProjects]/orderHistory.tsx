@@ -26,9 +26,8 @@ export default function OrderHistory({ params }) {
   const dispatch = useAppDispatch();
 
   useEffect(() => {
-    dispatch(salesByProject(423)); //params.idProjects 423
+    dispatch(salesByProject(params.idProjects)); //params.idProjects 423
   }, []);
-
   const router = useRouter();
 
   const handleSubmit = (el) => {

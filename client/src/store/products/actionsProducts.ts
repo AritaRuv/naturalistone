@@ -113,7 +113,6 @@ export const fetchProductsFilters = (
 ) => {
   return async (dispatch: Dispatch<ProductAction>) => {
     dispatch({ type: ProductActionTypes.FETCH_PRODUCTS_REQUEST });
-    console.log("hola");
     try {
       const result = getProductsFiltered(raw_products, filters);
       dispatch({
