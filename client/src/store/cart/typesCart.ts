@@ -10,8 +10,8 @@ export interface ProductCart {
   Finish: string;
   Naturali_ProdName: string;
   Material: string;
-    ToInvoice: number;
-    AddExtra: number;
+  ToInvoice: number;
+  AddExtra: number;
   ProdID?: number;
 }
 
