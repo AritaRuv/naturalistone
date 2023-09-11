@@ -17,7 +17,7 @@ import {
 } from "@chakra-ui/react";
 import { PiShoppingCartThin } from "react-icons/pi";
 import { useAppSelector, useAppDispatch } from "@/store/hooks";
-import { CartState } from "@/store/cart/typesCart";
+import { CartState, ProductCart } from "@/store/cart/typesCart";
 import { fetchCart } from "@/store/cart/actionsCart";
 import ProductCardCart from "./cartProducts";
 import "./_navBar.css";
@@ -31,13 +31,11 @@ const CartButton: React.FC<{
   isCartModalOpen?: boolean;
   setIsCartModalOpen?: React.Dispatch<React.SetStateAction<boolean>>;
   sample?: boolean;
-  array?: Product[];
 }> = ({
   icon = true,
   isCartModalOpen,
   setIsCartModalOpen,
   sample,
-  array = [] as Product[],
 }) => {
   const { isOpen, onOpen, onClose } = useDisclosure();
   const { cart } = useAppSelector(
@@ -48,16 +46,15 @@ const CartButton: React.FC<{
   const { user } = useAppSelector(
     (state: { loginReducer: LoginState }) => state.loginReducer
   );
-  const [arrayProducts, setArrayProducts] = useState(() => {
-    if (typeof window !== "undefined") {
-      const localData = localStorage.getItem("cartProducts") || "[]";
-      return localData ? JSON.parse(localData) : [];
-    }
-    return [];
-  });
+
+  const cartProductsJson = typeof window !== "undefined" ? localStorage.getItem("cartProducts") : null;
+
+  const productsStorage: Product[] = cartProductsJson !== null ? JSON.parse(cartProductsJson) : [];
+
+  const [arrayProducts, setArrayProducts] = useState([]);
 
   const inputRef = useRef(cart.length);
-  const inputLocalRef = useRef(arrayProducts.length);
+  const inputLocalRef = useRef(productsStorage.length);
   const appContext = useContext(AppContext);
 
   useEffect(() => {
@@ -74,10 +71,14 @@ const CartButton: React.FC<{
   }, [isCartModalOpen, isOpen]);
 
   useEffect(() => {
-    if (appContext && !appContext.userLog) {
-      JSON.parse(localStorage.getItem("cartProducts") || "[]");
+    if(productsStorage.length !== arrayProducts.length) {
+      if (cartProductsJson !== null) {
+        setArrayProducts(JSON.parse(cartProductsJson));
+      } else {
+        setArrayProducts([]);
+      }
     }
-  }, [array]);
+  }, [productsStorage, arrayProducts]);
 
   return (
     <>
@@ -101,52 +102,37 @@ const CartButton: React.FC<{
             <Box h={"85%"} overflow={"auto"}>
               {appContext && appContext.userLog
                 ? cart?.map((product, index) => {
-                    return (
-                      <Box key={product.idCartEntry}>
-                        <ProductCardCart
-                          product={product}
-                          inputRef={
-                            index === inputRef.current ? inputRef : null
-                          }
-                          sample={sample}
-                        />
-                        <Divider borderColor={"gray.300"} />
-                      </Box>
-                    );
-                  })
-                : array.length > 0
-                ? array?.map((product, index) => {
-                    return (
-                      <Box key={index}>
-                        <ProductCardCart
-                          product={product}
-                          inputRef={
-                            index === inputLocalRef.current
-                              ? inputLocalRef
-                              : null
-                          }
-                          sample={sample}
-                        />
-                        <Divider borderColor={"gray.300"} />
-                      </Box>
-                    );
-                  })
+                  return (
+                    <Box key={product.idCartEntry}>
+                      <ProductCardCart
+                        product={product}
+                        inputRef={
+                          index === inputRef.current ? inputRef : null
+                        }
+                        sample={sample}
+                        setArrayProducts={setArrayProducts}
+                      />
+                      <Divider borderColor={"gray.300"} />
+                    </Box>
+                  );
+                })
                 : arrayProducts?.map((product, index) => {
-                    return (
-                      <Box key={index}>
-                        <ProductCardCart
-                          product={product}
-                          inputRef={
-                            index === inputLocalRef.current
-                              ? inputLocalRef
-                              : null
-                          }
-                          sample={sample}
-                        />
-                        <Divider borderColor={"gray.300"} />
-                      </Box>
-                    );
-                  })}
+                  return (
+                    <Box key={index}>
+                      <ProductCardCart
+                        product={product}
+                        inputRef={
+                          index === inputLocalRef.current
+                            ? inputLocalRef
+                            : null
+                        }
+                        sample={sample}
+                        setArrayProducts={setArrayProducts}
+                      />
+                      <Divider borderColor={"gray.300"} />
+                    </Box>
+                  );
+                })}
             </Box>
             <Box
               w={"100%"}
@@ -179,3 +165,7 @@ const CartButton: React.FC<{
 };
 
 export default CartButton;
+function State(arg0: never[]) {
+  throw new Error("Function not implemented.");
+}
+

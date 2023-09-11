@@ -183,8 +183,6 @@ const ProductList: React.FC<ProductListProps> = ({
     }
   };
 
-  const [array, setArray] = useState([]);
-
   const handleAddToCart = async () => {
     if (appContext && appContext.userLog) {
       const bodyCust = {
@@ -197,7 +195,7 @@ const ProductList: React.FC<ProductListProps> = ({
       dispatch(postCart(bodyCust));
     } else {
       const productInProducts =
-        raw_products.length &&
+        raw_products.length > 0 &&
         raw_products.find((product) => {
           return (
             product.ProdNameID === ProdNameID &&
@@ -213,12 +211,11 @@ const ProductList: React.FC<ProductListProps> = ({
         idCartEntry: 0,
         Quantity: 1,
       };
-      const arrayProducts = JSON.parse(
+      const arrayProducts: any = window && JSON.parse(
         localStorage.getItem("cartProducts") || "[]"
       );
       const newArray: any = [...arrayProducts];
       newArray.push(productNotLogin);
-      setArray(newArray);
       arrayProducts.push(productNotLogin);
       localStorage.setItem("cartProducts", JSON.stringify(arrayProducts));
     }
@@ -351,7 +348,6 @@ const ProductList: React.FC<ProductListProps> = ({
         isCartModalOpen={isCartModalOpen}
         setIsCartModalOpen={setIsCartModalOpen}
         sample={false}
-        array={array}
       />
     </>
   );

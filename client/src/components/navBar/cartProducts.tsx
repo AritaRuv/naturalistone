@@ -20,7 +20,8 @@ const ProductCardCart: React.FC<{
   product: ProductCart | Product;
   inputRef?: any;
   sample?: boolean;
-}> = ({ product, inputRef, sample }) => {
+  setArrayProducts: any;
+}> = ({ product, inputRef, sample, setArrayProducts }) => {
   const {
     CustomerID,
     Finish,
@@ -50,7 +51,18 @@ const ProductCardCart: React.FC<{
   const dispatch = useAppDispatch();
   const appContext = useContext(AppContext);
 
-  const cartStorage = JSON.parse(localStorage.getItem("cartProducts") || "[]");
+  const cartProductsJson = typeof window !== "undefined" ? localStorage.getItem("cartProducts") : null;
+
+  const cartStorage = cartProductsJson !== null ? JSON.parse(cartProductsJson) : [];
+
+  useEffect(() => {
+    setQuantity(Quantity);
+    if (cartProductsJson !== null) {
+      setArrayProducts(JSON.parse(cartProductsJson));
+    }else {
+      setArrayProducts([]);
+    }
+  },[Quantity]);
 
   const decreaseQuantity = () => {
     if (appContext?.userLog) {
@@ -107,9 +119,24 @@ const ProductCardCart: React.FC<{
   };
 
   const handleQuantityChange = (event) => {
-    const newQuantity = Number(event.target.value);
-    setQuantity(newQuantity);
-    updateCartQuantity(newQuantity);
+    if (appContext?.userLog) {
+      const newQuantity = Number(event.target.value);
+      setQuantity(newQuantity);
+      updateCartQuantity(newQuantity);
+    } else {
+      const productStorage = cartStorage.find((product) => {
+        return (
+          product.Size === Size &&
+          product.Thickness === Thickness &&
+          product.Finish === Finish &&
+          product.ProdID === ProdID
+        );
+      });
+      const newQuantity = Number(event.target.value);
+      productStorage.Quantity = Number(event.target.value);
+      setQuantity(newQuantity);
+      localStorage.setItem("cartProducts", JSON.stringify(cartStorage));
+    }
   };
 
   const handleQuantityBlur = () => {
