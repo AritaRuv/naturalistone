@@ -14,7 +14,6 @@ export default function ProdDetailInformation({ params, raw_products_by_material
 
   const [smallerThan740] = useMediaQuery("(max-width: 740px)");
   const [selectedProductIndex, setSelectedProductIndex] = useState(-1); 
-  const inputRef = useRef<HTMLInputElement | null>(null);
   const [product, setProduct] = useState<ProductDetail>({
     ProdID: null,
     Quantity: null,
