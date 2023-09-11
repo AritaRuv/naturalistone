@@ -21,11 +21,11 @@ import { AppContext } from "@/app/appContext";
 import { Product } from "@/store/products/typesProducts";
 
 const ProductCardCart: React.FC<{
-  product: ProductCart | Product;
-  inputRef?: any;
-  sample?: boolean;
+  product: ProductCart;
+  //inputRef?: any;
+  //sample?: boolean;
   setArrayProducts: any;
-}> = ({ product, inputRef, sample, setArrayProducts }) => {
+}> = ({ product, /* inputRef, sample, */ setArrayProducts }) => {
   const {
     CustomerID,
     Finish,
@@ -61,7 +61,6 @@ const ProductCardCart: React.FC<{
   const appContext = useContext(AppContext);
 
   const cartProductsJson = typeof window !== "undefined" ? localStorage.getItem("cartProducts") : null;
-
   const cartStorage = cartProductsJson !== null ? JSON.parse(cartProductsJson) : [];
 
   useEffect(() => {
@@ -110,12 +109,11 @@ const ProductCardCart: React.FC<{
   };
 
   const updateToInvoice = () => {
-    if(toInvoice === 0)
+    if(toInvoice === 0){
       setToInvoice(1);
-    else
+    }else{
       setToInvoice(0);
-
-    
+    }
     updateCartQuantity(newQuantity, addExtra, toInvoice);
     } else {
       const newQuantity = quantity + 1;
