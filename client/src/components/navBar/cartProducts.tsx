@@ -104,7 +104,7 @@ const ProductCardCart: React.FC<{ product: ProductCart }> = ({ product, preCheck
     <>
       <Box
         h={"175px"}
-        w={isExtraSmallScreen ? "100%" : "740px"}
+        w={isExtraSmallScreen ? "100%" : "440px"}
         overflow={"hidden"}
         display={"flex"}
         alignItems={"center"}
@@ -113,12 +113,10 @@ const ProductCardCart: React.FC<{ product: ProductCart }> = ({ product, preCheck
         py={"4px"}
         backgroundColor={quantity === 0 ? "sampleItemCart.gray" : "white"}
       >
-        <Stack w={"100%"} ms={12} direction={['column', 'row']} spacing='24px'>
-
-       
+              
         {
           isExtraSmallScreen ? (
-            <Box h={"110px"} w={"120px"} position={"relative"} overflow={"hidden"}>
+            <Box h={"120px"} w={"100px"} position={"relative"} overflow={"hidden"} rounded={"md"}>
               <NextImage objectFit="cover" fill src={URL} alt="img" />
             </Box>
           ) : (
@@ -222,17 +220,28 @@ const ProductCardCart: React.FC<{ product: ProductCart }> = ({ product, preCheck
           </Box>
         </Box>
         <Box>
-          <VStack >
-            <Checkbox defaultChecked>Facturar</Checkbox>
-            <Text
-              h={"30px"}
-              fontWeight={"semibold"}
-              textAlign={"center"}>
-              $ {price * quantity}
-            </Text>
-          </VStack>
+         
+            {
+              preCheckout ? (<>
+               <VStack >
+                  <Checkbox defaultChecked>Facturar</Checkbox> 
+               </VStack>
+              </>)
+               :
+               (
+               <Box></Box>
+               )
+                 
+              }  
+          <Text
+            h={"30px"}
+            fontWeight={"semibold"}
+            textAlign={"center"}>
+            $ {price * quantity}
+
+          </Text>
+
         </Box>
-        </Stack>
       </Box>
     </>
   );
