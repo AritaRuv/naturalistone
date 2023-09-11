@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState, useContext } from "react";
 import {
   Box,
   Button,
@@ -17,8 +17,15 @@ import { ProductCart } from "@/store/cart/typesCart";
 import { deleteCart, updateCart } from "@/store/cart/actionsCart";
 import { useAppDispatch, useAppSelector } from "@/store/hooks";
 import { LoginState } from "@/store/login/typeLogin";
+import { AppContext } from "@/app/appContext";
+import { Product } from "@/store/products/typesProducts";
 
-const ProductCardCart: React.FC<{ product: ProductCart }> = ({ product, preCheckout }) => {
+const ProductCardCart: React.FC<{
+  product: ProductCart | Product;
+  inputRef?: any;
+  sample?: boolean;
+  setArrayProducts: any;
+}> = ({ product, inputRef, sample, setArrayProducts }) => {
   const {
     CustomerID,
     Finish,
@@ -32,6 +39,7 @@ const ProductCardCart: React.FC<{ product: ProductCart }> = ({ product, preCheck
     idCartEntry,
     ToInvoice,
     AddExtra,
+    ProdID,
   } = product;
 
   const URL = `https://naturalistone-images.s3.amazonaws.com/${Material}/${Naturali_ProdName}/${Naturali_ProdName}_0.jpg`;
@@ -50,8 +58,43 @@ const ProductCardCart: React.FC<{ product: ProductCart }> = ({ product, preCheck
 
   const price = Number(SalePrice);
   const dispatch = useAppDispatch();
+  const appContext = useContext(AppContext);
+
+  const cartProductsJson = typeof window !== "undefined" ? localStorage.getItem("cartProducts") : null;
+
+  const cartStorage = cartProductsJson !== null ? JSON.parse(cartProductsJson) : [];
+
+  useEffect(() => {
+    setQuantity(Quantity);
+    if (cartProductsJson !== null) {
+      setArrayProducts(JSON.parse(cartProductsJson));
+    }else {
+      setArrayProducts([]);
+    }
+  },[Quantity]);
 
   const decreaseQuantity = () => {
+    if (appContext?.userLog) {
+      if (quantity > 1) {
+        const newQuantity = quantity - 1;
+        setQuantity(newQuantity);
+        updateCartQuantity(newQuantity);
+      }
+    } else {
+      const newQuantity = quantity - 1;
+      setQuantity(newQuantity);
+
+      const productStorage = cartStorage.find((product) => {
+        return (
+          product.Size === Size &&
+          product.Thickness === Thickness &&
+          product.Finish === Finish &&
+          product.ProdID === ProdID
+        );
+      });
+      productStorage.Quantity = productStorage.Quantity - 1;
+      localStorage.setItem("cartProducts", JSON.stringify(cartStorage));
+    }
     if (quantity > 1) {
       const newQuantity = quantity - 1;
       setQuantity(newQuantity);
@@ -60,9 +103,10 @@ const ProductCardCart: React.FC<{ product: ProductCart }> = ({ product, preCheck
   };
 
   const increaseQuantity = () => {
-    const newQuantity = quantity + 1;
-    setQuantity(newQuantity);
-    updateCartQuantity(newQuantity, addExtra, toInvoice);
+    if (appContext?.userLog) {
+      const newQuantity = quantity + 1;
+      setQuantity(newQuantity);
+      updateCartQuantity(newQuantity, addExtra, toInvoice);
   };
 
   const updateToInvoice = () => {
@@ -73,6 +117,20 @@ const ProductCardCart: React.FC<{ product: ProductCart }> = ({ product, preCheck
 
     
     updateCartQuantity(newQuantity, addExtra, toInvoice);
+    } else {
+      const newQuantity = quantity + 1;
+      setQuantity(newQuantity);
+      const productStorage = cartStorage.find((product) => {
+        return (
+          product.Size === Size &&
+          product.Thickness === Thickness &&
+          product.Finish === Finish &&
+          product.ProdID === ProdID
+        );
+      });
+      productStorage.Quantity = productStorage.Quantity + 1;
+      localStorage.setItem("cartProducts", JSON.stringify(cartStorage));
+    }
   };
 
   const updateCartQuantity = (newQuantity: number, addExtra: number, toInvoice: number) => {
@@ -88,9 +146,24 @@ const ProductCardCart: React.FC<{ product: ProductCart }> = ({ product, preCheck
   };
 
   const handleQuantityChange = (event) => {
-    const newQuantity = Number(event.target.value);
-    setQuantity(newQuantity);
-    updateCartQuantity(newQuantity, addExtra, toInvoice);
+    if (appContext?.userLog) {
+      const newQuantity = Number(event.target.value);
+      setQuantity(newQuantity);
+      updateCartQuantity(newQuantity, addExtra, toInvoice);
+    } else {
+      const productStorage = cartStorage.find((product) => {
+        return (
+          product.Size === Size &&
+          product.Thickness === Thickness &&
+          product.Finish === Finish &&
+          product.ProdID === ProdID
+        );
+      });
+      const newQuantity = Number(event.target.value);
+      productStorage.Quantity = Number(event.target.value);
+      setQuantity(newQuantity);
+      localStorage.setItem("cartProducts", JSON.stringify(cartStorage));
+    }
   };
 
   const handleQuantityBlur = () => {
@@ -100,6 +173,15 @@ const ProductCardCart: React.FC<{ product: ProductCart }> = ({ product, preCheck
   const handleDelete = () => {
     dispatch(deleteCart(idCartEntry, user?.CustomerID));
   };
+
+  useEffect(() => {
+    if (!sample) {
+      if (inputRef && inputRef.current) {
+        inputRef?.current?.focus();
+      }
+    }
+  }, []);
+
   return (
     <>
       <Box
@@ -139,44 +221,88 @@ const ProductCardCart: React.FC<{ product: ProductCart }> = ({ product, preCheck
                 _focus={{ boxShadow: "none" }}
                 onClick={handleDelete}
               /> */}
-              <Box h="140px" w="140px"
-                position={"relative"}
-                overflow={"hidden"}
-                zIndex="0">
-                <NextImage
-                  objectFit="cover"
-                  src={URL}
-                  alt="Imagen"
-                  fill
-                />
-              </Box>
+            <Box
+              h="140px"
+              w="140px"
+              position={"relative"}
+              overflow={"hidden"}
+              zIndex="0"
+            >
+              <NextImage objectFit="cover" src={URL} alt="Imagen" fill />
             </Box>
-          )}
+          </Box>
+        )}
 
-        <Box h={isExtraSmallScreen ? "120px" : "140px"} ms={2}  w={"220px"} display={"flex"} flexDir={"column"} justifyContent={"space-between"}>
+        <Box
+          h={isExtraSmallScreen ? "120px" : "140px"}
+          ms={2}  w={"220px"}
+          display={"flex"}
+          flexDir={"column"}
+          justifyContent={"space-between"}
+        >
           <Box>
-            <Text textTransform={"uppercase"} fontSize={fontSubTitle}>{Material}</Text>
-            <Text textTransform={"uppercase"} fontWeight={"bold"} fontSize={fontTitle}>{Naturali_ProdName}</Text>
-            {
-              quantity > 0 ? (<Text textTransform={"uppercase"} fontSize={"0.6rem"} color={"gray.600"}>{Finish} - {Size} - {Thickness}-{Type}</Text>
-              ) : (<Text textTransform={"uppercase"} fontSize={"0.6rem"} color={"gray.600"}>{Finish} - {Thickness}-{Type}</Text>
-              )
-            }
+            <Text textTransform={"uppercase"} fontSize={fontSubTitle}>
+              {Material}
+            </Text>
+            <Text
+              textTransform={"uppercase"}
+              fontWeight={"bold"}
+              fontSize={fontTitle}
+            >
+              {Naturali_ProdName}
+            </Text>
+            {quantity > 0 ? (
+              <Text
+                textTransform={"uppercase"}
+                fontSize={"0.6rem"}
+                color={"gray.600"}
+              >
+                {Finish} - {Size} - {Thickness}-{Type}
+              </Text>
+            ) : (
+              <Text
+                textTransform={"uppercase"}
+                fontSize={"0.6rem"}
+                color={"gray.600"}
+              >
+                {Finish} - {Thickness}-{Type}
+              </Text>
+            )}
           </Box>
           <Box>
             {quantity > 0 && (
               <>
-                <Box display={"flex"} h={"28px"} justifyContent={"space-between"} alignItems={"center"}>
-                  <Text textTransform={"uppercase"} fontSize={fontSubTitle}>Price sqf</Text>
+                <Box
+                  display={"flex"}
+                  h={"28px"}
+                  justifyContent={"space-between"}
+                  alignItems={"center"}
+                >
+                  <Text textTransform={"uppercase"} fontSize={fontSubTitle}>
+                    Price sqf
+                  </Text>
                   <Center w={"80px"}>
                     <Text textTransform={"uppercase"} fontSize={"0.8rem"}>
                       ${price}
                     </Text>
                   </Center>
                 </Box>
-                <Box w={"100%"} display={"flex"} h={"28px"} justifyContent={"space-between"} alignItems={"center"}>
-                  <Text textTransform={"uppercase"} fontSize={fontSubTitle}>Quantity</Text>
-                  <Center w={"80px"} display={"flex"} flexDir={"row"} alignItems={"center"} justifyItems={"flex-end"}>
+                <Box
+                  w={"100%"} display={"flex"}
+                  h={"28px"}
+                  justifyContent={"space-between"}
+                  alignItems={"center"}
+                >
+                  <Text textTransform={"uppercase"} fontSize={fontSubTitle}>
+                    Quantity
+                  </Text>
+                  <Center
+                    w={"80px"}
+                    display={"flex"}
+                    flexDir={"row"}
+                    alignItems={"center"}
+                    justifyItems={"flex-end"}
+                  >
                     <Button
                       variant={"unstyled"}
                       size={"xs"}
@@ -186,6 +312,7 @@ const ProductCardCart: React.FC<{ product: ProductCart }> = ({ product, preCheck
                       -
                     </Button>
                     <Input
+                      ref={inputRef}
                       fontSize={"0.8rem"}
                       border={"none"}
                       borderBottom={"1px solid"}

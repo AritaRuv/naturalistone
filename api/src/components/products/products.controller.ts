@@ -5,6 +5,8 @@ import { Request, Response } from "express";
 import mysqlConnection from "../../db";
 import { RowDataPacket } from "mysql2";
 import { productDimensions } from "../../controllers/productDimensions";
+import { compareValues } from "../../utils/orderThickness";
+import { sortedFractions } from "../../utils/orderFractionsThickness";
 //import { productDimensionsCheckboxes } from "../../controllers/productDimensionsCheckboxes";
 
 export async function getAllProducts(req: Request, res: Response) {
@@ -12,10 +14,13 @@ export async function getAllProducts(req: Request, res: Response) {
     const { material, colorId } = req.query;
 
     const query = `
-              SELECT DISTINCT ProdNames.Material, ProdNames.Naturali_ProdName, ProdNames.ProdNameID,
-              Product_Colors.ColorID, Product_Colors.idColorProduct FROM ProdNames
-              LEFT JOIN Product_Colors ON Product_Colors.ProdNameID = ProdNames.ProdNameID
-              ${material ? `WHERE Material = "${material}"` : ""}
+              SELECT DISTINCT Dimension.DimensionID, Dimension.Type, Dimension.Size, Dimension.Thickness,
+              Dimension.Finish, Products.ProdNameID, Products.SalePrice, ProdNames.Material, ProdNames.Naturali_ProdName, 
+              ProdNames.ProdNameID, Product_Colors.ColorID, Product_Colors.idColorProduct FROM ProdNames
+              LEFT JOIN Products ON ProdNames.ProdNameID = Products.ProdNameID
+              LEFT JOIN Dimension ON Products.DimensionID = Dimension.DimensionID
+              LEFT JOIN Product_Colors ON ProdNames.ProdNameID = Product_Colors.ProdNameID
+              ${material ? `WHERE ProdNames.Material = "${material}"` : ""}
               ${
                 colorId
                   ? `${material ? "AND" : "WHERE"} ColorID = "${colorId}"`
@@ -161,7 +166,11 @@ export async function getAllDimensionProperties(req: Request, res: Response) {
       FROM Dimension D
       JOIN Products P ON D.DimensionID = P.DimensionID
       JOIN ProdNames PN ON P.ProdNameID = PN.ProdNameID
-      WHERE PN.Material = ?
+      ${
+        material === "all"
+          ? `WHERE NOT D.Type = "Sample"`
+          : `WHERE PN.Material = "${material}" AND NOT D.Type = "Sample"`
+      }
       GROUP BY Type
       ORDER BY Frequency DESC;
     `;
@@ -172,18 +181,54 @@ export async function getAllDimensionProperties(req: Request, res: Response) {
     for (const property of properties) {
       mysqlConnection.query(
         frequencyQuery.replace(/Type/g, property),
-        [material],
         (error: MysqlError, results: RowDataPacket[]) => {
           if (error) {
             throw error;
           }
-
           const propertyRowData = results as RowDataPacket[];
           dimensionProperties[property] = propertyRowData.map(
             (row) => row.Value
           );
 
           if (property === "Finish") {
+            dimensionProperties.Type = dimensionProperties?.Type.filter(
+              (el) =>
+                el !== null &&
+                el !== "" &&
+                el !== "null" &&
+                el !== "undefined" &&
+                el !== undefined
+            ).sort();
+            const filterDimensionSize = dimensionProperties.Size.filter(
+              (el) =>
+                el !== null &&
+                el !== "" &&
+                el !== "null" &&
+                el !== "undefined" &&
+                el !== undefined &&
+                el !== "0"
+            );
+            dimensionProperties.Size = filterDimensionSize.sort(compareValues);
+            dimensionProperties.Finish = dimensionProperties?.Finish.filter(
+              (el) =>
+                el !== null &&
+                el !== "" &&
+                el !== "null" &&
+                el !== "undefined" &&
+                el !== undefined
+            ).sort();
+            const filterDimensionThickness =
+              dimensionProperties.Thickness.filter(
+                (el) =>
+                  el !== null &&
+                  el !== "" &&
+                  el !== "null" &&
+                  el !== "undefined" &&
+                  el !== undefined
+              );
+            dimensionProperties.Thickness = sortedFractions(
+              filterDimensionThickness
+            );
             res.status(200).json(dimensionProperties);
           }
         }
@@ -382,14 +427,34 @@ export async function getAllProductsByMaterial(req: Request, res: Response) {
                           ProdNames.Naturali_ProdName, 
                           ProdNames.ProdNameID, 
                           Products.ProdID, 
+                          Products.SalePrice, 
                           Dimension.Type, 
                           Dimension.Size, 
                           Dimension.Thickness, 
-                          Dimension.Finish
+                          Dimension.Finish,
+                          Products.SalePrice,
+                          CASE
+                            WHEN 
+                              Dimension.Type = "Tile" AND ProdNames.Material != "Porcelain" 
+                            THEN 
+                              (SUBSTRING_INDEX(Dimension.Size, 'x', 1) * SUBSTRING_INDEX(Dimension.Size, 'x', -1)) / 144
+                            ELSE
+                              NULL
+                          END AS sqft
                   FROM Products
                   LEFT JOIN ProdNames ON Products.ProdNameID = ProdNames.ProdNameID
                   LEFT JOIN Dimension ON Products.DimensionID = Dimension.DimensionID
-                  ${material ? `WHERE ProdNames.Material = "${material}"` : ``}
+                  WHERE (
+                    (ProdNames.Material IN ("Porcelain", "Terrazzo"))
+                    OR (ProdNames.Material NOT IN ("Porcelain", "Terrazzo") AND Dimension.Type != "Slab")
+                    )
+                  AND Products.Discontinued_Flag = "False"
+                    ${
+                      material === "all"
+                        ? ""
+                        : `AND ProdNames.Material = "${material}"`
+                    }
+                  ORDER BY ProdNames.Naturali_ProdName ASC
                   `;
 
     mysqlConnection.query(
@@ -400,7 +465,7 @@ export async function getAllProductsByMaterial(req: Request, res: Response) {
         }
         if (results.length === 0) {
           console.log("Error en productsRoutes.get /materialfilterby");
-          res.status(404).json(`No products with material ${material}`);
+          res.status(404).json("`No products with material ${material}`");
         } else {
           console.log("Data OK");
           res.status(200).json(results);

@@ -1,6 +1,6 @@
 /* eslint-disable quotes */
 import { MysqlError } from "mysql";
-import express, { Request, Response } from "express";
+import { Request, Response } from "express";
 import mysqlConnection from "../../db";
 import { RowDataPacket, FieldPacket } from "mysql2";
 
@@ -65,9 +65,9 @@ export async function getSalesByUser(req: Request, res: Response) {
   const { id } = req.params;
   try {
     const _query = `SELECT Sales.*, Projects.ProjectName, Projects.Active, Projects.CustomerID
-    FROM Customers
-    LEFT JOIN Projects ON Projects.CustomerID = Customers.CustomerID
-    LEFT JOIN Sales ON Sales.ProjectID = Projects.idProjects
+    FROM Sales
+    LEFT JOIN Projects ON Sales.ProjectID = Projects.idProjects
+    LEFT JOIN Customers ON Projects.CustomerID = Customers.CustomerID
     WHERE Customers.CustomerID = ${id}`;
 
     mysqlConnection.query(
@@ -132,9 +132,11 @@ export async function getDetailOfSale(req: Request, res: Response) {
           }
 
           const _query3 = `SELECT ProdSold.ProdID, ProdSold.Quantity, ProdSold.SalePrice, ProdSold.Status,
-          ProdNames.Naturali_ProdName, ProdNames.Material, ProdNames.ProdNameID FROM Products
-          LEFT JOIN ProdNames ON ProdNames.ProdNameID = Products.ProdNameID
-          LEFT JOIN ProdSold ON ProdSold.ProdID = Products.ProdID
+          ProdNames.Naturali_ProdName, ProdNames.Material, ProdNames.ProdNameID, Dimension.Type, Dimension.Size,
+          Dimension.Thickness, Dimension.Finish FROM Products
+          LEFT JOIN Dimension ON Products.DimensionID = Dimension.DimensionID
+          LEFT JOIN ProdNames ON Products.ProdNameID = ProdNames.ProdNameID
+          LEFT JOIN ProdSold ON Products.ProdID = ProdSold.ProdID
           WHERE ProdSold.SaleID = ${id}`;
 
           mysqlConnection.query(_query3, function (err, resultsProdSold) {

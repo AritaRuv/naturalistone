@@ -142,7 +142,13 @@ export async function newCartEntry(req: Request, res: Response) {
           }
         );
       } else {
-        const queryGetProdID = `SELECT * FROM NaturaliStone.Products WHERE Products.ProdNameID = ${ProdNameID}`;
+        const queryGetProdID = `SELECT Dimension.*, Products.* FROM Products
+        LEFT JOIN Dimension ON Products.DimensionID = Dimension.DimensionID
+        WHERE Dimension.Finish = "${finish}"
+        AND Dimension.Type = "Sample"
+        AND Products.ProdNameID = ${ProdNameID}
+        `;
+        // const queryGetProdID = `SELECT * FROM NaturaliStone.Products WHERE Products.ProdNameID = ${ProdNameID}`;
 
         mysqlConnection.query(
           queryGetProdID,
@@ -180,6 +186,8 @@ export async function newCartEntry(req: Request, res: Response) {
             }
             //----------------------------------
             const product = prodResults[0];
+
+            console.log("prou", product);
 
             const queryCheckCart = `SELECT ProductID FROM Cart WHERE ProductID = ${product.ProdID}`;
             mysqlConnection.query(
@@ -362,5 +370,41 @@ export async function deleteCartProducts(req: Request, res: Response) {
     );
   } catch (error) {
     res.status(409).send(error);
+  }
+}
+
+export async function productCartLocal(req: Request, res: Response) {
+  const { Size, Thickness, Finish, ProdNameID } = req.body;
+
+  try {
+    const productCartLocalQuery = `SELECT Dimension.*, ProdNames.*, Products.* FROM Products
+LEFT JOIN Dimension ON Products.DimensionID = Dimension.DimensionID
+LEFT JOIN ProdNames ON Products.ProdNameID = ProdNames.ProdNameID
+WHERE Dimension.Size = "${Size}" AND Dimension.Thickness = "${Thickness}" 
+AND Dimension.Finish = "${Finish}" AND ProdNames.ProdNameID = ${ProdNameID}`;
+
+    mysqlConnection.query(
+      productCartLocalQuery,
+      function (err: MysqlError, results: RowDataPacket) {
+        if (err) {
+          return res
+            .status(400)
+            .json({ msg: "Error in get product cart local", error: err });
+        }
+        if (!results.length) {
+          return res
+            .status(400)
+            .json({ msg: "Product cart local not found", data: [] });
+        }
+
+        return res
+          .status(200)
+          .json({ msg: "Get product successful", data: results });
+      }
+    );
+  } catch (error) {
+    return res
+      .status(500)
+      .json({ msg: "General Error in get product cart local", error });
   }
 }

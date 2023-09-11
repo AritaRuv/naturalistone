@@ -4,7 +4,8 @@ import getProductsByProdName from "./productByProdName";
 
 const getProductsFiltered = (arrayProducts: RawProduct[], filters: Filters) => {
   const filtered = arrayProducts.filter((product) => {
-    const materialCondition = product.Material === filters.material;
+    // const materialCondition =
+    //   filters.material === "all" ? true : product.Material === filters.material;
     const typeCondition =
       filters.type.length === 0 || filters.type.includes(product.Type);
     const finishCondition =
@@ -13,14 +14,11 @@ const getProductsFiltered = (arrayProducts: RawProduct[], filters: Filters) => {
       filters.thickness.length === 0 ||
       filters.thickness.includes(product.Thickness);
     const sizeCondition =
-      filters.size.length === 0 || filters.size.includes(product.Size);
-
+      product.Size === "0" || filters.size.length === 0 || filters.size.includes(product.Size);
+    // console.log("materialcondition", materialCondition);
     return (
-      materialCondition &&
-      typeCondition &&
-      finishCondition &&
-      thicknessCondition &&
-      sizeCondition
+      // materialCondition &&
+      typeCondition && finishCondition && thicknessCondition && sizeCondition
     );
   });
 
@@ -30,12 +28,21 @@ const getProductsFiltered = (arrayProducts: RawProduct[], filters: Filters) => {
   const result = getProductsByProdName(filtered);
 
   if (filters.orderBy === "" || filters.orderBy === "AZ") {
-    result?.sort(
-      (p1, p2) => (p1.Naturali_ProdName > p2.Naturali_ProdName) ? 1 : (p1.Naturali_ProdName < p2.Naturali_ProdName) ? -1 : 0);
-  }
-  else {
-    result?.sort(
-      (p1, p2) => (p1.Naturali_ProdName < p2.Naturali_ProdName) ? 1 : (p1.Naturali_ProdName > p2.Naturali_ProdName) ? -1 : 0);
+    result?.sort((p1, p2) =>
+      p1.Naturali_ProdName > p2.Naturali_ProdName
+        ? 1
+        : p1.Naturali_ProdName < p2.Naturali_ProdName
+        ? -1
+        : 0
+    );
+  } else {
+    result?.sort((p1, p2) =>
+      p1.Naturali_ProdName < p2.Naturali_ProdName
+        ? 1
+        : p1.Naturali_ProdName > p2.Naturali_ProdName
+        ? -1
+        : 0
+    );
   }
 
   return result;

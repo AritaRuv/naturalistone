@@ -31,16 +31,14 @@ const FiltersThickness: React.FC<UniqueFilter> = ({ thickness, handleCheckboxCha
                     </Box>
                   </Box>);
               }
-              {
-                thickness?.length && (
-                  amount < thickness?.length && (
-                    <LoadMoreButton setAmount={setAmount} amount={amount}/>
-                  )
-                );
-              
-              }
-
             })
+          }
+          {
+            thickness?.length && (
+              amount < thickness?.length && (
+                <LoadMoreButton setAmount={setAmount} amount={amount}/>
+              )
+            )
           }
         </Box>
       </Box>
