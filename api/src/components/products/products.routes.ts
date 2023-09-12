@@ -1,6 +1,6 @@
 import { Router } from "express";
 import {
-  getAllProducts,
+  getHomeProducts,
   getProductByIDS,
   getProductsValuesByProdNameID,
   getAllMaterials,
@@ -12,7 +12,7 @@ import {
 
 const productsRouter: Router = Router();
 
-productsRouter.get("/", getAllProducts);
+productsRouter.get("/home", getHomeProducts);
 productsRouter.get("/IDs", getProductByIDS);
 productsRouter.get("/material", getAllMaterials);
 productsRouter.get("/dimension/:material", getAllDimensionProperties);

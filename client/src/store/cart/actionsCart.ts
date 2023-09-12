@@ -17,8 +17,8 @@ export interface bodyCartUpdate {
   Quantity: number;
   idCartEntry: number;
   customerID: number;
-  AddMore:number;
-  ToInvoice:number;
+  AddMore?:number;
+  ToInvoice?:number;
 }
 
 export const fetchCart = (id: number) => {

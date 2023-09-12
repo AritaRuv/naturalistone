@@ -1,4 +1,4 @@
-import React, { useEffect, useState, useContext } from "react";
+import React, { useState } from "react";
 import {
   Box,
   Button,
@@ -17,15 +17,8 @@ import { ProductCart } from "@/store/cart/typesCart";
 import { deleteCart, updateCart } from "@/store/cart/actionsCart";
 import { useAppDispatch, useAppSelector } from "@/store/hooks";
 import { LoginState } from "@/store/login/typeLogin";
-import { AppContext } from "@/app/appContext";
-import { Product } from "@/store/products/typesProducts";
 
-const ProductCardCart: React.FC<{
-  product: ProductCart;
-  //inputRef?: any;
-  //sample?: boolean;
-  setArrayProducts: any;
-}> = ({ product, /* inputRef, sample, */ setArrayProducts }) => {
+const ProductCardCart: React.FC<{ product: ProductCart, preCheckout: any }> = ({ product, preCheckout }) => {
   const {
     CustomerID,
     Finish,
@@ -39,7 +32,6 @@ const ProductCardCart: React.FC<{
     idCartEntry,
     ToInvoice,
     AddExtra,
-    ProdID,
   } = product;
 
   const URL = `https://naturalistone-images.s3.amazonaws.com/${Material}/${Naturali_ProdName}/${Naturali_ProdName}_0.jpg`;
@@ -55,80 +47,32 @@ const ProductCardCart: React.FC<{
   const [quantity, setQuantity] = useState(Quantity);
   const [toInvoice, setToInvoice] = useState(ToInvoice);
   const [addExtra, setAddExtra] = useState(AddExtra);
+  
 
   const price = Number(SalePrice);
   const dispatch = useAppDispatch();
-  const appContext = useContext(AppContext);
-
-  const cartProductsJson = typeof window !== "undefined" ? localStorage.getItem("cartProducts") : null;
-  const cartStorage = cartProductsJson !== null ? JSON.parse(cartProductsJson) : [];
-
-  useEffect(() => {
-    setQuantity(Quantity);
-    if (cartProductsJson !== null) {
-      setArrayProducts(JSON.parse(cartProductsJson));
-    }else {
-      setArrayProducts([]);
-    }
-  },[Quantity]);
 
   const decreaseQuantity = () => {
-    if (appContext?.userLog) {
-      if (quantity > 1) {
-        const newQuantity = quantity - 1;
-        setQuantity(newQuantity);
-        updateCartQuantity(newQuantity);
-      }
-    } else {
-      const newQuantity = quantity - 1;
-      setQuantity(newQuantity);
-
-      const productStorage = cartStorage.find((product) => {
-        return (
-          product.Size === Size &&
-          product.Thickness === Thickness &&
-          product.Finish === Finish &&
-          product.ProdID === ProdID
-        );
-      });
-      productStorage.Quantity = productStorage.Quantity - 1;
-      localStorage.setItem("cartProducts", JSON.stringify(cartStorage));
-    }
     if (quantity > 1) {
       const newQuantity = quantity - 1;
       setQuantity(newQuantity);
       updateCartQuantity(newQuantity, addExtra,toInvoice);
     }
   };
-
+  const newQuantity = quantity + 1;
   const increaseQuantity = () => {
-    if (appContext?.userLog) {
-      const newQuantity = quantity + 1;
-      setQuantity(newQuantity);
-      updateCartQuantity(newQuantity, addExtra, toInvoice);
+    setQuantity(newQuantity);
+    updateCartQuantity(newQuantity, addExtra, toInvoice);
   };
 
   const updateToInvoice = () => {
-    if(toInvoice === 0){
+    if(toInvoice === 0)
       setToInvoice(1);
-    }else{
+    else
       setToInvoice(0);
-    }
+
+    
     updateCartQuantity(newQuantity, addExtra, toInvoice);
-    } else {
-      const newQuantity = quantity + 1;
-      setQuantity(newQuantity);
-      const productStorage = cartStorage.find((product) => {
-        return (
-          product.Size === Size &&
-          product.Thickness === Thickness &&
-          product.Finish === Finish &&
-          product.ProdID === ProdID
-        );
-      });
-      productStorage.Quantity = productStorage.Quantity + 1;
-      localStorage.setItem("cartProducts", JSON.stringify(cartStorage));
-    }
   };
 
   const updateCartQuantity = (newQuantity: number, addExtra: number, toInvoice: number) => {
@@ -139,29 +83,13 @@ const ProductCardCart: React.FC<{
       addExtra: addExtra,
       toInvoice: toInvoice
     };
-    console.log(bodyUpd)
     dispatch(updateCart(bodyUpd));
   };
 
   const handleQuantityChange = (event) => {
-    if (appContext?.userLog) {
-      const newQuantity = Number(event.target.value);
-      setQuantity(newQuantity);
-      updateCartQuantity(newQuantity, addExtra, toInvoice);
-    } else {
-      const productStorage = cartStorage.find((product) => {
-        return (
-          product.Size === Size &&
-          product.Thickness === Thickness &&
-          product.Finish === Finish &&
-          product.ProdID === ProdID
-        );
-      });
-      const newQuantity = Number(event.target.value);
-      productStorage.Quantity = Number(event.target.value);
-      setQuantity(newQuantity);
-      localStorage.setItem("cartProducts", JSON.stringify(cartStorage));
-    }
+    const newQuantity = Number(event.target.value);
+    setQuantity(newQuantity);
+    updateCartQuantity(newQuantity, addExtra, toInvoice);
   };
 
   const handleQuantityBlur = () => {
@@ -171,15 +99,6 @@ const ProductCardCart: React.FC<{
   const handleDelete = () => {
     dispatch(deleteCart(idCartEntry, user?.CustomerID));
   };
-
-  useEffect(() => {
-    if (!sample) {
-      if (inputRef && inputRef.current) {
-        inputRef?.current?.focus();
-      }
-    }
-  }, []);
-
   return (
     <>
       <Box
@@ -193,17 +112,17 @@ const ProductCardCart: React.FC<{
         py={"4px"}
         backgroundColor={quantity === 0 ? "sampleItemCart.gray" : "white"}
       >
-        <Stack w={"100%"} ms={12} direction={['column', 'row']} spacing='24px'>
+        <Stack w={"100%"} ms={12} direction={["column", "row"]} spacing='24px'>
 
        
-        {
-          isExtraSmallScreen ? (
-            <Box h={"110px"} w={"120px"} position={"relative"} overflow={"hidden"}>
-              <NextImage objectFit="cover" fill src={URL} alt="img" />
-            </Box>
-          ) : (
-            <Box position="relative" display={"flex"} alignContent={"center"}>
-              {/* <IconButton
+          {
+            isExtraSmallScreen ? (
+              <Box h={"110px"} w={"120px"} position={"relative"} overflow={"hidden"}>
+                <NextImage objectFit="cover" fill src={URL} alt="img" />
+              </Box>
+            ) : (
+              <Box position="relative" display={"flex"} alignContent={"center"}>
+                {/* <IconButton
                 position="absolute"
                 aria-label="Delete X"
                 top="0px"
@@ -218,145 +137,101 @@ const ProductCardCart: React.FC<{
                 _active={{ bg: "transparent" }}
                 _focus={{ boxShadow: "none" }}
                 onClick={handleDelete}
-              /> */}
-            <Box
-              h="140px"
-              w="140px"
-              position={"relative"}
-              overflow={"hidden"}
-              zIndex="0"
-            >
-              <NextImage objectFit="cover" src={URL} alt="Imagen" fill />
-            </Box>
-          </Box>
-        )}
-
-        <Box
-          h={isExtraSmallScreen ? "120px" : "140px"}
-          ms={2}  w={"220px"}
-          display={"flex"}
-          flexDir={"column"}
-          justifyContent={"space-between"}
-        >
-          <Box>
-            <Text textTransform={"uppercase"} fontSize={fontSubTitle}>
-              {Material}
-            </Text>
-            <Text
-              textTransform={"uppercase"}
-              fontWeight={"bold"}
-              fontSize={fontTitle}
-            >
-              {Naturali_ProdName}
-            </Text>
-            {quantity > 0 ? (
-              <Text
-                textTransform={"uppercase"}
-                fontSize={"0.6rem"}
-                color={"gray.600"}
-              >
-                {Finish} - {Size} - {Thickness}-{Type}
-              </Text>
-            ) : (
-              <Text
-                textTransform={"uppercase"}
-                fontSize={"0.6rem"}
-                color={"gray.600"}
-              >
-                {Finish} - {Thickness}-{Type}
-              </Text>
+              /> 
+              */}
+                <Box h="140px" w="140px"
+                  position={"relative"}
+                  overflow={"hidden"}
+                  zIndex="0">
+                  <NextImage
+                    objectFit="cover"
+                    src={URL}
+                    alt="Imagen"
+                    fill
+                  />
+                </Box>
+              </Box>
             )}
-          </Box>
-          <Box>
-            {quantity > 0 && (
-              <>
-                <Box
-                  display={"flex"}
-                  h={"28px"}
-                  justifyContent={"space-between"}
-                  alignItems={"center"}
-                >
-                  <Text textTransform={"uppercase"} fontSize={fontSubTitle}>
-                    Price sqf
-                  </Text>
-                  <Center w={"80px"}>
-                    <Text textTransform={"uppercase"} fontSize={"0.8rem"}>
+
+          <Box h={isExtraSmallScreen ? "120px" : "140px"} ms={2}  w={"220px"} display={"flex"} flexDir={"column"} justifyContent={"space-between"}>
+            <Box>
+              <Text textTransform={"uppercase"} fontSize={fontSubTitle}>{Material}</Text>
+              <Text textTransform={"uppercase"} fontWeight={"bold"} fontSize={fontTitle}>{Naturali_ProdName}</Text>
+              {
+                quantity > 0 ? (<Text textTransform={"uppercase"} fontSize={"0.6rem"} color={"gray.600"}>{Finish} - {Size} - {Thickness}-{Type}</Text>
+                ) : (<Text textTransform={"uppercase"} fontSize={"0.6rem"} color={"gray.600"}>{Finish} - {Thickness}-{Type}</Text>
+                )
+              }
+            </Box>
+            <Box>
+              {quantity > 0 && (
+                <>
+                  <Box display={"flex"} h={"28px"} justifyContent={"space-between"} alignItems={"center"}>
+                    <Text textTransform={"uppercase"} fontSize={fontSubTitle}>Price sqf</Text>
+                    <Center w={"80px"}>
+                      <Text textTransform={"uppercase"} fontSize={"0.8rem"}>
                       ${price}
-                    </Text>
-                  </Center>
-                </Box>
-                <Box
-                  w={"100%"} display={"flex"}
-                  h={"28px"}
-                  justifyContent={"space-between"}
-                  alignItems={"center"}
-                >
-                  <Text textTransform={"uppercase"} fontSize={fontSubTitle}>
-                    Quantity
-                  </Text>
-                  <Center
-                    w={"80px"}
-                    display={"flex"}
-                    flexDir={"row"}
-                    alignItems={"center"}
-                    justifyItems={"flex-end"}
-                  >
-                    <Button
-                      variant={"unstyled"}
-                      size={"xs"}
-                      onClick={decreaseQuantity}
-                      fontWeight={"thin"}
-                    >
+                      </Text>
+                    </Center>
+                  </Box>
+                  <Box w={"100%"} display={"flex"} h={"28px"} justifyContent={"space-between"} alignItems={"center"}>
+                    <Text textTransform={"uppercase"} fontSize={fontSubTitle}>Quantity</Text>
+                    <Center w={"80px"} display={"flex"} flexDir={"row"} alignItems={"center"} justifyItems={"flex-end"}>
+                      <Button
+                        variant={"unstyled"}
+                        size={"xs"}
+                        onClick={decreaseQuantity}
+                        fontWeight={"thin"}
+                      >
                       -
-                    </Button>
-                    <Input
-                      ref={inputRef}
-                      fontSize={"0.8rem"}
-                      border={"none"}
-                      borderBottom={"1px solid"}
-                      borderBottomColor={"logo.gray"}
-                      rounded={"none"}
-                      type="number"
-                      value={quantity}
-                      min={1}
-                      onChange={handleQuantityChange}
-                      onBlur={handleQuantityBlur}
-                      size={"xs"}
-                      textAlign={"center"}
-                      w={quantity.toString().length < 1 ? "30px" : "35px"}
-                    />
-                    <Button
-                      variant={"unstyled"}
-                      size={"xs"}
-                      onClick={increaseQuantity}
-                      fontWeight={"thin"}
-                    >
+                      </Button>
+                      <Input
+                        fontSize={"0.8rem"}
+                        border={"none"}
+                        borderBottom={"1px solid"}
+                        borderBottomColor={"logo.gray"}
+                        rounded={"none"}
+                        type="number"
+                        value={quantity}
+                        min={1}
+                        onChange={handleQuantityChange}
+                        onBlur={handleQuantityBlur}
+                        size={"xs"}
+                        textAlign={"center"}
+                        w={quantity.toString().length < 1 ? "30px" : "35px"}
+                      />
+                      <Button
+                        variant={"unstyled"}
+                        size={"xs"}
+                        onClick={increaseQuantity}
+                        fontWeight={"thin"}
+                      >
                       +
-                    </Button>
-                  </Center>
-                </Box>
-                {
-                  preCheckout && 
+                      </Button>
+                    </Center>
+                  </Box>
+                  {
+                    preCheckout && 
                   <Box>
-                      <Checkbox size="sm" defaultChecked>Add 10% more</Checkbox>
+                    <Checkbox size="sm" defaultChecked>Add 10% more</Checkbox>
                   </Box>
 
-                }
-              </>
-            )}
+                  }
+                </>
+              )}
+            </Box>
           </Box>
-        </Box>
-        <Box>
-          <VStack >
-            <Checkbox defaultChecked>Facturar</Checkbox>
-            <Text
-              h={"30px"}
-              fontWeight={"semibold"}
-              textAlign={"center"}>
+          <Box>
+            <VStack >
+              <Checkbox defaultChecked>Facturar</Checkbox>
+              <Text
+                h={"30px"}
+                fontWeight={"semibold"}
+                textAlign={"center"}>
               $ {price * quantity}
-            </Text>
-          </VStack>
-        </Box>
+              </Text>
+            </VStack>
+          </Box>
         </Stack>
       </Box>
     </>

@@ -3,7 +3,7 @@ import { Box, Text, Center } from "@chakra-ui/react";
 import NextImage from "next/image";
 import Link from "next/link";
 
-const HomeMaterialContainer = () => {
+const HomeIntExt = () => {
 
   const material = "Porcelain";
   const URL = `https://naturalistone-images.s3.amazonaws.com/${material}/0.jpeg`;
@@ -32,12 +32,9 @@ const HomeMaterialContainer = () => {
           </Text> */}
         </Center>
       </Link>
-      <Box  w={"400px"} h={"500px"} ml={"3vw"}>
-        <Text fontSize={"2rem"} fontWeight={"thin"}>COLLECTIONS</Text>
-      </Box>
       
     </Center>
   );
 };
 
-export default HomeMaterialContainer;
+export default HomeIntExt;

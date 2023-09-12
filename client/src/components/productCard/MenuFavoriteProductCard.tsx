@@ -90,8 +90,7 @@ export function MenuFavoriteProductCard({
                 color={"logo.orange"}
                 onMouseEnter={() => setBgHeart(true)}
                 onMouseLeave={() => setBgHeart(false)}
-              >
-                {iconFavorite ? (
+                icon={iconFavorite ? (
                   <PiHeartStraightFill />
                 ) : isOpen ? (
                   <PiHeartStraightFill />
@@ -100,7 +99,7 @@ export function MenuFavoriteProductCard({
                 ) : (
                   <PiHeartStraightThin />
                 )}
-              </MenuButton>
+              />
               {appContext && appContext?.userLog ? (
                 <MenuList
                   bg={"site.lightGrey"}
@@ -125,7 +124,7 @@ export function MenuFavoriteProductCard({
                   flexDir={"column"}
                 >
                   {customerProjects.length &&
-                    customerProjects.map((el) => {
+                    customerProjects.map((el, i) => {
                       const favorite = objetoExisteEnArray(
                         favorites,
                         ProdNameID,
@@ -133,6 +132,7 @@ export function MenuFavoriteProductCard({
                       );
                       return (
                         <MenuItem
+                          key={i}
                           fontSize={"0.8rem"}
                           width={"full"}
                           bg={"site.lightGrey"}

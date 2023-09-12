@@ -3,7 +3,7 @@ import HomeProductContainer from "@/app/home/_homeProductContainer";
 import Carousel from "./_carousel";
 import { Filters } from "./filters/filters";
 import React, { useState, useEffect, useContext, useRef } from "react";
-import HomeMaterialContainer from "./homeProductMaterial";
+import HomeIntExt from "./HomeIntExt";
 import { Box } from "@chakra-ui/react";
 import Section from "./motionSection";
 import ImgButton from "./imgButton";
@@ -123,7 +123,7 @@ export default function Home() {
         <Carousel items={card3} />
       </Section>
       <Section ref={sectionRefs[3]}>
-        <HomeMaterialContainer/>
+        <HomeIntExt/>
       </Section>
       <Section ref={sectionRefs[4]}>
         <Box h={"100vh"} w={"100vw"} bg={"site.lightBg"} pt={"10vh"}>

@@ -1,6 +1,6 @@
 "use client";
 import { useEffect, useContext } from "react";
-import { SimpleGrid, useMediaQuery } from "@chakra-ui/react";
+import { Box, SimpleGrid, useMediaQuery } from "@chakra-ui/react";
 import ProductCard from "../../components/productCard/_productCard";
 import { fetchProductsHome } from "../../store/products/actionsProducts";
 import { ProductState } from "../../store/products/typesProducts";
@@ -88,7 +88,9 @@ const HomeProductContainer: React.FC<FiltersHomeProps> = ({
       {homeProducts.length !== 0 &&
         homeProducts.map((prod, index) => {
           return (
-            <ProductCard product={prod} key={index} site={"home"} user={user} />
+            <Box key={index}>
+              <ProductCard product={prod} key={index} site={"home"} user={user} />
+            </Box>
           );
         })}
     </SimpleGrid>

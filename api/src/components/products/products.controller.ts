@@ -7,17 +7,19 @@ import { RowDataPacket } from "mysql2";
 import { productDimensions } from "../../controllers/productDimensions";
 import { compareValues } from "../../utils/orderThickness";
 import { sortedFractions } from "../../utils/orderFractionsThickness";
+import getProductsByProdName from "../../controllers/homeProducts";
 //import { productDimensionsCheckboxes } from "../../controllers/productDimensionsCheckboxes";
 
-export async function getAllProducts(req: Request, res: Response) {
+
+export async function getHomeProducts(req: Request, res: Response) {
   try {
     const { material, colorId } = req.query;
 
     const query = `
               SELECT DISTINCT Dimension.DimensionID, Dimension.Type, Dimension.Size, Dimension.Thickness,
-              Dimension.Finish, Products.ProdNameID, Products.SalePrice, ProdNames.Material, ProdNames.Naturali_ProdName, 
-              ProdNames.ProdNameID, Product_Colors.ColorID, Product_Colors.idColorProduct FROM ProdNames
-              LEFT JOIN Products ON ProdNames.ProdNameID = Products.ProdNameID
+              Dimension.Finish, Products.ProdNameID, Products.SalePrice, Products.ProdID, ProdNames.Material, ProdNames.Naturali_ProdName, 
+              ProdNames.ProdNameID, Product_Colors.ColorID, Product_Colors.idColorProduct FROM Products
+              LEFT JOIN ProdNames ON ProdNames.ProdNameID = Products.ProdNameID
               LEFT JOIN Dimension ON Products.DimensionID = Dimension.DimensionID
               LEFT JOIN Product_Colors ON ProdNames.ProdNameID = Product_Colors.ProdNameID
               ${material ? `WHERE ProdNames.Material = "${material}"` : ""}
@@ -38,8 +40,9 @@ export async function getAllProducts(req: Request, res: Response) {
           console.log("Error en productsRoutes.get /");
           res.status(404).json("No products");
         } else {
-          console.log("Data OK");
-          res.status(200).json(results);
+          console.log("Products Home OK");
+          const parsedProds = getProductsByProdName(results);
+          res.status(200).json(parsedProds);
         }
       }
     );
