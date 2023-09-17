@@ -4,8 +4,7 @@ import {
   IconButton,
   Button,
   Text,
-  Center,
-  useOutsideClick,
+  Center
 } from "@chakra-ui/react";
 import NextImage from "next/image";
 import { useState } from "react";

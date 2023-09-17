@@ -10,23 +10,12 @@ import {
 import { useState, useContext } from "react";
 import { useAppDispatch, useAppSelector } from "@/store/hooks";
 import { postCart } from "@/store/cart/actionsCart";
-import { Product, ProductState } from "@/store/products/typesProducts";
+import { ProductState } from "@/store/products/typesProducts";
 import CartButton from "../navBar/cartButton";
 import { LoginState } from "@/store/login/typeLogin";
 import { AppContext } from "@/app/appContext";
+import { ProductListProps } from "@/interfaces/product";
 
-interface ProductListProps {
-  data: {
-    [key: string]: {
-      size: string[];
-      thickness: string[];
-      finish: string[];
-      prodNameID: number;
-    };
-  };
-  ProdNameID: number;
-  product?: Product;
-}
 
 const SampleProductList: React.FC<ProductListProps> = ({
   data,
@@ -35,7 +24,6 @@ const SampleProductList: React.FC<ProductListProps> = ({
 }) => {
   const dispatch = useAppDispatch();
   const { thickness, finish } = data[ProdNameID];
-
   const [selectedThickness, setSelectedThickness] = useState<string>("");
   const [selectedFinish, setSelectedFinish] = useState<string>("");
   const [thicknesses, setThicknesses] = useState<string[]>([]);

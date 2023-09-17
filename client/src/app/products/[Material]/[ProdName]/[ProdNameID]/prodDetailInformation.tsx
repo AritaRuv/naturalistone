@@ -1,7 +1,7 @@
 "use client";
 import React, { useEffect, useState } from "react";
 import {
-  Box, Flex, useMediaQuery, TableContainer, Table, Tbody, Tr, Td, Checkbox, Text, Center, Input, Button, InputGroup, InputRightAddon
+  Box, Flex, TableContainer, Table, Tbody, Tr, Td, Checkbox, Text, Center, Input, Button, InputGroup, InputRightAddon
 } from "@chakra-ui/react";
 import { useAppDispatch, useAppSelector } from "@/store/hooks";
 import { ProductState, RawProduct } from "@/store/products/typesProducts";
@@ -12,7 +12,6 @@ import { ProductDetail } from "@/interfaces/product";
 
 export default function ProdDetailInformation({ params, raw_products_by_material }) {
 
-  const [smallerThan740] = useMediaQuery("(max-width: 740px)");
   const [selectedProductIndex, setSelectedProductIndex] = useState(-1); 
   const [product, setProduct] = useState<ProductDetail>({
     ProdID: null,
@@ -84,7 +83,6 @@ export default function ProdDetailInformation({ params, raw_products_by_material
                                         fontSize={"0.9rem"}
                                         border={"0.5px solid"}
                                         borderColor={"transparent"}
-                                        //borderBottomColor={"logo.grey"}
                                         fontWeight={"hairline"}
                                         rounded={"none"}
                                         focusBorderColor="logo.orange"

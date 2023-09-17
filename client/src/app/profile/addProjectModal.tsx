@@ -11,7 +11,6 @@ import {
   useToast,
 } from "@chakra-ui/react";
 import { useState } from "react";
-import { validateCompletedInputsProject } from "../assets/validateForm";
 import CreateProjectForm from "./createProjectForm";
 import { postCustomerProject } from "@/store/projects/actionsProjects";
 import { useAppDispatch } from "@/store/hooks";
@@ -20,21 +19,11 @@ import {
   postFavoritesProductInProject,
 } from "@/store/favorites/actionsFavorites";
 import { validateCompletedEditInputsProject } from "@/utils/validateForms";
-import { ErrorsProject } from "@/utils/types";
+import { ErrorsProject } from "@/interfaces/other";
+import { PropsNewProject } from "@/interfaces/projects";
 
-export interface ProductProject {
-  postProductProject: boolean;
-  idProjects: number;
-  ProjectName: string;
-}
 
-export interface Props {
-  CustomerID: number;
-  postProductProject?: boolean;
-  ProdNameID?: number;
-}
-
-export const CreateNewProject: React.FC<Props> = ({
+export const CreateNewProject: React.FC<PropsNewProject> = ({
   CustomerID,
   postProductProject,
   ProdNameID,
@@ -108,7 +97,7 @@ export const CreateNewProject: React.FC<Props> = ({
         postCustomerProject(CustomerID, formData)
       );
       if (ProdNameID !== undefined) {
-        const response = await dispatch(
+        await dispatch(
           postFavoritesProductInProject(newProject?.data?.insertId, ProdNameID)
         );
         if (!newProject.success) {

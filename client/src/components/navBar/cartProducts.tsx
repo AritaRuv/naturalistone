@@ -8,7 +8,6 @@ import {
   Center,
   Checkbox,
   VStack,
-  HStack,
   Stack
 } from "@chakra-ui/react";
 import NextImage from "next/image";

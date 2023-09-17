@@ -8,7 +8,7 @@ import {
   InputRightElement,
   IconButton,
 } from "@chakra-ui/react";
-import { IShowMenu } from "./page";
+import { IShowMenu } from "@/interfaces/profile";
 import { useState } from "react";
 import { UpdateCustomer } from "./modalUpdateUser";
 import { PiEyeSlashThin, PiEyeThin } from "react-icons/pi";

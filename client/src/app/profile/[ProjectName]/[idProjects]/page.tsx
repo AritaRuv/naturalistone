@@ -11,8 +11,8 @@ import { useState } from "react";
 import OrderHistory from "./orderHistory";
 
 export default function Project({ params }) {
-  const [focus, setFocus] = useState("favorites");
 
+  const [focus, setFocus] = useState("favorites");
   const dispatch = useAppDispatch();
 
   useEffect(() => {
@@ -31,7 +31,7 @@ export default function Project({ params }) {
       >
         <ProjectMenu params={params} focus={focus} setFocus={setFocus} />
         {focus === "favorites" && <ProductsProjectContainer />}
-        {focus === "information" && <ProjecteInfo params={params} />}
+        {focus === "information" && <ProjecteInfo/>}
         {focus === "order history" && <OrderHistory params={params} />}
       </Box>
     </>

@@ -1,6 +1,6 @@
 /* eslint-disable quotes */
 // api.ts
-import { Filters } from "@/app/products/productFilters/types";
+import { Filters } from "@/interfaces/filtersProducts";
 import axios from "axios";
 
 export const getProductsHome = async (material: string, colorId: string) => {

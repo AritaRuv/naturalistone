@@ -6,7 +6,7 @@ import {
 } from "./typeProjects";
 
 const initialState: ProjectsState = {
-  customerProjects: [],
+  customerProjects: "",
   project: {
     idProjects: 0,
     ProjectName: "",
@@ -23,33 +23,33 @@ const projectsReducer = (
   action: ProjectsAction
 ): ProjectsState => {
   switch (action.type) {
-    case ProjectsActionsType.FETCH_PROJECTS_BY_CUSTOMER:
-      return {
-        ...state,
-        customerProjects: action.payload,
-      };
-    case ProjectsActionsType.POST_PROJECT_CUSTOMER:
-      return {
-        ...state,
-        customerProjects: action.payload,
-      };
-    case ProjectsActionsType.FETCH_PROJECT:
-      return {
-        ...state,
-        project: action.payload,
-      };
-    case ProjectsActionsType.PATCH_PROJECT:
-      return {
-        ...state,
-        project: action.payload,
-      };
-    case ProjectsActionsType.DELETE_PROJECT:
-      return {
-        ...state,
-        project: action.payload,
-      };
-    default:
-      return state;
+  case ProjectsActionsType.FETCH_PROJECTS_BY_CUSTOMER:
+    return {
+      ...state,
+      customerProjects: action.payload,
+    };
+  case ProjectsActionsType.POST_PROJECT_CUSTOMER:
+    return {
+      ...state,
+      customerProjects: action.payload,
+    };
+  case ProjectsActionsType.FETCH_PROJECT:
+    return {
+      ...state,
+      project: action.payload,
+    };
+  case ProjectsActionsType.PATCH_PROJECT:
+    return {
+      ...state,
+      project: action.payload,
+    };
+  case ProjectsActionsType.DELETE_PROJECT:
+    return {
+      ...state,
+      project: action.payload,
+    };
+  default:
+    return state;
   }
 };
 

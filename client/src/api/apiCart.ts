@@ -1,12 +1,26 @@
 // api.ts
-import { bodyCart, bodyCartUpdate } from "@/store/cart/actionsCart";
+
+import { bodyCart, bodyCartUpdate } from "@/interfaces/cart";
+import { Product } from "@/store/products/typesProducts";
 import axios from "axios";
 
-export const getCart = async (id: number) => {
+export const getCart = async () => {
   try {
-
-    const response = await axios.get(`http://localhost:5000/api/cart/${id}`); // Realiza la solicitud GET a la ruta /api/products de tu backend
-    return response.data;
+    const response = await axios.get("http://localhost:5000/api/cart");
+    /* 
+    response = {
+      success = boolean,
+      results = [] | string
+    } 
+    */
+    if(response.data.success === false) {
+      const cartProductsJson = typeof window !== "undefined" ? localStorage.getItem("cartProducts") : null;
+      const productsStorage: Product[] = cartProductsJson !== null ? JSON.parse(cartProductsJson) : [];
+      return productsStorage;
+    }else{
+      return response.data.results;
+    }
+    
   } catch (error) {
     console.log(error);
     throw new Error("Error al obtener el cart de la API");

@@ -13,7 +13,7 @@ import {
   useToast,
 } from "@chakra-ui/react";
 import { useEffect, useState } from "react";
-import { FiltersHomeProps } from "../page";
+import { FiltersHomeProps } from "@/interfaces/home";
 import { AiOutlineClear } from "react-icons/ai";
 
 export function FiltersColors({
@@ -25,9 +25,7 @@ export function FiltersColors({
   const [activeButton, setActiveButton] = useState(null);
   const [smallerThan550] = useMediaQuery("(max-width: 550px)");
   const [smallerThan950] = useMediaQuery("(max-width: 950px)");
-  const [boxMarginRight, setBoxMarginRight] = useState("auto");
   const [boxMargin, setBoxMargin] = useState(false);
-  const [boxMl, setBoxMl] = useState("auto");
   const toast = useToast();
   const { colors } = useAppSelector(
     (state: { colorsReducer: ColorsState }) => state.colorsReducer
@@ -127,12 +125,10 @@ export function FiltersColors({
             ></Button>
           ))}
         </Box>
-        {/* <Text mt={"25px"}>Shop {color}</Text> */}
       </Box>
       <Box
         w={"full"}
         pl={"30px"}
-        // bg={"yellow"}
         mt={smallerThan950 ? "20px" : 0}
       >
         <IconButton

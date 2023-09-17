@@ -22,6 +22,7 @@ export const fetchProjectsCustomer = (CustomerID: number) => {
   return async (dispatch: Dispatch<ProjectsAction>) => {
     try {
       const projects = await getProjects(CustomerID);
+
       dispatch({
         type: ProjectsActionsType.FETCH_PROJECTS_BY_CUSTOMER,
         payload: projects,

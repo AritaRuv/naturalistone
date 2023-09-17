@@ -7,7 +7,7 @@ import {
 } from "@/utils/validateForms";
 import { ShippingAddresForm } from "./ShippingAddresForm";
 import { ShippingMethodForm } from "./ShippingMethodForm";
-import { CheckoutFormData } from "../../utils/types";
+import { CheckoutFormData } from "../../interfaces/other";
 import { createCheckout } from "@/api/apiCheckout";
 import { useAppSelector } from "@/store/hooks";
 import { LoginState } from "@/store/login/typeLogin";

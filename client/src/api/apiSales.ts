@@ -17,6 +17,7 @@ export async function getSalesByCustomer(idCustomer: number) {
     const { data } = await axios.get(
       `http://localhost:5000/api/sales/customer/${idCustomer}`
     );
+    console.log(data);
     return data.data;
   } catch (error) {
     console.log(error);

@@ -14,7 +14,7 @@ import {
   Thead,
   Tr,
 } from "@chakra-ui/react";
-import { salesByCustomer } from "@/store/sales/actionsSales";
+import { fetchSalesByCustomer } from "@/store/sales/actionsSales";
 import { useRouter } from "next/navigation";
 
 export default function OrderHistoryUser({ user }) {
@@ -25,7 +25,7 @@ export default function OrderHistoryUser({ user }) {
   const dispatch = useAppDispatch();
 
   useEffect(() => {
-    dispatch(salesByCustomer(user.CustomerID)); //user.CustomerID 1703
+    dispatch(fetchSalesByCustomer(user.CustomerID)); //user.CustomerID 1703
   }, []);
 
   const router = useRouter();

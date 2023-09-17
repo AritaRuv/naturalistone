@@ -13,7 +13,6 @@ import {
   Box,
   Text,
   Input,
-  InputGroup,
   VStack,
   FormControl,
   FormLabel,
@@ -21,11 +20,11 @@ import {
 import { useState, useEffect } from "react";
 import { useAppDispatch } from "@/store/hooks";
 import { validateCompletedEditInputsProject } from "@/utils/validateForms";
-import { ErrorsProject } from "@/utils/types";
+import { ErrorsProject } from "@/interfaces/other";
 import { patchProject } from "@/store/projects/actionsProjects";
-import { Project } from "@/store/projects/typeProjects";
 
 export function UpdateProject({ idProjects, project }) {
+  
   const [errors, setErrors] = useState<ErrorsProject>({});
   const toast = useToast();
   const { isOpen, onOpen, onClose } = useDisclosure();

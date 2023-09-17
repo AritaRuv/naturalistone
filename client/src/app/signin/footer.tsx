@@ -1,18 +1,13 @@
 "use client";
 import {
   Box,
-  Button,
-  Center,
-  Input,
-  InputGroup,
-  InputLeftElement,
-  useMediaQuery,
+  Center
 } from "@chakra-ui/react";
-import React, { useState, useEffect } from "react";
+
 
 const Footer: React.FC = () => {
   return (
-    <Box display={"flex"} h={"10vh"} mt={'3vh'}  w={"full"} flexDirection={"column"}>
+    <Box display={"flex"} h={"10vh"} mt={"3vh"}  w={"full"} flexDirection={"column"}>
       <Box>
         <Center>Register now !</Center>
       </Box>

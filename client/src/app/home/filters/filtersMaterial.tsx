@@ -7,15 +7,13 @@ import {
 import { ProductState } from "@/store/products/typesProducts";
 import {
   Box,
-  Button,
   Select,
-  Text,
   useMediaQuery,
   useToast,
 } from "@chakra-ui/react";
 import { useEffect, useState } from "react";
 import { PiCaretDownThin } from "react-icons/pi";
-import { FiltersHomeProps } from "../page";
+import { FiltersHomeProps } from "@/interfaces/home";
 
 export function FiltersMaterials({
   setProductsFilter,

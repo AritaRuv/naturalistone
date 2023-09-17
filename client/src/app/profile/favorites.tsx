@@ -1,17 +1,12 @@
-import { Box, Text, SimpleGrid, useMediaQuery } from "@chakra-ui/react";
-import { IShowMenu } from "./page";
-import { useEffect } from "react";
-import { useAppDispatch, useAppSelector } from "@/store/hooks";
-import { userInfo } from "@/store/login/actionsLogin";
+import { Box, Text, SimpleGrid } from "@chakra-ui/react";
+import { IShowMenu } from "@/interfaces/profile";
+import { useAppSelector } from "@/store/hooks";
 import { LoginState } from "@/store/login/typeLogin";
-import { fetchFavorites } from "@/store/favorites/actionsFavorites";
 import { FavoritesState } from "@/store/favorites/typesFavorites";
 import ProductCard from "@/components/productCard/_productCard";
 
 const Favorites: React.FC<IShowMenu> = () => {
   
-  const dispatch = useAppDispatch();
-
   const { user } = useAppSelector(
     (state: { loginReducer: LoginState }) => state.loginReducer
   );
@@ -19,12 +14,6 @@ const Favorites: React.FC<IShowMenu> = () => {
     (state: { favoritesReducer: FavoritesState }) => state.favoritesReducer
   );
 
-  useEffect(() => {
-    if(user && !favorites)dispatch(userInfo());
-    if(user && !favorites.length)dispatch(fetchFavorites(user.CustomerID));
-  }, [user, favorites]);
-
-  const [isSmallerThan1520] = useMediaQuery("(max-width: 1520px)");
 
   return (
     <>
@@ -47,13 +36,17 @@ const Favorites: React.FC<IShowMenu> = () => {
           columns={4}
           gap={3}
         >
-          {favorites.length != 0 &&
-            favorites.map((prod, i) => {
-              return (
-                <Box key={i}>
-                  <ProductCard product={prod} user={user} key={i} />
-                </Box>);
-            })}
+          {
+            (typeof favorites !== "string" && favorites.length > 0) ? (
+              favorites.map((prod, i) => {
+                return (
+                  <Box key={i}>
+                    <ProductCard product={prod} user={user} key={i} />
+                  </Box>);
+              })) : (
+              <Text>No favorites</Text>
+            )
+          }
         </SimpleGrid>
       </Box>
     </>

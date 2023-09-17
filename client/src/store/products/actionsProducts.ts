@@ -16,7 +16,7 @@ import {
   getProductValuesValidation,
   getProductsByMaterial,
 } from "../../api/apiProds"; // Importa tu función de solicitud a la API
-import { Filters } from "@/app/products/productFilters/types";
+import { Filters } from "@/interfaces/filtersProducts";
 import getProductsFiltered from "@/controllers/productFilters";
 import getProductsByProdName from "@/controllers/productByProdName";
 import filterProductsByProdName from "@/controllers/filterRawProductsByProdName";

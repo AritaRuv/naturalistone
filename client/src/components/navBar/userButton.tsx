@@ -17,18 +17,16 @@ import "./_navBar.css";
 import UserButtonsContainer from "@/app/profile/userButtonsContainer";
 import NextImage from "next/image";
 import { useRouter } from "next/navigation";
-import { LoginState } from "@/store/login/typeLogin";
-import { useAppSelector } from "@/store/hooks";
+import { getToken } from "@/utils/getCookiesToken";
 
 const UserButton: React.FC = () => {
+  
   const { isOpen, onOpen, onClose } = useDisclosure();
-  const { user } = useAppSelector(
-    (state: { loginReducer: LoginState }) => state.loginReducer
-  );
   const router = useRouter(); // Get the router instance
 
   const userNotLogin = () => {
-    if (user?.CustomerID === 0) {
+    const token = getToken();
+    if (token === undefined) {
       return router.push("/signin");
     } else {
       onOpen();

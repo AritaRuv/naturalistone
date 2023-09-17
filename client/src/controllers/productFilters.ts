@@ -1,4 +1,4 @@
-import { Filters } from "@/app/products/productFilters/types";
+import { Filters } from "@/interfaces/filtersProducts";
 import { RawProduct } from "@/store/products/typesProducts";
 import getProductsByProdName from "./productByProdName";
 

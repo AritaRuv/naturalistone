@@ -1,4 +1,3 @@
-/* eslint-disable indent */
 // reducer.ts
 import {
   FavoritesAction,
@@ -7,7 +6,7 @@ import {
 } from "../favorites/typesFavorites";
 
 const initialState: FavoritesState = {
-  favorites: [],
+  favorites: "",
   project_favorites: [],
   loading: false,
   error: null,
@@ -42,16 +41,16 @@ const favoritesReducer = (
       loading: false,
       error: action.error,
     };
-    case FavoritesActionTypes.POST_FAVORITES_PRODUCTS_PROJECT:
-      return {
-        ...state,
-      };
-    case FavoritesActionTypes.DELETE_FAVORITES_PRODUCT_PROJECT:
-      return {
-        ...state,
-      };
-    default:
-      return state;
+  case FavoritesActionTypes.POST_FAVORITES_PRODUCTS_PROJECT:
+    return {
+      ...state,
+    };
+  case FavoritesActionTypes.DELETE_FAVORITES_PRODUCT_PROJECT:
+    return {
+      ...state,
+    };
+  default:
+    return state;
   }
 };
 

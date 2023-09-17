@@ -16,7 +16,6 @@ import {
 } from "@chakra-ui/react";
 import { salesByProject } from "@/store/sales/actionsSales";
 import { useRouter } from "next/navigation";
-import { LoginState } from "@/store/login/typeLogin";
 
 export default function OrderHistory({ params }) {
   const { salesProject } = useAppSelector(

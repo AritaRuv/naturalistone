@@ -2,6 +2,8 @@ import { FieldInfo, MysqlError } from "mysql";
 import { Request, Response } from "express";
 import mysqlConnection from "../../db";
 import { RowDataPacket, FieldPacket } from "mysql2";
+import { verify } from "jsonwebtoken";
+
 
 export async function newCartEntry(req: Request, res: Response) {
   try {
@@ -187,7 +189,6 @@ export async function newCartEntry(req: Request, res: Response) {
             //----------------------------------
             const product = prodResults[0];
 
-            console.log("prou", product);
 
             const queryCheckCart = `SELECT ProductID FROM Cart WHERE ProductID = ${product.ProdID}`;
             mysqlConnection.query(
@@ -276,45 +277,50 @@ export async function newCartEntry(req: Request, res: Response) {
 
 export async function getCartProducts(req: Request, res: Response) {
   try {
-    const customerID = req.params.id;
-
-    const query = `SELECT 
-                      Cart.idCartEntry,
-                      Cart.Quantity,
-                      Cart.CustomerID,
-                      Cart.AddExtra,
-                      Cart.ToInvoice,
-                      Products.SalePrice,
-                      Dimension.Type,
-                      Dimension.Size,
-                      Dimension.Thickness,
-                      Dimension.Finish,
-                      ProdNames.Naturali_ProdName,
-                      ProdNames.Material
-                    FROM NaturaliStone.Cart
-                    LEFT JOIN Products ON Cart.ProductID = Products.ProdID
-                    LEFT JOIN Dimension ON Products.DimensionID = Dimension.DimensionID
-                    LEFT JOIN ProdNames ON Products.ProdNameID = ProdNames.ProdNameID
-                    WHERE Cart.CustomerID = ${customerID};
-                    `;
-
-    mysqlConnection.query(
-      query,
-      [customerID],
-      (error: MysqlError, results: RowDataPacket[], fields: FieldInfo[]) => {
-        if (error) {
-          throw error;
+    const token = req.headers.authorization;
+    const customerLoginId = verify(token, process.env.SECRET_KEY);
+    console.log("custom",customerLoginId);
+    if(!token){
+      return res.status(401).json({ success: false, results: "no token" });
+    }else{
+      const query = `SELECT 
+                        Cart.idCartEntry,
+                        Cart.Quantity,
+                        Cart.CustomerID,
+                        Cart.AddExtra,
+                        Cart.ToInvoice,
+                        Products.SalePrice,
+                        Dimension.Type,
+                        Dimension.Size,
+                        Dimension.Thickness,
+                        Dimension.Finish,
+                        ProdNames.Naturali_ProdName,
+                        ProdNames.Material,
+                        Customer_Login.Customer_LoginID
+                      FROM NaturaliStone.Cart
+                      LEFT JOIN Products ON Cart.ProductID = Products.ProdID
+                      LEFT JOIN Dimension ON Products.DimensionID = Dimension.DimensionID
+                      LEFT JOIN ProdNames ON Products.ProdNameID = ProdNames.ProdNameID
+                      LEFT JOIN Customer_Login ON Customer_Login.CustomerID = Cart.CustomerID
+                      WHERE Customer_Login.Customer_LoginID = ${customerLoginId};
+                      `;
+      
+      mysqlConnection.query(
+        query,
+        (error: MysqlError, results: RowDataPacket[]) => {
+          if (error) {
+            throw error;
+          }
+          if (results.length === 0) {
+            console.log("No products in cart");
+            res.status(200).json({ success: true, results: []});
+          } else {
+            console.log("Fetch cart products OK");
+            res.status(200).json({ success: true, results: results});
+          }
         }
-        if (results.length === 0) {
-          console.log("Error en cartRoutes.get /:id");
-          res.status(404).json("No products in cart");
-        } else {
-          console.log("Data OK");
-          res.status(200).json(results);
-        }
-      }
-    );
-  } catch (error) {
+      );
+    } }catch (error) {
     res.status(409).send(error);
   }
 }

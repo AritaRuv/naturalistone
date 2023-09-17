@@ -1,8 +1,8 @@
 "use client";
-import { Box, Stack, Text, useMediaQuery } from "@chakra-ui/react";
+import { Box, Text, useMediaQuery } from "@chakra-ui/react";
 import { FiltersMaterials } from "./filtersMaterial";
 import { FiltersColors } from "./filtersColors";
-import { FiltersHomeProps } from "../page";
+import { FiltersHomeProps } from "@/interfaces/home";
 
 
 export function Filters({ setProductsFilter, productsFilter }: FiltersHomeProps ) {

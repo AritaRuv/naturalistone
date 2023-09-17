@@ -1,12 +1,7 @@
 // appContext.tsx
+import { IAppState } from "@/interfaces/context";
 import React, { createContext, useState } from "react";
 
-export interface IAppState {
-  showMenu: string;
-  setShowMenu: (menu: string) => void;
-  userLog: boolean;
-  setUserLog: (userLog: boolean) => void;
-}
 
 export const AppContext = createContext<IAppState | null>(null);
 
@@ -15,8 +10,11 @@ type ProvidersProps = {
 };
 
 export const AppProvider: React.FC<ProvidersProps> = ({ children }) => {
+
   const [showMenu, setShowMenu] = useState<string>("");
   const [userLog, setUserLog] = useState(false);
+  const [isCartModalOpen, setIsCartModalOpen] = useState(false);
+
 
   const updateShowMenu = (menu: string) => {
     setShowMenu(menu);
@@ -27,6 +25,8 @@ export const AppProvider: React.FC<ProvidersProps> = ({ children }) => {
     setShowMenu: updateShowMenu,
     userLog,
     setUserLog,
+    isCartModalOpen,
+    setIsCartModalOpen
   };
 
   return <AppContext.Provider value={appState}>{children}</AppContext.Provider>;

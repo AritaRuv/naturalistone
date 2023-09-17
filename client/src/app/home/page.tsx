@@ -7,7 +7,7 @@ import HomeIntExt from "./HomeIntExt";
 import { Box } from "@chakra-ui/react";
 import Section from "./motionSection";
 import ImgButton from "./imgButton";
-
+import { ProductsHomeFilterProps } from "@/interfaces/home";
 import Cookies from "js-cookie";
 import { AppContext } from "../appContext";
 
@@ -33,18 +33,6 @@ const card3 = [
   },
 ];
 
-export interface ProductsHomeFilterProps {
-  colorId: string;
-  material: string;
-  materialValue?: string;
-}
-
-export interface FiltersHomeProps {
-  setProductsFilter: React.Dispatch<
-    React.SetStateAction<ProductsHomeFilterProps>
-  >;
-  productsFilter: ProductsHomeFilterProps;
-}
 
 export default function Home() {
   const [productsFilter, setProductsFilter] = useState<ProductsHomeFilterProps>(
@@ -55,6 +43,7 @@ export default function Home() {
     }
   );
   const appContext = useContext(AppContext);
+  
   useEffect(() => {
     const sessionId = Cookies.get("sessionId");
     if (sessionId) {
@@ -95,7 +84,7 @@ export default function Home() {
       window.removeEventListener("scroll", handleScroll);
     };
   }, []);
-
+  
   return (
     <>
       { 

@@ -7,8 +7,6 @@ import {
 } from "@chakra-ui/react";
 import Link from "next/link";
 
-
-
 const ProjectMenu = ({params, focus, setFocus}) => {
 
   const handleClick = (e) => {

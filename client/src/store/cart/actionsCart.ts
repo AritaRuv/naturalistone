@@ -2,31 +2,19 @@
 import { Dispatch } from "redux";
 import { CartActionTypes, CartAction } from "./typesCart";
 import { addToCart, deleteCartProd, getCart, updateCartProd } from "../../api/apiCart"; // Importa tu función de solicitud a la API
+import { getToken } from "@/utils/getCookiesToken";
+import { RawProduct } from "../products/typesProducts";
+import { postCartCookies } from "@/controllers/postCartCookies";
+import { bodyCart, bodyCartUpdate } from "@/interfaces/cart";
 
-export interface bodyCart {
-  size: string | null;
-  thickness: string;
-  finish: string;
-  ProdNameID: number;
-  customerID: number;
-  AddMore: number;
-  ToInvoice: number;
-}
 
-export interface bodyCartUpdate {
-  Quantity: number;
-  idCartEntry: number;
-  customerID: number;
-  AddMore?:number;
-  ToInvoice?:number;
-}
 
-export const fetchCart = (id: number) => {
+export const fetchCart = () => {
 
   return async (dispatch: Dispatch<CartAction>) => {
     dispatch({ type: CartActionTypes.FETCH_CART_REQUEST });
     try {
-      const cart = await getCart(id); // Llama a tu función de solicitud a la AP
+      const cart = await getCart(); // Llama a tu función de solicitud a la AP
       dispatch({
         _type: CartActionTypes.FETCH_CART_SUCCESS,
         get type() {
@@ -47,21 +35,24 @@ export const fetchCart = (id: number) => {
   };
 };
 
-export const postCart = (body: bodyCart) => {
+export const postCart = (body: bodyCart, raw_products: RawProduct[]) => {
 
   return async (dispatch: Dispatch<CartAction>) => {
 
     dispatch({ type: CartActionTypes.FETCH_CART_REQUEST });
     try {
-      // eslint-disable-next-line @typescript-eslint/no-unused-vars
-      const res = await addToCart(body);
-      const cart = await getCart(body.customerID);
-
+      const token = getToken();
+      let cart;
+      if(token !== undefined){
+        await addToCart(body);
+        cart = await getCart();
+      }else{
+        cart = await postCartCookies(raw_products, body);
+      }
       dispatch({
         type: CartActionTypes.POST_CART_PRODUCTS,
         payload: cart
       });
-
     } catch (error) {
       dispatch({
         type: CartActionTypes.FETCH_CART_FAILURE,
@@ -76,9 +67,8 @@ export const updateCart = (body: bodyCartUpdate) => {
 
     dispatch({ type: CartActionTypes.FETCH_CART_REQUEST });
     try {
-      // eslint-disable-next-line @typescript-eslint/no-unused-vars
-      const res = await updateCartProd(body);
-      const cart = await getCart(body.customerID);
+      await updateCartProd(body);
+      const cart = await getCart();
 
       dispatch({
         type: CartActionTypes.UPDATE_CART_PRODUCTS,
@@ -94,14 +84,14 @@ export const updateCart = (body: bodyCartUpdate) => {
   };
 };
 
-export const deleteCart = (idEntryCart: number, customerID: number) => {
+export const deleteCart = (idEntryCart: number) => {
 
   return async (dispatch: Dispatch<CartAction>) => {
 
     dispatch({ type: CartActionTypes.FETCH_CART_REQUEST });
     try {
-      const res = await deleteCartProd(idEntryCart);
-      const cart = await getCart(customerID);
+      await deleteCartProd(idEntryCart);
+      const cart = await getCart();
 
       dispatch({
         type: CartActionTypes.DELETE_CART_PRODUCT,

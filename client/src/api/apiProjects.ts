@@ -1,4 +1,3 @@
-/* eslint-disable quotes */
 // api.ts
 import { BodyProject } from "@/store/projects/actionsProjects";
 import { Project } from "@/store/projects/typeProjects";
@@ -9,7 +8,7 @@ export const getProjects = async (CustomerID: number) => {
     const response = await axios.get(
       `http://localhost:5000/api/projects/${CustomerID}`
     );
-
+    
     return response.data;
   } catch (error) {
     console.log(error);

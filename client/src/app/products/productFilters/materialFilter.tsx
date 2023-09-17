@@ -1,12 +1,12 @@
 "use client";
-import { SimpleGrid, Checkbox, Box, Text, Tooltip, CheckboxGroup } from "@chakra-ui/react";
+import { SimpleGrid, Checkbox, Box, Text, Tooltip } from "@chakra-ui/react";
 import { useEffect } from "react";
 import { useAppDispatch, useAppSelector } from "@/store/hooks";
 import { fetchMaterials } from "@/store/products/actionsProducts";
 import { ProductState } from "@/store/products/typesProducts";
-import { FiltersState } from "./types";
+import { FiltersState } from "../../../interfaces/filtersProducts";
 
-const MaterialFilter: React.FC<FiltersState> = ({filters, setFilters, handleCheckboxChange}) => {
+const MaterialFilter: React.FC<FiltersState> = ({ handleCheckboxChange}) => {
   const { materials } = useAppSelector(
     (state: { productReducer: ProductState }) => state.productReducer
   );

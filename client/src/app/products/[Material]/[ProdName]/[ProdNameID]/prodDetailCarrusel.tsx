@@ -14,12 +14,9 @@ import { ProductState } from "@/store/products/typesProducts";
 
 export default function ProdDetailCarousel({params}) {
 
-  const { Material, ProdName, ProdNameID } = params;
+  const { Material, ProdName } = params;
 
   const dispatch = useAppDispatch();
-
-  const [smallerThan1200] = useMediaQuery("(max-width: 1200px)");
-  const [smallerThan740] = useMediaQuery("(max-width: 740px)");
 
   const [selectedItem, setSelectedItem] = useState(0);
   const [selectedThumbnail, setSelectedThumbnail] = useState(0);
@@ -61,16 +58,16 @@ export default function ProdDetailCarousel({params}) {
 
   const thumbnailURLs  = useAppSelector((state: { productReducer: ProductState }) => state.productReducer.product_images);
 
-  // Configuración para el carrusel de miniaturas
-  const thumbnailSettings = {
-    slidesToShow: 4, // Mostrar hasta 4 imágenes o la cantidad disponible
-    slidesToScroll: 1,
-    infinite: thumbnailURLs.length > 4 ? true : false, // Habilitar desplazamiento solo si hay 4 o más imágenes
-  };
+  // // Configuración para el carrusel de miniaturas
+  // const thumbnailSettings = {
+  //   slidesToShow: 4, // Mostrar hasta 4 imágenes o la cantidad disponible
+  //   slidesToScroll: 1,
+  //   infinite: thumbnailURLs.length > 4 ? true : false, // Habilitar desplazamiento solo si hay 4 o más imágenes
+  // };
 
-  const getThumbnailOpacity = (index) => {
-    return index === selectedThumbnail ? 1 : 0.5;
-  };
+  // const getThumbnailOpacity = (index) => {
+  //   return index === selectedThumbnail ? 1 : 0.5;
+  // };
 
 
   return (

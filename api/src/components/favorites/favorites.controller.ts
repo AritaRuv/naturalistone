@@ -21,7 +21,7 @@ export async function getAllFavorites(req: Request, res: Response) {
           throw error;
         }
         if (results.length === 0) {
-          console.log("Error en favortiesRoutes.get /");
+          console.log("No favorites");
           res.status(200).json([]);
         } else {
           console.log("favorite OK");

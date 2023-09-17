@@ -10,7 +10,7 @@ export interface Project {
 }
 
 export interface ProjectsState {
-  customerProjects: Project[];
+  customerProjects: Project[] | string;
   project: Project;
 }
 

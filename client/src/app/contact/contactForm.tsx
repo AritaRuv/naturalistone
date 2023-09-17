@@ -8,7 +8,7 @@ import {
 } from "@chakra-ui/react";
 import React, { useState } from "react";
 import { PostEmailToNaturali } from "@/api/apiPostmark";
-import { EmailNaturali } from "@/utils/types";
+import { EmailNaturali } from "@/interfaces/other";
 import { validateInputsFormEmail } from "@/utils/validateForms";
 
 const ContactForm: React.FC = () => {

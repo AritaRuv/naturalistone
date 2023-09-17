@@ -1,7 +1,7 @@
 import React from "react";
 import { Box, Text, useMediaQuery, Center } from "@chakra-ui/react";
 import NextImage from "next/image";
-import { DetailProdSolds } from "@/utils/types";
+import { DetailProdSolds } from "@/interfaces/other";
 
 const ProductCardDetail: React.FC<{
   product: DetailProdSolds;

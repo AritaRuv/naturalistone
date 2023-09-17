@@ -1,4 +1,4 @@
-import { Box, Checkbox, Divider, Text, VStack, useMediaQuery } from "@chakra-ui/react";
+import { Box, Divider, useMediaQuery } from "@chakra-ui/react";
 import ProductCardCart from "../../components/navBar/cartProducts";
 import { useEffect } from "react";
 import { useAppDispatch, useAppSelector } from "@/store/hooks";
@@ -36,7 +36,7 @@ export default function PreCheckoutCart() {
           {
             cart?.map((product) => {
               return (
-                  <Box key={product.idCartEntry} bg='yellow.200'>
+                <Box key={product.idCartEntry} bg='yellow.200'>
                   <Divider borderColor={"gray.700"} my={"2%"} />
                   <Box
                     bg='tomato'

@@ -9,7 +9,7 @@ import {
   MenuItem,
   MenuList,
 } from "@chakra-ui/react";
-import { useEffect, useState, useContext } from "react";
+import {  useState, useContext } from "react";
 import { PiHeartStraightThin, PiHeartStraightFill } from "react-icons/pi";
 import {
   deleteFavoriteProductInProject,
@@ -58,9 +58,9 @@ export function MenuFavoriteProductCard({
     }
   };
 
-  const productFavorite = favorites.map((favorite) => {
+  const productFavorite = typeof favorites !== "string" ? favorites.map((favorite) => {
     return favorite.ProdNameID;
-  });
+  }) : [];
 
   const iconFavorite = productFavorite.includes(ProdNameID);
 
@@ -123,7 +123,7 @@ export function MenuFavoriteProductCard({
                   zIndex={15}
                   flexDir={"column"}
                 >
-                  {customerProjects.length &&
+                  {typeof customerProjects !== "string" &&
                     customerProjects.map((el, i) => {
                       const favorite = objetoExisteEnArray(
                         favorites,

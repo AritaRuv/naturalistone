@@ -16,11 +16,9 @@ import { ChevronRightIcon } from "@chakra-ui/icons";
 import { PiListLight } from "react-icons/pi";
 import Logo from "./logo";
 import "./_navBar.css";
+import { MenuDrawerProps } from "@/interfaces/navbar";
 
-interface MenuDrawerProps {
-  handleHome: () => void;
-  smallerThan740: boolean;
-}
+
 
 const MenuDrawer: React.FC<MenuDrawerProps> = ({ smallerThan740 }) => {
   const { isOpen, onOpen, onClose } = useDisclosure();
@@ -75,12 +73,6 @@ const MenuDrawer: React.FC<MenuDrawerProps> = ({ smallerThan740 }) => {
               );
             })}
           </DrawerBody>
-          {/* <DrawerFooter>
-            <Button variant='outline' mr={3} onClick={onClose}>
-              Cancel
-            </Button>
-            <Button colorScheme='blue'>Save</Button>
-          </DrawerFooter> */}
         </DrawerContent>
       </Drawer>
     </>

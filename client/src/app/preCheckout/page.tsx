@@ -1,19 +1,18 @@
 "use client";
 
 import { PiCaretDownThin } from "react-icons/pi";
-import CheckoutCart from "../checkout/checkoutCart";
-import { Box, HStack, Select, Text, useMediaQuery } from "@chakra-ui/react";
+import { Box, HStack, Select, Text } from "@chakra-ui/react";
 import { ProjectsState } from "@/store/projects/typeProjects";
 import { useAppDispatch, useAppSelector } from "@/store/hooks";
 import { useEffect, useState } from "react";
 import { fetchProjectsCustomer } from "@/store/projects/actionsProjects";
 import { LoginState } from "@/store/login/typeLogin";
-import { Checkbox, CheckboxGroup } from "@chakra-ui/react";
+import { Checkbox } from "@chakra-ui/react";
 import { userInfo } from "@/store/login/actionsLogin";
 import PreCheckoutCart from "./PreCheckoutCart";
 
 export default function preCheckout() {
-  const [smallerThan740] = useMediaQuery("(max-width: 740px)");
+
   const customerProjects = useAppSelector(
     (state: { projectsReducer: ProjectsState }) =>
       state.projectsReducer.customerProjects);
@@ -51,7 +50,7 @@ export default function preCheckout() {
             h={"26px"}
             focusBorderColor="none"
             name="projects"
-            >
+          >
             {
               customerProjects && customerProjects?.map((x, y) =>
                 <option key={y}>{x.ProjectName}</option>)
@@ -60,7 +59,7 @@ export default function preCheckout() {
           </Select>
         </HStack>
       </Box>
-      <PreCheckoutCart smallerThan740={smallerThan740} />
+      <PreCheckoutCart/>
       <Box
         w={"100%"}
         h={"15%"}
@@ -70,9 +69,9 @@ export default function preCheckout() {
         alignItems={"center"}
         flexDir={"column"}
       >
-      <Checkbox defaultChecked 
-        isChecked={addMore}
-        onChange={handleChangeAddMoreAll}>Add 10% more to cover cuts and waste (recommended)</Checkbox>
+        <Checkbox defaultChecked 
+          isChecked={addMore}
+          onChange={handleChangeAddMoreAll}>Add 10% more to cover cuts and waste (recommended)</Checkbox>
       </Box>
     </>
   );

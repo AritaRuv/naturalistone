@@ -5,7 +5,7 @@ import ProductCard from "../../components/productCard/_productCard";
 import { fetchProductsHome } from "../../store/products/actionsProducts";
 import { ProductState } from "../../store/products/typesProducts";
 import { useAppDispatch, useAppSelector } from "../../store/hooks";
-import { FiltersHomeProps } from "./page";
+import { FiltersHomeProps } from "@/interfaces/home";
 import { fetchFavorites } from "@/store/favorites/actionsFavorites";
 import { fetchProjectsCustomer } from "@/store/projects/actionsProjects";
 import { LoginState } from "@/store/login/typeLogin";

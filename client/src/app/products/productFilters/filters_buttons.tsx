@@ -1,9 +1,9 @@
 import React from "react";
-import { SimpleGrid, Button, Text, useMediaQuery, grid, Divider, Box } from "@chakra-ui/react";
+import { SimpleGrid, Button, Text, useMediaQuery, Divider, Box } from "@chakra-ui/react";
 import "../../../components/navBar/_navBar.css";
-import { FilterButtonsProps } from "./types";
+import { FilterButtonsProps } from "../../../interfaces/filtersProducts";
 
-const FilterButtons: React.FC<FilterButtonsProps> = ({filters, setFilters, setShowMenu, showMenu }) => {
+const FilterButtons: React.FC<FilterButtonsProps> = ({ setShowMenu, showMenu }) => {
 
   const [is550Screen] = useMediaQuery("(max-width: 550px)");
   

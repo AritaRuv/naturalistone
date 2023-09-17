@@ -1,4 +1,3 @@
-/* eslint-disable indent */
 import {
   useDisclosure,
   Modal,
@@ -18,7 +17,8 @@ import { useState } from "react";
 import { useAppDispatch } from "@/store/hooks";
 import { patchUser } from "@/store/login/actionsLogin";
 import { validateCompletedInputsProfile } from "@/utils/validateForms";
-import { ErrorsProfile } from "@/utils/types";
+import { ErrorsProfile } from "@/interfaces/other";
+import { placeHolder } from "@/utils/placeHoldelUpdateUser";
 
 export function UpdateCustomer({
   title,
@@ -34,7 +34,6 @@ export function UpdateCustomer({
   const [showErrors, setShowErrors] = useState(false);
 
   const handleChange = (event) => {
-    // setErrors({});
     const name = event.target.name;
     const value = event.target.value;
     setFormData({
@@ -79,39 +78,6 @@ export function UpdateCustomer({
     return;
   };
 
-  function placeHolder(name) {
-    switch (name) {
-      case "fullName":
-        return "Jon Doe";
-      case "password":
-        return "Password";
-      case "phone":
-        return "+1 XXX XXX XXXX";
-      case "company":
-        return "Company";
-      case "companyPosition":
-        return "Company Role";
-      case "email":
-        return "Email";
-      case "billingAddress":
-        return "Address";
-      case "billingState":
-        return "State";
-      case "billingCity":
-        return "City";
-      case "billingZipCode":
-        return "Zip code";
-      case "address":
-        return "Address";
-      case "state":
-        return "State";
-      case "city":
-        return "City";
-      case "zipCode":
-        return "Zip code";
-    }
-  }
-
   return (
     <>
       <Box>
@@ -150,7 +116,6 @@ export function UpdateCustomer({
           w={"30vw"}
           minW={"400px"}
           h={"250px"}
-          // minH={"30vh"}
           border={"2px solid"}
           rounded={"sm"}
           borderColor={"gray.300"}
@@ -188,7 +153,7 @@ export function UpdateCustomer({
                 }}
                 style={{
                   borderBottom: "1px solid black",
-                  borderRadius: "0", // Ajusta el radio de las esquinas a cero
+                  borderRadius: "0", 
                   outline: "none",
                 }}
               />
@@ -203,7 +168,6 @@ export function UpdateCustomer({
             <Button
               fontWeight={"sm"}
               border={"none"}
-              // bg={"yellow"}
               backgroundColor={"transparent"}
               _hover={{
                 backgroundColor: "transparent",

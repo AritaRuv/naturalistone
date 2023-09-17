@@ -1,5 +1,5 @@
-import { IFormData } from "@/app/profile/page";
-import { SignUp, SignIn, User } from "@/store/login/typeLogin";
+import { IFormData } from "@/interfaces/profile";
+import { SignUp, SignIn } from "@/store/login/typeLogin";
 import axios from "axios";
 import Cookies from "js-cookie";
 
@@ -9,8 +9,7 @@ export const postSignUp = async (body: SignUp) => {
       "http://localhost:5000/api/auth/signup",
       body
     );
-    console.log("soy data", data);
-
+    
     Cookies.set("sessionId", data.data.token, { expires: 7 });
 
     return data;
@@ -25,9 +24,7 @@ export const postSignin = async (body: SignIn) => {
       "http://localhost:5000/api/auth/signin",
       body
     );
-
     Cookies.set("sessionId", data.results.token, { expires: 7 });
-
     return data;
   } catch (error) {
     return error.response.data;
@@ -44,6 +41,7 @@ export const getUserInfo = async () => {
           authorization: token,
         },
       }
+      
     );
     return response.data;
   } catch (error) {
@@ -54,7 +52,6 @@ export const getUserInfo = async () => {
 export const updateUser = async (body: IFormData) => {
   try {
     const token: any = Cookies.get("sessionId");
-
     const response = await axios.patch("http://localhost:5000/api/auth", body, {
       headers: {
         authorization: token,

@@ -18,6 +18,7 @@ const initialState: LoginState = {
     City: "",
     Company_Position: "",
   },
+  token: ""
 };
 
 const loginReducer = (
@@ -35,6 +36,18 @@ const loginReducer = (
       return {
         ...state,
         user: action.payload,
+      };
+    }
+    case LoginActionsType.POST_SIGNIN: {
+      return {
+        ...state,
+        token: action.payload
+      };
+    }
+    case LoginActionsType.POST_SIGNUP: {
+      return {
+        ...state,
+        token: action.payload
       };
     }
     default: {

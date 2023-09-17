@@ -1,4 +1,4 @@
-import { DetailProdSolds, Payments } from "@/utils/types";
+import { DetailProdSolds, Payments } from "@/interfaces/other";
 
 export interface Sales {
   Naturali_Invoice: number;

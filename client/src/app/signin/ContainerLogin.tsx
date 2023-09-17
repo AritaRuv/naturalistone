@@ -12,24 +12,18 @@ import Footer from "./footer";
 const ContainerLogin: React.FC = () => {
 
   const [activeLogin, setActiveLogin] = useState(true);
-
   const [smallerThan600] = useMediaQuery("(max-width: 600px)");
   const [smallerThan1200] = useMediaQuery("(max-width: 1200px)");
   const [smallerThan1450] = useMediaQuery("(max-width: 1450px)");
 
-
   return (
     <>
       <Box
-        // h={smallerThan1200 ? '68vh' : "76vh"}
         w={"full"}
-        // pt={ smallerThan1450 ? "10vh" :
-        //       smallerThan600 ? '2vh' 
-        //       : '8vh'}
-        h={smallerThan600 ? '76vh' : smallerThan1200 ? "60vh" : 'unset'}
-        mt={smallerThan600 || smallerThan1200 ? '12vh' : '18vh'}
+        h={smallerThan600 ? "76vh" : smallerThan1200 ? "60vh" : "unset"}
+        mt={smallerThan600 || smallerThan1200 ? "12vh" : "18vh"}
         display={"flex"}
-        alignItems={smallerThan600 ? "center" : 'flex-start'}
+        alignItems={smallerThan600 ? "center" : "flex-start"}
         justifyContent={"center"}
         flexDirection={smallerThan600 ? "column" : "row"}
       >
