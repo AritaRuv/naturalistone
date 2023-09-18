@@ -10,44 +10,57 @@ import { FiltersState } from "./types";
 import { useEffect } from "react";
 import { useAppDispatch } from "@/store/hooks";
 import { fetchDimension } from "@/store/products/actionsProducts";
+import { compareValues } from "@/utils/orderThickness";
+import { sortedFractions } from "@/utils/orderFractionsThickness";
 
-const ProductsFilters: React.FC<FiltersState> = ({ handleCheckboxChange, params}) => {
+const ProductsFilters: React.FC<FiltersState> = ({
+  handleCheckboxChange,
+  params,
+}) => {
   const dispatch = useAppDispatch();
   const { dimensions } = useAppSelector(
     (state: { productReducer: ProductState }) => state.productReducer
   );
 
-  useEffect(()=>{
-    if(!dimensions) dispatch(fetchDimension(params.Material)); 
-  },[dimensions]);
+  useEffect(() => {
+    if (!dimensions) dispatch(fetchDimension(params.Material));
+  }, [dimensions]);
 
   return (
     <>
       <Flex
-        flexDir={"column"} 
-        w={"12vw"} 
-        minW={'12vw'}
-        p={"15px"} 
-        h={"90vh"} 
+        flexDir={"column"}
+        w={"12vw"}
+        minW={"12vw"}
+        p={"15px"}
+        h={"90vh"}
         overflow={"auto"}
         mt={"8vh"}
         ml={"1vw"}
       >
-        {
-          dimensions && (
-            <>
-              <FiltersType type={dimensions.Type} handleCheckboxChange={handleCheckboxChange}  />
-              <FiltersSize size={dimensions.Size} handleCheckboxChange={handleCheckboxChange} />
-              <FiltersFinish finish={dimensions.Finish} handleCheckboxChange={handleCheckboxChange} />
-              <FiltersThickness thickness={dimensions.Thickness} handleCheckboxChange={handleCheckboxChange} />
-            </>
-          )
-        }
-      
+        {dimensions && (
+          <>
+            <FiltersType
+              type={dimensions.Type}
+              handleCheckboxChange={handleCheckboxChange}
+            />
+            <FiltersSize
+              size={dimensions.Size}
+              handleCheckboxChange={handleCheckboxChange}
+            />
+            <FiltersFinish
+              finish={dimensions.Finish}
+              handleCheckboxChange={handleCheckboxChange}
+            />
+            <FiltersThickness
+              thickness={dimensions.Thickness}
+              handleCheckboxChange={handleCheckboxChange}
+            />
+          </>
+        )}
       </Flex>
     </>
   );
 };
 
 export default ProductsFilters;
-

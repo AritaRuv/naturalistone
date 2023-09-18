@@ -12,6 +12,7 @@ import CartButton from "./cartButton";
 import { useAppDispatch, useAppSelector } from "@/store/hooks";
 import { userInfo } from "@/store/login/actionsLogin";
 import { LoginState } from "@/store/login/typeLogin";
+import { fetchFavorites } from "@/store/favorites/actionsFavorites";
 
 const NavBar: React.FC = () => {
   const [menuVisible, setMenuVisible] = useState(true);
@@ -50,6 +51,10 @@ const NavBar: React.FC = () => {
     }
   }, []);
 
+  useEffect(() => {
+    dispatch(fetchFavorites(user?.CustomerID));
+  });
+
   return (
     <>
       {
@@ -80,51 +85,49 @@ const NavBar: React.FC = () => {
                 <IconButtonsNavBar/>
                 <Menu handleMenu={handleMenu}/>
               </Box>
+              {!menuVisible && (
+                <DropDownMenu handleHome={handleHome} active={active} />
+              )}
 
             </Box>
           </Box>
-        )
-          :
-          !smallerThan740 ? 
-            (
-              <Box 
-                id={"navbar"}
-                display={"flex"} 
-                flexDir={"row"}
-                w={"100%"} 
-                h={"6vh"} 
-                minH={"60px"} 
-                maxH={"80px"}
-                zIndex={1}
-                alignItems={"center"}  
-                justifyContent={"space-between"} 
-                px={"4%"}
-              >
-                <MenuDrawer handleHome={handleHome} smallerThan740={smallerThan740}/>
-                <Logo/>
-                <IconButtonsNavBar/>
-              </Box>
-            ):(
-              <Box
-                id={"navbar"}
-                display={"flex"} 
-                flexDir={"row"}
-                w={"100%"} 
-                h={"6vh"} 
-                zIndex={1}
-                minH={"60px"} 
-                maxH={"80px"}
-                alignItems={"center"}  
-                justifyContent={"space-between"} 
-                px={"4%"}
-              >
-                <MenuDrawer handleHome={handleHome} smallerThan740={smallerThan740}/>
-                <Logo/>
-                <CartButton/>
-              </Box>   
-            )
-      }
-
+        ) : !smallerThan740 ? (
+          <Box
+            id={"navbar"}
+            display={"flex"}
+            flexDir={"row"}
+            w={"100%"}
+            h={"6vh"}
+            minH={"60px"}
+            maxH={"80px"}
+            zIndex={1}
+            alignItems={"center"}
+            justifyContent={"space-between"}
+            px={"4%"}
+          >
+            <MenuDrawer handleHome={handleHome} smallerThan740={smallerThan740} />
+            <Logo />
+            <IconButtonsNavBar />
+          </Box>
+        ) : (
+          <Box
+            id={"navbar"}
+            display={"flex"}
+            flexDir={"row"}
+            w={"100%"}
+            h={"6vh"}
+            zIndex={1}
+            minH={"60px"}
+            maxH={"80px"}
+            alignItems={"center"}
+            justifyContent={"space-between"}
+            px={"4%"}
+          >
+            <MenuDrawer handleHome={handleHome} smallerThan740={smallerThan740} />
+            <Logo />
+            <CartButton sample={false} />
+          </Box>
+        )}
     </>
   );
 };

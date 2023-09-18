@@ -74,7 +74,8 @@ export default function preCheckout() {
     const subT = cart.reduce((total, item) => {
       return total + (item.SalePrice * item.Quantity);
     }, 0);
-    setSubTotal(Math.round((subT + Number.EPSILON) * 100) / 100);
+    const tot = Math.round((subT + Number.EPSILON) * 100) / 100;
+    setSubTotal(tot.toFixed(2));
    
   }, [cart]);
 
@@ -129,7 +130,6 @@ export default function preCheckout() {
     }
   };
 
-
   return (
     <>
       <Box w={"100vw"} px={"1vw"} mt={"100px"}>
@@ -143,8 +143,7 @@ export default function preCheckout() {
             h={"26px"}
             focusBorderColor="none"
             name="projects"
-            onChange={handleProjectChange}
-            >
+            onChange={handleProjectChange}>
             {
               customerProjects && customerProjects?.map((x, y) =>
                 <option key={y}>{x.ProjectName}</option>)
@@ -154,8 +153,6 @@ export default function preCheckout() {
         </HStack>
       </Box>
       <PreCheckoutCart smallerThan740={smallerThan740} />
-
-
       <Box
         w={"50%"}
         h={"15%"}
@@ -163,9 +160,7 @@ export default function preCheckout() {
         display={"flex"}
         flexDir={"column"}
       >
-      <Checkbox defaultChecked 
-        isChecked={addMore}
-        onChange={handleChangeAddMoreAll}>Add 10% more to cover cuts and waste (recommended)</Checkbox>
+        <Checkbox defaultChecked isChecked={addMore} onChange={handleChangeAddMoreAll}>Add 10% more to cover cuts and waste (recommended)</Checkbox>
       </Box>
       <Box
         w={"50%"}

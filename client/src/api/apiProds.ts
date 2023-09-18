@@ -6,7 +6,7 @@ import axios from "axios";
 export const getProductsHome = async (material: string, colorId: string) => {
   try {
     const response = await axios.get(
-      `http://localhost:5000/api/products?material=${material}&colorId=${colorId}`
+      `http://localhost:5000/api/products/home?material=${material}&colorId=${colorId}`
     ); // Realiza la solicitud GET a la ruta /api/products de tu backend
     return response.data;
   } catch (error) {

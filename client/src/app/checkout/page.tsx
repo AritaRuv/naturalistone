@@ -1,6 +1,5 @@
 "use client";
 import { Box, useMediaQuery } from "@chakra-ui/react";
-import NavBar from "../_navBar/_navBar";
 import CheckoutCart from "./checkoutCart";
 import CheckoutForm from "./checkoutForm";
 import { useEffect } from "react";
@@ -21,7 +20,7 @@ export default function Checkout() {
       console.log(user);
     }
     else{
-            console.log(user);
+      console.log(user);
 
     }
   }, [user]);
@@ -32,7 +31,6 @@ export default function Checkout() {
       {
         user.CustomerID > 0 && <CheckoutForm smallerThan740={smallerThan740} />
       }
-   
     </Box>
   );
 }

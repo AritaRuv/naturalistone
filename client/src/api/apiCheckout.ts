@@ -2,7 +2,6 @@ import axios from "axios";
 
 export const createCheckout = async (CustomerId: number) => {
   try {
-    console.log(CustomerId)
     const bodyCust = {
       CustomerId : CustomerId
     };
@@ -25,7 +24,6 @@ export const confirmCheckout = async (CustomerId: number, ProjectId: number, Sec
     };
 
     const response = await axios.patch("http://localhost:5000/api/checkout", bodyCust);
-      console.log(response);
     return response.data;
   } catch (error) {
     console.log(error);

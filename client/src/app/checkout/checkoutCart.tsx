@@ -30,16 +30,6 @@ export default function CheckoutCart() {
   }, [cart]);
 
 
-  const handleClickCheckout = async () => {
-    const stripe = await getStripe();
-    const response = await createCheckout(user.CustomerID);
-    const sisionId: string = response.sessionId;
-
-    //stripe.redirectToCheckout({ sessionId: sisionId });
-    setClientSecret(response.intento.client_secret);
-    
-  };
-
   return (
     <>
       <Box
@@ -72,7 +62,7 @@ export default function CheckoutCart() {
                   w={"98%"}
                   justifyContent={"space-between"}
                 >
-                  <ProductCardCart product={product} />
+                  <ProductCardCart product={product} preCheckout={undefined} />
                   {!smallerThan740 ? (
                     <Box
                       w={"95px"}
@@ -115,12 +105,11 @@ export default function CheckoutCart() {
           flexDir={"column"}
         >
           <Text fontWeight={"semibold"}>SUB TOTAL: $XXXX</Text>
-          <Link href={"/checkout"}>
+          <Link href={"/preCheckout"}>
             <Button
               fontSize="0.9rem"
               variant="unstyled"
               className="customButton"
-              onClick={handleClickCheckout}
             >
               {" "}
               CHECK OUT{" "}

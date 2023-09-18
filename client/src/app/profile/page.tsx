@@ -12,6 +12,7 @@ import Favorites from "./favorites";
 import { useRouter } from "next/navigation";
 import { userInfo } from "@/store/login/actionsLogin";
 import Cookies from "js-cookie";
+import OrderHistoryUser from "./orderHistoryUser";
 
 export interface IFormData {
   customerId: string;
@@ -142,6 +143,11 @@ export default function Profile() {
           {appContext?.showMenu === "favorites" && (
             <>
               <Favorites />
+            </>
+          )}
+          {appContext?.showMenu === "order history" && (
+            <>
+              <OrderHistoryUser user={user} />
             </>
           )}
         </Box>

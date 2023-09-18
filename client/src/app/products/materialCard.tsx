@@ -7,11 +7,13 @@ export default function MaterialCard({ material }) {
 
   const URL = `https://naturalistone-images.s3.amazonaws.com/${material}/0.jpeg`;
 
+  const URLAll = "https://i.pinimg.com/564x/87/bd/d4/87bdd49f23dac6a0266e92bdbc4e0d29.jpg";
+
   return (
     <>
       <Link href={`/products/${material}`}>
         <Center w={"350px"} h={"350px"} position={"relative"} overflow={"hidden"}>
-          <NextImage objectFit="cover" fill src={URL} alt="img" />
+          <NextImage objectFit="cover" fill src={material === "all" ? URLAll : URL} alt="img" />
           <Box
             position="absolute"
             top={0}

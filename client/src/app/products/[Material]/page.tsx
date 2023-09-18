@@ -1,9 +1,5 @@
 "use client";
-import {
-  Box,
-  Select,
-  useMediaQuery,
-} from "@chakra-ui/react";
+import { Box, Select, useMediaQuery } from "@chakra-ui/react";
 import ProductsFilters from "../productFilters/productsFilter";
 import ProductsContainer from "../productsContainer";
 import { useState } from "react";
@@ -17,12 +13,14 @@ import {
   fetchProductsByMaterial,
   fetchProductsFilters,
 } from "@/store/products/actionsProducts";
-import {
-  ProductState,
-} from "@/store/products/typesProducts";
+import { ProductState } from "@/store/products/typesProducts";
 import { Filters } from "../productFilters/types";
 import { PiCaretDownThin } from "react-icons/pi";
 import { Path } from "../path";
+import { LoginState } from "@/store/login/typeLogin";
+import { userInfo } from "@/store/login/actionsLogin";
+import { fetchFavorites } from "@/store/favorites/actionsFavorites";
+import { fetchProjectsCustomer } from "@/store/projects/actionsProjects";
 
 export default function Products({ params }) {
   // Flag para evitar que  dispatch(fetchProductsFilters(products_by_material, filters)) se despache en el primer renderizado
@@ -37,6 +35,13 @@ export default function Products({ params }) {
   const { raw_products } = useAppSelector(
     (state: { productReducer: ProductState }) => state.productReducer
   );
+  const { user } = useAppSelector(
+    (state: { loginReducer: LoginState }) => state.loginReducer
+  );
+
+  useEffect(() => {
+    dispatch(userInfo());
+  }, []);
 
   const dispatch = useAppDispatch();
 
@@ -51,6 +56,11 @@ export default function Products({ params }) {
     };
   }, []);
 
+  useEffect(() => {
+    dispatch(fetchFavorites(user.CustomerID));
+    dispatch(fetchProjectsCustomer(user.CustomerID));
+  }, [user]);
+
   const [smallerThan1800] = useMediaQuery("(max-width: 1800px)");
   const [smallerThan1200] = useMediaQuery("(max-width: 1200px)");
   const [smallerThan740] = useMediaQuery("(max-width: 740px)");
@@ -63,7 +73,7 @@ export default function Products({ params }) {
     finish: [],
     thickness: [],
     size: [],
-    orderBy: ""
+    orderBy: "",
   });
   const handleCheckboxChange = (filterName: string, value: string) => {
     setFilters((prevFilters) => {
@@ -97,33 +107,38 @@ export default function Products({ params }) {
     }
   }, [filters, shouldTriggerEffect]);
 
-
-
   return (
     <>
       <Box h={"100vh"} w={"100%"} display={"flex"} flexDir={"row"}>
         {
-        // smallerThan1200 ? 
-        //   <FiltersDropDownMenu
-        //       showMenu={showMenu}
-        //       setShowMenu={setShowMenu}
-        //       handleCheckboxChange={handleCheckboxChange}
-        //       params={params} 
-        //       setFilters={setFilters}
-        //       filters={filters}/>
-        //   :
-          !smallerThan1200 ? 
+          // smallerThan1200 ?
+          //   <FiltersDropDownMenu
+          //       showMenu={showMenu}
+          //       setShowMenu={setShowMenu}
+          //       handleCheckboxChange={handleCheckboxChange}
+          //       params={params}
+          //       setFilters={setFilters}
+          //       filters={filters}/>
+          //   :
+          !smallerThan1200 ? (
             <ProductsFilters
               setFilters={setFilters}
               filters={filters}
               handleCheckboxChange={handleCheckboxChange}
               params={params}
             />
-            : null
+          ) : null
         }
         <Box>
-          <Box w={"85vw"} px={"1vw"} h={"12vh"} display={"flex"} justifyContent={"space-between"} alignItems={"flex-end"}>
-            <Path params={params}/>
+          <Box
+            w={"85vw"}
+            px={"1vw"}
+            h={"12vh"}
+            display={"flex"}
+            justifyContent={"space-between"}
+            alignItems={"flex-end"}
+          >
+            <Path params={params} />
             <Select
               icon={<PiCaretDownThin />}
               w={"7vw"}
@@ -141,9 +156,9 @@ export default function Products({ params }) {
               <option value="ZA"> Z-A</option>
             </Select>
           </Box>
-          <ProductsContainer params={params} />
+          <ProductsContainer params={params}/>
         </Box>
-      </Box> 
+      </Box>
     </>
   );
 }

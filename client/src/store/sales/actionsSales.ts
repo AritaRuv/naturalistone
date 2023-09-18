@@ -53,3 +53,17 @@ export function salesDetails(idSales: number) {
     }
   };
 }
+
+export function cleanSaleDetails() {
+  return async function (dispatch: Dispatch<SalesActions>) {
+    try {
+      dispatch({
+        type: SalesActionsType.CLEAN_SALES_DETAILS,
+        payload: {},
+      });
+    } catch (error) {
+      console.log(error);
+      return error.data;
+    }
+  };
+}

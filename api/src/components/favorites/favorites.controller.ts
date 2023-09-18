@@ -22,7 +22,7 @@ export async function getAllFavorites(req: Request, res: Response) {
         }
         if (results.length === 0) {
           console.log("Error en favortiesRoutes.get /");
-          res.status(200).json("No favorites");
+          res.status(200).json([]);
         } else {
           console.log("favorite OK");
           res.status(200).json(results);
@@ -45,7 +45,7 @@ export async function getProjectFavorites(req: Request, res: Response) {
                   `;
 
     mysqlConnection.query(
-      query, 
+      query,
       (error: MysqlError, results: RowDataPacket[]) => {
         if (error) {
           throw error;
@@ -64,13 +64,14 @@ export async function getProjectFavorites(req: Request, res: Response) {
   }
 }
 
-
 export async function postFavoritesProductProject(req: Request, res: Response) {
   const { idproject, idprodname } = req.params;
 
   try {
-    const querySelect = "SELECT * FROM Project_ProdName WHERE idProjects = ? AND ProdNameID = ?";
-    const queryInsert = "INSERT INTO Project_ProdName (idProjects, ProdNameID) values (?, ?)";
+    const querySelect =
+      "SELECT * FROM Project_ProdName WHERE idProjects = ? AND ProdNameID = ?";
+    const queryInsert =
+      "INSERT INTO Project_ProdName (idProjects, ProdNameID) values (?, ?)";
 
     mysqlConnection.query(
       querySelect,

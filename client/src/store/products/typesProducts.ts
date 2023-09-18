@@ -3,6 +3,18 @@ export interface Product {
   ProdNameID: number;
   Naturali_ProdName: string;
   Material: string;
+  ColorID?: number;
+  DimensionID: number;
+  Finish: string;
+  Size: string;
+  Thickness: string;
+  Type: string;
+  idColorProduct?: number;
+  SalePrice: number;
+  Quantity: number;
+  idCartEntry: number;
+  CustomerID: number;
+  ProdID: number;
 }
 export interface RawProduct {
   ProdNameID: number;
@@ -13,6 +25,7 @@ export interface RawProduct {
   Finish: string;
   Type: string;
   ProdID: number;
+  SalePrice?: number;
 }
 
 export interface ProductData {
@@ -44,6 +57,7 @@ export interface ProductState {
   dimensions: DimensionData | null;
   product_images: ImageResponse[];
   raw_products: RawProduct[];
+  raw_products_by_material: RawProduct[];
 }
 
 interface ImageResponse {
@@ -70,6 +84,7 @@ export enum ProductActionTypes {
   CLEAR_MATERIALS = "CLEAR_MATERIALS",
   CLEAR_PRODUCTS_FILTERS = "CLEAR_PRODUCTS_FILTERS",
   CLEAR_RAW_PRODUCTS = "CLEAR_RAW_PRODUCTS",
+  FETCH_PRODUCTS_BY_PRODNAME = "FETCH_PRODUCTS_BY_PRODNAME"
 }
 
 export interface FetchProductsRequestAction {
@@ -90,6 +105,10 @@ export interface FetchProductsHomeSuccessAction {
 export interface FetchProductsFiltersSuccessAction {
   type: ProductActionTypes.FETCH_PRODUCTS_FILTERS_SUCCESS;
   payload: Product[] | string;
+}
+export interface FetchProductsByProdNameAction {
+  type: ProductActionTypes.FETCH_PRODUCTS_BY_PRODNAME;
+  payload: RawProduct[];
 }
 
 export interface FetchProductsFailureAction {
@@ -163,4 +182,5 @@ export type ProductAction =
   | ClearDimension
   | ClearProductFilters
   | ClearProductsByMaterial
-  | ClearMaterials;
+  | ClearMaterials
+  | FetchProductsByProdNameAction;

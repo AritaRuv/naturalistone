@@ -9,6 +9,7 @@ dotenv.config({ path: "./src/.env" });
 
 export async function newCheckout(req: Request, res: Response) {
   try {
+    console.log("entro ");
     const { CustomerId } = req.body;
     let cartItems = [];
     const query = `SELECT 
@@ -49,6 +50,7 @@ export async function newCheckout(req: Request, res: Response) {
             apiVersion: "2023-08-16",
           });
           try {
+            let sumaTotal = 0;
             // Create Checkout Sessions from body params.
             const itemsCart = [];
             for (let index = 0; index < cartItems.length; index++) {
@@ -65,6 +67,7 @@ export async function newCheckout(req: Request, res: Response) {
                 },
                 quantity: element.Quantity,
               };
+              sumaTotal = sumaTotal + element.SalePrice;
               itemsCart.push(item);
             }
 
@@ -75,13 +78,13 @@ export async function newCheckout(req: Request, res: Response) {
               cancel_url: "http://localhost:3000/checkout",
             });
 
+
             const paymentIntent = await stripe.paymentIntents.create({
               currency: "USD",
-              amount: 100,
+              amount: sumaTotal,
               // In the latest version of the API, specifying the `automatic_payment_methods` parameter is optional because Stripe enables its functionality by default.
               automatic_payment_methods: { enabled: true }
             });
-
             res.status(200).json({ sessionId: session.id, intento: paymentIntent });
           } catch (err) {
             console.log(err);

@@ -3,14 +3,11 @@ import { fetchColors } from "@/store/colors/actionsColors";
 import { ColorsState } from "@/store/colors/typeColors";
 import { useAppDispatch, useAppSelector } from "@/store/hooks";
 import {
-  fetchMaterials,
   fetchProductsHome,
 } from "@/store/products/actionsProducts";
 import {
   Box,
   Button,
-  Text,
-  Heading,
   IconButton,
   useMediaQuery,
   useToast,

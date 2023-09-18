@@ -1,6 +1,6 @@
 "use client";
-import { useEffect } from "react";
-import { SimpleGrid, useMediaQuery } from "@chakra-ui/react";
+import { useEffect, useContext } from "react";
+import { Box, SimpleGrid, useMediaQuery } from "@chakra-ui/react";
 import ProductCard from "../../components/productCard/_productCard";
 import { fetchProductsHome } from "../../store/products/actionsProducts";
 import { ProductState } from "../../store/products/typesProducts";
@@ -10,6 +10,8 @@ import { fetchFavorites } from "@/store/favorites/actionsFavorites";
 import { fetchProjectsCustomer } from "@/store/projects/actionsProjects";
 import { LoginState } from "@/store/login/typeLogin";
 import { userInfo } from "@/store/login/actionsLogin";
+import { AppContext } from "../appContext";
+import Cookies from "js-cookie";
 
 const HomeProductContainer: React.FC<FiltersHomeProps> = ({
   productsFilter,
@@ -22,6 +24,8 @@ const HomeProductContainer: React.FC<FiltersHomeProps> = ({
   const dispatch = useAppDispatch();
   const { material, colorId } = productsFilter;
 
+  const appContext = useContext(AppContext);
+
   const { products } = useAppSelector(
     (state: { productReducer: ProductState }) => state.productReducer
   );
@@ -32,7 +36,6 @@ const HomeProductContainer: React.FC<FiltersHomeProps> = ({
   useEffect(() => {
     dispatch(userInfo());
   }, []);
-
 
   let gridColumns = 6;
 
@@ -63,6 +66,15 @@ const HomeProductContainer: React.FC<FiltersHomeProps> = ({
     dispatch(fetchProjectsCustomer(user.CustomerID));
   }, [user]);
 
+  useEffect(() => {
+    const sessionId = Cookies.get("sessionId");
+    if (sessionId) {
+      appContext && appContext.setUserLog(true);
+    } else {
+      appContext && appContext.setUserLog(false);
+    }
+  }, []);
+
   return (
     <SimpleGrid
       pt={"8vh"}
@@ -76,7 +88,9 @@ const HomeProductContainer: React.FC<FiltersHomeProps> = ({
       {homeProducts.length !== 0 &&
         homeProducts.map((prod, index) => {
           return (
-            <ProductCard product={prod} key={index} site={"home"} user={user} />
+            <Box key={index}>
+              <ProductCard product={prod} key={index} site={"home"} user={user} />
+            </Box>
           );
         })}
     </SimpleGrid>

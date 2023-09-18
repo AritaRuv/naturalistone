@@ -19,6 +19,7 @@ import {
 import { Filters } from "@/app/products/productFilters/types";
 import getProductsFiltered from "@/controllers/productFilters";
 import getProductsByProdName from "@/controllers/productByProdName";
+import filterProductsByProdName from "@/controllers/filterRawProductsByProdName";
 
 export const fetchProductsHome = (material: string, colorId: string) => {
   return async (dispatch: Dispatch<ProductAction>) => {
@@ -43,7 +44,6 @@ export const fetchProductsValues = ({ ProdNameID }) => {
   return async (dispatch: Dispatch<ProductAction>) => {
     try {
       const productValues = await getProductValues(ProdNameID); // Llama a tu función de solicitud a la API
-
       dispatch({
         type: ProductActionTypes.FETCH_PRODUCTS_VALUES,
         payload: productValues,
@@ -114,7 +114,6 @@ export const fetchProductsFilters = (
 ) => {
   return async (dispatch: Dispatch<ProductAction>) => {
     dispatch({ type: ProductActionTypes.FETCH_PRODUCTS_REQUEST });
-    console.log("hola");
     try {
       const result = getProductsFiltered(raw_products, filters);
       dispatch({
@@ -255,6 +254,28 @@ export const ClearProductsByMaterial = () => {
       });
     } catch (error) {
       console.log("Error in dispatch clean products by material");
+    }
+  };
+};
+
+//Action que filtra raw_products por prodNameID
+export const fetchProductsByProdNameID = (
+  raw_products: RawProduct[],
+  prodNameID,
+) => {
+  return async (dispatch: Dispatch<ProductAction>) => {
+    dispatch({ type: ProductActionTypes.FETCH_PRODUCTS_REQUEST });
+    try {
+      const result = filterProductsByProdName(raw_products, prodNameID);
+      dispatch({
+        type: ProductActionTypes.FETCH_PRODUCTS_BY_PRODNAME,
+        payload: result,
+      });
+    } catch (error) {
+      dispatch({
+        type: ProductActionTypes.FETCH_PRODUCTS_FAILURE,
+        error: "Error al obtener los productos",
+      });
     }
   };
 };

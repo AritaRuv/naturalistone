@@ -1,19 +1,19 @@
 import React from "react";
 import { Box } from "@chakra-ui/react";
 import SampleProductList from "./sampleProductList";
-
+import { Product } from "@/store/products/typesProducts";
 
 interface AddProductSampleToCartProps {
   ProdNameID: number;
   productValues: any;
+  product?: Product;
 }
 
 const AddSampleProductToCart: React.FC<AddProductSampleToCartProps> = ({
   ProdNameID,
   productValues,
+  product,
 }) => {
-
-
   return (
     <Box
       display={"flex"}
@@ -26,7 +26,11 @@ const AddSampleProductToCart: React.FC<AddProductSampleToCartProps> = ({
       bg={"whitesmoke"}
       p={"15px"}
     >
-      <SampleProductList ProdNameID={ProdNameID} data={productValues}/>
+      <SampleProductList
+        ProdNameID={ProdNameID}
+        data={productValues}
+        product={product}
+      />
     </Box>
   );
 };

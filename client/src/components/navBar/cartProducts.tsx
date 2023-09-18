@@ -18,7 +18,7 @@ import { deleteCart, updateCart } from "@/store/cart/actionsCart";
 import { useAppDispatch, useAppSelector } from "@/store/hooks";
 import { LoginState } from "@/store/login/typeLogin";
 
-const ProductCardCart: React.FC<{ product: ProductCart }> = ({ product, preCheckout }) => {
+const ProductCardCart: React.FC<{ product: ProductCart, preCheckout: any }> = ({ product, preCheckout }) => {
   const {
     CustomerID,
     Finish,
@@ -62,8 +62,8 @@ const ProductCardCart: React.FC<{ product: ProductCart }> = ({ product, preCheck
 
     }
   };
+  const newQuantity = quantity + 1;
   const increaseQuantity = () => {
-    const newQuantity = quantity + 1;
     setQuantity(newQuantity);
     updateCartQuantityExtraInvoice(newQuantity, addExtra, toInvoice);
     setTotalPrice((newQuantity * SalePrice).toFixed(2));
@@ -76,7 +76,6 @@ const ProductCardCart: React.FC<{ product: ProductCart }> = ({ product, preCheck
       AddExtra: addExtra,
       ToInvoice: toInvoice
     };
-    console.log(bodyUpd)
     dispatch(updateCart(bodyUpd));
   };
   const handleAddExtraChange = (event) => 
@@ -144,18 +143,17 @@ const ProductCardCart: React.FC<{ product: ProductCart }> = ({ product, preCheck
         display={"flex"}
         alignItems={"center"}
         justifyContent={"space-around"}
-       
         backgroundColor={quantity === 0 ? "sampleItemCart.gray" : "white"}
       >
-              
-        {
-          isExtraSmallScreen ? (
-            <Box h={"120px"} w={"100px"} position={"relative"} overflow={"hidden"} rounded={"md"}>
-              <NextImage objectFit="cover" fill src={URL} alt="img" />
-            </Box>
-          ) : (
-            <Box position="relative" display={"flex"} alignContent={"center"}>
-              {/* <IconButton
+        <Stack w={"80%"} ms={12} direction={["column", "row"]} spacing='24px'>
+          {
+            isExtraSmallScreen ? (
+              <Box h={"110px"} w={"120px"} position={"relative"} overflow={"hidden"}>
+                <NextImage objectFit="cover" fill src={URL} alt="img" />
+              </Box>
+            ) : (
+              <Box position="relative" display={"flex"} alignContent={"center"}>
+                {/* <IconButton
                 position="absolute"
                 aria-label="Delete X"
                 top="0px"
@@ -170,113 +168,103 @@ const ProductCardCart: React.FC<{ product: ProductCart }> = ({ product, preCheck
                 _active={{ bg: "transparent" }}
                 _focus={{ boxShadow: "none" }}
                 onClick={handleDelete}
-              /> */}
-              <Box h="140px" w="140px"
-                position={"relative"}
-                overflow={"hidden"}
-                zIndex="0">
-                <NextImage
-                  objectFit="cover"
-                  src={URL}
-                  alt="Imagen"
-                  fill
-                />
+              /> 
+              */}
+                <Box h="140px" w="140px"
+                  position={"relative"}
+                  overflow={"hidden"}
+                  zIndex="0">
+                  <NextImage
+                    objectFit="cover"
+                    src={URL}
+                    alt="Imagen"
+                    fill
+                  />
+                </Box>
               </Box>
-            </Box>
-          )}
+            )}
 
-        <Box h={isExtraSmallScreen ? "120px" : "140px"} ms={2}  w={"220px"} display={"flex"} flexDir={"column"} justifyContent={"space-between"}>
-          <Box>
-            <Text textTransform={"uppercase"} fontSize={fontSubTitle}>{Material}</Text>
-            <Text textTransform={"uppercase"} fontWeight={"bold"} fontSize={fontTitle}>{Naturali_ProdName}</Text>
-            {
-              Quantity > 0 ? (<Text textTransform={"uppercase"} fontSize={"0.6rem"} color={"gray.600"}>{Finish} - {Size} - {Thickness}-{Type}</Text>
-              ) : (<Text textTransform={"uppercase"} fontSize={"0.6rem"} color={"gray.600"}>{Finish} - {Thickness}-{Type}</Text>
-              )
-            }
-          </Box>
-          <Box>
-            {Quantity > 0 && (
-              <>
-                <Box display={"flex"} h={"28px"} justifyContent={"space-between"} alignItems={"center"}>
-                  <Text textTransform={"uppercase"} fontSize={fontSubTitle}>Price sqf</Text>
-                  <Center w={"80px"}>
-                    <Text textTransform={"uppercase"} fontSize={"0.8rem"}>
+          <Box h={isExtraSmallScreen ? "120px" : "140px"} ms={2}  w={"220px"} display={"flex"} flexDir={"column"} justifyContent={"space-between"}>
+            <Box>
+              <Text textTransform={"uppercase"} fontSize={fontSubTitle}>{Material}</Text>
+              <Text textTransform={"uppercase"} fontWeight={"bold"} fontSize={fontTitle}>{Naturali_ProdName}</Text>
+              {
+                quantity > 0 ? (<Text textTransform={"uppercase"} fontSize={"0.6rem"} color={"gray.600"}>{Finish} - {Size} - {Thickness}-{Type}</Text>
+                ) : (<Text textTransform={"uppercase"} fontSize={"0.6rem"} color={"gray.600"}>{Finish} - {Thickness}-{Type}</Text>
+                )
+              }
+            </Box>
+            <Box>
+              {quantity > 0 && (
+                <>
+                  <Box display={"flex"} h={"28px"} justifyContent={"space-between"} alignItems={"center"}>
+                    <Text textTransform={"uppercase"} fontSize={fontSubTitle}>Price sqf</Text>
+                    <Center w={"80px"}>
+                      <Text textTransform={"uppercase"} fontSize={"0.8rem"}>
                       ${price}
-                    </Text>
-                  </Center>
-                </Box>
-                <Box w={"100%"} display={"flex"} h={"28px"} justifyContent={"space-between"} alignItems={"center"}>
-                  <Text textTransform={"uppercase"} fontSize={fontSubTitle}>Quantity</Text>
-                  <Center  display={"flex"} flexDir={"row"} alignItems={"center"} justifyItems={"flex-end"}>
-                    <Button
-                      variant={"unstyled"}
-                      size={"xs"}
-                      onClick={decreaseQuantity}
-                      fontWeight={"thin"}
-                    >
+                      </Text>
+                    </Center>
+                  </Box>
+                  <Box w={"100%"} display={"flex"} h={"28px"} justifyContent={"space-between"} alignItems={"center"}>
+                    <Text textTransform={"uppercase"} fontSize={fontSubTitle}>Quantity</Text>
+                    <Center w={"80px"} display={"flex"} flexDir={"row"} alignItems={"center"} justifyItems={"flex-end"}>
+                      <Button
+                        variant={"unstyled"}
+                        size={"xs"}
+                        onClick={decreaseQuantity}
+                        fontWeight={"thin"}
+                      >
                       -
-                    </Button>
-                    <Input
-                      fontSize={"0.8rem"}
-                      border={"none"}
-                      borderBottom={"1px solid"}
-                      borderBottomColor={"logo.gray"}
-                      rounded={"none"}
-                      type="number"
-                      value={Quantity}
-                      min={1}
-                      onChange={handleQuantityChange}
-                      onBlur={handleQuantityBlur}
-                      size={"xs"}
-                      textAlign={"center"}
-                      w={Quantity.toString().length < 1 ? "70px" : "75px"}
-                    />
-                    <Button
-                      variant={"unstyled"}
-                      size={"xs"}
-                      onClick={increaseQuantity}
-                      fontWeight={"thin"}
-                    >
+                      </Button>
+                      <Input
+                        fontSize={"0.8rem"}
+                        border={"none"}
+                        borderBottom={"1px solid"}
+                        borderBottomColor={"logo.gray"}
+                        rounded={"none"}
+                        type="number"
+                        value={quantity}
+                        min={1}
+                        onChange={handleQuantityChange}
+                        onBlur={handleQuantityBlur}
+                        size={"xs"}
+                        textAlign={"center"}
+                      />
+                      <Button
+                        variant={"unstyled"}
+                        size={"xs"}
+                        onClick={increaseQuantity}
+                        fontWeight={"thin"}
+                      >
                       +
-                    </Button>
-                  </Center>
-                </Box>
-                {
-                  preCheckout && 
+                      </Button>
+                    </Center>
+                  </Box>
+                  {
+                    preCheckout && 
                   <Box>
-                      <Checkbox size="sm" isChecked={AddExtra === 1} onChange={handleAddExtraChange} > Add 10% more</Checkbox>
+                    <Checkbox size="sm" isChecked={AddExtra === 1} onChange={handleAddExtraChange} > Add 10% more</Checkbox>
                   </Box>
 
-                }
-              </>
-            )}
+                  }
+                </>
+              )}
+            </Box>
           </Box>
-        </Box>
-        <Box>
-         
-            {
-              preCheckout ? (<>
-               <VStack >
-                <Checkbox defaultChecked onChange={handleAddInvoiceChange}>Facturar</Checkbox> 
-               </VStack>
-              </>)
-               :
-               (
-               <Box></Box>
-               )
-                 
-              }  
+        </Stack>
+        <VStack>
+          {
+            preCheckout && <Checkbox defaultChecked onChange={handleAddInvoiceChange}>Facturar</Checkbox>
+          }
           <Text
             h={"30px"}
             fontWeight={"semibold"}
             textAlign={"center"}>
-            ${Quantity * SalePrice} 
-
+            ${(Quantity * SalePrice).toFixed(2)}
           </Text>
-
-        </Box>
+        </VStack>
       </Box>
+    
     </>
   );
 };
