@@ -1,5 +1,5 @@
 "use client";
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import {
   Box,
   IconButton,
@@ -26,6 +26,8 @@ import { LoginState } from "@/store/login/typeLogin";
 
 const CartButton: React.FC = () => {
   const { isOpen, onOpen, onClose } = useDisclosure();
+  const [ subTotal, setSubTotal ] = useState(0);
+
   const { cart } = useAppSelector(
     (state: { cartReducer: CartState }) => state.cartReducer
   );
@@ -36,8 +38,15 @@ const CartButton: React.FC = () => {
   );
 
   useEffect(() => {
-    dispatch(fetchCart(user?.CustomerID));
-  }, [user]);
+    if(cart.length === 0){
+
+      dispatch(fetchCart(user?.CustomerID));
+      const subT = cart.reduce((total, item) => {
+        return total + (item.SalePrice * item.Quantity);
+      }, 0);
+      setSubTotal(subT);
+    }
+  }, [user,cart]);
 
   return (
     <>
@@ -73,7 +82,11 @@ const CartButton: React.FC = () => {
               alignItems={"center"}
               flexDir={"column"}
             >
-              <Text fontWeight={"semibold"}>SUB TOTAL: $XXXX</Text>
+              <Text fontWeight={"semibold"}>SUB TOTAL: $
+              {
+                subTotal
+              }
+              </Text>
               <Link href={"/checkout"}>
                 <Button
                   fontSize="0.9rem"

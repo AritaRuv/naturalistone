@@ -8,10 +8,10 @@ export function ShippingAddresForm({
 }) {
   return (
     <>
-      <Box w={"full"} h={"40px"} pl={"40px"} mt={"2%"}>
-        <Text fontWeight={"semibold"}>1. SHIPPING ADDRESS</Text>
-      </Box>
-      <VStack w={"90%"} pl={"60px"}>
+      <VStack w={"90%"} px={"10px"}>
+        <Box w={"full"} h={"40px"} mt={"2%"}>
+          <Text fontWeight={"semibold"}>1. SHIPPING ADDRESS</Text>
+        </Box>
         <InputGroup display={"flex"} flexDirection={"column"} h={"62px"}>
           <Input
             w={"full"}

@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import {
   Box,
   Button,
@@ -13,7 +13,7 @@ import {
 } from "@chakra-ui/react";
 import NextImage from "next/image";
 import "../../app/assets/styleSheet.css";
-import { ProductCart } from "@/store/cart/typesCart";
+import { CartState, ProductCart } from "@/store/cart/typesCart";
 import { deleteCart, updateCart } from "@/store/cart/actionsCart";
 import { useAppDispatch, useAppSelector } from "@/store/hooks";
 import { LoginState } from "@/store/login/typeLogin";
@@ -35,19 +35,21 @@ const ProductCardCart: React.FC<{ product: ProductCart }> = ({ product, preCheck
   } = product;
 
   const URL = `https://naturalistone-images.s3.amazonaws.com/${Material}/${Naturali_ProdName}/${Naturali_ProdName}_0.jpg`;
-
   const [isExtraSmallScreen] = useMediaQuery("(max-width: 480px)");
   const [isExtraExtraSmallScreen] = useMediaQuery("(max-width: 400px)");
   const { user } = useAppSelector(
-    (state: { loginReducer: LoginState }) => state.loginReducer
-  );
+    (state: { loginReducer: LoginState }) => state.loginReducer);
+
   const fontSubTitle = isExtraExtraSmallScreen ? "0.6rem" : "0.7rem";
   const fontTitle = isExtraExtraSmallScreen ? "0.7rem" : "0.9rem";
-
+  
   const [quantity, setQuantity] = useState(Quantity);
   const [toInvoice, setToInvoice] = useState(ToInvoice);
   const [addExtra, setAddExtra] = useState(AddExtra);
+  const [oldQuantity, setOldQuantity] = useState(Quantity);
 
+  const [totalPrice, setTotalPrice] = useState((Quantity * SalePrice).toFixed(2)); 
+    
   const price = Number(SalePrice);
   const dispatch = useAppDispatch();
 
@@ -55,42 +57,73 @@ const ProductCardCart: React.FC<{ product: ProductCart }> = ({ product, preCheck
     if (quantity > 1) {
       const newQuantity = quantity - 1;
       setQuantity(newQuantity);
-      updateCartQuantity(newQuantity, addExtra,toInvoice);
+      updateCartQuantityExtraInvoice(newQuantity, addExtra,toInvoice);
+      setTotalPrice((newQuantity * SalePrice).toFixed(2));
+
     }
   };
-
   const increaseQuantity = () => {
     const newQuantity = quantity + 1;
     setQuantity(newQuantity);
-    updateCartQuantity(newQuantity, addExtra, toInvoice);
+    updateCartQuantityExtraInvoice(newQuantity, addExtra, toInvoice);
+    setTotalPrice((newQuantity * SalePrice).toFixed(2));
   };
-
-  const updateToInvoice = () => {
-    if(toInvoice === 0)
-      setToInvoice(1);
-    else
-      setToInvoice(0);
-
-    
-    updateCartQuantity(newQuantity, addExtra, toInvoice);
-  };
-
-  const updateCartQuantity = (newQuantity: number, addExtra: number, toInvoice: number) => {
+  const updateCartQuantityExtraInvoice = (newQuantity: number, addExtra: number, toInvoice: number) => {
     const bodyUpd = {
       Quantity: newQuantity,
       idCartEntry: idCartEntry,
       customerID: CustomerID,
-      addExtra: addExtra,
-      toInvoice: toInvoice
+      AddExtra: addExtra,
+      ToInvoice: toInvoice
     };
     console.log(bodyUpd)
     dispatch(updateCart(bodyUpd));
   };
+  const handleAddExtraChange = (event) => 
+  {
+    
+    const boolCheked =  event.target.checked;
+    if (boolCheked){
 
+      const porcentaje =Math.round((10*(quantity /100)));
+      const newQuantity = Quantity + porcentaje;
+      setAddExtra(1);
+      setQuantity(newQuantity);
+      updateCartQuantityExtraInvoice(newQuantity, 1, toInvoice);
+
+    }
+    else{
+     
+      setQuantity(oldQuantity);
+      setAddExtra(0);
+      updateCartQuantityExtraInvoice(oldQuantity,0,toInvoice);
+
+    }
+   
+  };
+  const handleAddInvoiceChange = (event) => {
+
+    const boolCheked = event.target.checked;
+    if (boolCheked) {
+      setToInvoice(1);
+      updateCartQuantityExtraInvoice(quantity, addExtra, 1);
+
+    }
+    else {
+      setToInvoice(0);
+      updateCartQuantityExtraInvoice(quantity, addExtra, 0);
+
+    }
+
+  };
   const handleQuantityChange = (event) => {
     const newQuantity = Number(event.target.value);
-    setQuantity(newQuantity);
-    updateCartQuantity(newQuantity, addExtra, toInvoice);
+    if (newQuantity > 0)
+      setQuantity(newQuantity);
+    else
+      setQuantity(1);
+
+    updateCartQuantityExtraInvoice(newQuantity, addExtra, toInvoice);
   };
 
   const handleQuantityBlur = () => {
@@ -100,17 +133,18 @@ const ProductCardCart: React.FC<{ product: ProductCart }> = ({ product, preCheck
   const handleDelete = () => {
     dispatch(deleteCart(idCartEntry, user?.CustomerID));
   };
+
+
   return (
     <>
       <Box
         h={"175px"}
-        w={isExtraSmallScreen ? "100%" : "440px"}
+        w={"100%"}
         overflow={"hidden"}
         display={"flex"}
         alignItems={"center"}
         justifyContent={"space-around"}
-        px={"5px"}
-        py={"4px"}
+       
         backgroundColor={quantity === 0 ? "sampleItemCart.gray" : "white"}
       >
               
@@ -156,13 +190,13 @@ const ProductCardCart: React.FC<{ product: ProductCart }> = ({ product, preCheck
             <Text textTransform={"uppercase"} fontSize={fontSubTitle}>{Material}</Text>
             <Text textTransform={"uppercase"} fontWeight={"bold"} fontSize={fontTitle}>{Naturali_ProdName}</Text>
             {
-              quantity > 0 ? (<Text textTransform={"uppercase"} fontSize={"0.6rem"} color={"gray.600"}>{Finish} - {Size} - {Thickness}-{Type}</Text>
+              Quantity > 0 ? (<Text textTransform={"uppercase"} fontSize={"0.6rem"} color={"gray.600"}>{Finish} - {Size} - {Thickness}-{Type}</Text>
               ) : (<Text textTransform={"uppercase"} fontSize={"0.6rem"} color={"gray.600"}>{Finish} - {Thickness}-{Type}</Text>
               )
             }
           </Box>
           <Box>
-            {quantity > 0 && (
+            {Quantity > 0 && (
               <>
                 <Box display={"flex"} h={"28px"} justifyContent={"space-between"} alignItems={"center"}>
                   <Text textTransform={"uppercase"} fontSize={fontSubTitle}>Price sqf</Text>
@@ -174,7 +208,7 @@ const ProductCardCart: React.FC<{ product: ProductCart }> = ({ product, preCheck
                 </Box>
                 <Box w={"100%"} display={"flex"} h={"28px"} justifyContent={"space-between"} alignItems={"center"}>
                   <Text textTransform={"uppercase"} fontSize={fontSubTitle}>Quantity</Text>
-                  <Center w={"80px"} display={"flex"} flexDir={"row"} alignItems={"center"} justifyItems={"flex-end"}>
+                  <Center  display={"flex"} flexDir={"row"} alignItems={"center"} justifyItems={"flex-end"}>
                     <Button
                       variant={"unstyled"}
                       size={"xs"}
@@ -190,13 +224,13 @@ const ProductCardCart: React.FC<{ product: ProductCart }> = ({ product, preCheck
                       borderBottomColor={"logo.gray"}
                       rounded={"none"}
                       type="number"
-                      value={quantity}
+                      value={Quantity}
                       min={1}
                       onChange={handleQuantityChange}
                       onBlur={handleQuantityBlur}
                       size={"xs"}
                       textAlign={"center"}
-                      w={quantity.toString().length < 1 ? "30px" : "35px"}
+                      w={Quantity.toString().length < 1 ? "70px" : "75px"}
                     />
                     <Button
                       variant={"unstyled"}
@@ -211,7 +245,7 @@ const ProductCardCart: React.FC<{ product: ProductCart }> = ({ product, preCheck
                 {
                   preCheckout && 
                   <Box>
-                      <Checkbox size="sm" defaultChecked>Add 10% more</Checkbox>
+                      <Checkbox size="sm" isChecked={AddExtra === 1} onChange={handleAddExtraChange} > Add 10% more</Checkbox>
                   </Box>
 
                 }
@@ -224,7 +258,7 @@ const ProductCardCart: React.FC<{ product: ProductCart }> = ({ product, preCheck
             {
               preCheckout ? (<>
                <VStack >
-                  <Checkbox defaultChecked>Facturar</Checkbox> 
+                <Checkbox defaultChecked onChange={handleAddInvoiceChange}>Facturar</Checkbox> 
                </VStack>
               </>)
                :
@@ -237,7 +271,7 @@ const ProductCardCart: React.FC<{ product: ProductCart }> = ({ product, preCheck
             h={"30px"}
             fontWeight={"semibold"}
             textAlign={"center"}>
-            $ {price * quantity}
+            ${Quantity * SalePrice} 
 
           </Text>
 

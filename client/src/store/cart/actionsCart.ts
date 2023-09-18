@@ -9,7 +9,7 @@ export interface bodyCart {
   finish: string;
   ProdNameID: number;
   customerID: number;
-  AddMore: number;
+  AddExtra: number;
   ToInvoice: number;
 }
 
@@ -17,7 +17,7 @@ export interface bodyCartUpdate {
   Quantity: number;
   idCartEntry: number;
   customerID: number;
-  AddMore:number;
+  AddExtra:number;
   ToInvoice:number;
 }
 

@@ -313,9 +313,9 @@ export async function getCartProducts(req: Request, res: Response) {
 
 export async function updateCartProducts(req: Request, res: Response) {
   try {
-    const { Quantity, idCartEntry, toInvoice,addExtra } = req.body;
+    const { Quantity, idCartEntry, ToInvoice,AddExtra } = req.body;
 
-    const query = `UPDATE NaturaliStone.Cart SET Quantity = ${Quantity}, ToInvoice =${toInvoice},AddExtra =${addExtra} WHERE idCartEntry = ${idCartEntry}`;
+    const query = `UPDATE NaturaliStone.Cart SET Quantity = ${Quantity}, ToInvoice =${ToInvoice},AddExtra =${AddExtra} WHERE idCartEntry = ${idCartEntry}`;
 
     mysqlConnection.query(
       query,

@@ -9,7 +9,7 @@ import { ShippingAddresForm } from "./ShippingAddresForm";
 import { ShippingMethodForm } from "./ShippingMethodForm";
 import { CheckoutFormData } from "../../utils/types";
 import { createCheckout } from "@/api/apiCheckout";
-import { useAppSelector } from "@/store/hooks";
+import {  useAppSelector } from "@/store/hooks";
 import { LoginState } from "@/store/login/typeLogin";
 import WrapperStripe from "./wrapperStripe";
 
@@ -45,19 +45,26 @@ export default function CheckoutForm({ smallerThan740 }) {
     (state: { loginReducer: LoginState }) => state.loginReducer
   );
 
+
   async function handleLoadStripe() {
-    //llamo a la api para que calcule el monto final del carrito y genera el clientSecret para renderizar el componente stripe
-    const response = await createCheckout(user.CustomerID);
-    setClientSecret(() => (
-      response.intento.client_secret,
-   ));
+   
+     console.log(user)
+     if(user.CustomerID > 0)
+     {
+       //llamo a la api para que calcule el monto final del carrito y genera el clientSecret para renderizar el componente stripe
+       const response = await createCheckout(user.CustomerID);
+       console.log(response)
+       setClientSecret(() => (response.intento.client_secret)
+       );
+      }
+  
   }
 
   useEffect(() => {
-    handleLoadStripe();
+    if(user.CustomerID > 0)
+      handleLoadStripe();
 
-  }, []);
-  console.log(clientSecret)
+  }, [user]);
 
   const handleChangeFormData = (event) => {
     setFormData({
@@ -96,14 +103,15 @@ export default function CheckoutForm({ smallerThan740 }) {
 
       <Box
         h={"full"}
-        w={smallerThan740 ? "full" : "50%"}
+        w={"full"}
         display={"flex"}
-        flexDir={"column"}
+        flexDir={"row"}
         minW={"450px"}
+        mt={"100px"}
+        alignContent={"center"}
+        p="10px"
       >
-        <Box w={"full"} h={"40px"} pl={"40px"} mt={"2%"}>
-          <Text fontWeight={"semibold"}>SECURE CHECKOUT</Text>
-        </Box>
+       
         <ShippingAddresForm
           showErrors={showErrors}
           formData={formData}
@@ -116,7 +124,7 @@ export default function CheckoutForm({ smallerThan740 }) {
           handleChangeFormData={handleChangeFormData}
           errors={errors}
         />
-        <Box w={"90%"} pl={"60px"}>
+        <Box w={"full"}>
           {
             clientSecret != "" && <WrapperStripe clientSecret={clientSecret} formData={formData} errors={errors} setShowErrors={setShowErrors} />
           }

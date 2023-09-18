@@ -1,4 +1,4 @@
-import { Button, Text } from "@chakra-ui/react";
+import { Box, Button, Text } from "@chakra-ui/react";
 import {
   Elements,
   LinkAuthenticationElement,
@@ -9,14 +9,14 @@ import {
 import { loadStripe } from "@stripe/stripe-js";
 
 
-const stripePromise = loadStripe("pk_test_51Nj4n7HOF5hpx4GmL8MJeOz3jsdC6YjSswKdA384RW5K5Gwzlh5Wi5osu5SaCMKVAXUjIfwSWxXfbdJsS9Hyor0k00gnOWwBuj");
+const stripePromise = loadStripe("pk_live_51NkvaEEOX6Zo63RnoE4xFynzhQxnPksbGbtpNpeVfhh4rRPuaQmHDlf40oZedR4bzZjgCVwokqtuRvwewVXKjSMz00p79vZFLh");
 
 const WrapperStripe = (props) => {
   const { clientSecret } = props;
   const { formData } = props;
   const { errors } = props;
   const { setShowErrors } = props;
-
+  console.log("Client Secret: ", clientSecret)
   const appearance = {
     theme: "flat",
   };
@@ -47,7 +47,7 @@ const CheckoutPaymentStripe = (props) => {
     const { error } = await stripe.confirmPayment({
       elements,
       confirmParams: {
-        return_url: "http://localhost:3000/checkoutResult",
+        return_url: "http://localhost:3000/checkout/result",
       },
     });
 
@@ -57,7 +57,9 @@ const CheckoutPaymentStripe = (props) => {
 
   return (
     <form onSubmit={(e) => handleClick(e)}>
-      <h3>Contact info</h3>
+      <Box w={"full"} h={"40px"} mt={"2%"}>
+        <Text fontWeight={"semibold"}>3. PAYMENT FORM</Text>
+      </Box>
       {/* <LinkAuthenticationElement
         // Optional prop for prefilling customer information
         options={{

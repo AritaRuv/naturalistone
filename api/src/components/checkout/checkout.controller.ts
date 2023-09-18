@@ -10,13 +10,14 @@ dotenv.config({ path: "./src/.env" });
 export async function newCheckout(req: Request, res: Response) {
   try {
     const { CustomerId } = req.body;
-
     let cartItems = [];
     const query = `SELECT 
                       Cart.idCartEntry,
                       Cart.Quantity,
-                      Cart.CustomerID, 
-                      Cart.SalePrice,
+                      Cart.CustomerID,
+                      Cart.AddExtra,
+                      Cart.ToInvoice,
+                      Products.SalePrice,
                       Dimension.Type,
                       Dimension.Size,
                       Dimension.Thickness,
@@ -27,8 +28,9 @@ export async function newCheckout(req: Request, res: Response) {
                     LEFT JOIN Products ON Cart.ProductID = Products.ProdID
                     LEFT JOIN Dimension ON Products.DimensionID = Dimension.DimensionID
                     LEFT JOIN ProdNames ON Products.ProdNameID = ProdNames.ProdNameID
-                    WHERE Cart.CustomerID = ${CustomerId};
+                    WHERE Cart.CustomerID = ${CustomerId} and Cart.ToInvoice = 1 ;
                     `;
+
 
     mysqlConnection.query(
       query,
@@ -38,21 +40,20 @@ export async function newCheckout(req: Request, res: Response) {
           throw error;
         }
         if (results.length === 0) {
-          console.log("Error en cartRoutes.get /:id");
+          console.log("Error en cartRoutes.post /:id");
           res.status(404).json("No products in cart");
         } else {
           //console.log(results)
           cartItems = results;
-          const stripe = new Stripe("sk_test_51Nj4n7HOF5hpx4Gm5rvMJmro7oOXpNnpShHm8DXZ9kUJlQUJAUJBJyIQbSnI6GvoKbMJkERPz8Ofk1neCRRIACgo00DmNvlFRD", {
+          const stripe = new Stripe("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", {
             apiVersion: "2023-08-16",
           });
           try {
             // Create Checkout Sessions from body params.
-            let itemsCart = [];
+            const itemsCart = [];
             for (let index = 0; index < cartItems.length; index++) {
               const element = cartItems[index];
               element.SalePrice = element.SalePrice * 100;
-              console.log("SalePrice: ", element.toString())
               const item = {
                 price_data: {
                   currency: "usd",
@@ -66,7 +67,6 @@ export async function newCheckout(req: Request, res: Response) {
               };
               itemsCart.push(item);
             }
-            console.log(itemsCart)
 
             const session = await stripe.checkout.sessions.create({
               line_items: itemsCart,
@@ -77,17 +77,14 @@ export async function newCheckout(req: Request, res: Response) {
 
             const paymentIntent = await stripe.paymentIntents.create({
               currency: "USD",
-              amount: 1999,
+              amount: 100,
               // In the latest version of the API, specifying the `automatic_payment_methods` parameter is optional because Stripe enables its functionality by default.
               automatic_payment_methods: { enabled: true }
             });
 
-            console.log(paymentIntent);
-
-            console.log(session.id);
             res.status(200).json({ sessionId: session.id, intento: paymentIntent });
           } catch (err) {
-            console.log(err)
+            console.log(err);
             res.status(err.statusCode || 500).json(err.message);
           }
           cartItems = results;
@@ -103,15 +100,19 @@ export async function newCheckout(req: Request, res: Response) {
   }
 }
 
-export async function updateCheckout(req: Request, res: Response) {
+export async function confirmCheckout(req: Request, res: Response) {
+  console.log("Holaaaa");
   try {
-    const { CustomerId } = req.body;
+
+    const { CustomerId, ProjectId, SecretStripe, ShippingMethod,Total } = req.body;
 
     const query = `SELECT 
                       Cart.idCartEntry,
                       Cart.Quantity,
-                      Cart.CustomerID, 
-                      Cart.SalePrice,
+                      Cart.CustomerID,
+                      Cart.AddExtra,
+                      Cart.ToInvoice,
+                      Products.SalePrice,
                       Dimension.Type,
                       Dimension.Size,
                       Dimension.Thickness,
@@ -122,8 +123,10 @@ export async function updateCheckout(req: Request, res: Response) {
                     LEFT JOIN Products ON Cart.ProductID = Products.ProdID
                     LEFT JOIN Dimension ON Products.DimensionID = Dimension.DimensionID
                     LEFT JOIN ProdNames ON Products.ProdNameID = ProdNames.ProdNameID
-                    WHERE Cart.CustomerID = ${CustomerId};
+                    WHERE Cart.CustomerID = ${CustomerId} and Cart.ToInvoice = 1 ;
                     `;
+    console.log(query);
+
 
     mysqlConnection.query(
       query,
@@ -133,16 +136,16 @@ export async function updateCheckout(req: Request, res: Response) {
           throw error;
         }
         if (results.length === 0) {
-          console.log("Error en cartRoutes.get /:id");
+          console.log("Error en checkout.patch");
           res.status(404).json("No products in cart");
         } else {
           const naturaliInvoice = 1;
-          const value = 1;
-          const projectID = 1;
+          const value = Total;
+          const projectID = ProjectId;
           const invoiceDate = new Date();
           const estDelivery_Date = new Date();
           const sellerID = 1;
-          const shippingMethod = "tipo Envio";
+          const shippingMethod = ShippingMethod;
           const shipTo = "ship to";
           const warehouse_Stamp = "Warehouse_Stamp";
           const payment_Stamp = "Payment_Stamp";

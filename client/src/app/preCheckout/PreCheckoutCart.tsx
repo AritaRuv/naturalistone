@@ -1,13 +1,13 @@
 import { Box, Checkbox, Divider, Text, VStack, useMediaQuery } from "@chakra-ui/react";
 import ProductCardCart from "../../components/navBar/cartProducts";
-import { useEffect } from "react";
-import { useAppDispatch, useAppSelector } from "@/store/hooks";
-import { fetchCart } from "@/store/cart/actionsCart";
+import { useEffect, useState } from "react";
+import { useAppSelector } from "@/store/hooks";
 import { CartState } from "@/store/cart/typesCart";
 import { LoginState } from "@/store/login/typeLogin";
 
 export default function PreCheckoutCart() {
-  const dispatch = useAppDispatch();
+
+  const [subTotal, setSubTotal] = useState("$ 0,00");
 
   const { cart } = useAppSelector(
     (state: { cartReducer: CartState }) => state.cartReducer
@@ -20,12 +20,18 @@ export default function PreCheckoutCart() {
   );
 
   useEffect(() => {
-    if (cart.length === 0) {
-      dispatch(fetchCart(user?.CustomerID));
-    }
-  }, [cart]);
+    
+    const subT = cart.reduce((total, item) => {
+      return total + (item.SalePrice * item.Quantity);
+    }, 0);
+    
+    console.log("Subtotal: ", currencyFormat(subT));
+    setSubTotal(currencyFormat(subT));
+  }, [user,cart]);
 
-
+  function currencyFormat(num) {
+    return  num.toFixed(2).replace(/(\d)(?=(\d{3})+(?!\d))/g, "$1,");
+  }
   return (
     <>
       <Box
@@ -36,7 +42,7 @@ export default function PreCheckoutCart() {
           {
             cart?.map((product) => {
               return (
-                  <Box key={product.idCartEntry} bg='yellow.200'>
+                  <Box key={product.idCartEntry}>
                   <Divider borderColor={"gray.700"} my={"2%"} />
                   <Box
                     bg='tomato'
@@ -73,11 +79,14 @@ export default function PreCheckoutCart() {
                           </Text>
                         </Box>
                       )} */}
+                      
                   </Box>
                 </Box>
               );
             })}
+        
         </Box>
+
       </Box>
     </>
   );

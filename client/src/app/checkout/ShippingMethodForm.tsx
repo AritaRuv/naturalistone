@@ -4,6 +4,7 @@ import {
   InputGroup,
   InputRightElement,
   Text,
+  VStack,
 } from "@chakra-ui/react";
 
 export function ShippingMethodForm({
@@ -14,10 +15,10 @@ export function ShippingMethodForm({
 }) {
   return (
     <>
-      <Box w={"full"} h={"40px"} pl={"40px"} mt={"5%"}>
-        <Text fontWeight={"semibold"}>2. SHIPPING METHOD</Text>
-      </Box>
-      <Box w={"90%"} pl={"60px"}>
+      <VStack w={"70%"} px={"10px"}>
+        <Box w={"full"} h={"40px"} mt={"2%"}>
+          <Text fontWeight={"semibold"}>2. SHIPPING METHOD</Text>
+        </Box>
         <InputGroup display={"flex"} flexDirection={"column"} h={"60px"}>
           <Input
             w={"full"}
@@ -45,7 +46,7 @@ export function ShippingMethodForm({
             </Text>
           )}
         </InputGroup>
-      </Box>
+      </VStack>
     </>
   );
 }
