@@ -145,7 +145,7 @@ const ProductCardCart: React.FC<{ product: ProductCart, preCheckout: any }> = ({
         justifyContent={"space-around"}
         backgroundColor={quantity === 0 ? "sampleItemCart.gray" : "white"}
       >
-        <Stack w={"80%"} ms={12} direction={["column", "row"]} spacing='24px'>
+        <Stack w={"100%"} ms={12} direction={["column", "row"]} >
           {
             isExtraSmallScreen ? (
               <Box h={"110px"} w={"120px"} position={"relative"} overflow={"hidden"}>

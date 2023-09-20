@@ -63,6 +63,8 @@ const CartButton: React.FC<{
     if(cart.length === 0){
 
       dispatch(fetchCart(user?.CustomerID));
+      console.log(cart)
+
       const subT = cart.reduce((total, item) => {
         return total + (item.SalePrice * item.Quantity);
       }, 0);
