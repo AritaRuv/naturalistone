@@ -62,13 +62,13 @@ const CheckoutPaymentStripe = (props) => {
         return_url: "http://localhost:3000/checkout/result",
       },
        redirect: "if_required",
-    }).then(function (result) {
+    }).then(async function (result) {
       console.log(result);
       if (result.paymentIntent?.status === "succeeded") {
 
         const projectId: number = +Cookies.get("projectId");
-        const res = confirmCheckout(user.CustomerID, projectId, "", result.paymentIntent);
-
+        const res = await confirmCheckout(user.CustomerID, projectId, "", result.paymentIntent);
+        console.log("Resultado: ",res);
       }
       if (result.error) {
         // Inform the customer that there was an error.
