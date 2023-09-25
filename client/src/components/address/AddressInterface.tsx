@@ -6,5 +6,5 @@ export interface Address {
     Address2: string;
     City: string;
     State: string;
-    PostalCode: string;
+    ZipCode: string;
 }

@@ -13,7 +13,7 @@ export function AddresForm() {
     Address2: "",
     City: "",
     State: "",
-    PostalCode: ""
+    ZipCode: ""
   });
   const [errors, setErrors] = useState({});
   const [showErrors, setShowErrors] = useState(false);
@@ -160,9 +160,9 @@ export function AddresForm() {
         <InputGroup display={"flex"} flexDirection={"column"} h={"62px"}>
           <Input
             w={"full"}
-            id={"PostalCode"}
-            name={"PostalCode"}
-            value={formData.PostalCode}
+            id={"ZipCode"}
+            name={"ZipCode"}
+            value={formData.ZipCode}
             placeholder={"ZIP/POSTAL CODE"}
             border={"none"}
             onChange={handleChangeShippingAddress}
@@ -177,7 +177,7 @@ export function AddresForm() {
           />
           {showErrors && (
             <Text color={"red"} mt={"0.5vh"} fontSize={"xs"}>
-              {errors.PostalCode}
+              {errors.ZipCode}
             </Text>
           )}
         </InputGroup>

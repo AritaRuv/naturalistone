@@ -15,9 +15,9 @@ const AddressBox = (props) => {
         <CardBody>
           <VStack  alignItems={"start"}>
             <Text as="em">Address: {address.Address} {address.Address2}</Text>
-            <Text  as="em">City: {address.City}</Text>
-            <Text  as="em">State: {address.State}</Text>
-            <Text  as="em">Postal Code: {address.PostalCode}</Text>
+            <Text as="em">City: {address.City}</Text>
+            <Text as="em">State: {address.State}</Text>
+            <Text as="em">Postal Code: {address.ZipCode}</Text>
           </VStack>
         </CardBody>
 

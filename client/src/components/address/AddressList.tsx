@@ -22,7 +22,7 @@ const AddressList: React.FC<SelectorAddressProps> = ({ handleAddress }) => {
       Address2: "3 B",
       City: "San Bernardo",
       State: "Buenos Aires",
-      PostalCode: "7111",
+      ZipCode: "7111",
     },
     {
       Nickname: "Company sucursal 2",
@@ -32,7 +32,7 @@ const AddressList: React.FC<SelectorAddressProps> = ({ handleAddress }) => {
       Address2: " ",
       City: "Wilde",
       State: "Buenos Aires",
-      PostalCode: "2453C",
+      ZipCode: "2453C",
     },
   ];
 
