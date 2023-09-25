@@ -30,6 +30,8 @@ const CartButton: React.FC<CartButtonProps> = ({
 }) => {
 
   const { isOpen, onOpen, onClose } = useDisclosure();
+  const [ subTotal, setSubTotal ] = useState(0);
+
   const { cart } = useAppSelector(
     (state: { cartReducer: CartState }) => state.cartReducer
   );
@@ -40,7 +42,17 @@ const CartButton: React.FC<CartButtonProps> = ({
   const setModalOpen = appContext?.setIsCartModalOpen;
 
   useEffect(() => {
-    if (modalOpen) {
+    if(cart.length === 0){
+      dispatch(fetchCart());}
+    const subT = cart.reduce((total, item) => {
+      return total + (item.SalePrice * item.Quantity);
+    }, 0);
+    setSubTotal(subT);
+  }
+  , [cart]);
+
+  useEffect(() => {
+    if (isCartModalOpen) {
       onOpen();
     }
     if (!isOpen) {
@@ -71,12 +83,10 @@ const CartButton: React.FC<CartButtonProps> = ({
                     <Box key={product.idCartEntry}>
                       <ProductCardCart
                         product={product}
-                        preCheckout={""}
                         inputRef={
                           index === inputRef.current ? inputRef : null
                         }
-                        sample={sample}
-                      />
+                        sample={sample}/>
                       <Divider borderColor={"gray.300"} />
                     </Box>
                   );
@@ -92,8 +102,12 @@ const CartButton: React.FC<CartButtonProps> = ({
               alignItems={"center"}
               flexDir={"column"}
             >
-              <Text fontWeight={"semibold"}>SUB TOTAL: $XXXX</Text>
-              <Link href={"/checkout"}>
+              <Text fontWeight={"semibold"}>SUB TOTAL: $
+                {
+                  subTotal
+                }
+              </Text>
+              <Link href={"/preCheckout"}>
                 <Button
                   fontSize="0.9rem"
                   variant="unstyled"
@@ -114,3 +128,4 @@ const CartButton: React.FC<CartButtonProps> = ({
 };
 
 export default CartButton;
+

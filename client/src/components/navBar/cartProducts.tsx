@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import {
   Box,
   Button,
@@ -12,7 +12,7 @@ import {
 } from "@chakra-ui/react";
 import NextImage from "next/image";
 import "../../app/assets/styleSheet.css";
-import { ProductCart } from "@/store/cart/typesCart";
+import { CartState, ProductCart } from "@/store/cart/typesCart";
 import { deleteCart, updateCart } from "@/store/cart/actionsCart";
 import { useAppDispatch, useAppSelector } from "@/store/hooks";
 import { LoginState } from "@/store/login/typeLogin";
@@ -34,20 +34,21 @@ const ProductCardCart: React.FC<{ product: ProductCart, preCheckout: any }> = ({
   } = product;
 
   const URL = `https://naturalistone-images.s3.amazonaws.com/${Material}/${Naturali_ProdName}/${Naturali_ProdName}_0.jpg`;
-
   const [isExtraSmallScreen] = useMediaQuery("(max-width: 480px)");
   const [isExtraExtraSmallScreen] = useMediaQuery("(max-width: 400px)");
   const { user } = useAppSelector(
-    (state: { loginReducer: LoginState }) => state.loginReducer
-  );
+    (state: { loginReducer: LoginState }) => state.loginReducer);
+
   const fontSubTitle = isExtraExtraSmallScreen ? "0.6rem" : "0.7rem";
   const fontTitle = isExtraExtraSmallScreen ? "0.7rem" : "0.9rem";
-
+  
   const [quantity, setQuantity] = useState(Quantity);
   const [toInvoice, setToInvoice] = useState(ToInvoice);
   const [addExtra, setAddExtra] = useState(AddExtra);
-  
+  const [oldQuantity, setOldQuantity] = useState(Quantity);
 
+  const [totalPrice, setTotalPrice] = useState((Quantity * SalePrice).toFixed(2)); 
+    
   const price = Number(SalePrice);
   const dispatch = useAppDispatch();
 
@@ -55,40 +56,72 @@ const ProductCardCart: React.FC<{ product: ProductCart, preCheckout: any }> = ({
     if (quantity > 1) {
       const newQuantity = quantity - 1;
       setQuantity(newQuantity);
-      updateCartQuantity(newQuantity, addExtra,toInvoice);
+      updateCartQuantityExtraInvoice(newQuantity, addExtra,toInvoice);
+      setTotalPrice((newQuantity * SalePrice).toFixed(2));
+
     }
   };
   const newQuantity = quantity + 1;
   const increaseQuantity = () => {
     setQuantity(newQuantity);
-    updateCartQuantity(newQuantity, addExtra, toInvoice);
+    updateCartQuantityExtraInvoice(newQuantity, addExtra, toInvoice);
+    setTotalPrice((newQuantity * SalePrice).toFixed(2));
   };
-
-  const updateToInvoice = () => {
-    if(toInvoice === 0)
-      setToInvoice(1);
-    else
-      setToInvoice(0);
-
-    
-    updateCartQuantity(newQuantity, addExtra, toInvoice);
-  };
-
-  const updateCartQuantity = (newQuantity: number, addExtra: number, toInvoice: number) => {
+  const updateCartQuantityExtraInvoice = (newQuantity: number, addExtra: number, toInvoice: number) => {
     const bodyUpd = {
       Quantity: newQuantity,
       idCartEntry: idCartEntry,
       customerID: CustomerID,
-      addExtra: addExtra,
-      toInvoice: toInvoice
+      AddExtra: addExtra,
+      ToInvoice: toInvoice
     };
     dispatch(updateCart(bodyUpd));
   };
+  const handleAddExtraChange = (event) => 
+  {
+    
+    const boolCheked =  event.target.checked;
+    if (boolCheked){
 
+      const porcentaje =Math.round((10*(quantity /100)));
+      const newQuantity = Quantity + porcentaje;
+      setAddExtra(1);
+      setQuantity(newQuantity);
+      updateCartQuantityExtraInvoice(newQuantity, 1, toInvoice);
+
+    }
+    else{
+     
+      setQuantity(oldQuantity);
+      setAddExtra(0);
+      updateCartQuantityExtraInvoice(oldQuantity,0,toInvoice);
+
+    }
+   
+  };
+  const handleAddInvoiceChange = (event) => {
+
+    const boolCheked = event.target.checked;
+    if (boolCheked) {
+      setToInvoice(1);
+      updateCartQuantityExtraInvoice(quantity, addExtra, 1);
+
+    }
+    else {
+      setToInvoice(0);
+      updateCartQuantityExtraInvoice(quantity, addExtra, 0);
+
+    }
+
+  };
   const handleQuantityChange = (event) => {
     const newQuantity = Number(event.target.value);
-    setQuantity(newQuantity);
-    updateCartQuantity(newQuantity, addExtra, toInvoice);
+    if (newQuantity > 0)
+      setQuantity(newQuantity);
+    else
+      setQuantity(1);
+
+    updateCartQuantityExtraInvoice(newQuantity, addExtra, toInvoice);
   };
 
   const handleQuantityBlur = () => {
@@ -98,22 +131,20 @@ const ProductCardCart: React.FC<{ product: ProductCart, preCheckout: any }> = ({
   const handleDelete = () => {
     dispatch(deleteCart(idCartEntry, user?.CustomerID));
   };
+
+
   return (
     <>
       <Box
         h={"175px"}
-        w={isExtraSmallScreen ? "100%" : "740px"}
+        w={"100%"}
         overflow={"hidden"}
         display={"flex"}
         alignItems={"center"}
         justifyContent={"space-around"}
-        px={"5px"}
-        py={"4px"}
         backgroundColor={quantity === 0 ? "sampleItemCart.gray" : "white"}
       >
-        <Stack w={"100%"} ms={12} direction={["column", "row"]} spacing='24px'>
-
-       
+        <Stack w={"100%"} ms={12} direction={["column", "row"]} >
           {
             isExtraSmallScreen ? (
               <Box h={"110px"} w={"120px"} position={"relative"} overflow={"hidden"}>
@@ -197,7 +228,6 @@ const ProductCardCart: React.FC<{ product: ProductCart, preCheckout: any }> = ({
                         onBlur={handleQuantityBlur}
                         size={"xs"}
                         textAlign={"center"}
-                        w={quantity.toString().length < 1 ? "30px" : "35px"}
                       />
                       <Button
                         variant={"unstyled"}
@@ -212,7 +242,7 @@ const ProductCardCart: React.FC<{ product: ProductCart, preCheckout: any }> = ({
                   {
                     preCheckout && 
                   <Box>
-                    <Checkbox size="sm" defaultChecked>Add 10% more</Checkbox>
+                    <Checkbox size="sm" isChecked={AddExtra === 1} onChange={handleAddExtraChange} > Add 10% more</Checkbox>
                   </Box>
 
                   }
@@ -220,19 +250,20 @@ const ProductCardCart: React.FC<{ product: ProductCart, preCheckout: any }> = ({
               )}
             </Box>
           </Box>
-          <Box>
-            <VStack >
-              <Checkbox defaultChecked>Facturar</Checkbox>
-              <Text
-                h={"30px"}
-                fontWeight={"semibold"}
-                textAlign={"center"}>
-              $ {price * quantity}
-              </Text>
-            </VStack>
-          </Box>
         </Stack>
+        <VStack>
+          {
+            preCheckout && <Checkbox defaultChecked onChange={handleAddInvoiceChange}>Facturar</Checkbox>
+          }
+          <Text
+            h={"30px"}
+            fontWeight={"semibold"}
+            textAlign={"center"}>
+            ${(Quantity * SalePrice).toFixed(2)}
+          </Text>
+        </VStack>
       </Box>
+    
     </>
   );
 };

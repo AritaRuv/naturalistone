@@ -1,5 +1,5 @@
 "use client";
-import { Box, Text, Center } from "@chakra-ui/react";
+import { Box, Center } from "@chakra-ui/react";
 import NextImage from "next/image";
 import Link from "next/link";
 
