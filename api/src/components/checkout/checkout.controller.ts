@@ -118,9 +118,11 @@ export async function newCheckout(req: Request, res: Response) {
 export async function confirmCheckout(req: Request, res: Response) {
   try {
 
-    const { CustomerId, ProjectId, ShippingMethod,Payments } = req.body;
+    const { customerId, projectId,payments,receive,address } = req.body;
+    console.log("receive: ", receive);
+
     const errores: string[] = [];
-    const items: ProductsCart[] = await getCartItems(CustomerId);
+    const items: ProductsCart[] = await getCartItems(customerId);
     
     if(items.length === 0){
       errores.push("No se encontraron items en el carrito.");
@@ -129,7 +131,7 @@ export async function confirmCheckout(req: Request, res: Response) {
     }
 
     mysqlConnection.beginTransaction(async function (err) {
-      const resultadoSale = await saveSale(Payments, ProjectId, ShippingMethod);
+      const resultadoSale = await saveSale(payments, projectId, receive, address);
       
       if (resultadoSale <= 0){
         errores.push("Hubo un error al intentar guardar la venta.");
@@ -145,7 +147,7 @@ export async function confirmCheckout(req: Request, res: Response) {
           return;
         });
       }
-      const resultadoSavePayments = await savePayments(resultadoSale, Payments);
+      const resultadoSavePayments = await savePayments(resultadoSale, payments);
       if (resultadoSavePayments <= 0) {
         errores.push("Error al intentar guardar pagos");
         mysqlConnection.rollback(function () {
@@ -162,7 +164,6 @@ export async function confirmCheckout(req: Request, res: Response) {
         });
       }
       mysqlConnection.commit();
-      console.log("Operacion existosa");
       res.status(200).json("Operacion existosa");
       return;
     });
@@ -246,25 +247,25 @@ async function getCartItems(customerId: number): Promise<ProductsCart[]> {
   }
 }
 
-async function saveSale(payments: any, projectID: number, shippingMethod: string): Promise<number> {
+async function saveSale(payments: any, projectID: number, receive: number, addressId: number): Promise<number> {
 
   const naturaliInvoice = await getLastSaleNumber();
   const value = payments.amount;
   const invoiceDate = new Date();
   const estDelivery_Date = new Date();
   const sellerID = 100;//web
-  const shipTo = "ship to";
+  const shipTo = receive === 1 ? "Pick Up" : "";
   const warehouse_Stamp = "Warehouse_Stamp";
   const payment_Stamp = "Payment_Stamp";
-  const status = "Status";
+  const status = "Confirmed";
   const modificationFlag = "ModificationFlag";
   const lastInsertDate = new Date();
   const paymentTerms = "PaymentTerms";
   const p_O_No = "P_O_No";
 
-  const queryInsertSale = "INSERT INTO  Sales( Naturali_Invoice, Value, ProjectID,InvoiceDate, EstDelivery_Date, SellerID, ShippingMethod, ShipTo, Warehouse_Stamp,Payment_Stamp, Status, ModificationFlag, LastInsertDate, PaymentTerms, P_O_No) VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)";
-  const saleValues = [naturaliInvoice + 1, value, projectID, invoiceDate, estDelivery_Date, sellerID, shippingMethod, shipTo, warehouse_Stamp,
-    payment_Stamp, status, modificationFlag, lastInsertDate, paymentTerms, p_O_No];
+  const queryInsertSale = "INSERT INTO  Sales( Naturali_Invoice, Value, ProjectID,InvoiceDate, EstDelivery_Date, SellerID, ShippingMethod, ShipTo, Warehouse_Stamp,Payment_Stamp, Status, ModificationFlag, LastInsertDate, PaymentTerms, P_O_No,billing_address_id) VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)";
+  const saleValues = [naturaliInvoice + 1, value, projectID, invoiceDate, estDelivery_Date, sellerID, receive, shipTo, warehouse_Stamp,
+    payment_Stamp, status, modificationFlag, lastInsertDate, paymentTerms, p_O_No,addressId];
 
   try {
     return new Promise(data => {

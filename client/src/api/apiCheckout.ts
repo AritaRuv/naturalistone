@@ -13,13 +13,15 @@ export const createCheckout = async (CustomerId: number) => {
   }
 };
 
-export const confirmCheckout = async (CustomerId: number, ProjectId: number, ShippingMethod: string, Payments: any ) => {
+export const confirmCheckout = async (customerId: number, projectId: number, 
+  receive: string, payments: any,address: number ) => {
   try {
     const bodyCust = {
-      CustomerId,
-      ProjectId,
-      ShippingMethod,
-      Payments
+      customerId,
+      projectId,
+      payments,
+      address,
+      receive
     };
 
     const response = await axios.patch("http://localhost:5000/api/checkout", bodyCust);

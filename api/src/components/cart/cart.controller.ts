@@ -306,7 +306,7 @@ export async function getCartProducts(req: Request, res: Response) {
           throw error;
         }
         if (results.length === 0) {
-          console.log("Error en cartRoutes.get /:id");
+          console.log("Error en cartRoutessssss.get /:id");
           res.status(404).json("No products in cart");
         } else {
           console.log("Data OK");

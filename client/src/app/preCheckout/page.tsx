@@ -146,13 +146,13 @@ export default function preCheckout() {
             onChange={handleProjectChange}>
             {
               customerProjects && customerProjects?.map((x, y) =>
-                <option key={y}>{x.ProjectName}</option>)
+                <option key={y} value={x.idProjects}>{x.ProjectName}</option>)
             }
 
           </Select>
         </HStack>
       </Box>
-      <PreCheckoutCart smallerThan740={smallerThan740} />
+      <PreCheckoutCart />
       <Box
         w={"50%"}
         h={"15%"}

@@ -85,10 +85,15 @@ const ProductCardCart: React.FC<{ product: ProductCart, preCheckout: any }> = ({
     if (boolCheked){
 
       const porcentaje =Math.round((10*(quantity /100)));
-      const newQuantity = Quantity + porcentaje;
-      setAddExtra(1);
-      setQuantity(newQuantity);
-      updateCartQuantityExtraInvoice(newQuantity, 1, toInvoice);
+      let newPorcentaje = (quantity / 100) * 10;
+      if (quantity >= 10){
+        newPorcentaje = Math.round( newPorcentaje);
+        console.log("Porce: ", newPorcentaje)
+        const newQuantity = Quantity + newPorcentaje;
+        setAddExtra(1);
+        setQuantity(newQuantity);
+        updateCartQuantityExtraInvoice(newQuantity, 1, toInvoice);
+      }
 
     }
     else{
@@ -105,12 +110,12 @@ const ProductCardCart: React.FC<{ product: ProductCart, preCheckout: any }> = ({
     const boolCheked = event.target.checked;
     if (boolCheked) {
       setToInvoice(1);
-      updateCartQuantityExtraInvoice(quantity, addExtra, 1);
+      updateCartQuantityExtraInvoice(quantity, AddExtra, 1);
 
     }
     else {
       setToInvoice(0);
-      updateCartQuantityExtraInvoice(quantity, addExtra, 0);
+      updateCartQuantityExtraInvoice(quantity, AddExtra, 0);
 
     }
 
@@ -254,7 +259,7 @@ const ProductCardCart: React.FC<{ product: ProductCart, preCheckout: any }> = ({
         </Stack>
         <VStack>
           {
-            preCheckout && <Checkbox defaultChecked onChange={handleAddInvoiceChange}>Facturar</Checkbox>
+            preCheckout && <Checkbox isChecked={ToInvoice===1} onChange={handleAddInvoiceChange}>Facturar</Checkbox>
           }
           <Text
             h={"30px"}

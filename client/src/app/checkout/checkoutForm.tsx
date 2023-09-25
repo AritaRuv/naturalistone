@@ -1,46 +1,36 @@
 "use client";
-import { Box } from "@chakra-ui/react";
+import { Box, Button, HStack, Heading, SimpleGrid, Step, StepDescription, StepIcon, StepIndicator, StepNumber, StepSeparator, StepStatus, StepTitle, Stepper, Text, VStack, useMediaQuery, useSteps } from "@chakra-ui/react";
 import React, { useState, useEffect } from "react";
-import { validateCompletedInputsCheckout} from "@/utils/validateForms";
-import { ShippingAddresForm } from "./ShippingAddresForm";
-import { ShippingMethodForm } from "./ShippingMethodForm";
-import { CheckoutFormData } from "../../utils/types";
 import { createCheckout } from "@/api/apiCheckout";
 import {  useAppSelector } from "@/store/hooks";
 import { LoginState } from "@/store/login/typeLogin";
 import WrapperStripe from "./wrapperStripe";
+import AddressList from "@/components/address/AddressList";
 
-export default function CheckoutForm({ smallerThan740 }) {
-  const [formData, setFormData] = useState<CheckoutFormData>({
-    Shipping_Address: {
-      FirstName: "",
-      LastName: "",
-      Company: "",
-      Email: "",
-      Shipping_Address: "",
-      Shipping_City: "",
-      Shipping_State: "",
-      Shipping_ZipCode: "",
-      Phone: "",
-    },
-    Shipping_Method: "",
-    Payment_Method: {
-      Method: "creditCard",
-      CreditCardNumber: "",
-      ExpirationDateMonth: "",
-      ExpirationDateYear: "",
-      Cvv: "",
-    },
-    SubTotal: "",
-    Shipping_Total: "",
-    Total: "",
-  });
+export default function CheckoutForm() {
+
   const [errors, setErrors] = useState({});
   const [showErrors, setShowErrors] = useState(false);
+  const [shippingMethod, setShippingMethod] = useState("Pick Up");
   const [clientSecret, setClientSecret] = useState("");
+  const [receipmentType, setReceipmentType] = useState(0);
+  const [addressSelected, setAddressSelected] = useState(0);
+
   const { user } = useAppSelector(
     (state: { loginReducer: LoginState }) => state.loginReducer
   );
+
+  const steps = [
+    { title: "Receip method", description: "Choose how you want to receive your order" },
+    { title: "Address", description: "Select address billiing" },
+    { title: "Pay method", description: "Select pay method" },
+  ];
+  const [smallerThan740] = useMediaQuery("(max-width: 740px)");
+
+  const { activeStep, setActiveStep } = useSteps({
+    index: 0,
+    count: steps.length,
+  });
 
 
   async function handleLoadStripe() {
@@ -58,69 +48,105 @@ export default function CheckoutForm({ smallerThan740 }) {
       handleLoadStripe();
   }, [user]);
 
-  const handleChangeFormData = (event) => {
-    setFormData({
-      ...formData,
-      [event.target.name]: event.target.value,
-    });
-    setErrors(
-      validateCompletedInputsCheckout({
-        ...formData,
-        [event.target.name]: event.target.value,
-      })
+
+  interface SelectorTypeDeliveryProps {
+    handleTypeDelivery: (value: number) => void;
+  }
+
+
+  const handleTypeDelivery = (value:number) => {
+    setReceipmentType(value);
+    nextStep();
+  }; 
+  
+  const handleAddress = (value: number) => {
+    setAddressSelected(() => value );
+    //nextStep();
+  };
+
+
+  const SelectorTypeDelivery: React.FC<SelectorTypeDeliveryProps> = ({ handleTypeDelivery}) => {
+
+    const types = [
+      { title: "Pick Up", description: "You can pick up your products in the physical store",value:1,enabled: true },
+      { title: "Delivery", description: "Averiguamos cuanto sale el envio y coordinamos bro", value: 2, enabled: false },
+    ];
+
+    return(
+      <SimpleGrid marginX={"200px"} columns={smallerThan740 ? 1 : 2} spacing={10}>
+        {
+          types.map((type) => (
+            <Button key={type.value} isDisabled={!type.enabled} onClick={() => handleTypeDelivery(type.value)}>
+              <Box key={type.value} height="80px" alignContent={"center"} alignItems={"center"}>
+                <Heading as="h3" size="lg">{type.title}</Heading>
+                <Text>{type.description}</Text>
+              </Box>
+            </Button>
+          ))}
+       
+      </SimpleGrid>
     );
   };
 
-  const handleChangeShippingAddress = (event) => {
-    setFormData({
-      ...formData,
-      Shipping_Address: {
-        ...formData.Shipping_Address,
-        [event.target.name]: event.target.value,
-      },
-    });
-    setErrors(
-      validateCompletedInputsCheckout({
-        ...formData,
-        Shipping_Address: {
-          ...formData.Shipping_Address,
-          [event.target.name]: event.target.value,
-        },
-      })
-    );
-  };
+  function backStep(){
+    setActiveStep(activeStep -1);
+  }
+
+  function nextStep() {
+    setActiveStep(activeStep + 1);
+  }
 
   return (
     <>
-      <Box
-        h={"full"}
-        w={"full"}
-        display={"flex"}
-        flexDir={"row"}
-        minW={"450px"}
-        mt={"100px"}
-        alignContent={"center"}
-        p="10px"
-      >
-       
-        <ShippingAddresForm
-          showErrors={showErrors}
-          formData={formData}
-          handleChangeShippingAddress={handleChangeShippingAddress}
-          errors={errors}
-        />
-        <ShippingMethodForm
-          showErrors={showErrors}
-          formData={formData}
-          handleChangeFormData={handleChangeFormData}
-          errors={errors}
-        />
-        <Box w={"full"}>
+      <VStack mt={"100px"} w={"full"} > 
+        <Stepper index={activeStep} w={"70%"}>
+          {steps.map((step, index) => (
+            <Step key={index} onClick={() => setActiveStep(index)}>
+              <StepIndicator>
+                <StepStatus
+                  complete={<StepIcon />}
+                  incomplete={<StepNumber />}
+                  active={<StepNumber />}
+                />
+              </StepIndicator>
+
+              <Box flexShrink="0">
+                <StepTitle>{step.title}</StepTitle>
+                {
+                  !smallerThan740 && <StepDescription>{step.description}</StepDescription>
+                }
+              
+              </Box>
+
+              <StepSeparator />
+            </Step>
+          ))}
+        </Stepper>
+        <Box m={"50px"} marginX={"30px"} w={"full"} alignContent={"center"} alignItems={"center"}>
           {
-            clientSecret != "" && <WrapperStripe clientSecret={clientSecret} formData={formData} errors={errors} setShowErrors={setShowErrors} />
+            activeStep === 0 && <SelectorTypeDelivery handleTypeDelivery={handleTypeDelivery}/>
+          }
+          {
+            activeStep === 1 && <AddressList handleAddress={handleAddress} />
+          }
+          {
+            activeStep === 2 && clientSecret ? 
+              (<WrapperStripe clientSecret={clientSecret} 
+                errors={errors} 
+                setShowErrors={setShowErrors}
+                receive={receipmentType}
+                address={addressSelected} />) : (<></>)
           }
         </Box>
-      </Box>
+        <HStack>
+          <Button onClick={backStep} hidden={activeStep === 0} >
+            <Text>Back</Text>
+          </Button>
+          <Button colorScheme="blue" onClick={nextStep} hidden={activeStep === 2}>
+            <Text>Next</Text>
+          </Button>
+        </HStack>
+      </VStack>
     </>
   );
 }

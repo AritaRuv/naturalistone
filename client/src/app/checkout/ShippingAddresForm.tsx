@@ -5,12 +5,13 @@ export function ShippingAddresForm({
   formData,
   handleChangeShippingAddress,
   errors,
+  title
 }) {
   return (
     <>
-      <VStack w={"90%"} px={"10px"}>
+      <VStack w={"60%"} bg={"facebook.100"}>
         <Box w={"full"} h={"40px"} mt={"2%"}>
-          <Text fontWeight={"semibold"}>1. SHIPPING ADDRESS</Text>
+          <Text fontWeight={"semibold"}>{title}</Text>
         </Box>
         <InputGroup display={"flex"} flexDirection={"column"} h={"62px"}>
           <Input

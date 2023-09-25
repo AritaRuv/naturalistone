@@ -1,6 +1,6 @@
 import { confirmCheckout } from "@/api/apiCheckout";
 import { useAppSelector } from "@/store/hooks";
-import { Box, Button, Text } from "@chakra-ui/react";
+import { Box, Button, Center, Text } from "@chakra-ui/react";
 import {
   Elements,
   LinkAuthenticationElement,
@@ -21,16 +21,21 @@ const WrapperStripe = (props) => {
   const { formData } = props;
   const { errors } = props;
   const { setShowErrors } = props;
+  const { address } = props;
+  const { receive } = props;
+
   const appearance = {
     theme: "flat",
   };
 
-
-
-
   return (
-    <Elements stripe={stripePromise} options={{ clientSecret: clientSecret, appearance: appearance }}>
-      <CheckoutPaymentStripe formData={formData} errors={errors} setShowErrors={setShowErrors} />
+    <Elements stripe={stripePromise} options={{ clientSecret: clientSecret, appearance: appearance }} >
+      <CheckoutPaymentStripe 
+        formData={formData} 
+        errors={errors} 
+        setShowErrors={setShowErrors} 
+        receive={receive}
+        address={address} />
     </Elements>
   );
 };
@@ -44,30 +49,24 @@ const CheckoutPaymentStripe = (props) => {
   const { formData } = props;
   const { errors } = props;
   const { setShowErrors } = props;
-  const [method,setMethod] = useState("");
+  const { address } = props;
+  const { receive } = props;
 
   const handleClick = async (e) => {
     e.preventDefault();
-    console.log(errors);
-    //setShowErrors(true);
 
-    //if (Object.keys(errors).length) return;
-
-
-
-
-     const g = await stripe.confirmPayment({
+    const g = await stripe.confirmPayment({
       elements,
       confirmParams: {
         return_url: "http://localhost:3000/checkout/result",
       },
-       redirect: "if_required",
+      redirect: "if_required",
     }).then(async function (result) {
       console.log(result);
       if (result.paymentIntent?.status === "succeeded") {
 
         const projectId: number = +Cookies.get("projectId");
-        const res = await confirmCheckout(user.CustomerID, projectId, "", result.paymentIntent);
+        const res = await confirmCheckout(user.CustomerID, projectId, receive, result.paymentIntent,address);
         console.log("Resultado: ",res);
       }
       if (result.error) {
@@ -80,33 +79,31 @@ const CheckoutPaymentStripe = (props) => {
 
 
   return (
-    <form onSubmit={(e) => handleClick(e)}>
-      <Box w={"full"} h={"40px"} mt={"2%"}>
-        <Text fontWeight={"semibold"}>3. PAYMENT FORM</Text>
+    <Center>
+      <Box w={"40%"}>
+        <form onSubmit={(e) => handleClick(e)}>
+          <Box h={"40px"} mt={"2%"} >
+            <Text fontWeight={"semibold"}>3. PAYMENT FORM</Text>
+          </Box>
+
+          <PaymentElement
+            onChange={(e) => setMethod(e.value.type)}
+            // Optional prop for prefilling customer information
+            options={{
+              defaultValues: {
+                billingDetails: {
+                  name: "John Doe",
+                  phone: "888-888-8888",
+                },
+              },
+            }}
+          />
+
+          <Button mt={"1"} type="submit">PLACE ORDER</Button>
+        </form>
       </Box>
-      {/* <LinkAuthenticationElement
-        // Optional prop for prefilling customer information
-        options={{
-          defaultValues: {
-            email: "foo@bar.com",
-          },
-        }}
-      /> */}
-      <h3>Payment</h3>
-      <PaymentElement
-        onChange={(e) => setMethod(e.value.type)}
-        // Optional prop for prefilling customer information
-        options={{
-          defaultValues: {
-            billingDetails: {
-              name: "John Doe",
-              phone: "888-888-8888",
-            },
-          },
-        }}
-      />
-      <Button type="submit">PLACE ORDER</Button>
-    </form>
+    </Center>
+
   );
 };
 

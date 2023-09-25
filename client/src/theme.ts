@@ -14,6 +14,7 @@ const theme = extendTheme({
       gray: "#f4f4f4"
     },
     buttons: {
+      orange: "rgb(227, 116, 37)"
     }
   },
   fonts: {

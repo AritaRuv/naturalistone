@@ -68,6 +68,7 @@ interface PaymentMethod {
 
 export interface CheckoutFormData {
   Shipping_Address: ShippingAddress;
+  Shipping_Address2: ShippingAddress;
   Shipping_Method: string;
   Payment_Method: PaymentMethod;
   SubTotal: string;
