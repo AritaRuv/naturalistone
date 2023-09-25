@@ -1,5 +1,3 @@
-/* eslint-disable indent */
-/* eslint-disable quotes */
 import { MysqlError } from "mysql";
 import { Request, Response } from "express";
 import mysqlConnection from "../../db";
@@ -23,12 +21,8 @@ export async function getHomeProducts(req: Request, res: Response) {
               LEFT JOIN Dimension ON Products.DimensionID = Dimension.DimensionID
               LEFT JOIN Product_Colors ON ProdNames.ProdNameID = Product_Colors.ProdNameID
               ${material ? `WHERE ProdNames.Material = "${material}"` : ""}
-              ${
-                colorId
-                  ? `${material ? "AND" : "WHERE"} ColorID = "${colorId}"`
-                  : ""
-              }
-              `;
+              ${ colorId ? `${material ? "AND" : "WHERE"} ColorID = "${colorId}"` : ""
+} `;
 
     mysqlConnection.query(
       query,
@@ -170,10 +164,10 @@ export async function getAllDimensionProperties(req: Request, res: Response) {
       JOIN Products P ON D.DimensionID = P.DimensionID
       JOIN ProdNames PN ON P.ProdNameID = PN.ProdNameID
       ${
-        material === "all"
-          ? `WHERE NOT D.Type = "Sample"`
-          : `WHERE PN.Material = "${material}" AND NOT D.Type = "Sample"`
-      }
+  material === "all"
+    ? "WHERE NOT D.Type = \"Sample\""
+    : `WHERE PN.Material = "${material}" AND NOT D.Type = "Sample"`
+}
       GROUP BY Type
       ORDER BY Frequency DESC;
     `;
@@ -452,11 +446,7 @@ export async function getAllProductsByMaterial(req: Request, res: Response) {
                     OR (ProdNames.Material NOT IN ("Porcelain", "Terrazzo") AND Dimension.Type != "Slab")
                     )
                   AND Products.Discontinued_Flag = "False"
-                    ${
-                      material === "all"
-                        ? ""
-                        : `AND ProdNames.Material = "${material}"`
-                    }
+                    ${material === "all" ? "" : `AND ProdNames.Material = "${material}"`}
                   ORDER BY ProdNames.Naturali_ProdName ASC
                   `;
 
@@ -468,7 +458,61 @@ export async function getAllProductsByMaterial(req: Request, res: Response) {
         }
         if (results.length === 0) {
           console.log("Error en productsRoutes.get /materialfilterby");
-          res.status(404).json("`No products with material ${material}`");
+          res.status(404).json(`No products with material ${material}`);
+        } else {
+          console.log("Data OK");
+          res.status(200).json(results);
+        }
+      }
+    );
+  } catch (error) {
+    res.status(409).send(error);
+  }
+}
+
+export async function getAllProducts(req: Request, res: Response) {
+  try {
+    const query = `SELECT ProdNames.Material,
+                          ProdNames.Naturali_ProdName, 
+                          ProdNames.ProdNameID, 
+                          Products.ProdID, 
+                          Products.SalePrice, 
+                          Dimension.Type, 
+                          Dimension.Size, 
+                          Dimension.Thickness, 
+                          Dimension.Finish,
+                          Products.SalePrice, 
+                          Colors.ColorName, 
+                          CASE
+                            WHEN 
+                              Dimension.Type = "Tile" AND ProdNames.Material != "Porcelain" 
+                            THEN 
+                              (SUBSTRING_INDEX(Dimension.Size, 'x', 1) * SUBSTRING_INDEX(Dimension.Size, 'x', -1)) / 144
+                            ELSE
+                              NULL
+                          END AS sqft
+                  FROM Products
+                  LEFT JOIN ProdNames ON Products.ProdNameID = ProdNames.ProdNameID
+                  LEFT JOIN Dimension ON Products.DimensionID = Dimension.DimensionID
+                  LEFT JOIN Product_Colors ON ProdNames.ProdNameID = Product_Colors.ProdNameID
+                  LEFT JOIN Colors ON Product_Colors.ColorID = Colors.ColorID
+                  WHERE (
+                    (ProdNames.Material IN ("Porcelain", "Terrazzo"))
+                    OR (ProdNames.Material NOT IN ("Porcelain", "Terrazzo") AND Dimension.Type != "Slab")
+                    )
+                  AND Products.Discontinued_Flag = "False"
+                  ORDER BY ProdNames.Naturali_ProdName ASC
+                  `;
+
+    mysqlConnection.query(
+      query,
+      (error: MysqlError, results: RowDataPacket[]) => {
+        if (error) {
+          throw error;
+        }
+        if (results.length === 0) {
+          console.log("Error en productsRoutes.get /allRawProducts");
+          res.status(404).json("No products found");
         } else {
           console.log("Data OK");
           res.status(200).json(results);

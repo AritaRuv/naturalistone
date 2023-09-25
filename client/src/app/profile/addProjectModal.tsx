@@ -54,7 +54,7 @@ export const CreateNewProject: React.FC<PropsNewProject> = ({
       return;
     } else {
       const response = await dispatch(
-        postCustomerProject(CustomerID, formData)
+        postCustomerProject(formData)
       );
       if (!response.success) {
         if (!toast.isActive("toastCreateProject")) {
@@ -93,41 +93,42 @@ export const CreateNewProject: React.FC<PropsNewProject> = ({
       setErrors(newErrors);
       return;
     } else {
+      console.log({formData});
       const newProject = await dispatch(
-        postCustomerProject(CustomerID, formData)
+        postCustomerProject(formData)
       );
       if (ProdNameID !== undefined) {
         await dispatch(
           postFavoritesProductInProject(newProject?.data?.insertId, ProdNameID)
         );
-        if (!newProject.success) {
-          if (!toast.isActive("toastCreateProject")) {
-            return toast({
-              id: "toastCreateProject",
-              title: "Error",
-              description: "Error in create project",
-              status: "error",
-              duration: 5000,
-              isClosable: true,
-            });
-          }
-        } else {
-          if (!toast.isActive("toastCreateProject")) {
-            toast({
-              id: "toastCreateProject",
-              title: "Success",
-              description: "Project create successfully",
-              status: "success",
-              duration: 5000,
-              isClosable: true,
-            });
-          }
-          setErrors({});
-          handleClose();
-        }
+        // if (!newProject.success) {
+        //   if (!toast.isActive("toastCreateProject")) {
+        //     return toast({
+        //       id: "toastCreateProject",
+        //       title: "Error",
+        //       description: "Error in create project",
+        //       status: "error",
+        //       duration: 5000,
+        //       isClosable: true,
+        //     });
+        //   }
+        // } else {
+        //   if (!toast.isActive("toastCreateProject")) {
+        //     toast({
+        //       id: "toastCreateProject",
+        //       title: "Success",
+        //       description: "Project create successfully",
+        //       status: "success",
+        //       duration: 5000,
+        //       isClosable: true,
+        //     });
+        //   }
+        //   setErrors({});
+        //   handleClose();
+        // }
       }
     }
-    dispatch(fetchFavorites(CustomerID));
+    dispatch(fetchFavorites());
   };
 
   const handleClose = () => {

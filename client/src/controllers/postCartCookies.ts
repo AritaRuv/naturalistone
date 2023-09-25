@@ -1,15 +1,7 @@
-import { bodyCart } from "@/store/cart/actionsCart";
 import { RawProduct } from "@/store/products/typesProducts";
 
-export const postCartCookies = (raw_products: RawProduct[], body: bodyCart) => {
-  const product = raw_products.find((product) => {
-    return (
-      product.ProdNameID === body.ProdNameID &&
-      product.Size === body.size &&
-      product.Finish === body.finish &&
-      product.Thickness === body.thickness 
-    );
-  });
+export const postCartCookies = (product: RawProduct) => {
+
   const productCookies = {
     ...product,
     Quantity: 1,

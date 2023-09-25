@@ -14,7 +14,7 @@ export const fetchCart = () => {
   return async (dispatch: Dispatch<CartAction>) => {
     dispatch({ type: CartActionTypes.FETCH_CART_REQUEST });
     try {
-      const cart = await getCart(); // Llama a tu función de solicitud a la AP
+      const cart = await getCart();
       dispatch({
         _type: CartActionTypes.FETCH_CART_SUCCESS,
         get type() {
@@ -41,17 +41,23 @@ export const postCart = (body: bodyCart, raw_products: RawProduct[]) => {
 
     dispatch({ type: CartActionTypes.FETCH_CART_REQUEST });
     try {
+      const product = raw_products.find(prod => {
+        return (
+          prod.ProdNameID === body.ProdNameID &&
+          prod.Size === body.size &&
+          prod.Finish === body.finish &&
+          prod.Thickness === body.thickness 
+        );
+      });
+
       const token = getToken();
-      let cart;
       if(token !== undefined){
-        await addToCart(body);
-        cart = await getCart();
+        if(product) await addToCart(product);
       }else{
-        cart = await postCartCookies(raw_products, body);
+        if(product) await postCartCookies(product);
       }
       dispatch({
         type: CartActionTypes.POST_CART_PRODUCTS,
-        payload: cart
       });
     } catch (error) {
       dispatch({

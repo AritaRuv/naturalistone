@@ -37,21 +37,13 @@ const card3 = [
 export default function Home() {
   const [productsFilter, setProductsFilter] = useState<ProductsHomeFilterProps>(
     {
-      colorId: "",
-      material: "",
+      colorName: "",
+      material: "Terrazzo",
       materialValue: "",
     }
   );
   const appContext = useContext(AppContext);
   
-  useEffect(() => {
-    const sessionId = Cookies.get("sessionId");
-    if (sessionId) {
-      appContext && appContext.setUserLog(true);
-    } else {
-      appContext && appContext.setUserLog(false);
-    }
-  }, []);
   const [visibleSection, setVisibleSection] = useState(0); // Inicialmente, ninguna sección está visible.
 
   const sectionRefs = [
@@ -116,10 +108,7 @@ export default function Home() {
       </Section>
       <Section ref={sectionRefs[4]}>
         <Box h={"100vh"} w={"100vw"} bg={"site.lightBg"} pt={"10vh"}>
-          <HomeProductContainer
-            productsFilter={productsFilter}
-            setProductsFilter={setProductsFilter}
-          />
+          <HomeProductContainer/>
           <Filters
             setProductsFilter={setProductsFilter}
             productsFilter={productsFilter}

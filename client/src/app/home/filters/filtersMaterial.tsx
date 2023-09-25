@@ -21,7 +21,7 @@ export function FiltersMaterials({
 }: FiltersHomeProps) {
   const dispatch = useAppDispatch();
 
-  const { materials } = useAppSelector(
+  const { materials, raw_products } = useAppSelector(
     (state: { productReducer: ProductState }) => state.productReducer
   );
 
@@ -41,7 +41,7 @@ export function FiltersMaterials({
     }));
     try {
       const products = await dispatch(
-        fetchProductsHome(event.target.value, productsFilter.colorId)
+        fetchProductsHome(event.target.value, productsFilter.colorName, raw_products)
       );
       if (!products) {
         if (!toast.isActive("toastProductsId")) {
@@ -58,10 +58,6 @@ export function FiltersMaterials({
       console.log("error in filter material products");
     }
   };
-
-  useEffect(() => {
-    dispatch(fetchMaterials());
-  }, []);
 
   return (
     <Box

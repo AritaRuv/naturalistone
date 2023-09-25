@@ -2,6 +2,7 @@ import { useAppDispatch, useAppSelector } from "@/store/hooks";
 import { ProjectsState } from "@/store/projects/typeProjects";
 import {
   Box,
+  ButtonGroup,
   IconButton,
   Menu,
   MenuButton,
@@ -20,6 +21,8 @@ import { CreateNewProject } from "@/app/profile/addProjectModal";
 import { useRouter } from "next/navigation";
 import { AppContext } from "../../app/appContext";
 import { usePathname } from "next/navigation";
+import { getToken } from "@/utils/getCookiesToken";
+import { button } from "@storybook/addon-knobs";
 
 export function MenuFavoriteProductCard({
   ProdNameID,
@@ -100,7 +103,7 @@ export function MenuFavoriteProductCard({
                   <PiHeartStraightThin />
                 )}
               />
-              {appContext && appContext?.userLog ? (
+              {getToken()?.length!== 0 ? (
                 <MenuList
                   bg={"site.lightGrey"}
                   display={"flex"}
@@ -164,6 +167,7 @@ export function MenuFavoriteProductCard({
                     alignItems={"start"}
                     w={"full"}
                     bg={"site.lightGrey"}
+                    as={ButtonGroup}
                   >
                     <CreateNewProject
                       CustomerID={user?.CustomerID}

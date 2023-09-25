@@ -2,16 +2,29 @@ import { MysqlError } from "mysql";
 import { Request, Response } from "express";
 import mysqlConnection from "../../db";
 import { RowDataPacket } from "mysql2";
+import { verify } from "jsonwebtoken";
+
 
 export async function getAllFavorites(req: Request, res: Response) {
   try {
-    const { customer_id } = req.params;
+    const token = req.headers.authorization;
 
-    const query = ` SELECT DISTINCT ProdNames.*, Project_ProdName.*, Projects.idProjects  from Project_ProdName
+    if(!token) {
+      return res.status(200).json({ success: false, results: "no token" });
+    }
+    
+    const customerLoginId = verify(token, process.env.SECRET_KEY);
+
+    const query = ` SELECT DISTINCT
+                      ProdNames.*, 
+                      Project_ProdName.*, 
+                      Projects.idProjects  
+                    FROM Project_ProdName
                     LEFT JOIN ProdNames ON ProdNames.ProdNameID = Project_ProdName.ProdNameID
                     LEFT JOIN Projects ON Projects.idProjects = Project_ProdName.idProjects
                     LEFT JOIN Customers ON Projects.CustomerID = Customers.CustomerID
-                    WHERE Customers.CustomerID = ${customer_id}
+                    LEFT JOIN Customer_Login ON Customer_Login.CustomerID = Projects.CustomerID
+                    WHERE Customer_Login.Customer_LoginID = ${customerLoginId}
                   `;
 
     mysqlConnection.query(
@@ -22,10 +35,10 @@ export async function getAllFavorites(req: Request, res: Response) {
         }
         if (results.length === 0) {
           console.log("No favorites");
-          res.status(200).json([]);
+          res.status(200).json({ success: false, results: [] });
         } else {
           console.log("favorite OK");
-          res.status(200).json(results);
+          res.status(200).json({ success: true, results: results });
         }
       }
     );
@@ -37,7 +50,16 @@ export async function getAllFavorites(req: Request, res: Response) {
 export async function getProjectFavorites(req: Request, res: Response) {
   try {
     const { idProjects } = req.params;
+    const token = req.headers.authorization;
 
+    if(!token) {
+      return res.status(200).json({ success: false, results: "no token" });
+    }
+    
+    const customerLoginId = verify(token, process.env.SECRET_KEY);
+    if(!customerLoginId){
+      return res.status(200).json({ success: false, results: "error in validate customer" });
+    }
     const query = ` SELECT DISTINCT ProdNames.*, Project_ProdName.* from Project_ProdName
                     LEFT JOIN ProdNames ON ProdNames.ProdNameID = Project_ProdName.ProdNameID
                     LEFT JOIN Projects ON Projects.idProjects = Project_ProdName.idProjects
@@ -55,7 +77,7 @@ export async function getProjectFavorites(req: Request, res: Response) {
           res.status(200).json(`No favorites in project ${idProjects}`);
         } else {
           console.log(`Favorites in project ${idProjects} OK`);
-          res.status(200).json(results);
+          res.status(200).json({ success: true, results: results });
         }
       }
     );
@@ -66,6 +88,16 @@ export async function getProjectFavorites(req: Request, res: Response) {
 
 export async function postFavoritesProductProject(req: Request, res: Response) {
   const { idproject, idprodname } = req.params;
+  const token = req.headers.authorization;
+
+  if(!token) {
+    return res.status(200).json({ success: false, results: "no token" });
+  }
+  
+  const customerLoginId = verify(token, process.env.SECRET_KEY);
+  if(!customerLoginId){
+    return res.status(200).json({ success: false, results: "error in validate customer" });
+  }
 
   try {
     const querySelect =
@@ -78,14 +110,14 @@ export async function postFavoritesProductProject(req: Request, res: Response) {
       [idproject, idprodname],
       function (err: MysqlError, results: RowDataPacket[]) {
         if (err) {
-          return res.status(400).json({
+          return res.status(200).json({
             success: false,
             msg: "Error in checking if the product already exists in the project",
           });
         }
 
         if (results.length > 0) {
-          return res.status(400).json({
+          return res.status(200).json({
             success: false,
             msg: "Product already exists in the project",
           });
@@ -93,7 +125,7 @@ export async function postFavoritesProductProject(req: Request, res: Response) {
           mysqlConnection.query(
             queryInsert,
             [idproject, idprodname],
-            function (err: MysqlError, results: RowDataPacket) {
+            function (err: MysqlError) {
               if (err) {
                 return res.status(400).json({
                   success: false,
@@ -123,6 +155,16 @@ export async function deleteFavoriteProductInProject(
   res: Response
 ) {
   const { idprojects, prodnameid } = req.params;
+  const token = req.headers.authorization;
+
+  if(!token) {
+    return res.status(200).json({ success: false, results: "no token" });
+  }
+  
+  const customerLoginId = verify(token, process.env.SECRET_KEY);
+  if(!customerLoginId){
+    return res.status(200).json({ success: false, results: "error in validate customer" });
+  }
 
   try {
     const queryDeleteProductInProject = `DELETE FROM Project_ProdName WHERE idProjects = ${idprojects} AND ProdNameID = ${prodnameid}`;

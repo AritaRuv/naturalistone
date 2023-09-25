@@ -1,5 +1,5 @@
 export interface ProductsHomeFilterProps {
-  colorId: string;
+  colorName: string;
   material: string;
   materialValue?: string;
 }

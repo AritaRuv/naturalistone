@@ -2,7 +2,7 @@
 import { CartState, CartAction, CartActionTypes } from "../cart/typesCart";
 
 const initialState: CartState = {
-  cart: [],
+  cart: "",
   loading: false,
   error: null,
 };
@@ -30,7 +30,7 @@ const cartReducer = (state = initialState, action: CartAction): CartState => {
   case CartActionTypes.POST_CART_PRODUCTS:
     return {
       ...state,
-      cart: action.payload
+      loading: false
     };
   case CartActionTypes.DELETE_CART_PRODUCT:
     return {

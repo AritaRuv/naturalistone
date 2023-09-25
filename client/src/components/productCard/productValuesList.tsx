@@ -9,13 +9,11 @@ import {
 } from "@chakra-ui/react";
 import { useContext, useState } from "react";
 import { useAppDispatch, useAppSelector } from "@/store/hooks";
-import { postCart } from "@/store/cart/actionsCart";
+import { fetchCart, postCart } from "@/store/cart/actionsCart";
 import { ProductState } from "@/store/products/typesProducts";
 import { LoginState } from "@/store/login/typeLogin";
 import { ProductListProps } from "@/interfaces/product";
 import { AppContext } from "@/app/appContext";
-
-
 
 const ProductList: React.FC<ProductListProps> = ({
   data,
@@ -23,7 +21,6 @@ const ProductList: React.FC<ProductListProps> = ({
 }) => {
   const dispatch = useAppDispatch();
   const { size, thickness, finish } = data[ProdNameID];
-
   const [selectedSize, setSelectedSize] = useState<string>("");
   const [selectedThickness, setSelectedThickness] = useState<string>("");
   const [selectedFinish, setSelectedFinish] = useState<string>("");
@@ -175,33 +172,8 @@ const ProductList: React.FC<ProductListProps> = ({
       ProdNameID: ProdNameID,
       customerID: user?.CustomerID,
     };
-    dispatch(postCart(bodyCust, raw_products));
-    // } else {
-    //   const productInProducts =
-    //     raw_products.length > 0 &&
-    //     raw_products.find((product) => {
-    //       return (
-    //         product.ProdNameID === ProdNameID &&
-    //         product.Size === selectedSize &&
-    //         product.Thickness === selectedThickness &&
-    //         product.Finish === selectedFinish
-    //       );
-    //     });
-    //   const productInCart = raw_products.length ? productInProducts : product;
-    //   const productNotLogin = {
-    //     ...productInCart,
-    //     CustomerID: 0,
-    //     idCartEntry: 0,
-    //     Quantity: 1,
-    //   };
-    //   const arrayProducts: any = window && JSON.parse(
-    //     localStorage.getItem("cartProducts") || "[]"
-    //   );
-    //   const newArray: any = [...arrayProducts];
-    //   newArray.push(productNotLogin);
-    //   arrayProducts.push(productNotLogin);
-    //   localStorage.setItem("cartProducts", JSON.stringify(arrayProducts));
-    // }
+    await dispatch(postCart(bodyCust, raw_products));
+    await dispatch(fetchCart());
     setSelectedSize("");
     setSelectedThickness("");
     setSelectedFinish("");
@@ -324,12 +296,6 @@ const ProductList: React.FC<ProductListProps> = ({
       >
         ADD TO CART
       </Button>
-      {/* <CartButton
-        icon={false}
-        isCartModalOpen={isCartModalOpen}
-        setIsCartModalOpen={setIsCartModalOpen}
-        sample={false}
-      /> */}
     </>
   );
 };

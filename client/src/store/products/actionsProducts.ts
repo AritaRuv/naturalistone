@@ -8,24 +8,44 @@ import {
 } from "./typesProducts";
 import {
   getProductValues,
-  getProductsHome,
   getMaterials,
   getProduct,
   getDimension,
   getProductImages,
   getProductValuesValidation,
   getProductsByMaterial,
+  getAllRawProducts,
 } from "../../api/apiProds"; // Importa tu función de solicitud a la API
 import { Filters } from "@/interfaces/filtersProducts";
-import getProductsFiltered from "@/controllers/productFilters";
+import { getProductsHomeFiltered, getProductsFiltered  } from "@/controllers/productFilters";
 import getProductsByProdName from "@/controllers/productByProdName";
 import filterProductsByProdName from "@/controllers/filterRawProductsByProdName";
 
-export const fetchProductsHome = (material: string, colorId: string) => {
+//Action que trae todas las entradas de la tabla PRODUCTS
+export const fetchRawProduct = () => {
   return async (dispatch: Dispatch<ProductAction>) => {
     dispatch({ type: ProductActionTypes.FETCH_PRODUCTS_REQUEST });
     try {
-      const products = await getProductsHome(material, colorId);
+      const products = await getAllRawProducts();
+
+      dispatch({
+        type: ProductActionTypes.FETCH_ALL_PRODUCTS,
+        payload: products,
+      });
+    } catch (error) {
+      dispatch({
+        type: ProductActionTypes.FETCH_PRODUCTS_FAILURE,
+        error: "Error al obtener los productos",
+      });
+    }
+  };
+};
+
+export const fetchProductsHome = (material: string, colorName: string, raw_products: RawProduct[]) => {
+  return async (dispatch: Dispatch<ProductAction>) => {
+    dispatch({ type: ProductActionTypes.FETCH_PRODUCTS_REQUEST });
+    try {
+      const products = getProductsHomeFiltered(raw_products, material, colorName);
       dispatch({
         type: ProductActionTypes.FETCH_PRODUCTS_HOME_SUCCESS,
         payload: products,
@@ -186,6 +206,7 @@ export const fetchProductsValuesValidation = (
     }
   };
 };
+
 //Action que trae productos de la tabla PRODUCTS filtrados por 1 material
 export const fetchProductsByMaterial = (material: string) => {
   return async (dispatch: Dispatch<ProductAction>) => {
@@ -257,7 +278,6 @@ export const ClearProductsByMaterial = () => {
     }
   };
 };
-
 //Action que filtra raw_products por prodNameID
 export const fetchProductsByProdNameID = (
   raw_products: RawProduct[],

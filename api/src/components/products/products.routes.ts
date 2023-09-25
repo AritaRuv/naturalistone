@@ -8,6 +8,7 @@ import {
   getProductsFilter,
   getCheckboxValidation,
   getAllProductsByMaterial,
+  getAllProducts,
 } from "./products.controller";
 
 const productsRouter: Router = Router();
@@ -20,6 +21,7 @@ productsRouter.get("/id/:id", getProductsValuesByProdNameID);
 productsRouter.get("/valid/id/:id", getCheckboxValidation);
 productsRouter.get("/filters", getProductsFilter);
 productsRouter.get("/materialfilterby", getAllProductsByMaterial);
+productsRouter.get("/allrawproducts", getAllProducts);
 
 
 export default productsRouter;

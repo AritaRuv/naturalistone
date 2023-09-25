@@ -1,12 +1,24 @@
 // api.ts
 import axios from "axios";
+import Cookies from "js-cookie";
 
-export const getAllFavorites = async (id: number) => {
+
+export const getAllFavorites = async () => {
   try {
+    const token: string | undefined = Cookies.get("sessionId");
     const response = await axios.get(
-      `http://localhost:5000/api/favorites/get_all/${id}`
+      "http://localhost:5000/api/favorites/get_all",
+      {
+        headers: {
+          authorization: token,
+        },
+      }
     );
-    return response.data;
+    if(response.data.success === false) return [];
+    else{
+      return response.data.results;
+    }
+    
   } catch (error) {
     console.log(error);
     throw new Error("Error al obtener favorites de la API");
@@ -15,8 +27,17 @@ export const getAllFavorites = async (id: number) => {
 
 export const getAllFavoritesByProject = async (idProjects: number) => {
   try {
-    const response = await axios.get(`http://localhost:5000/api/favorites/byProject/${idProjects}`);
-    return response.data;
+    const token: string | undefined = Cookies.get("sessionId");
+    if(!token) return [];
+    const response = await axios.get(`http://localhost:5000/api/favorites/byProject/${idProjects}`,{
+      headers: {
+        authorization: token,
+      },
+    });
+    if(response.data.success === false){
+      return [];
+    }
+    return response.data.results;
   } catch (error) {
     console.log(error);
     throw new Error("Error al obtener favorites de la API");
@@ -27,9 +48,15 @@ export const postFavoritesProductProject = async (
   idprodname: number
 ) => {
   try {
+    const token: string | undefined = Cookies.get("sessionId");
+    if(!token) return "No token";
     const response = await axios.post(
-      `http://localhost:5000/api/favorites/productsproject/${idProject}/${idprodname}`
-    );
+      `http://localhost:5000/api/favorites/productsproject/${idProject}/${idprodname}`, {
+        headers: {
+          authorization: token,
+        },
+      });
+    if(response.data.success === false) return response.data.msg;
     return response.data;
   } catch (error) {
     console.log(error);
@@ -42,9 +69,16 @@ export const deleteFavoriteInProject = async (
   idprodname: number
 ) => {
   try {
+    const token: string | undefined = Cookies.get("sessionId");
+    if(!token) return "No token";
     const response = await axios.delete(
-      `http://localhost:5000/api/favorites/deletefavorites/${idProject}/${idprodname}`
+      `http://localhost:5000/api/favorites/deletefavorites/${idProject}/${idprodname}`,{
+        headers: {
+          authorization: token,
+        },
+      }
     );
+    if(response.data.success === false) return response.data.msg;
     return response.data;
   } catch (error) {
     console.log(error);

@@ -8,28 +8,21 @@ import {
   updateProject,
   deleteProject,
 } from "@/api/apiProjects";
+import { BodyProject } from "@/interfaces/projects";
 
-export interface BodyProject {
-  ProjectName: string;
-  CustomerID?: number;
-  Shipping_Address: string;
-  Shipping_ZipCode: string;
-  Shipping_State: string;
-  Shipping_City: string;
-}
 
-export const fetchProjectsCustomer = (CustomerID: number) => {
+
+export const fetchProjectsCustomer = () => {
   return async (dispatch: Dispatch<ProjectsAction>) => {
     try {
-      const projects = await getProjects(CustomerID);
-
+      const projects = await getProjects();
       dispatch({
         type: ProjectsActionsType.FETCH_PROJECTS_BY_CUSTOMER,
         payload: projects,
       });
     } catch (error) {
       console.error(
-        `Error al obtener los projectos del Customer: ${CustomerID}`,
+        "Error al obtener los projectos del Customer",
         error
       );
     }
@@ -37,13 +30,14 @@ export const fetchProjectsCustomer = (CustomerID: number) => {
 };
 
 export const postCustomerProject = (
-  CustomerID: number,
   bodyProject: BodyProject
 ) => {
+  console.log({bodyProject});
   return async (dispatch: Dispatch<ProjectsAction>) => {
     try {
-      const res = await createProject(bodyProject, CustomerID);
-      const projects = await getProjects(CustomerID);
+      
+      const res = await createProject(bodyProject);
+      const projects = await getProjects();
 
       dispatch({
         type: ProjectsActionsType.POST_PROJECT_CUSTOMER,
@@ -57,7 +51,7 @@ export const postCustomerProject = (
       return res;
     } catch (error) {
       console.error(
-        `Error al obtener los projectos del Customer: ${CustomerID}`,
+        "Error al obtener los projectos",
         error
       );
     }

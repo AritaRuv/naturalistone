@@ -1,13 +1,25 @@
-/* eslint-disable quotes */
 // api.ts
 import { Filters } from "@/interfaces/filtersProducts";
 import axios from "axios";
+
+export const getAllRawProducts = async () => {
+  try {
+    const response = await axios.get(
+      "http://localhost:5000/api/products/allrawproducts"
+    ); // Realiza la solicitud GET a la ruta /api/products de tu backend
+    return response.data;
+  } catch (error) {
+    console.log(error);
+    throw new Error("Error al obtener los productos de la API");
+  }
+};
 
 export const getProductsHome = async (material: string, colorId: string) => {
   try {
     const response = await axios.get(
       `http://localhost:5000/api/products/home?material=${material}&colorId=${colorId}`
     ); // Realiza la solicitud GET a la ruta /api/products de tu backend
+
     return response.data;
   } catch (error) {
     console.log(error);
@@ -31,7 +43,7 @@ export const getProductValues = async (ProdNameID: number) => {
 export const getMaterials = async () => {
   try {
     const response = await axios.get(
-      `http://localhost:5000/api/products/material`
+      "http://localhost:5000/api/products/material"
     ); // Realiza la solicitud GET a la ruta /api/products de tu backend
     return response.data;
   } catch (error) {

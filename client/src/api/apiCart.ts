@@ -1,12 +1,19 @@
 // api.ts
 
-import { bodyCart, bodyCartUpdate } from "@/interfaces/cart";
-import { Product } from "@/store/products/typesProducts";
+import {  bodyCartUpdate } from "@/interfaces/cart";
+import { Product, RawProduct } from "@/store/products/typesProducts";
 import axios from "axios";
+import Cookies from "js-cookie";
+
 
 export const getCart = async () => {
   try {
-    const response = await axios.get("http://localhost:5000/api/cart");
+    const token: string | undefined = Cookies.get("sessionId");
+    const response = await axios.get("http://localhost:5000/api/cart",{
+      headers: {
+        authorization: token,
+      },
+    });
     /* 
     response = {
       success = boolean,
@@ -27,11 +34,14 @@ export const getCart = async () => {
   }
 };
 
-export const addToCart = async (body: bodyCart) => {
+export const addToCart = async (product: RawProduct) => {
   try {
-
-    const response = await axios.post("http://localhost:5000/api/cart", body);
-
+    const token: string | undefined = Cookies.get("sessionId");
+    const response = await axios.post("http://localhost:5000/api/cart", product,{
+      headers: {
+        authorization: token,
+      },
+    });
     return response.data;
   } catch (error) {
     console.log(error);

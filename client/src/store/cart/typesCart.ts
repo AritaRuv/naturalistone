@@ -16,7 +16,7 @@ export interface ProductCart {
 }
 
 export interface CartState {
-  cart: ProductCart[];
+  cart: ProductCart[] | string;
   loading: boolean;
   error: string | null;
 }
@@ -46,7 +46,6 @@ export interface FetchCartFailureAction {
 
 export interface PostCartProductsAction {
   type: CartActionTypes.POST_CART_PRODUCTS;
-  payload: ProductCart[];
 }
 
 export interface UpdateCartProductsAction {

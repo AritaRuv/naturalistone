@@ -2,7 +2,7 @@
 import { ColorsAction, ColorsActionsType, ColorsState } from "./typeColors";
 
 const initialState: ColorsState = {
-  colors: [], // Objeto vacío
+  colors: [], 
 };
 
 const colorsReducer = (
@@ -10,13 +10,13 @@ const colorsReducer = (
   action: ColorsAction
 ): ColorsState => {
   switch (action.type) {
-    case ColorsActionsType.FETCH_COLORS:
-      return {
-        ...state,
-        colors: action.payload,
-      };
-    default:
-      return state;
+  case ColorsActionsType.FETCH_COLORS:
+    return {
+      ...state,
+      colors: action.payload,
+    };
+  default:
+    return state;
   }
 };
 

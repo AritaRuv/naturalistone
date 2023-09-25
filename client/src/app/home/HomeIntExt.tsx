@@ -12,7 +12,7 @@ const HomeIntExt = () => {
     <Center w={"100%"} h={"100vh"} bg={"site.lightBg"}>
       <Link href={`/products/${material}`}>
         <Center w={"400px"} h={"500px"} position={"relative"} overflow={"hidden"}>
-          <NextImage objectFit="cover" fill src={URL} alt="img" />
+          <NextImage style={{objectFit:"cover"}} fill sizes="(max-width: 260px)"  src={URL} alt="img" />
           <Box
             position="absolute"
             top={0}

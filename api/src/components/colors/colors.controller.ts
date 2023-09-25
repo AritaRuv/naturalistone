@@ -6,7 +6,7 @@ import { RowDataPacket, FieldPacket } from "mysql2";
 
 export async function getAllColors(req: Request, res: Response) {
   try {
-    const query = `SELECT ColorID, Color
+    const query = `SELECT ColorName 
                     FROM Colors
                     `;
 
@@ -17,11 +17,12 @@ export async function getAllColors(req: Request, res: Response) {
           throw error;
         }
         if (results.length === 0) {
-          console.log("Error en productsRoutes.get /");
+          console.log("Error en colorsRoutes.get /");
           res.status(404).json("No colors");
         } else {
-          console.log("Data OK");
-          res.status(200).json(results);
+          console.log("Colors OK");
+          const colorNames = results.map((row) => row.ColorName);
+          res.status(200).json(colorNames);
         }
       }
     );

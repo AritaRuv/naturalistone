@@ -26,9 +26,6 @@ import { AppContext } from "@/app/appContext";
 
 
 const CartButton: React.FC<CartButtonProps> = ({
-  icon = true,
-  isCartModalOpen,
-  setIsCartModalOpen,
   sample,
 }) => {
 
@@ -37,14 +34,10 @@ const CartButton: React.FC<CartButtonProps> = ({
     (state: { cartReducer: CartState }) => state.cartReducer
   );
 
-  const inputRef = useRef(cart.length);
+  const inputRef = useRef(cart?.length );
   const appContext = useContext(AppContext);
   const modalOpen = appContext?.isCartModalOpen;
   const setModalOpen = appContext?.setIsCartModalOpen;
-
-  // useEffect(() => {
-  //   dispatch(fetchCart(user?.CustomerID));
-  // }, [user]);
 
   useEffect(() => {
     if (modalOpen) {
@@ -53,7 +46,7 @@ const CartButton: React.FC<CartButtonProps> = ({
     if (!isOpen) {
       setModalOpen && setModalOpen(false);
     }
-  }, [modalOpen, isOpen]);
+  }, [modalOpen, isOpen, cart]);
 
   return (
     <>
@@ -72,6 +65,7 @@ const CartButton: React.FC<CartButtonProps> = ({
           <DrawerBody>
             <Box h={"85%"} overflow={"auto"}>
               {
+                typeof cart !== "string" &&
                 cart?.map((product, index) => {
                   return (
                     <Box key={product.idCartEntry}>

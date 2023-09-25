@@ -37,8 +37,5 @@ export interface bodyCartUpdate {
 }
 
 export interface CartButtonProps {
-  isCartModalOpen?: boolean;
-  setIsCartModalOpen?: React.Dispatch<React.SetStateAction<boolean>>;
   sample?: boolean;
-  icon?: boolean;
   }

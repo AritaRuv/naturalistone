@@ -1,13 +1,11 @@
 "use client";
-import { fetchMaterials } from "@/store/products/actionsProducts";
-import { useAppDispatch, useAppSelector } from "@/store/hooks";
+import { useAppSelector } from "@/store/hooks";
 import { ProductState } from "@/store/products/typesProducts";
-import { useEffect } from "react";
 import { SimpleGrid, Box, Center, useMediaQuery } from "@chakra-ui/react";
 import MaterialCard from "./materialCard";
 
 export default function Collections() {
-  const dispatch = useAppDispatch();
+
   const { materials } = useAppSelector(
     (state: { productReducer: ProductState }) => state.productReducer
   );
@@ -15,10 +13,6 @@ export default function Collections() {
   const [smallerThan1800] = useMediaQuery("(max-width: 1800px)");
   const [smallerThan1200] = useMediaQuery("(max-width: 1200px)");
   const [smallerThan740] = useMediaQuery("(max-width: 740px)");
-
-  useEffect(() => {
-    dispatch(fetchMaterials());
-  }, []);
 
   return (
     <>

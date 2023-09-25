@@ -9,10 +9,10 @@ import {
 
 const projectsRouter: Router = Router();
 
-projectsRouter.post("/create/:CustomerID", postNewProject);
+projectsRouter.post("/create", postNewProject);
 projectsRouter.patch("/delete/:id", deleteProject);
 projectsRouter.patch("/editproject/:id", updateProject);
 projectsRouter.get("/project/:id", getProjectByID);
-projectsRouter.get("/:id", getProjectsByCustomer);
+projectsRouter.get("/", getProjectsByCustomer);
 
 export default projectsRouter;

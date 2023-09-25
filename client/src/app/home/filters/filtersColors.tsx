@@ -15,46 +15,40 @@ import {
 import { useEffect, useState } from "react";
 import { FiltersHomeProps } from "@/interfaces/home";
 import { AiOutlineClear } from "react-icons/ai";
+import { ProductState } from "@/store/products/typesProducts";
 
 export function FiltersColors({
   setProductsFilter,
   productsFilter,
 }: FiltersHomeProps) {
   const dispatch = useAppDispatch();
-  const [color, setColor] = useState("gray.500");
+  //const [color, setColor] = useState("");
   const [activeButton, setActiveButton] = useState(null);
   const [smallerThan550] = useMediaQuery("(max-width: 550px)");
   const [smallerThan950] = useMediaQuery("(max-width: 950px)");
   const [boxMargin, setBoxMargin] = useState(false);
   const toast = useToast();
+
   const { colors } = useAppSelector(
     (state: { colorsReducer: ColorsState }) => state.colorsReducer
   );
 
+  const { raw_products } = useAppSelector(
+    (state: { productReducer: ProductState }) => state.productReducer
+  );
+
   const homeColors = colors.slice(0, 5);
-
-  useEffect(() => {
-    if (!homeColors.length) dispatch(fetchColors());
-  }, []);
-
-  useEffect(() => {
-    if (!smallerThan550) setBoxMargin(false);
-    if (smallerThan550) setBoxMargin(true);
-  }, [smallerThan550]);
 
   const handleClick = async (index) => {
     setActiveButton(index);
-    setColor(homeColors[index].Color);
+    //setColor(homeColors[index].Color);
     setProductsFilter((prevState) => ({
       ...prevState,
-      colorId: homeColors[index].ColorID.toString(),
+      colorName: homeColors[index],
     }));
     try {
       const products = await dispatch(
-        fetchProductsHome(
-          productsFilter.material,
-          homeColors[index].ColorID.toString()
-        )
+        fetchProductsHome(productsFilter.material,homeColors[index],raw_products)
       );
       if (!products) {
         if (!toast.isActive("toastProductsId")) {
@@ -74,13 +68,18 @@ export function FiltersColors({
 
   const handleClear = () => {
     setProductsFilter({
-      material: "",
-      colorId: "",
+      material: "Terrazzo",
+      colorName: "",
       materialValue: "",
     });
-    dispatch(fetchProductsHome("", ""));
+    dispatch(fetchProductsHome("Terrazzo", "", raw_products));
     setActiveButton(null);
   };
+
+  useEffect(() => {
+    if (!smallerThan550) setBoxMargin(false);
+    if (smallerThan550) setBoxMargin(true);
+  }, [smallerThan550]);
 
   return (
     <Box
@@ -108,9 +107,9 @@ export function FiltersColors({
         >
           {homeColors.map((c, index) => (
             <Button
-              key={c.ColorID}
-              aria-label={c.Color}
-              background={c.Color}
+              key={index}
+              aria-label={c}
+              background={c}
               height={activeButton === index ? "38px" : "35px"}
               width={activeButton === index ? "38px" : "35px"}
               padding={0}
@@ -120,7 +119,7 @@ export function FiltersColors({
               borderWidth={activeButton === index ? "4px" : "0px"}
               boxShadow={"0px 2px 4px rgba(0, 0, 0, 0.8)"}
               _active={{ borderColor: "black" }}
-              _hover={{ background: c.Color }}
+              _hover={{ background: c }}
               onClick={() => handleClick(index)}
             ></Button>
           ))}
