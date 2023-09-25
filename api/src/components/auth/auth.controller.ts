@@ -1,8 +1,6 @@
-/* eslint-disable quotes */
 import mysqlConnection from "../../db";
 import { Response, Request, NextFunction } from "express";
 import { sign, verify } from "jsonwebtoken";
-import bcrypt from "bcrypt";
 import { MysqlError } from "mysql";
 import { RowDataPacket } from "mysql2";
 import { aleatoryNumber } from "../../utils/aleatoryNumber";
@@ -86,18 +84,18 @@ export async function signUp(req: Request, res: Response) {
   }
 }
 
-function rollbackAndRespond(
-  res: Response,
-  statusCode: number,
-  message: string
-) {
-  mysqlConnection.rollback(function (err) {
-    if (err) {
-      console.error("Error rolling back transaction: ", err);
-    }
-    res.status(statusCode).json({ success: false, msg: message });
-  });
-}
+// function rollbackAndRespond(
+//   res: Response,
+//   statusCode: number,
+//   message: string
+// ) {
+//   mysqlConnection.rollback(function (err) {
+//     if (err) {
+//       console.error("Error rolling back transaction: ", err);
+//     }
+//     res.status(statusCode).json({ success: false, msg: message });
+//   });
+// }
 
 export async function generateJWT(user = "", expiresAt = 0) {
   const payload = user;
@@ -126,7 +124,6 @@ export async function validateJWT(
     return res.status(401).json({ success: false, msg: "no token" });
   }
 
-  // token = token.split(" ")[1];
 
   verify(token, process.env.SECRET_KEY, function (err, data) {
     if (err) {
@@ -150,8 +147,6 @@ export async function signIn(req: Request, res: Response) {
       }
 
       const token = await generateJWT(results[0].Customer_LoginID);
-
-      console.log("entree", token);
 
       results[0].token = token;
 

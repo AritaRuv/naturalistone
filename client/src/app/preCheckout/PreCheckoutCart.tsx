@@ -1,4 +1,4 @@
-import { Box,  Divider, useMediaQuery } from "@chakra-ui/react";
+import { Box, Divider, useMediaQuery } from "@chakra-ui/react";
 import ProductCardCart from "../../components/navBar/cartProducts";
 import { useAppSelector } from "@/store/hooks";
 import { CartState } from "@/store/cart/typesCart";
@@ -20,9 +20,10 @@ export default function PreCheckoutCart() {
         w={smallerThan740 ? "full" : "50%"}>
         <Box h={"60%"} overflow={"auto"} minW={"450px"} w={"full"} mt={"2%"}>
           {
+            typeof cart !== "string" &&
             cart?.map((product) => {
               return (
-                <Box key={product.idCartEntry}>
+                <Box key={product.idCartEntry} bg='yellow.200'>
                   <Divider borderColor={"gray.700"} my={"2%"} />
                   <Box
                     display={"flex"}

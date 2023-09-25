@@ -1,6 +1,6 @@
 "use client";
 import { Box, Button, VStack } from "@chakra-ui/react";
-import { userButton } from "./page";
+import { userButton } from "@/interfaces/profile";
 import Link from "next/link";
 import { AppContext } from "../appContext";
 import { useContext } from "react";
@@ -36,8 +36,8 @@ const UserButtonsContainer: React.FC<userButton> = ({ site, onClose }) => {
                       site === "navbar"
                         ? "unset"
                         : appContext?.showMenu === button.name
-                        ? "3px solid black"
-                        : "unset"
+                          ? "3px solid black"
+                          : "unset"
                     }
                     _hover={{
                       fontWeight: "semibold",

@@ -14,7 +14,7 @@ import {
   fetchProductsFilters,
 } from "@/store/products/actionsProducts";
 import { ProductState } from "@/store/products/typesProducts";
-import { Filters } from "../productFilters/types";
+import { Filters } from "../../../interfaces/filtersProducts";
 import { PiCaretDownThin } from "react-icons/pi";
 import { Path } from "../path";
 import { LoginState } from "@/store/login/typeLogin";
@@ -27,9 +27,6 @@ export default function Products({ params }) {
   const [shouldTriggerEffect, setShouldTriggerEffect] = useState(false);
 
   const { dimensions } = useAppSelector(
-    (state: { productReducer: ProductState }) => state.productReducer
-  );
-  const { materials } = useAppSelector(
     (state: { productReducer: ProductState }) => state.productReducer
   );
   const { raw_products } = useAppSelector(
@@ -61,12 +58,7 @@ export default function Products({ params }) {
     dispatch(fetchProjectsCustomer(user.CustomerID));
   }, [user]);
 
-  const [smallerThan1800] = useMediaQuery("(max-width: 1800px)");
   const [smallerThan1200] = useMediaQuery("(max-width: 1200px)");
-  const [smallerThan740] = useMediaQuery("(max-width: 740px)");
-
-  const [showMenu, setShowMenu] = useState("");
-
   const [filters, setFilters] = useState<Filters>({
     material: params.Material,
     type: [],
@@ -156,7 +148,7 @@ export default function Products({ params }) {
               <option value="ZA"> Z-A</option>
             </Select>
           </Box>
-          <ProductsContainer params={params}/>
+          <ProductsContainer />
         </Box>
       </Box>
     </>

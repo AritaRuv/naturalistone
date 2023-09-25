@@ -1,14 +1,11 @@
 import React from "react";
-import { Box, Text } from "@chakra-ui/react";
+import { Box } from "@chakra-ui/react";
 import SampleProductList from "./sampleProductList";
+import { AddProductToCartProps } from "@/interfaces/cart";
 
 
-interface AddProductSampleToCartProps {
-  ProdNameID: number;
-  productValues: any;
-}
 
-const AddSampleProductToCart: React.FC<AddProductSampleToCartProps> = ({
+const AddSampleProductToCart: React.FC<AddProductToCartProps> = ({
   ProdNameID,
   productValues,
 }) => {

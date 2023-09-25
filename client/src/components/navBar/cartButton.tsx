@@ -16,94 +16,58 @@ import {
   Button,
 } from "@chakra-ui/react";
 import { PiShoppingCartThin } from "react-icons/pi";
-import { useAppSelector, useAppDispatch } from "@/store/hooks";
-import { CartState, ProductCart } from "@/store/cart/typesCart";
-import { fetchCart } from "@/store/cart/actionsCart";
+import { useAppDispatch, useAppSelector } from "@/store/hooks";
+import { CartState } from "@/store/cart/typesCart";
 import ProductCardCart from "./cartProducts";
 import "./_navBar.css";
 import Link from "next/link";
-import { LoginState } from "@/store/login/typeLogin";
+import { CartButtonProps } from "@/interfaces/cart";
 import { AppContext } from "@/app/appContext";
-import { Product } from "@/store/products/typesProducts";
+import { fetchCart } from "@/store/cart/actionsCart";
 
-const CartButton: React.FC<{
-  icon?: boolean;
-  isCartModalOpen?: boolean;
-  setIsCartModalOpen?: React.Dispatch<React.SetStateAction<boolean>>;
-  sample?: boolean;
-}> = ({
-  icon = true,
-  isCartModalOpen,
-  setIsCartModalOpen,
+
+const CartButton: React.FC<CartButtonProps> = ({
   sample,
 }) => {
+  const dispatch = useAppDispatch();
   const { isOpen, onOpen, onClose } = useDisclosure();
   const [ subTotal, setSubTotal ] = useState(0);
 
   const { cart } = useAppSelector(
     (state: { cartReducer: CartState }) => state.cartReducer
   );
-  const dispatch = useAppDispatch();
 
-  const { user } = useAppSelector(
-    (state: { loginReducer: LoginState }) => state.loginReducer
-  );
-
-  const cartProductsJson = typeof window !== "undefined" ? localStorage.getItem("cartProducts") : null;
-
-  const productsStorage: Product[] = cartProductsJson !== null ? JSON.parse(cartProductsJson) : [];
-
-  const [arrayProducts, setArrayProducts] = useState([]);
-
-  const inputRef = useRef(cart.length);
-  const inputLocalRef = useRef(productsStorage.length);
+  const inputRef = useRef(cart?.length );
   const appContext = useContext(AppContext);
+  const modalOpen = appContext?.isCartModalOpen;
+  const setModalOpen = appContext?.setIsCartModalOpen;
 
   useEffect(() => {
-    if(cart.length === 0){
-
-      dispatch(fetchCart(user?.CustomerID));
-      console.log(cart)
-
-      const subT = cart.reduce((total, item) => {
-        return total + (item.SalePrice * item.Quantity);
-      }, 0);
-      setSubTotal(subT);
-    }
-  }, [user,cart]);
+    const subT = typeof cart !== "string" ? cart.reduce((total, item) => {
+      return total + (item.SalePrice * item.Quantity);
+    }, 0) : 0;
+    setSubTotal(subT);
+  }
+  , [cart]);
 
   useEffect(() => {
-    if (isCartModalOpen) {
+    if (modalOpen) {
       onOpen();
     }
     if (!isOpen) {
-      setIsCartModalOpen && setIsCartModalOpen(false);
+      setModalOpen && setModalOpen(false);
     }
-  }, [isCartModalOpen, isOpen]);
-
-  useEffect(() => {
-    if(productsStorage.length !== arrayProducts.length) {
-      if (cartProductsJson !== null) {
-        setArrayProducts(JSON.parse(cartProductsJson));
-      } else {
-        setArrayProducts([]);
-      }
-    }
-  }, [productsStorage, arrayProducts]);
+  }, [modalOpen, isOpen, cart]);
 
   return (
     <>
-      {icon ? (
-        <IconButton
-          aria-label="Cart-icon"
-          variant="unstyled"
-          fontSize="2xl"
-          icon={<PiShoppingCartThin />}
-          onClick={onOpen}
-        />
-      ) : (
-        ""
-      )}
+      <IconButton
+        aria-label="Cart-icon"
+        variant="unstyled"
+        fontSize="2xl"
+        icon={<PiShoppingCartThin />}
+        onClick={onOpen}
+      />
       <Drawer isOpen={isOpen} placement="right" onClose={onClose} size={"md"}>
         <DrawerOverlay />
         <DrawerContent>
@@ -111,33 +75,22 @@ const CartButton: React.FC<{
           <DrawerHeader>CART ITEMS</DrawerHeader>
           <DrawerBody>
             <Box h={"85%"} overflow={"auto"}>
-              {appContext && appContext.userLog
-                ? cart?.map((product, index) => {
+              {
+                typeof cart !== "string" &&
+                cart?.map((product, index) => {
                   return (
                     <Box key={product.idCartEntry}>
                       <ProductCardCart
                         product={product}
-                        inputRef={index === inputRef.current ? inputRef : null}
-                        sample={sample}
-                        setArrayProducts={setArrayProducts}
-                      />
+                        inputRef={
+                          index === inputRef.current ? inputRef : null
+                        }
+                        sample={sample}/>
                       <Divider borderColor={"gray.300"} />
                     </Box>
                   );
                 })
-                : arrayProducts?.map((product, index) => {
-                  return (
-                    <Box key={index}>
-                      <ProductCardCart
-                        product={product}
-                        inputRef={index === inputLocalRef.current ? inputLocalRef : null}
-                        sample={sample}
-                        setArrayProducts={setArrayProducts}
-                      />
-                      <Divider borderColor={"gray.300"} />
-                    </Box>
-                  );
-                })}
+              }
             </Box>
             <Box
               w={"100%"}
@@ -174,5 +127,4 @@ const CartButton: React.FC<{
 };
 
 export default CartButton;
-
 

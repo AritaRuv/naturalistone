@@ -1,12 +1,11 @@
 "use client";
 import React from "react";
 import {
-  Box, Text, useMediaQuery
+  Box, Text
 } from "@chakra-ui/react";
 
 export default function ProdDetailName({ params }) {
 
-  const [smallerThan740] = useMediaQuery("(max-width: 740px)");
 
   const { Material, ProdName } = params;
 

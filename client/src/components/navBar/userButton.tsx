@@ -17,24 +17,21 @@ import "./_navBar.css";
 import UserButtonsContainer from "@/app/profile/userButtonsContainer";
 import NextImage from "next/image";
 import { useRouter } from "next/navigation";
-import { LoginState } from "@/store/login/typeLogin";
-import { useAppSelector } from "@/store/hooks";
+import { getToken } from "@/utils/getCookiesToken";
 
 const UserButton: React.FC = () => {
+  
   const { isOpen, onOpen, onClose } = useDisclosure();
-  const { user } = useAppSelector(
-    (state: { loginReducer: LoginState }) => state.loginReducer
-  );
   const router = useRouter(); // Get the router instance
 
   const userNotLogin = () => {
-    if (user?.CustomerID === 0) {
+    const token = getToken();
+    if (token === undefined) {
       return router.push("/signin");
     } else {
       onOpen();
     }
   };
-
   const URL =
     "https://naturalistone-images.s3.amazonaws.com/muestra/bernard-hermant-H6lV0I-SZjg-unsplash.jpg";
 
@@ -50,7 +47,7 @@ const UserButton: React.FC = () => {
       <Drawer isOpen={isOpen} placement="right" onClose={onClose} size={"full"}>
         <DrawerOverlay />
         <DrawerContent h={"100vh"} w={"100vw"}>
-          <NextImage objectFit="cover" fill src={URL} alt="img" />
+          <NextImage style={{objectFit:"cover"}} sizes="(max-width: 100vw)" fill src={URL} alt="img" />
           <Box
             position="absolute"
             top={0}
@@ -65,8 +62,6 @@ const UserButton: React.FC = () => {
               <UserButtonsContainer site={"navbar"} onClose={onClose} />
             </Center>
           </DrawerBody>
-
-          <DrawerFooter></DrawerFooter>
         </DrawerContent>
       </Drawer>
     </>

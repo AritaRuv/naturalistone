@@ -26,8 +26,9 @@ export interface RawProduct {
   Type: string;
   ProdID: number;
   SalePrice?: number;
+  ColorName: string;
+  sqft?: number;
 }
-
 export interface ProductData {
   [key: string]: {
     size: string[];
@@ -36,16 +37,14 @@ export interface ProductData {
     prodNameID: number;
   };
 }
-
 export interface DimensionData {
   Type: string[];
   Size: string[];
   Thickness: string[];
   Finish: string[];
 }
-
 export interface ProductState {
-  products: Product[];
+  home_products: Product[] | string;
   products_by_material: Product[];
   products_filters: Product[] | string;
   productValues: ProductData;
@@ -84,7 +83,8 @@ export enum ProductActionTypes {
   CLEAR_MATERIALS = "CLEAR_MATERIALS",
   CLEAR_PRODUCTS_FILTERS = "CLEAR_PRODUCTS_FILTERS",
   CLEAR_RAW_PRODUCTS = "CLEAR_RAW_PRODUCTS",
-  FETCH_PRODUCTS_BY_PRODNAME = "FETCH_PRODUCTS_BY_PRODNAME"
+  FETCH_PRODUCTS_BY_PRODNAME = "FETCH_PRODUCTS_BY_PRODNAME",
+  FETCH_ALL_PRODUCTS = "FETCH_ALL_PRODUCTS"
 }
 
 export interface FetchProductsRequestAction {
@@ -96,6 +96,10 @@ export interface FetchProductsByMaterial {
     products: RawProduct[];
     result: Product[];
   };
+}
+export interface FetchAllProducts {
+  type: ProductActionTypes.FETCH_ALL_PRODUCTS;
+  payload: RawProduct[];
 }
 
 export interface FetchProductsHomeSuccessAction {
@@ -183,4 +187,5 @@ export type ProductAction =
   | ClearProductFilters
   | ClearProductsByMaterial
   | ClearMaterials
-  | FetchProductsByProdNameAction;
+  | FetchProductsByProdNameAction
+  | FetchAllProducts;

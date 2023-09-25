@@ -1,9 +1,9 @@
 "use client";
 import { SignIn } from "@/store/login/typeLogin";
 import {
-  FormErrorsLogin,
   validateCompletedInputsLogin,
 } from "@/utils/validateForms";
+import { FormErrorsLogin } from "@/interfaces/login";
 import {
   Avatar,
   Box,
@@ -26,36 +26,30 @@ import {
   PiEyeThin,
 } from "react-icons/pi";
 import { PiUserThin } from "react-icons/pi";
-import { postSignin } from "@/api/apiLogin";
 import { useRouter } from "next/navigation";
+import { PropsLogIn} from "@/interfaces/login";
+import { useAppDispatch } from "@/store/hooks";
+import { postSigninAction } from "@/store/login/actionsLogin";
+import { getToken } from "@/utils/getCookiesToken";
 
-export interface Props {
-  setActiveLogin: React.Dispatch<React.SetStateAction<boolean>>;
-  smallerThan600: boolean;
-  smallerThan1200: boolean;
-  smallerThan1450: boolean;
-}
-
-const Login: React.FC<Props> = ({
+const Login: React.FC<PropsLogIn> = ({
   setActiveLogin,
   smallerThan600,
   smallerThan1200,
 }) => {
+  
+  const pathname = typeof window !== "undefined" ? localStorage.getItem("path") : "/home";
+  const dispatch = useAppDispatch();
   const [formData, setFormData] = useState<SignIn>({
     email: "",
     password: "",
   });
-
-  const pathname =
-    typeof window !== "undefined" ? localStorage.getItem("path") : "/home";
-
   const [errors, setErrors] = useState<FormErrorsLogin>({});
   const [show, setShow] = useState(false);
   const [showErrors, setShowErrors] = useState(false);
   const toast = useToast();
   const router = useRouter();
   const [isToastShowing, setIsToastShowing] = useState(false);
-
   const [smallerThan600h] = useMediaQuery("(max-height: 600px)");
 
   const handleChange = (event) => {
@@ -76,13 +70,18 @@ const Login: React.FC<Props> = ({
   const handleClick = () => {
     setActiveLogin(false);
   };
+  
+  //Funcion que despacha una action POST con las credenciales email y password, las valida y devuelve el token cargandolo 
+  //en el localstorage y en un estado de redux
 
   const handleLogin = async () => {
     setShowErrors(true);
     if (Object.keys(errors).length) return;
-    const data: any = await postSignin(formData);
+    await dispatch(postSigninAction(formData));
+    const token = getToken();
+
     if (!isToastShowing) {
-      if (data.success === false) {
+      if (token === undefined) {
         setIsToastShowing(true);
         if (setIsToastShowing) {
           return toast({
@@ -98,7 +97,7 @@ const Login: React.FC<Props> = ({
       }
     }
     if (!isToastShowing) {
-      if (data.success) {
+      if (token && token.length !== 0) {
         setIsToastShowing(true);
         if (setIsToastShowing) {
           toast({

@@ -1,37 +1,29 @@
 "use client";
 
 import { PiCaretDownThin } from "react-icons/pi";
-import CheckoutCart from "../checkout/checkoutCart";
-import { Box, Button, HStack, Link, Select, Text, useMediaQuery } from "@chakra-ui/react";
+import { Box, Button, HStack, Link, Select, Text } from "@chakra-ui/react";
 import { ProjectsState } from "@/store/projects/typeProjects";
 import { useAppDispatch, useAppSelector } from "@/store/hooks";
 import { useEffect, useState } from "react";
-import { fetchProjectsCustomer } from "@/store/projects/actionsProjects";
-import { LoginState } from "@/store/login/typeLogin";
-import { Checkbox, CheckboxGroup } from "@chakra-ui/react";
-import { userInfo } from "@/store/login/actionsLogin";
+import { Checkbox } from "@chakra-ui/react";
 import PreCheckoutCart from "./PreCheckoutCart";
-import { bodyCartUpdate, fetchCart, updateCart } from "@/store/cart/actionsCart";
-import { CartState } from "@/store/cart/typesCart";
+import { fetchCart, updateCart } from "@/store/cart/actionsCart";
+import { CartState } from "@/store/cart/typesCart"; 
+import { bodyCartUpdate } from "@/interfaces/cart";
 import Cookies from "js-cookie";
 
 export default function preCheckout() {
-  const [smallerThan740] = useMediaQuery("(max-width: 740px)");
+
   const customerProjects = useAppSelector(
     (state: { projectsReducer: ProjectsState }) =>
       state.projectsReducer.customerProjects);
-  const { user } = useAppSelector(
-    (state: { loginReducer: LoginState }) => state.loginReducer);
-
-  const dispatch = useAppDispatch();
-  const [addMore, setAddMore] = useState(false);
-  const [projectId, setProjectId] = useState(0);
-
-
   const { cart } = useAppSelector(
     (state: { cartReducer: CartState }) => state.cartReducer
   );
 
+  const dispatch = useAppDispatch();
+  const [addMore, setAddMore] = useState(false);
+  const [projectId, setProjectId] = useState(0);
   const [subTotal, setSubTotal] = useState(0);
 
   const handleProjectChange = (event) => {
@@ -43,39 +35,29 @@ export default function preCheckout() {
 
     }
   };
-
+  console.log(customerProjects);
   useEffect(() => {
-    if (user.CustomerID === 0){
-      dispatch(userInfo());
-    }
-    if (customerProjects.length === 0 && user.CustomerID != 0){
-      dispatch(fetchProjectsCustomer(user.CustomerID));
-    }
-    if(customerProjects.length > 0){
+    if(customerProjects.length > 0 && typeof customerProjects !== "string" ){
       setProjectId(customerProjects[0].idProjects);
       Cookies.set("projectId", customerProjects[0].idProjects.toString());
-
     }
-    
-
-  }, [user, customerProjects]);
+  }, [customerProjects]);
 
   useEffect(() => {
-    const added = cart.filter((d) => {return d.AddExtra != 1;});
-    if (added.length === 0)
-      setAddMore(true);
-    else
-      setAddMore(false);
+    const added = typeof cart !== "string" ? cart.filter((d) => {return d.AddExtra != 1;}) : [];
+    if (added.length === 0) setAddMore(true);
+    else setAddMore(false);
+
     if (cart.length === 0) {
-      dispatch(fetchCart(user.CustomerID));
+      dispatch(fetchCart());
       const subT = 0;
       setSubTotal(subT);
     }
-    const subT = cart.reduce((total, item) => {
+    const subT = typeof cart !== "string" ? cart.reduce((total, item) => {
       return total + (item.SalePrice * item.Quantity);
-    }, 0);
+    }, 0): 0;
     const tot = Math.round((subT + Number.EPSILON) * 100) / 100;
-    setSubTotal(tot.toFixed(2));
+    setSubTotal(Number(tot.toFixed(2)));
    
   }, [cart]);
 
@@ -83,8 +65,8 @@ export default function preCheckout() {
   const handleChangeAddMoreAll = (event) =>{
     setAddMore(!addMore);
     const boolCheked = event.target.checked;
-    console.log(boolCheked)
-    if (boolCheked){
+    console.log(boolCheked);
+    if (boolCheked && typeof cart !== "string"){
       for (let index = 0; index < cart.length; index++) {
         const element = cart[index];
         if(element.AddExtra === 0){
@@ -98,35 +80,38 @@ export default function preCheckout() {
             ToInvoice: element.ToInvoice
           };
           dispatch(updateCart(bodyUpd));      
-          dispatch(fetchCart(user.CustomerID)); 
+          dispatch(fetchCart()); 
         }
 
       }
     }
     else{
-      for (let index = 0; index < cart.length; index++) {
-        const element = cart[index];
-        if (element.AddExtra != 0) {
-
-          let porcientoTotal = 110;
-          let quanti = element.Quantity;
-
-          porcientoTotal = porcientoTotal / 110;
-          quanti = quanti / 110;
-          porcientoTotal = porcientoTotal * 100;
-          quanti = quanti * 100;
-          console.log(quanti);
-          const bodyUpd: bodyCartUpdate = {
-            Quantity: quanti,
-            idCartEntry: element.idCartEntry,
-            customerID: element.CustomerID,
-            AddExtra: 0,
-            ToInvoice: element.ToInvoice
-          };
-          dispatch(updateCart(bodyUpd));     
-          dispatch(fetchCart(user.CustomerID)); 
+      if(typeof cart !== "string"){
+        for(let index = 0; index < cart.length; index++) {
+          const element = cart[index];
+          if (element.AddExtra != 0 ) {
+  
+            let porcientoTotal = 110;
+            let quanti = element.Quantity;
+  
+            porcientoTotal = porcientoTotal / 110;
+            quanti = quanti / 110;
+            porcientoTotal = porcientoTotal * 100;
+            quanti = quanti * 100;
+            console.log(quanti);
+            const bodyUpd: bodyCartUpdate = {
+              Quantity: quanti,
+              idCartEntry: element.idCartEntry,
+              customerID: element.CustomerID,
+              AddExtra: 0,
+              ToInvoice: element.ToInvoice
+            };
+            dispatch(updateCart(bodyUpd));     
+            dispatch(fetchCart()); 
+          }
         }
       }
+
     }
   };
 
@@ -145,14 +130,14 @@ export default function preCheckout() {
             name="projects"
             onChange={handleProjectChange}>
             {
-              customerProjects && customerProjects?.map((x, y) =>
-                <option key={y} value={x.idProjects}>{x.ProjectName}</option>)
+              typeof customerProjects !== "string" && customerProjects?.map((x, y) =>
+                <option key={y}>{x.ProjectName}</option>)
             }
 
           </Select>
         </HStack>
       </Box>
-      <PreCheckoutCart />
+      <PreCheckoutCart smallerThan740={smallerThan740} />
       <Box
         w={"50%"}
         h={"15%"}

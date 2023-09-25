@@ -36,17 +36,30 @@ export interface SignIn {
 
 export interface LoginState {
   user: User;
+  token: string
 }
 
 export enum LoginActionsType {
   POST_SIGNIN = "POST_SIGNIN",
+  POST_SIGNUP = "POST_SIGNUP",
   GET_USER_INFO = "GET_USER_INFO",
   UPDATE_USER = "UPDATE_USER",
+  LOGIN_REQUEST = "LOGIN_REQUEST",
+  LOGIN_FAILURE = "LOGIN_FAILURE",
 }
-
+export interface LoginRequestActions {
+  type: LoginActionsType.LOGIN_REQUEST;
+}
+export interface LoginFailureActions {
+  type: LoginActionsType.LOGIN_FAILURE;
+}
 export interface PostSigninActions {
   type: LoginActionsType.POST_SIGNIN;
-  payload: SignIn;
+  payload: string;
+}
+export interface PostSignUpActions {
+  type: LoginActionsType.POST_SIGNUP;
+  payload: string;
 }
 
 export interface GetUserInfoActions {
@@ -62,4 +75,7 @@ export interface UpdateUserInfoActions {
 export type LoginAction =
   | PostSigninActions
   | GetUserInfoActions
-  | UpdateUserInfoActions;
+  | UpdateUserInfoActions
+  | LoginRequestActions
+  | LoginFailureActions
+  | PostSignUpActions;

@@ -17,9 +17,11 @@ export default function ProductsProjectContainer() {
           {
             project_favorites.length !== 0 && (
               typeof project_favorites !== "string" ? (
-                project_favorites.map(prod => {
+                project_favorites.map((prod, i) => {
                   return(
-                    <ProductCard product={prod}/>
+                    <Box key={i}>
+                      <ProductCard product={prod}/>
+                    </Box>
                   );
                 })):(
                 <Text>{project_favorites}</Text>

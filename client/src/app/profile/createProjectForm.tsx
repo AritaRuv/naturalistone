@@ -134,14 +134,6 @@ export default function CreateProjectForm({
             <FormLabel fontSize={"0.8rem"} fontWeight={"normal"}>
               STATE
             </FormLabel>
-            {/* <AutocompleteState 
-              formData={formData}
-              setFormData={setFormData}
-              errors={errors}
-              validate={validateCompletedInputsProject}
-              setErrors={setErrors}
-              name={'Shipping_State'}
-            /> */}
             <Input
               mb={"0.5vh"}
               variant="unstyled"

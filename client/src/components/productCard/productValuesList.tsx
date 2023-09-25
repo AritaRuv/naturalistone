@@ -7,37 +7,21 @@ import {
   Text,
   Button,
 } from "@chakra-ui/react";
-import { useState, useContext, useEffect } from "react";
+import { useContext, useState } from "react";
 import { useAppDispatch, useAppSelector } from "@/store/hooks";
-import { postCart } from "@/store/cart/actionsCart";
-import { Product, ProductState } from "@/store/products/typesProducts";
+import { fetchCart, postCart } from "@/store/cart/actionsCart";
+import { ProductState } from "@/store/products/typesProducts";
 import { LoginState } from "@/store/login/typeLogin";
-import CartButton from "../navBar/cartButton";
+import { ProductListProps } from "@/interfaces/product";
 import { AppContext } from "@/app/appContext";
-import { IProductCart } from "../../utils/types";
-import axios from "axios";
-
-interface ProductListProps {
-  data: {
-    [key: string]: {
-      size: string[];
-      thickness: string[];
-      finish: string[];
-      prodNameID: number;
-    };
-  };
-  ProdNameID: number;
-  product?: Product;
-}
 
 const ProductList: React.FC<ProductListProps> = ({
   data,
-  ProdNameID,
-  product,
+  ProdNameID
 }) => {
+  
   const dispatch = useAppDispatch();
   const { size, thickness, finish } = data[ProdNameID];
-
   const [selectedSize, setSelectedSize] = useState<string>("");
   const [selectedThickness, setSelectedThickness] = useState<string>("");
   const [selectedFinish, setSelectedFinish] = useState<string>("");
@@ -45,7 +29,6 @@ const ProductList: React.FC<ProductListProps> = ({
   const [thicknesses, setThicknesses] = useState<string[]>([]);
   const [finishes, setFinishes] = useState<string[]>([]);
   const [cantFiltros, setCantFiltros] = useState<number>(0);
-  const [isCartModalOpen, setIsCartModalOpen] = useState(false);
   const appContext = useContext(AppContext);
 
   const { raw_products } = useAppSelector(
@@ -93,7 +76,6 @@ const ProductList: React.FC<ProductListProps> = ({
           (prod) => prod.Thickness === selectedThickness
         );
       }
-
       //recorro los  productos filtrados y si los sizes no son null
       // los agrego a la coleccion de sizes disponibles(sizesMatches)
       //terminado el recorrido los seteo en el estado setSizes
@@ -184,47 +166,19 @@ const ProductList: React.FC<ProductListProps> = ({
   };
 
   const handleAddToCart = async () => {
-    if (appContext && appContext.userLog) {
-      const bodyCust = {
-        size: selectedSize,
-        thickness: selectedThickness,
-        finish: selectedFinish,
-        ProdNameID: ProdNameID,
-        customerID: user?.CustomerID,
-      };
-      dispatch(postCart(bodyCust));
-    } else {
-      const productInProducts =
-        raw_products.length > 0 &&
-        raw_products.find((product) => {
-          return (
-            product.ProdNameID === ProdNameID &&
-            product.Size === selectedSize &&
-            product.Thickness === selectedThickness &&
-            product.Finish === selectedFinish
-          );
-        });
-      const productInCart = raw_products.length ? productInProducts : product;
-      const productNotLogin = {
-        ...productInCart,
-        CustomerID: 0,
-        idCartEntry: 0,
-        Quantity: 1,
-      };
-      const arrayProducts: any = window && JSON.parse(
-        localStorage.getItem("cartProducts") || "[]"
-      );
-      const newArray: any = [...arrayProducts];
-      newArray.push(productNotLogin);
-      arrayProducts.push(productNotLogin);
-      localStorage.setItem("cartProducts", JSON.stringify(arrayProducts));
-    }
+    const bodyCust = {
+      size: selectedSize,
+      thickness: selectedThickness,
+      finish: selectedFinish,
+      ProdNameID: ProdNameID,
+      customerID: user?.CustomerID,
+    };
+    await dispatch(postCart(bodyCust, raw_products));
+    await dispatch(fetchCart());
     setSelectedSize("");
     setSelectedThickness("");
     setSelectedFinish("");
-    setTimeout(() => {
-      setIsCartModalOpen(true);
-    }, 1000);
+    if(appContext) appContext.setIsCartModalOpen(true);
   };
 
   return (
@@ -343,12 +297,6 @@ const ProductList: React.FC<ProductListProps> = ({
       >
         ADD TO CART
       </Button>
-      <CartButton
-        icon={false}
-        isCartModalOpen={isCartModalOpen}
-        setIsCartModalOpen={setIsCartModalOpen}
-        sample={false}
-      />
     </>
   );
 };

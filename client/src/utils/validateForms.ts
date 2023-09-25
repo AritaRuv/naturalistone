@@ -1,21 +1,8 @@
 /* eslint-disable no-useless-escape */
-import { EmailNaturali, ErrorsProject } from "./types";
-import { useEffect } from "react";
+import { EmailNaturali, ErrorsProject } from "../interfaces/other";
+import { FormErrorsLogin, FormErrors } from "@/interfaces/login";
 
-export interface FormErrors {
-  fullName?: string;
-  email?: string;
-  password?: string;
-  confirmPassword?: string;
-  phone?: string;
-  zipCode?: string;
-  billingZipCode?: string;
-}
 
-export interface FormErrorsLogin {
-  email?: string;
-  password?: string;
-}
 
 export const validateCompletedInputs = (formData) => {
   const errors: FormErrors = {};

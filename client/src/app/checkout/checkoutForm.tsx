@@ -1,6 +1,10 @@
 "use client";
 import { Box, Button, HStack, Heading, SimpleGrid, Step, StepDescription, StepIcon, StepIndicator, StepNumber, StepSeparator, StepStatus, StepTitle, Stepper, Text, VStack, useMediaQuery, useSteps } from "@chakra-ui/react";
 import React, { useState, useEffect } from "react";
+import { validateCompletedInputsCheckout} from "@/utils/validateForms";
+import { ShippingAddresForm } from "./ShippingAddresForm";
+import { ShippingMethodForm } from "./ShippingMethodForm";
+import { CheckoutFormData } from "../../interfaces/other";
 import { createCheckout } from "@/api/apiCheckout";
 import {  useAppSelector } from "@/store/hooks";
 import { LoginState } from "@/store/login/typeLogin";

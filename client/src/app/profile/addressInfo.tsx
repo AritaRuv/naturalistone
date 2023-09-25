@@ -1,7 +1,9 @@
 "use client";
 import { Box, useMediaQuery, Text, InputGroup, Input } from "@chakra-ui/react";
-import { IShowMenu } from "./page";
+import { IShowMenu } from "@/interfaces/profile";
 import { UpdateCustomer } from "./modalUpdateUser";
+import { useAppSelector } from "@/store/hooks";
+import { AddressState } from "@/store/address/addressTypes";
 
 const AddressInfo: React.FC<IShowMenu> = ({
   user,
@@ -10,7 +12,10 @@ const AddressInfo: React.FC<IShowMenu> = ({
   setFormData,
 }) => {
   const [isSmallThan1000] = useMediaQuery("(max-width: 1000px)");
-
+  const { address_by_customer } = useAppSelector(
+    (state: { addressReducer: AddressState }) => state.addressReducer
+  );
+  console.log(address_by_customer);
   return (
     <>
       <Box
@@ -67,7 +72,7 @@ const AddressInfo: React.FC<IShowMenu> = ({
                     <Input
                       h={"30px"}
                       w={"14vw"}
-                      minW={'180px'}
+                      minW={"180px"}
                       position={"relative"}
                       id={"billingAddress"}
                       name={"billingAddress"}
@@ -110,7 +115,7 @@ const AddressInfo: React.FC<IShowMenu> = ({
                     <Input
                       h={"30px"}
                       w={"14vw"}
-                      minW={'180px'}
+                      minW={"180px"}
                       position={"relative"}
                       id={"billingUnitNumber"}
                       name={"billingUnitNumber"}
@@ -161,7 +166,7 @@ const AddressInfo: React.FC<IShowMenu> = ({
                     <Input
                       h={"30px"}
                       w={"14vw"}
-                      minW={'180px'}
+                      minW={"180px"}
                       position={"relative"}
                       id={"billingCity"}
                       name={"billingCity"}
@@ -204,7 +209,7 @@ const AddressInfo: React.FC<IShowMenu> = ({
                     <Input
                       h={"30px"}
                       w={"14vw"}
-                      minW={'180px'}
+                      minW={"180px"}
                       position={"relative"}
                       id={"billingZipCode"}
                       name={"billingZipCode"}
@@ -255,7 +260,7 @@ const AddressInfo: React.FC<IShowMenu> = ({
                     <Input
                       h={"30px"}
                       w={"14vw"}
-                      minW={'180px'}
+                      minW={"180px"}
                       position={"relative"}
                       id={"billingState"}
                       name={"billingState"}
@@ -298,7 +303,7 @@ const AddressInfo: React.FC<IShowMenu> = ({
                     <Input
                       h={"30px"}
                       w={"14vw"}
-                      minW={'180px'}
+                      minW={"180px"}
                       position={"relative"}
                       id={"addressObservations"}
                       name={"addressObservations"}
@@ -356,7 +361,7 @@ const AddressInfo: React.FC<IShowMenu> = ({
                   <Input
                     h={"30px"}
                     w={"14vw"}
-                      minW={'180px'}
+                    minW={"180px"}
                     position={"relative"}
                     id={"address"}
                     name={"address"}
@@ -399,7 +404,7 @@ const AddressInfo: React.FC<IShowMenu> = ({
                   <Input
                     h={"30px"}
                     w={"14vw"}
-                      minW={'180px'}
+                    minW={"180px"}
                     position={"relative"}
                     id={"unitNumber"}
                     name={"unitNumber"}
@@ -450,7 +455,7 @@ const AddressInfo: React.FC<IShowMenu> = ({
                   <Input
                     h={"30px"}
                     w={"14vw"}
-                      minW={'180px'}
+                    minW={"180px"}
                     position={"relative"}
                     id={"city"}
                     name={"city"}
@@ -473,7 +478,6 @@ const AddressInfo: React.FC<IShowMenu> = ({
                     id={"city"}
                     name={"city"}
                     value={user?.City}
-                    // handleChange={handleChange}
                     formData={formData}
                     setFormData={setFormData}
                   />
@@ -494,7 +498,7 @@ const AddressInfo: React.FC<IShowMenu> = ({
                   <Input
                     h={"30px"}
                     w={"14vw"}
-                      minW={'180px'}
+                    minW={"180px"}
                     position={"relative"}
                     id={"zipCode"}
                     name={"zipCode"}
@@ -545,7 +549,7 @@ const AddressInfo: React.FC<IShowMenu> = ({
                   <Input
                     h={"30px"}
                     w={"14vw"}
-                      minW={'180px'}
+                    minW={"180px"}
                     position={"relative"}
                     id={"state"}
                     name={"state"}
@@ -588,7 +592,7 @@ const AddressInfo: React.FC<IShowMenu> = ({
                   <Input
                     h={"30px"}
                     w={"14vw"}
-                      minW={'180px'}
+                    minW={"180px"}
                     position={"relative"}
                     id={"addressObservations"}
                     name={"addressObservations"}

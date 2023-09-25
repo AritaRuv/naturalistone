@@ -6,12 +6,11 @@ import FiltersSize from "./filters_size";
 import FiltersType from "./filters_type";
 import FiltersFinish from "./filters_finish";
 import FiltersThickness from "./filters_thickness";
-import { FiltersState } from "./types";
+import { FiltersState } from "../../../interfaces/filtersProducts";
 import { useEffect } from "react";
 import { useAppDispatch } from "@/store/hooks";
 import { fetchDimension } from "@/store/products/actionsProducts";
-import { compareValues } from "@/utils/orderThickness";
-import { sortedFractions } from "@/utils/orderFractionsThickness";
+
 
 const ProductsFilters: React.FC<FiltersState> = ({
   handleCheckboxChange,

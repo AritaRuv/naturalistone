@@ -1,14 +1,13 @@
 import { Box, Text, SimpleGrid, useMediaQuery } from "@chakra-ui/react";
-import { IShowMenu } from "./page";
 import ProjectCard from "./projectCard";
-import { useEffect } from "react";
-import { useAppDispatch, useAppSelector } from "@/store/hooks";
-import { fetchProjectsCustomer } from "@/store/projects/actionsProjects";
+import { useAppSelector } from "@/store/hooks";
 import { ProjectsState } from "@/store/projects/typeProjects";
 import { CreateNewProject } from "./addProjectModal";
 import { LoginState } from "@/store/login/typeLogin";
+import { IShowMenu } from "@/interfaces/profile";
 
 const Projects: React.FC<IShowMenu> = () => {
+
   const customerProjects = useAppSelector(
     (state: { projectsReducer: ProjectsState }) =>
       state.projectsReducer.customerProjects
@@ -20,11 +19,6 @@ const Projects: React.FC<IShowMenu> = () => {
 
   const [isSmallerThan1520] = useMediaQuery("(max-width: 1520px)");
 
-  const dispatch = useAppDispatch();
-
-  useEffect(() => {
-    dispatch(fetchProjectsCustomer(user.CustomerID));
-  }, []);
   const URL = [
     "https://naturalistone-images.s3.amazonaws.com/muestra/henry-co-ko9MNaatfuI-unsplash.jpg",
     "https://naturalistone-images.s3.amazonaws.com/muestra/augustine-wong-Ai1DGl5ED5g-unsplash.jpg",
@@ -58,7 +52,7 @@ const Projects: React.FC<IShowMenu> = () => {
           columns={isSmallerThan1520 ? 1 : 2}
           gap={3}
         >
-          {customerProjects.length &&
+          { typeof customerProjects !== "string" &&
             customerProjects.map((proj, i) => {
               return <ProjectCard project={proj} key={i} id={i} img={URL[i]} />;
             })}

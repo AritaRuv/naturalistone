@@ -1,31 +1,14 @@
 "use client";
-import React, { useState } from "react";
+import React from "react";
 import {
-  Box,
-  Center,
-  IconButton,
-  Text,
-  Button
+  Box
 } from "@chakra-ui/react";
 import Slider from "react-slick";
-import { IoIosArrowDown } from "react-icons/io";
 
 export default function Carousel({items }) {
   // As we have used custom buttons, we need a reference variable to
   // change the state
   const [slider, setSlider] = React.useState<Slider | null>(null);
-  const [isDropdownOpen, setIsDropdownOpen] = useState(false);
-  const [hiddenBox, setHiddenBox] = useState(false);
-
-  const handleMouseEnter = () => {
-    setIsDropdownOpen(true);
-    setHiddenBox(true);
-  };
-
-  const handleMouseLeave = () => {
-    setIsDropdownOpen(false);
-    setHiddenBox(false);
-  };
 
   // Settings for the slider
   const settings = {

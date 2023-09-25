@@ -1,4 +1,3 @@
-/* eslint-disable indent */
 import { SalesActions, SalesActionsType, SalesState } from "./typeSales";
 
 const initialState: SalesState = {
@@ -23,28 +22,28 @@ const salesReducer = (
   action: SalesActions
 ): SalesState => {
   switch (action.type) {
-    case SalesActionsType.GET_SALES_BY_PROJECT:
-      return {
-        ...state,
-        salesProject: action.payload,
-      };
-    case SalesActionsType.GET_SALES_BY_CUSTOMER:
-      return {
-        ...state,
-        salesCustomer: action.payload,
-      };
-    case SalesActionsType.GET_SALES_DETAILS:
-      return {
-        ...state,
-        salesDetail: action.payload,
-      };
-    case SalesActionsType.CLEAN_SALES_DETAILS:
-      return {
-        ...state,
-        salesDetail: action.payload,
-      };
-    default:
-      return state;
+  case SalesActionsType.GET_SALES_BY_PROJECT:
+    return {
+      ...state,
+      salesProject: action.payload,
+    };
+  case SalesActionsType.GET_SALES_BY_CUSTOMER:
+    return {
+      ...state,
+      salesCustomer: action.payload,
+    };
+  case SalesActionsType.GET_SALES_DETAILS:
+    return {
+      ...state,
+      salesDetail: action.payload,
+    };
+  case SalesActionsType.CLEAN_SALES_DETAILS:
+    return {
+      ...state,
+      salesDetail: action.payload,
+    };
+  default:
+    return state;
   }
 };
 

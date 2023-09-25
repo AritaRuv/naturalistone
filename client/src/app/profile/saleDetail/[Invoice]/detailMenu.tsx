@@ -3,6 +3,7 @@ import { Box, Button, VStack, Text } from "@chakra-ui/react";
 import Link from "next/link";
 
 const DetailMenu = ({ params, focus, setFocus }) => {
+  
   const handleClick = (e) => {
     const { name } = e.target;
     setFocus(name);

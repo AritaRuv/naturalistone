@@ -7,7 +7,7 @@ import {
 } from "./typesProducts";
 
 const initialState: ProductState = {
-  products: [],
+  home_products: "",
   products_by_material: [],
   products_filters: [],
   productValues: {},
@@ -38,14 +38,14 @@ const productReducer = (
     return {
       ...state,
       loading: false,
-      products: action.payload,
+      home_products: action.payload,
     };
-  case ProductActionTypes.FETCH_PRODUCTS_SUCCESS:
-    return {
-      ...state,
-      loading: false,
-      products: action.payload,
-    };
+  // case ProductActionTypes.FETCH_PRODUCTS_SUCCESS:
+  //   return {
+  //     ...state,
+  //     loading: false,
+  //     home_products: action.payload,
+  //   };
   case ProductActionTypes.FETCH_PRODUCTS_FILTERS_SUCCESS:
     return {
       ...state,
@@ -121,6 +121,11 @@ const productReducer = (
     return {
       ...state,
       products_filters: [],
+    };
+  case ProductActionTypes.FETCH_ALL_PRODUCTS:
+    return {
+      ...state,
+      raw_products: action.payload,
     };
   default:
     return state;

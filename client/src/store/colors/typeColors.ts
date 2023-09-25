@@ -1,11 +1,7 @@
 // typeDimensions.ts
-export interface Colors {
-  ColorID: number;
-  Color: string;
-}
 
 export interface ColorsState {
-  colors: Colors[];
+  colors: string[];
 }
 
 export enum ColorsActionsType {
@@ -14,7 +10,7 @@ export enum ColorsActionsType {
 
 export interface FetchColorsRequestAction {
   type: ColorsActionsType.FETCH_COLORS;
-  payload: Colors[];
+  payload: string[];
 }
 
 export type ColorsAction = FetchColorsRequestAction;

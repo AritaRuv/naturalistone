@@ -11,18 +11,9 @@ import { useState } from "react";
 import { useAppDispatch, useAppSelector } from "@/store/hooks";
 import { postCart } from "@/store/cart/actionsCart";
 import { LoginState } from "@/store/login/typeLogin";
+import { ProductListProps } from "@/interfaces/product";
 
-interface ProductListProps {
-  data: {
-    [key: string]: {
-      size: string[];
-      thickness: string[];
-      finish: string[];
-      prodNameID: number;
-    };
-  };
-  ProdNameID: number;
-}
+
 
 const SampleProductList: React.FC<ProductListProps> = ({
   data,
@@ -30,7 +21,7 @@ const SampleProductList: React.FC<ProductListProps> = ({
 }) => {
   const dispatch = useAppDispatch();
 
-  const { thickness, finish, prodNameID } = data[ProdNameID];
+  const { thickness, finish } = data[ProdNameID];
 
   const [selectedThickness, setSelectedThickness] = useState<string[]>([]);
   const [selectedFinish, setSelectedFinish] = useState<string[]>([]);
@@ -58,11 +49,8 @@ const SampleProductList: React.FC<ProductListProps> = ({
       ProdNameID: ProdNameID,
       customerID: user?.CustomerID,
     };
-
     dispatch(postCart(bodyCust));
-    //ahoramismo estoy intentando que la logica general funcione. Voy a necesitar agregar logica para controlar los chcekcbox
-    // ya que en este momento admite convinaciones inexistentes. Al clickear 1 checkbox filtra los demas x resultados existentes
-    //o algo por el estilo.
+
   };
 
   return (

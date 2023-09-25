@@ -1,7 +1,7 @@
 "use client";
 
 import { Box, useMediaQuery } from "@chakra-ui/react";
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
 import Logo from "./logo";
 import TextButtonsNavBar from "./textButtonsNavBar";
 import IconButtonsNavBar from "./iconButtonsNavBar";
@@ -9,10 +9,7 @@ import Menu from "./menu";
 import DropDownMenu from "./dropDownMenu";
 import MenuDrawer from "./menuDrawer";
 import CartButton from "./cartButton";
-import { useAppDispatch, useAppSelector } from "@/store/hooks";
-import { userInfo } from "@/store/login/actionsLogin";
-import { LoginState } from "@/store/login/typeLogin";
-import { fetchFavorites } from "@/store/favorites/actionsFavorites";
+
 
 const NavBar: React.FC = () => {
   const [menuVisible, setMenuVisible] = useState(true);
@@ -20,11 +17,6 @@ const NavBar: React.FC = () => {
   const [active, setActive] = useState(false);
   const [smallerThan1200] = useMediaQuery("(max-width: 1200px)");
   const [smallerThan740] = useMediaQuery("(max-width: 740px)");
-  const dispatch = useAppDispatch();
-
-  const { user } = useAppSelector(
-    (state: { loginReducer: LoginState }) => state.loginReducer
-  );
 
   const handleMenu = () => {
     setMenuVisible(!menuVisible);
@@ -44,16 +36,6 @@ const NavBar: React.FC = () => {
   const handleMouseLeave = () => {
     setHover(false);
   };
-
-  useEffect(() => {
-    if (user?.CustomerID === 0) {
-      dispatch(userInfo());
-    }
-  }, []);
-
-  useEffect(() => {
-    dispatch(fetchFavorites(user?.CustomerID));
-  });
 
   return (
     <>

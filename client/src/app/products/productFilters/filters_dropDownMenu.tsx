@@ -1,15 +1,14 @@
-import React from "react";
-import { SimpleGrid, Button, Box, Tooltip, Text,Checkbox, IconButton, useMediaQuery } from "@chakra-ui/react";
+import React, { useEffect } from "react";
+import { SimpleGrid, Box, IconButton, useMediaQuery } from "@chakra-ui/react";
 import "../../../components/navBar/_navBar.css";
 import { IoIosArrowUp } from "react-icons/io";
 import { useAppDispatch, useAppSelector } from "@/store/hooks";
 import { ProductState } from "@/store/products/typesProducts";
-import { useEffect } from 'react';
 import { fetchDimension } from "@/store/products/actionsProducts";
-import { FilterButtonsProps, FiltersState } from "./types";
+import { FilterButtonsProps, FiltersState } from "../../../interfaces/filtersProducts";
 
 
-const FiltersDropDownMenu: React.FC<FiltersState & FilterButtonsProps> = ({handleCheckboxChange, params, showMenu, setShowMenu, filters, setFilters}) => {
+const FiltersDropDownMenu: React.FC<FiltersState & FilterButtonsProps> = ({ params, setShowMenu}) => {
   
   
   const dispatch = useAppDispatch();
@@ -37,7 +36,7 @@ const FiltersDropDownMenu: React.FC<FiltersState & FilterButtonsProps> = ({handl
 
   return (
     <>
-      <Box position={"relative"} zIndex={100} bg={"white"} border={'2px solid red'} h={'200px'} >
+      <Box position={"relative"} zIndex={100} bg={"white"} border={"2px solid red"} h={"200px"} >
         <SimpleGrid w={"100vw"} minH={"15vh"} columns={gridColumns} spacingY={4} p={"2%"} >
           {/* {
           showMenu === 'Material' && (

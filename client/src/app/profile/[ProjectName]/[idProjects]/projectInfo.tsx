@@ -1,118 +1,21 @@
 "use client";
 import { useAppSelector } from "@/store/hooks";
 import { ProjectsState } from "@/store/projects/typeProjects";
-import { Box, Button, Text, VStack, InputGroup, Input } from "@chakra-ui/react";
-import Link from "next/link";
-import { UpdateProject } from "./modalUpdateProject";
-import { DeleteProject } from "./modalDeleteProject";
+import { Box, Text, InputGroup, Input } from "@chakra-ui/react";
 
-const ProjecteInfo = ({ params }) => {
-  const { idProjects } = params;
+const ProjecteInfo = () => {
+
   const { project } = useAppSelector(
     (state: { projectsReducer: ProjectsState }) => state.projectsReducer
   );
 
   const {
-    CustomerID,
     ProjectName,
     Shipping_Address,
     Shipping_City,
     Shipping_State,
     Shipping_ZipCode,
   } = project;
-
-  // return (
-  //   <>
-  //     <Box  w={"70vw"} h={"65vh"} overflow={"auto"} p={"20px"} border={"2px solid red"}>
-  //       <VStack pl={"2vw"} pt={"4vh"} alignItems={"flex-start"} >
-  //         <Box>
-  //           <Text
-  //             //borderLeft={"2px solid black"}
-  //             pl={"1vh"}
-  //             fontSize={"0.9rem"}
-  //             fontWeight={"semibold"}
-  //           >
-  //             PROYECT INFORMATION
-  //           </Text>
-  //         </Box>
-  //         <VStack pl={"1vw"} alignItems={"flex-start"}>
-  //           <Box>
-  //             <Text fontSize={"0.6rem"} fontWeight={"semibold"}>
-  //               COMPANY
-  //             </Text>
-  //             <Text fontSize={"0.9rem"} fontWeight={"thin"}>
-  //               NOMBRE DE LA COMPANY
-  //             </Text>
-  //           </Box>
-  //           <Box>
-  //             <Text fontSize={"0.6rem"} fontWeight={"semibold"}>
-  //               EMAIL
-  //             </Text>
-  //             <Text fontSize={"0.9rem"} fontWeight={"thin"}>
-  //               COMPANYEMAIL@HOT.COM
-  //             </Text>
-  //           </Box>
-  //           <Box>
-  //             <Text fontSize={"0.6rem"} fontWeight={"semibold"}>
-  //               PHONE
-  //             </Text>
-  //             <Text fontSize={"0.9rem"} fontWeight={"thin"}>
-  //               123 2344 5443
-  //             </Text>
-  //           </Box>
-  //         </VStack>
-  //       </VStack>
-  //       <VStack pl={"2vw"} pt={"2vh"} alignItems={"flex-start"}>
-  //         <Box>
-  //           <Text
-  //             borderLeft={"2px solid black"}
-  //             pl={"1vh"}
-  //             fontSize={"0.9rem"}
-  //             fontWeight={"semibold"}
-  //           >
-  //             SHIPPING ADDRESS
-  //           </Text>
-  //         </Box>
-  //         <VStack pl={"1vw"} alignItems={"flex-start"}>
-  //           <Box>
-  //             <Text fontSize={"0.6rem"} fontWeight={"semibold"}>
-  //               ADDRESS
-  //             </Text>
-  //             <Text fontSize={"0.9rem"} fontWeight={"thin"}>
-  //               {Shipping_Address ? Shipping_Address.toUpperCase() : "-"}
-  //             </Text>
-  //           </Box>
-  //           <Box>
-  //             <Text fontSize={"0.6rem"} fontWeight={"semibold"}>
-  //               CITY
-  //             </Text>
-  //             <Text fontSize={"0.9rem"} fontWeight={"thin"}>
-  //               {Shipping_City ? Shipping_City.toUpperCase() : "-"}
-  //             </Text>
-  //           </Box>
-  //           <Box>
-  //             <Text fontSize={"0.6rem"} fontWeight={"semibold"}>
-  //               ZIP CODE
-  //             </Text>
-  //             <Text fontSize={"0.9rem"} fontWeight={"thin"}>
-  //               {Shipping_ZipCode ? Shipping_ZipCode.toUpperCase() : "-"}
-  //             </Text>
-  //           </Box>
-  //           <Box>
-  //             <Text fontSize={"0.6rem"} fontWeight={"semibold"}>
-  //               STATE
-  //             </Text>
-  //             <Text fontSize={"0.9rem"} fontWeight={"thin"}>
-  //               {Shipping_State ? Shipping_State.toUpperCase() : "-"}
-  //             </Text>
-  //           </Box>
-  //         </VStack>
-  //         <UpdateProject idProjects={idProjects} project={project} />
-  //         <DeleteProject idProjects={idProjects} project={project} />
-  //       </VStack>
-  //     </Box>
-  //   </>
-  // );
 
   return (
     <>

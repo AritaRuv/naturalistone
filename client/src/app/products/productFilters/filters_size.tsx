@@ -1,6 +1,6 @@
 "use client";
 import { Checkbox, Box, Text, Tooltip } from "@chakra-ui/react";
-import { UniqueFilter } from "./types";
+import { UniqueFilter } from "../../../interfaces/filtersProducts";
 import { useState } from "react";
 import LoadMoreButton from "./loadMoreButton";
 

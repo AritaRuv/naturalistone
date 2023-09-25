@@ -6,7 +6,6 @@ export interface FilterButtonsProps {
   filters: Filters;
 }
 
-// En el archivo types.ts o donde tengas definidos los tipos
 export interface Filters {
   material: string;
   type: string[];

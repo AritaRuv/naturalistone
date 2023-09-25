@@ -22,7 +22,7 @@ export function salesByProject(idProject: number) {
   };
 }
 
-export function salesByCustomer(idCustomer: number) {
+export function fetchSalesByCustomer(idCustomer: number) {
   return async function (dispatch: Dispatch<SalesActions>) {
     try {
       const data = await getSalesByCustomer(idCustomer);

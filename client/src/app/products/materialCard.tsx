@@ -13,7 +13,12 @@ export default function MaterialCard({ material }) {
     <>
       <Link href={`/products/${material}`}>
         <Center w={"350px"} h={"350px"} position={"relative"} overflow={"hidden"}>
-          <NextImage objectFit="cover" fill src={material === "all" ? URLAll : URL} alt="img" />
+          <NextImage 
+            style={{objectFit:"cover"}}
+            sizes="(max-width: 350px)" 
+            fill 
+            src={material === "all" ? URLAll : URL} 
+            alt="img" />
           <Box
             position="absolute"
             top={0}

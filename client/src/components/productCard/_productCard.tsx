@@ -4,8 +4,7 @@ import {
   IconButton,
   Button,
   Text,
-  Center,
-  useOutsideClick,
+  Center
 } from "@chakra-ui/react";
 import NextImage from "next/image";
 import { useState } from "react";
@@ -94,18 +93,28 @@ const ProductCard: React.FC<{
       <Box
         w={"260px"}
         h={"370px"}
-        position={"relative"}
+        position={"relative"} 
         overflow={"hidden"}
         onMouseEnter={handleMouseEnter}
         onMouseLeave={handleMouseLeave}
-        //ref={ref}
-      >
+      > 
         <Link
           href={`/products/${Material}/${Naturali_ProdName}/${ProdNameID}`}
           onClick={handleClickCard}
         >
-          <NextImage objectFit="cover" fill src={URL} alt="img" />
+          <Box 
+            position={"relative"}
+            w={"260px"}
+            h={"370px"}>
+            <NextImage 
+              style={{objectFit:"cover"}}
+              sizes="(max-width: 260px)" 
+              fill 
+              src={URL} 
+              alt="img" />
+          </Box>
         </Link>
+        
         <MenuFavoriteProductCard
           ProdNameID={ProdNameID}
           favorites={favorites}

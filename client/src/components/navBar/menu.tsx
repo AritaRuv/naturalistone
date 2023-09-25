@@ -1,9 +1,6 @@
 "use client";
 import { Box, Button } from "@chakra-ui/react";
-
-  interface MenuProps {
-    handleMenu: () => void;
-  }
+import { MenuProps } from "@/interfaces/navbar";
 
 const Menu: React.FC<MenuProps> = ({handleMenu}) => {
     

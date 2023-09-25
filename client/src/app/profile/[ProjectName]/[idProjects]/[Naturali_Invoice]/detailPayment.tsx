@@ -1,5 +1,5 @@
 "use client";
-import { Payments } from "@/utils/types";
+import { Payments } from "@/interfaces/other";
 import {
   Box,
   Center,

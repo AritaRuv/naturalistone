@@ -10,13 +10,13 @@ export interface ProductCart {
   Finish: string;
   Naturali_ProdName: string;
   Material: string;
-    ToInvoice: number;
-    AddExtra: number;
+  ToInvoice: number;
+  AddExtra: number;
   ProdID?: number;
 }
 
 export interface CartState {
-  cart: ProductCart[];
+  cart: ProductCart[] | string;
   loading: boolean;
   error: string | null;
 }
@@ -46,7 +46,6 @@ export interface FetchCartFailureAction {
 
 export interface PostCartProductsAction {
   type: CartActionTypes.POST_CART_PRODUCTS;
-  payload: ProductCart[];
 }
 
 export interface UpdateCartProductsAction {

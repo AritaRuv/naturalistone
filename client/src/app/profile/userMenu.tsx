@@ -1,9 +1,9 @@
 "use client";
 import { Box } from "@chakra-ui/react";
 import UserButtonsContainer from "./userButtonsContainer";
-import { IShowMenu } from "./page";
+import { IShowMenu } from "@/interfaces/profile";
 
-const UserMenu: React.FC<IShowMenu> = ({ isSmallThan750, user }) => {
+const UserMenu: React.FC<IShowMenu> = ({ isSmallThan750 }) => {
   return (
     <>
       <Box

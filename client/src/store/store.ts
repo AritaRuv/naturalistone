@@ -6,6 +6,8 @@ import projectsReducer from "./projects/projectsReducer";
 import loginReducer from "./login/loginReducer";
 import salesReducer from "./sales/salesReducer";
 import favoritesReducer from "./favorites/reducerFavorites";
+import addressReducer from "./address/addressReducer";
+
 
 const rootReducer = combineReducers({
   productReducer,
@@ -14,7 +16,8 @@ const rootReducer = combineReducers({
   projectsReducer,
   loginReducer,
   salesReducer,
-  favoritesReducer
+  favoritesReducer,
+  addressReducer
 });
 
 export const store = configureStore({

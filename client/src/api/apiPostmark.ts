@@ -1,4 +1,4 @@
-import { EmailNaturali } from "@/utils/types";
+import { EmailNaturali } from "@/interfaces/other";
 import axios from "axios";
 
 export async function PostEmailToNaturali(body: EmailNaturali) {

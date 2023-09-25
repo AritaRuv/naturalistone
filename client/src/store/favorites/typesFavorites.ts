@@ -2,7 +2,7 @@ import { Product } from "../products/typesProducts";
 
 // types.ts
 export interface FavoritesState {
-    favorites: Product[];
+    favorites: Product[] | "" ;
     project_favorites: Product[];
     loading: boolean;
     error: string | null;

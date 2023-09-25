@@ -12,7 +12,7 @@ const cartRouter: Router = Router();
 cartRouter.post("/", newCartEntry);
 cartRouter.patch("/", updateCartProducts);
 cartRouter.get("/productlocal", productCartLocal);
-cartRouter.get("/:id", getCartProducts);
+cartRouter.get("/", getCartProducts);
 cartRouter.delete("/:idCartEntry", deleteCartProducts);
 
 export default cartRouter;

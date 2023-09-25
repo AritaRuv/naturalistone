@@ -11,7 +11,6 @@ import {
   useToast,
 } from "@chakra-ui/react";
 import { useState } from "react";
-import { validateCompletedInputsProject } from "../assets/validateForm";
 import CreateProjectForm from "./createProjectForm";
 import { postCustomerProject } from "@/store/projects/actionsProjects";
 import { useAppDispatch } from "@/store/hooks";
@@ -20,21 +19,11 @@ import {
   postFavoritesProductInProject,
 } from "@/store/favorites/actionsFavorites";
 import { validateCompletedEditInputsProject } from "@/utils/validateForms";
-import { ErrorsProject } from "@/utils/types";
+import { ErrorsProject } from "@/interfaces/other";
+import { PropsNewProject } from "@/interfaces/projects";
 
-export interface ProductProject {
-  postProductProject: boolean;
-  idProjects: number;
-  ProjectName: string;
-}
 
-export interface Props {
-  CustomerID: number;
-  postProductProject?: boolean;
-  ProdNameID?: number;
-}
-
-export const CreateNewProject: React.FC<Props> = ({
+export const CreateNewProject: React.FC<PropsNewProject> = ({
   CustomerID,
   postProductProject,
   ProdNameID,
@@ -65,7 +54,7 @@ export const CreateNewProject: React.FC<Props> = ({
       return;
     } else {
       const response = await dispatch(
-        postCustomerProject(CustomerID, formData)
+        postCustomerProject(formData)
       );
       if (!response.success) {
         if (!toast.isActive("toastCreateProject")) {
@@ -104,41 +93,42 @@ export const CreateNewProject: React.FC<Props> = ({
       setErrors(newErrors);
       return;
     } else {
+      console.log({formData});
       const newProject = await dispatch(
-        postCustomerProject(CustomerID, formData)
+        postCustomerProject(formData)
       );
       if (ProdNameID !== undefined) {
-        const response = await dispatch(
+        await dispatch(
           postFavoritesProductInProject(newProject?.data?.insertId, ProdNameID)
         );
-        if (!newProject.success) {
-          if (!toast.isActive("toastCreateProject")) {
-            return toast({
-              id: "toastCreateProject",
-              title: "Error",
-              description: "Error in create project",
-              status: "error",
-              duration: 5000,
-              isClosable: true,
-            });
-          }
-        } else {
-          if (!toast.isActive("toastCreateProject")) {
-            toast({
-              id: "toastCreateProject",
-              title: "Success",
-              description: "Project create successfully",
-              status: "success",
-              duration: 5000,
-              isClosable: true,
-            });
-          }
-          setErrors({});
-          handleClose();
-        }
+        // if (!newProject.success) {
+        //   if (!toast.isActive("toastCreateProject")) {
+        //     return toast({
+        //       id: "toastCreateProject",
+        //       title: "Error",
+        //       description: "Error in create project",
+        //       status: "error",
+        //       duration: 5000,
+        //       isClosable: true,
+        //     });
+        //   }
+        // } else {
+        //   if (!toast.isActive("toastCreateProject")) {
+        //     toast({
+        //       id: "toastCreateProject",
+        //       title: "Success",
+        //       description: "Project create successfully",
+        //       status: "success",
+        //       duration: 5000,
+        //       isClosable: true,
+        //     });
+        //   }
+        //   setErrors({});
+        //   handleClose();
+        // }
       }
     }
-    dispatch(fetchFavorites(CustomerID));
+    dispatch(fetchFavorites());
   };
 
   const handleClose = () => {

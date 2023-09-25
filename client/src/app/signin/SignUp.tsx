@@ -19,13 +19,16 @@ import {
   PiEyeSlashThin,
   PiEyeThin,
 } from "react-icons/pi";
-import { Props } from "./Login";
-import { FormErrors, validateCompletedInputs } from "@/utils/validateForms";
+import { PropsLogIn } from "@/interfaces/login";
+import { validateCompletedInputs } from "@/utils/validateForms";
+import { FormErrors } from "@/interfaces/login";
 import { SignUp } from "@/store/login/typeLogin";
-import { postSignUp } from "@/api/apiLogin";
 import { useRouter } from "next/navigation";
+import { useAppDispatch } from "@/store/hooks";
+import { postSignUpAction } from "@/store/login/actionsLogin";
+import { getToken } from "@/utils/getCookiesToken";
 
-const SignUp: React.FC<Props> = ({ setActiveLogin, smallerThan600, smallerThan1200 }) => {
+const SignUp: React.FC<PropsLogIn> = ({ setActiveLogin, smallerThan600 }) => {
   const [formData, setFormData] = useState<SignUp>({
     fullName: "",
     email: "",
@@ -39,8 +42,9 @@ const SignUp: React.FC<Props> = ({ setActiveLogin, smallerThan600, smallerThan12
   const [showErrors, setShowErrors] = useState(false);
   const [isToastShowing, setIsToastShowing] = useState(false);
   const router = useRouter();
+  const dispatch = useAppDispatch();
 
-  const handleChange = (event: any) => {
+  const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     setErrors({});
     setFormData({
       ...formData,
@@ -84,8 +88,9 @@ const SignUp: React.FC<Props> = ({ setActiveLogin, smallerThan600, smallerThan12
       }
       return;
     }
-    const response = await postSignUp(formData);
-    if (response.success === false) {
+    await dispatch(postSignUpAction(formData));
+    const token = getToken();
+    if (token === undefined) {
       if (!toast.isActive("signup")) {
         setIsToastShowing(true);
         return toast({
@@ -100,7 +105,7 @@ const SignUp: React.FC<Props> = ({ setActiveLogin, smallerThan600, smallerThan12
         });
       }
     }
-    if (response.success === true) {
+    if (token && token.length !== 0) {
       if (!toast.isActive("signup")) {
         setIsToastShowing(true);
         toast({

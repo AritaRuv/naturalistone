@@ -1,13 +1,10 @@
 "use client";
+import { TextButtonsNavBarProps } from "@/interfaces/navbar";
 import { Box, Button } from "@chakra-ui/react";
 import Link from "next/link";
 
-  interface TextButtonsNavBarProps {
-    menuVisible: boolean;
-  }
-      
-const TextButtonsNavBar: React.FC<TextButtonsNavBarProps> = ({menuVisible}) => {
 
+const TextButtonsNavBar: React.FC<TextButtonsNavBarProps> = ({menuVisible}) => {
 
   return(
     <Box

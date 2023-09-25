@@ -1,11 +1,9 @@
-/* eslint-disable indent */
-import { useEffect } from "react";
+
 import {
   useDisclosure,
   Modal,
   ModalOverlay,
   ModalContent,
-  ModalHeader,
   ModalCloseButton,
   ModalBody,
   ModalFooter,
@@ -127,7 +125,6 @@ export function DeleteProject({ idProjects, project }) {
               fontWeight={"normal"}
               border={"none"}
               type="submit"
-              // bg={"yellow"}
               backgroundColor={"transparent"}
               _hover={{
                 backgroundColor: "transparent",

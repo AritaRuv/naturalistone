@@ -1,14 +1,8 @@
 import React from "react";
 import { Box, Icon, Text } from "@chakra-ui/react";
 import "../assets/styleSheet.css";
-import { IconType } from "react-icons";
+import { SocialMediaButtonsType } from "@/interfaces/contact";
 
-export interface SocialMediaButtonsType {
-  name: string;
-  icon: IconType;
-  content: string;
-  id: number;
-}
 
 export const SocialMediaButtons: React.FC<SocialMediaButtonsType> = ({ name, icon, content, id }) => (
   <Box h="22vh" key={id} display="flex" flexDir="column" alignItems="center" w="15vw" position="relative">

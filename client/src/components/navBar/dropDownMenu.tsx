@@ -1,11 +1,7 @@
 "use client";
 import { Box, Button, Flex } from "@chakra-ui/react";
 import Link from "next/link";
-
-  interface DropDownMenuProps {
-    handleHome: () => void;
-    active: boolean;
-  }
+import { DropDownMenuProps } from "@/interfaces/navbar";
 
 const DropDownMenu: React.FC<DropDownMenuProps> = ({handleHome, active}) => {
     
