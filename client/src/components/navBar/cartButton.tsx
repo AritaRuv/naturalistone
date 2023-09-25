@@ -1,5 +1,5 @@
 "use client";
-import React, { useEffect, useRef, useContext } from "react";
+import React, { useEffect, useRef, useContext, useState } from "react";
 import {
   Box,
   IconButton,
@@ -16,19 +16,20 @@ import {
   Button,
 } from "@chakra-ui/react";
 import { PiShoppingCartThin } from "react-icons/pi";
-import { useAppSelector } from "@/store/hooks";
+import { useAppDispatch, useAppSelector } from "@/store/hooks";
 import { CartState } from "@/store/cart/typesCart";
 import ProductCardCart from "./cartProducts";
 import "./_navBar.css";
 import Link from "next/link";
 import { CartButtonProps } from "@/interfaces/cart";
 import { AppContext } from "@/app/appContext";
+import { fetchCart } from "@/store/cart/actionsCart";
 
 
 const CartButton: React.FC<CartButtonProps> = ({
   sample,
 }) => {
-
+  const dispatch = useAppDispatch();
   const { isOpen, onOpen, onClose } = useDisclosure();
   const [ subTotal, setSubTotal ] = useState(0);
 
@@ -42,17 +43,15 @@ const CartButton: React.FC<CartButtonProps> = ({
   const setModalOpen = appContext?.setIsCartModalOpen;
 
   useEffect(() => {
-    if(cart.length === 0){
-      dispatch(fetchCart());}
-    const subT = cart.reduce((total, item) => {
+    const subT = typeof cart !== "string" ? cart.reduce((total, item) => {
       return total + (item.SalePrice * item.Quantity);
-    }, 0);
+    }, 0) : 0;
     setSubTotal(subT);
   }
   , [cart]);
 
   useEffect(() => {
-    if (isCartModalOpen) {
+    if (modalOpen) {
       onOpen();
     }
     if (!isOpen) {

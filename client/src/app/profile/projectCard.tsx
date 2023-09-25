@@ -15,7 +15,7 @@ const ProjectCard = ({project, id, img}) => {
         h={"360px"} 
         position={"relative"} 
         overflow={"hidden"}>
-        <NextImage objectFit="cover" fill src={img} alt="img" />
+        <NextImage style={{objectFit:"cover"}} sizes="(max-width: 540px)" fill src={img} alt="img" />
         <Box
           position="absolute"
           top={0}

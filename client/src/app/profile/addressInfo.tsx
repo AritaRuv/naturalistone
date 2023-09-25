@@ -2,6 +2,8 @@
 import { Box, useMediaQuery, Text, InputGroup, Input } from "@chakra-ui/react";
 import { IShowMenu } from "@/interfaces/profile";
 import { UpdateCustomer } from "./modalUpdateUser";
+import { useAppSelector } from "@/store/hooks";
+import { AddressState } from "@/store/address/addressTypes";
 
 const AddressInfo: React.FC<IShowMenu> = ({
   user,
@@ -10,7 +12,10 @@ const AddressInfo: React.FC<IShowMenu> = ({
   setFormData,
 }) => {
   const [isSmallThan1000] = useMediaQuery("(max-width: 1000px)");
-
+  const { address_by_customer } = useAppSelector(
+    (state: { addressReducer: AddressState }) => state.addressReducer
+  );
+  console.log(address_by_customer);
   return (
     <>
       <Box

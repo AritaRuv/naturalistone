@@ -93,25 +93,28 @@ const ProductCard: React.FC<{
       <Box
         w={"260px"}
         h={"370px"}
-        position={"relative"}
+        position={"relative"} 
         overflow={"hidden"}
         onMouseEnter={handleMouseEnter}
         onMouseLeave={handleMouseLeave}
-        //ref={ref}
       > 
-        <Box >
-          <Link
-            href={`/products/${Material}/${Naturali_ProdName}/${ProdNameID}`}
-            onClick={handleClickCard}
-          >
+        <Link
+          href={`/products/${Material}/${Naturali_ProdName}/${ProdNameID}`}
+          onClick={handleClickCard}
+        >
+          <Box 
+            position={"relative"}
+            w={"260px"}
+            h={"370px"}>
             <NextImage 
               style={{objectFit:"cover"}}
               sizes="(max-width: 260px)" 
               fill 
               src={URL} 
               alt="img" />
-          </Link>
-        </Box>
+          </Box>
+        </Link>
+        
         <MenuFavoriteProductCard
           ProdNameID={ProdNameID}
           favorites={favorites}

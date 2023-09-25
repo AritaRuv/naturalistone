@@ -12,7 +12,7 @@ import {
 } from "@chakra-ui/react";
 import NextImage from "next/image";
 import "../../app/assets/styleSheet.css";
-import { CartState, ProductCart } from "@/store/cart/typesCart";
+import { ProductCart } from "@/store/cart/typesCart";
 import { deleteCart, updateCart } from "@/store/cart/actionsCart";
 import { useAppDispatch, useAppSelector } from "@/store/hooks";
 import { LoginState } from "@/store/login/typeLogin";
@@ -58,9 +58,9 @@ const ProductCardCart: React.FC<{ product: ProductCart, preCheckout: any }> = ({
       setQuantity(newQuantity);
       updateCartQuantityExtraInvoice(newQuantity, addExtra,toInvoice);
       setTotalPrice((newQuantity * SalePrice).toFixed(2));
-
     }
   };
+
   const newQuantity = quantity + 1;
   const increaseQuantity = () => {
     setQuantity(newQuantity);
@@ -78,8 +78,7 @@ const ProductCardCart: React.FC<{ product: ProductCart, preCheckout: any }> = ({
     dispatch(updateCart(bodyUpd));
   };
   const handleAddExtraChange = (event) => 
-  {
-    
+  { 
     const boolCheked =  event.target.checked;
     if (boolCheked){
 
@@ -123,13 +122,11 @@ const ProductCardCart: React.FC<{ product: ProductCart, preCheckout: any }> = ({
 
     updateCartQuantityExtraInvoice(newQuantity, addExtra, toInvoice);
   };
-
   const handleQuantityBlur = () => {
     //updateCartQuantity(quantity, addExtra, toInvoice);
   };
-
   const handleDelete = () => {
-    dispatch(deleteCart(idCartEntry, user?.CustomerID));
+    dispatch(deleteCart(idCartEntry));
   };
 
 
@@ -148,36 +145,21 @@ const ProductCardCart: React.FC<{ product: ProductCart, preCheckout: any }> = ({
           {
             isExtraSmallScreen ? (
               <Box h={"110px"} w={"120px"} position={"relative"} overflow={"hidden"}>
-                <NextImage objectFit="cover" fill src={URL} alt="img" />
+                <NextImage style={{objectFit:"cover"}} fill src={URL} alt="img" sizes="(max-width: 120px)"  />
               </Box>
             ) : (
               <Box position="relative" display={"flex"} alignContent={"center"}>
-                {/* <IconButton
-                position="absolute"
-                aria-label="Delete X"
-                top="0px"
-                left="0px"
-                size={"lg"}
-                transform="translate(-50%, -50%)"
-                zIndex="1"
-                icon={<IoIosCloseCircle />}
-                borderRadius="full"
-                bg="transparent"
-                _hover={{ bg: "transparent" }}
-                _active={{ bg: "transparent" }}
-                _focus={{ boxShadow: "none" }}
-                onClick={handleDelete}
-              /> 
-              */}
                 <Box h="140px" w="140px"
                   position={"relative"}
                   overflow={"hidden"}
-                  zIndex="0">
+                  zIndex="0"
+                >
                   <NextImage
-                    objectFit="cover"
+                    sizes="(max-width: 140px)"
                     src={URL}
                     alt="Imagen"
                     fill
+                    style={{objectFit:"cover"}}
                   />
                 </Box>
               </Box>

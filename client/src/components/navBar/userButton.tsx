@@ -32,7 +32,6 @@ const UserButton: React.FC = () => {
       onOpen();
     }
   };
-
   const URL =
     "https://naturalistone-images.s3.amazonaws.com/muestra/bernard-hermant-H6lV0I-SZjg-unsplash.jpg";
 
@@ -48,7 +47,7 @@ const UserButton: React.FC = () => {
       <Drawer isOpen={isOpen} placement="right" onClose={onClose} size={"full"}>
         <DrawerOverlay />
         <DrawerContent h={"100vh"} w={"100vw"}>
-          <NextImage objectFit="cover" fill src={URL} alt="img" />
+          <NextImage style={{objectFit:"cover"}} sizes="(max-width: 100vw)" fill src={URL} alt="img" />
           <Box
             position="absolute"
             top={0}
@@ -63,8 +62,6 @@ const UserButton: React.FC = () => {
               <UserButtonsContainer site={"navbar"} onClose={onClose} />
             </Center>
           </DrawerBody>
-
-          <DrawerFooter></DrawerFooter>
         </DrawerContent>
       </Drawer>
     </>

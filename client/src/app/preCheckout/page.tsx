@@ -5,11 +5,11 @@ import { Box, Button, HStack, Link, Select, Text } from "@chakra-ui/react";
 import { ProjectsState } from "@/store/projects/typeProjects";
 import { useAppDispatch, useAppSelector } from "@/store/hooks";
 import { useEffect, useState } from "react";
-import { LoginState } from "@/store/login/typeLogin";
 import { Checkbox } from "@chakra-ui/react";
 import PreCheckoutCart from "./PreCheckoutCart";
-import { bodyCartUpdate, fetchCart, updateCart } from "@/store/cart/actionsCart";
+import { fetchCart, updateCart } from "@/store/cart/actionsCart";
 import { CartState } from "@/store/cart/typesCart"; 
+import { bodyCartUpdate } from "@/interfaces/cart";
 import Cookies from "js-cookie";
 
 export default function preCheckout() {
@@ -17,8 +17,6 @@ export default function preCheckout() {
   const customerProjects = useAppSelector(
     (state: { projectsReducer: ProjectsState }) =>
       state.projectsReducer.customerProjects);
-  const { user } = useAppSelector(
-    (state: { loginReducer: LoginState }) => state.loginReducer);
   const { cart } = useAppSelector(
     (state: { cartReducer: CartState }) => state.cartReducer
   );
@@ -37,16 +35,16 @@ export default function preCheckout() {
 
     }
   };
-
+  console.log(customerProjects);
   useEffect(() => {
-    if(customerProjects.length > 0){
+    if(customerProjects.length > 0 && typeof customerProjects !== "string" ){
       setProjectId(customerProjects[0].idProjects);
       Cookies.set("projectId", customerProjects[0].idProjects.toString());
     }
   }, [customerProjects]);
 
   useEffect(() => {
-    const added = cart.filter((d) => {return d.AddExtra != 1;});
+    const added = typeof cart !== "string" ? cart.filter((d) => {return d.AddExtra != 1;}) : [];
     if (added.length === 0) setAddMore(true);
     else setAddMore(false);
 
@@ -55,11 +53,11 @@ export default function preCheckout() {
       const subT = 0;
       setSubTotal(subT);
     }
-    const subT = cart.reduce((total, item) => {
+    const subT = typeof cart !== "string" ? cart.reduce((total, item) => {
       return total + (item.SalePrice * item.Quantity);
-    }, 0);
+    }, 0): 0;
     const tot = Math.round((subT + Number.EPSILON) * 100) / 100;
-    setSubTotal(tot.toFixed(2));
+    setSubTotal(Number(tot.toFixed(2)));
    
   }, [cart]);
 
@@ -67,8 +65,8 @@ export default function preCheckout() {
   const handleChangeAddMoreAll = (event) =>{
     setAddMore(!addMore);
     const boolCheked = event.target.checked;
-    console.log(boolCheked)
-    if (boolCheked){
+    console.log(boolCheked);
+    if (boolCheked && typeof cart !== "string"){
       for (let index = 0; index < cart.length; index++) {
         const element = cart[index];
         if(element.AddExtra === 0){
@@ -88,29 +86,32 @@ export default function preCheckout() {
       }
     }
     else{
-      for (let index = 0; index < cart.length; index++) {
-        const element = cart[index];
-        if (element.AddExtra != 0) {
-
-          let porcientoTotal = 110;
-          let quanti = element.Quantity;
-
-          porcientoTotal = porcientoTotal / 110;
-          quanti = quanti / 110;
-          porcientoTotal = porcientoTotal * 100;
-          quanti = quanti * 100;
-          console.log(quanti);
-          const bodyUpd: bodyCartUpdate = {
-            Quantity: quanti,
-            idCartEntry: element.idCartEntry,
-            customerID: element.CustomerID,
-            AddExtra: 0,
-            ToInvoice: element.ToInvoice
-          };
-          dispatch(updateCart(bodyUpd));     
-          dispatch(fetchCart()); 
+      if(typeof cart !== "string"){
+        for(let index = 0; index < cart.length; index++) {
+          const element = cart[index];
+          if (element.AddExtra != 0 ) {
+  
+            let porcientoTotal = 110;
+            let quanti = element.Quantity;
+  
+            porcientoTotal = porcientoTotal / 110;
+            quanti = quanti / 110;
+            porcientoTotal = porcientoTotal * 100;
+            quanti = quanti * 100;
+            console.log(quanti);
+            const bodyUpd: bodyCartUpdate = {
+              Quantity: quanti,
+              idCartEntry: element.idCartEntry,
+              customerID: element.CustomerID,
+              AddExtra: 0,
+              ToInvoice: element.ToInvoice
+            };
+            dispatch(updateCart(bodyUpd));     
+            dispatch(fetchCart()); 
+          }
         }
       }
+
     }
   };
 
@@ -129,7 +130,7 @@ export default function preCheckout() {
             name="projects"
             onChange={handleProjectChange}>
             {
-              customerProjects && customerProjects?.map((x, y) =>
+              typeof customerProjects !== "string" && customerProjects?.map((x, y) =>
                 <option key={y}>{x.ProjectName}</option>)
             }
 

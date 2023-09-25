@@ -5,6 +5,7 @@ import {
   FavoritesState,
 } from "../favorites/typesFavorites";
 
+
 const initialState: FavoritesState = {
   favorites: "",
   project_favorites: [],

@@ -16,6 +16,8 @@ import { fetchMaterials, fetchProductsHome, fetchRawProduct } from "@/store/prod
 import { ProductState } from "@/store/products/typesProducts";
 import { fetchColors } from "@/store/colors/actionsColors";
 import { ColorsState } from "@/store/colors/typeColors";
+import { AddressState } from "@/store/address/addressTypes";
+import { fetchAddresByCustomer } from "@/store/address/actionAddress";
 
 export function TestContext({children}) {
 
@@ -42,6 +44,9 @@ export function TestContext({children}) {
   const { colors } = useAppSelector(
     (state: { colorsReducer: ColorsState }) => state.colorsReducer
   );
+  const { address_by_customer } = useAppSelector(
+    (state: { addressReducer: AddressState }) => state.addressReducer
+  );
 
   const sessionId = Cookies.get("sessionId");
   
@@ -63,11 +68,12 @@ export function TestContext({children}) {
     if(user?.CustomerID !== 0){ 
       if(typeof favorites === "string" ) dispatch(fetchFavorites());
       if(typeof customerProjects === "string") dispatch(fetchProjectsCustomer());
+      if(typeof address_by_customer === "string") dispatch(fetchAddresByCustomer());
       //if(typeof salesCustomer === "string") dispatch(fetchSalesByCustomer(user.CustomerID));
     }else{
       dispatch(fetchCart());
     }
-  }, [user, favorites, customerProjects]);
+  }, [user, favorites, customerProjects, address_by_customer]);
 
   return(
     <>

@@ -34,6 +34,7 @@ export interface bodyCartUpdate {
   customerID: number;
   AddMore?:number;
   ToInvoice?:number;
+  AddExtra?: number;
 }
 
 export interface CartButtonProps {

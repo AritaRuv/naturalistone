@@ -19,6 +19,7 @@ const ProductList: React.FC<ProductListProps> = ({
   data,
   ProdNameID
 }) => {
+  
   const dispatch = useAppDispatch();
   const { size, thickness, finish } = data[ProdNameID];
   const [selectedSize, setSelectedSize] = useState<string>("");

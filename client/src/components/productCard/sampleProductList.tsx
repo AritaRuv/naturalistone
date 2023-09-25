@@ -9,7 +9,7 @@ import {
 } from "@chakra-ui/react";
 import { useState, useContext } from "react";
 import { useAppDispatch, useAppSelector } from "@/store/hooks";
-import { postCart } from "@/store/cart/actionsCart";
+import { fetchCart, postCart } from "@/store/cart/actionsCart";
 import { ProductState } from "@/store/products/typesProducts";
 import CartButton from "../navBar/cartButton";
 import { LoginState } from "@/store/login/typeLogin";
@@ -19,14 +19,11 @@ import { ProductListProps } from "@/interfaces/product";
 
 const SampleProductList: React.FC<ProductListProps> = ({
   data,
-  ProdNameID,
-  product,
+  ProdNameID
 }) => {
   const dispatch = useAppDispatch();
-  const { thickness, finish } = data[ProdNameID];
-  const [selectedThickness, setSelectedThickness] = useState<string>("");
+  const { finish } = data[ProdNameID];
   const [selectedFinish, setSelectedFinish] = useState<string>("");
-  const [thicknesses, setThicknesses] = useState<string[]>([]);
   const [finishes, setFinishes] = useState<string[]>([]);
   const [cantFiltros, setCantFiltros] = useState<number>(0);
   const [isCartModalOpen, setIsCartModalOpen] = useState(false);
@@ -40,49 +37,31 @@ const SampleProductList: React.FC<ProductListProps> = ({
   );
 
   const handleCheckboxChange = (
-    value: string,
-    setState: React.Dispatch<React.SetStateAction<string>>,
-    name: string
+    // value: string,
+    // setState: React.Dispatch<React.SetStateAction<string>>,
+    // name: string
   ) => {
-    //filtro raw_products por ProdNameID
-    const result = raw_products.filter(
-      (prod) => prod.ProdNameID === ProdNameID
-    );
-    setState((prevState) => (prevState === value ? "" : value));
+    // //filtro raw_products por ProdNameID
+    // const result = raw_products.filter(
+    //   (prod) => prod.ProdNameID === ProdNameID
+    // );
+    // setState((prevState) => (prevState === value ? "" : value));
 
-    // //creo un array igual que result
-    let resultadoFiltrado = result;
+    // // //creo un array igual que result
+    // let resultadoFiltrado = result;
 
-    if (name === "finish") {
-      //si se selecciono (checkeo) un finish filtro por el finish seleccionado
-      if (selectedFinish.length === 0) {
-        setCantFiltros(cantFiltros + 1);
-        setSelectedFinish(value);
-        resultadoFiltrado = result.filter((prod) => prod.Finish === value);
-      } else {
-        setSelectedFinish("");
-        setCantFiltros(cantFiltros - 1);
-      }
-
-      //si previamente se selecciono un thickness, el array filtrado o no por finish, se filtra por thickness
-
-      if (selectedThickness) {
-        resultadoFiltrado = resultadoFiltrado.filter(
-          (prod) => prod.Thickness === selectedThickness
-        );
-      }
-
-      //recorro los  productos filtrados y si los thickness no son null
-      // los agrego a la coleccion de thickness disponibles(thicknessMatches)
-      //terminado el recorrido los seteo en el estado seTthickness
-
-      const thicknessMatches: string[] = [];
-      for (let index = 0; index < resultadoFiltrado.length; index++) {
-        const element: string = resultadoFiltrado[index].Thickness;
-        if (element != null) thicknessMatches.push(element);
-        setThicknesses(thicknessMatches);
-      }
-    }
+    // if (name === "finish") {
+    //   //si se selecciono (checkeo) un finish filtro por el finish seleccionado
+    //   if (selectedFinish.length === 0) {
+    //     setCantFiltros(cantFiltros + 1);
+    //     setSelectedFinish(value);
+    //     resultadoFiltrado = result.filter((prod) => prod.Finish === value);
+    //   } else {
+    //     setSelectedFinish("");
+    //     setCantFiltros(cantFiltros - 1);
+    //   }
+    //   //recorro los  productos filtrados y si los thickness no son null
+    // }
   };
 
   //maneja los checkboxes para controlar que solo 1 este clickeado a la vez
@@ -90,46 +69,17 @@ const SampleProductList: React.FC<ProductListProps> = ({
   const [array, setArray] = useState([]);
 
   const handleAddToCart = async () => {
-    if (appContext && appContext.userLog) {
-      const bodyCust = {
-        size: "",
-        thickness: "",
-        finish: selectedFinish,
-        ProdNameID: ProdNameID,
-        customerID: user?.CustomerID,
-        quantity: 0,
-      };
-      dispatch(postCart(bodyCust));
-    } else {
-      const productInProducts =
-        raw_products.length &&
-        raw_products.find((product) => {
-          return (
-            product.ProdNameID === ProdNameID &&
-            product.Finish === selectedFinish &&
-            product.Type === "Sample"
-          );
-        });
-      const productInCart = raw_products.length ? productInProducts : product;
-      const productNotLogin = {
-        ...productInCart,
-        CustomerID: 0,
-        idCartEntry: 0,
-        Quantity: 0,
-      };
-      const arrayProducts = JSON.parse(
-        localStorage.getItem("cartProducts") || "[]"
-      );
-      const newArray: any = [...arrayProducts];
-      newArray.push(productNotLogin);
-      setArray(newArray);
-      arrayProducts.push(productNotLogin);
-      localStorage.setItem("cartProducts", JSON.stringify(arrayProducts));
-    }
-
-    setTimeout(() => {
-      setIsCartModalOpen(true);
-    }, 1000);
+    const bodyCust = {
+      size: "",
+      thickness: "",
+      finish: selectedFinish,
+      ProdNameID: ProdNameID,
+      customerID: user?.CustomerID,
+      quantity: 0,
+    };
+    await dispatch(postCart(bodyCust, raw_products));
+    await dispatch(fetchCart());
+    if(appContext) appContext.setIsCartModalOpen(true);
   };
 
   return (
@@ -166,9 +116,9 @@ const SampleProductList: React.FC<ProductListProps> = ({
                     !finishes.includes(finish) &&
                     cantFiltros > 0
                   }
-                  onChange={() =>
-                    handleCheckboxChange(finish, setSelectedFinish, "finish")
-                  }
+                  // onChange={() =>
+                  //   handleCheckboxChange(finish, setSelectedFinish, "finish")
+                  // }
                 />
               </Box>
             ))}
@@ -186,13 +136,6 @@ const SampleProductList: React.FC<ProductListProps> = ({
       >
         ADD SAMPLE
       </Button>
-      <CartButton
-        icon={false}
-        isCartModalOpen={isCartModalOpen}
-        setIsCartModalOpen={setIsCartModalOpen}
-        sample={true}
-        array={array}
-      />
     </>
   );
 };
