@@ -1,5 +1,5 @@
 // api.ts
-import { Address } from "@/interfaces/Address";
+import { Address } from "@/interfaces/address";
 import axios from "axios";
 import Cookies from "js-cookie";
 
@@ -35,15 +35,15 @@ export const createAddress = async (
       throw new Error("No token available");
     }
     const response = await axios.post(
-      "http://localhost:5000/api/projects/create", bodyAddress, {
-      headers: {
-        authorization: token,
-      },
-    });
+      "http://localhost:5000/api/address/create", bodyAddress, {
+        headers: {
+          authorization: token,
+        },
+      });
     console.log("api", { response });
     return response.data;
   } catch (error) {
     console.log(error);
-    throw new Error("Error al crear project en apiProjects");
+    throw new Error("Error al crear address en apiAddress");
   }
 };

@@ -7,7 +7,7 @@ const AddressBox = (props) => {
 
   return (
     <>
-      <Card key={address.AddressId} h={"210px"}>
+      <Card key={address.AddressId} h={"210px"} boxShadow={"lg"} bgColor={"blackAlpha.100"}  >
         <CardHeader>
           <Heading size={"md"}> {address.Nickname}</Heading>
         </CardHeader>

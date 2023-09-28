@@ -1,14 +1,14 @@
 // types.ts
 export interface Address {
-    address_id: number;
-    customer_id: number;
-    address: string;
-    address2: string;
-    city: string;
-    state: string;
-    zip_code: string;
-    nickname: string;
-  }
+  Nickname: string;
+  AddressId: number;
+  CustomerId: number;
+  Address: string;
+  Address2: string;
+  City: string;
+  State: string;
+  ZipCode: string;
+}
 
 export interface AddressState {
     address_by_customer: Address[] | "" ;

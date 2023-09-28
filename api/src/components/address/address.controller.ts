@@ -37,7 +37,22 @@ export async function getAllCustomerAddress(req: Request, res: Response) {
           res.status(200).json({ success: false, results: [] });
         } else {
           console.log("Address OK");
-          res.status(200).json({ success: true, results: results });
+          const addresses : Address[] = [];
+          for (let index = 0; index < results.length; index++) {
+            const element = results[index];
+            const el : Address = {
+              AddressId: element.address_id,
+              Address: element.address,
+              Address2: element.address_2,
+              City: element.city,
+              CustomerId: element.customer_id,
+              Nickname: element.nickname,
+              State: element.state,
+              ZipCode: element.zip_code
+            };
+            addresses.push(el);
+          }
+          res.status(200).json({ success: true, results: addresses });
         }
       }
     );
@@ -49,8 +64,8 @@ export async function getAllCustomerAddress(req: Request, res: Response) {
 export async function postNewAddress(req: Request, res: Response) {
 
   try {
-    //const token = req.headers.authorization;
-    //if (!token) return res.status(400).json({ success: false, results: "no token" });
+    const token = req.headers.authorization;
+    if (!token) return res.status(400).json({ success: false, results: "no token" });
     const { Nickname, CustomerId, Address, Address2,City, ZipCode,State} = req.body;
 
     const address : Address = {
