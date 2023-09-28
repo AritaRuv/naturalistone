@@ -93,7 +93,6 @@ export const CreateNewProject: React.FC<PropsNewProject> = ({
       setErrors(newErrors);
       return;
     } else {
-      console.log({formData});
       const newProject = await dispatch(
         postCustomerProject(formData)
       );

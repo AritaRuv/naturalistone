@@ -40,7 +40,6 @@ export const createAddress = async (
           authorization: token,
         },
       });
-    console.log("api", { response });
     return response.data;
   } catch (error) {
     console.log(error);

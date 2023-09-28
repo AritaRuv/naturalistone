@@ -16,7 +16,6 @@ const AddressInfo: React.FC<IShowMenu> = ({
   const { address_by_customer } = useAppSelector(
     (state: { addressReducer: AddressState }) => state.addressReducer
   );
-  console.log(address_by_customer);
   return (
     <>
       <Box
@@ -39,7 +38,7 @@ const AddressInfo: React.FC<IShowMenu> = ({
             isSmallThan1000 ? "column" : isSmallThan750 ? "column" : "row"
           }
         >
-          <AddressList selectable={false} handleAddress={() => console.log("ff")} />
+          <AddressList selectable={false} handleAddress={() => ({})} />
         </Box>
       </Box>
     </>

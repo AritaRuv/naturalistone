@@ -131,7 +131,7 @@ export default function CheckoutForm() {
             activeStep === 0 && <SelectorTypeDelivery handleTypeDelivery={handleTypeDelivery}/>
           }
           {
-            activeStep === 1 && <Center>  <Box w={"70%"}><AddressList handleAddress={handleAddress} selectable={true} /> </Box></Center>
+            activeStep === 1 && <Center><Box w={"70%"}><AddressList handleAddress={handleAddress} selectable={true} /> </Box></Center>
           }
           {
             activeStep === 2 && clientSecret ? 
