@@ -117,7 +117,9 @@ export async function newCheckout(req: Request, res: Response) {
 
 export async function confirmCheckout(req: Request, res: Response) {
   try {
-
+    //Status of this PaymentIntent, one of: 
+    //requires_payment_method, requires_confirmation, requires_action, processing, 
+    //requires_capture, canceled, or succeeded
     const { customerId, projectId,payments,receive,address } = req.body;
     console.log("receive: ", receive);
 
