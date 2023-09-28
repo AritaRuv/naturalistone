@@ -18,7 +18,6 @@ interface ProductsCart {
 
 export async function newCheckout(req: Request, res: Response) {
   try {
-    console.log("entro ");
     const { CustomerId } = req.body;
     let cartItems = [];
     const query = `SELECT 

@@ -33,10 +33,8 @@ export async function getAllCustomerAddress(req: Request, res: Response) {
           throw error;
         }
         if (results.length === 0) {
-          console.log("No address");
           res.status(200).json({ success: false, results: [] });
         } else {
-          console.log("Address OK");
           const addresses : Address[] = [];
           for (let index = 0; index < results.length; index++) {
             const element = results[index];

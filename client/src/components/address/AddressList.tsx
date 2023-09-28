@@ -40,7 +40,7 @@ const AddressList: React.FC<SelectorAddressProps> = (props) => {
           typeof address_by_customer != "string" ? (<>
             {
               address_by_customer?.map((ads) => (
-                <Box border={"2px"} rounded={4} borderColor={selectable && selected === ads.AddressId ? "orange.300" : "gray.600"}>
+                <Box h="fit-content" border={"2px"} rounded={4} borderColor={selectable && selected === ads.AddressId ? "orange.300" : "gray.600"}>
                   <LinkBox key={ads.AddressId} onClick={() => handleClickAddress(ads.AddressId)}>
                     <AddressBox address={ads} />
                   </LinkBox>
