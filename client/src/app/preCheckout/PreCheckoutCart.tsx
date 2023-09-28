@@ -15,29 +15,28 @@ export default function PreCheckoutCart() {
   return (
     <>
       <Box
+        mt={"5vh"}
         display={"flex"}
         flexDir={"column"}
-        w={smallerThan740 ? "full" : "50%"}>
-        <Box h={"60%"} overflow={"auto"} minW={"450px"} w={"full"} mt={"2%"}>
-          {
-            typeof cart !== "string" &&
+        h={"65vh"}
+        overflow={"auto"}
+      >
+        {
+          typeof cart !== "string" &&
             cart?.map((product) => {
               return (
-                <Box key={product.idCartEntry} bg='yellow.200'>
-                  <Divider borderColor={"gray.700"} my={"2%"} />
+                <Box key={product.idCartEntry}>
                   <Box
                     display={"flex"}
                     flexDir={!smallerThan740 ? "row" : "column"}
-                    w={"98%"}
                     justifyContent={"space-between"}>
                     <ProductCardCart product={product} preCheckout={true} />
                   </Box>
+                  <Divider borderColor={"gray.700"} my={"0.5vh"} />
                 </Box>
               );
             })}
         
-        </Box>
-
       </Box>
     </>
   );

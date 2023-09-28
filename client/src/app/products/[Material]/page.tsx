@@ -54,8 +54,8 @@ export default function Products({ params }) {
   }, []);
 
   useEffect(() => {
-    dispatch(fetchFavorites(user.CustomerID));
-    dispatch(fetchProjectsCustomer(user.CustomerID));
+    dispatch(fetchFavorites());
+    dispatch(fetchProjectsCustomer());
   }, [user]);
 
   const [smallerThan1200] = useMediaQuery("(max-width: 1200px)");

@@ -1,7 +1,7 @@
 "use client";
 
-import { PiCaretDownThin } from "react-icons/pi";
-import { Box, Button, HStack, Link, Select, Text } from "@chakra-ui/react";
+import { PiCaretDownThin, PiInfoThin } from "react-icons/pi";
+import { Box, Button, Center, HStack, Icon, Link, Select, Text } from "@chakra-ui/react";
 import { ProjectsState } from "@/store/projects/typeProjects";
 import { useAppDispatch, useAppSelector } from "@/store/hooks";
 import { useEffect, useState } from "react";
@@ -117,63 +117,121 @@ export default function preCheckout() {
 
   return (
     <>
-      <Box w={"100vw"} px={"1vw"} mt={"100px"}>
-        <HStack spacing="24px">
-          <Text >Project: </Text>
+      <Box h={"20vh"} display={"flex"} flexDir={"column"} justifyContent={"flex-end"} px={"5vw"}>
+        <Text fontWeight={"hairline"} fontSize={"2rem"}>1. ORDER SUMMARY</Text>
+        <Text fontWeight={"hairline"} fontSize={"0.9rem"}>Please select the products you want to invoice</Text>
+      </Box>
+      <Box display={"flex"} flexDir={"row-reverse"} px={"5vw"} alignItems={"flex-end"}>
+        <Box w={"50vw"}>
+          {/* <Box ml={"50px"}>
+          <Text fontWeight={"thin"} fontSize={"0.9rem"}>Do you want to charge this invoice to an existing project?</Text>
           <Select
             icon={<PiCaretDownThin />}
-            variant="outline"
             w={"10vw"}
             minW={"120px"}
-            h={"26px"}
+            fontSize={"0.8rem"}
+            h={"16px"}
+            placeholder="SELECT PROJECT"
+            fontWeight={"light"}
             focusBorderColor="none"
-            name="projects"
+            rounded={"none"}
+            border={"none"}
+            name="s"
             onChange={handleProjectChange}>
             {
-              typeof customerProjects !== "string" && customerProjects?.map((x, y) =>
-                <option key={y}>{x.ProjectName}</option>)
+              typeof customerProjects !== "string" && 
+            customerProjects?.map((x, y) => <option key={y}>{x.ProjectName}</option>)
             }
-
           </Select>
-        </HStack>
-      </Box>
-      <PreCheckoutCart smallerThan740={smallerThan740} />
-      <Box
-        w={"50%"}
-        h={"15%"}
-        p={"1%"}
-        display={"flex"}
-        flexDir={"column"}
-      >
-        <Checkbox defaultChecked isChecked={addMore} onChange={handleChangeAddMoreAll}>Add 10% more to cover cuts and waste (recommended)</Checkbox>
-      </Box>
-      <Box
-        w={"50%"}
-        h={"15%"}
-        pt={"1%"}
-        display={"flex"}
-        flexDir={"column"}
-        alignItems={"end"}
-      >
-        <Text fontWeight={"semibold"} fontSize={"2xl"}>SUB TOTAL: $
-          {
-            subTotal
-          }
-        </Text>
-        <Link href={"/checkout"}>
-          <Button
-            fontSize="0.9rem"
-            variant="unstyled"
-            className="customButton"
+        </Box> */}
+
+          <Box
+            display={"flex"}
+            flexDir={"column"}
+            alignItems={"end"}
+            mb={"10vh"}
           >
-            {" "}
+            <Text fontWeight={"thin"} fontSize={"1.2rem"}>SUB TOTAL: $
+              {
+                subTotal
+              }
+            </Text>
+            <Link href={"/checkout"}>
+              <Button
+                fontSize="0.9rem"
+                variant="unstyled"
+                className="customButton"
+              >
+                {" "}
             CHECK OUT{" "}
-          </Button>
-        </Link>
+              </Button>
+            </Link>
+          </Box> 
+        </Box>
+        {/* Listado de productos */}
+        <Box w={"50vw"} display={"flex"} flexDir={"column"} mb={"5vh"}>
+          <PreCheckoutCart/>
+          <Box
+            display={"flex"}
+            flexDir={"row"}
+          >
+            <Checkbox
+              colorScheme='whiteAlpha' 
+              iconColor="orange" 
+              mr={"10px"} 
+              defaultChecked 
+              isChecked={addMore} 
+              onChange={handleChangeAddMoreAll}/>
+            <Text 
+              textTransform={"uppercase"} 
+              fontWeight={"thin"} 
+              fontSize={"0.7rem"}
+              mr={"10px"}>
+                Add 10% more to cover cuts and waste (recommended)
+            </Text>
+            <Icon as={PiInfoThin}/>
+          </Box>
+        </Box>
       </Box>
-        
     </>
   );
+
 }
+
+
+
+{/* <Box
+            w={"50%"}
+            h={"15%"}
+            p={"1%"}
+            display={"flex"}
+            flexDir={"column"}
+          >
+            <Checkbox defaultChecked isChecked={addMore} onChange={handleChangeAddMoreAll}>Add 10% more to cover cuts and waste (recommended)</Checkbox>
+          </Box>
+          <Box
+            w={"50%"}
+            h={"15%"}
+            pt={"1%"}
+            display={"flex"}
+            flexDir={"column"}
+            alignItems={"end"}
+          >
+            <Text fontWeight={"semibold"} fontSize={"2xl"}>SUB TOTAL: $
+              {
+                subTotal
+              }
+            </Text>
+            <Link href={"/checkout"}>
+              <Button
+                fontSize="0.9rem"
+                variant="unstyled"
+                className="customButton"
+              >
+                {" "}
+            CHECK OUT{" "}
+              </Button>
+            </Link>
+          </Box> */}
 
 

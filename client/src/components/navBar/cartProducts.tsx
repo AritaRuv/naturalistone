@@ -7,15 +7,16 @@ import {
   useMediaQuery,
   Center,
   Checkbox,
-  VStack,
-  Stack
+  Stack,
+  Icon,
+  Tooltip
 } from "@chakra-ui/react";
 import NextImage from "next/image";
 import "../../app/assets/styleSheet.css";
 import { ProductCart } from "@/store/cart/typesCart";
 import { deleteCart, updateCart } from "@/store/cart/actionsCart";
-import { useAppDispatch, useAppSelector } from "@/store/hooks";
-import { LoginState } from "@/store/login/typeLogin";
+import { useAppDispatch } from "@/store/hooks";
+import { PiInfoThin } from "react-icons/pi";
 
 const ProductCardCart: React.FC<{ product: ProductCart, preCheckout: any }> = ({ product, preCheckout }) => {
   const {
@@ -36,8 +37,6 @@ const ProductCardCart: React.FC<{ product: ProductCart, preCheckout: any }> = ({
   const URL = `https://naturalistone-images.s3.amazonaws.com/${Material}/${Naturali_ProdName}/${Naturali_ProdName}_0.jpg`;
   const [isExtraSmallScreen] = useMediaQuery("(max-width: 480px)");
   const [isExtraExtraSmallScreen] = useMediaQuery("(max-width: 400px)");
-  const { user } = useAppSelector(
-    (state: { loginReducer: LoginState }) => state.loginReducer);
 
   const fontSubTitle = isExtraExtraSmallScreen ? "0.6rem" : "0.7rem";
   const fontTitle = isExtraExtraSmallScreen ? "0.7rem" : "0.9rem";
@@ -82,11 +81,10 @@ const ProductCardCart: React.FC<{ product: ProductCart, preCheckout: any }> = ({
     const boolCheked =  event.target.checked;
     if (boolCheked){
 
-      const porcentaje =Math.round((10*(quantity /100)));
+      const porcentaje = Math.round((10*(quantity /100)));
       let newPorcentaje = (quantity / 100) * 10;
       if (quantity >= 10){
         newPorcentaje = Math.round( newPorcentaje);
-        console.log("Porce: ", newPorcentaje)
         const newQuantity = Quantity + newPorcentaje;
         setAddExtra(1);
         setQuantity(newQuantity);
@@ -95,7 +93,6 @@ const ProductCardCart: React.FC<{ product: ProductCart, preCheckout: any }> = ({
 
     }
     else{
-     
       setQuantity(oldQuantity);
       setAddExtra(0);
       updateCartQuantityExtraInvoice(oldQuantity,0,toInvoice);
@@ -134,7 +131,6 @@ const ProductCardCart: React.FC<{ product: ProductCart, preCheckout: any }> = ({
     dispatch(deleteCart(idCartEntry));
   };
 
-
   return (
     <>
       <Box
@@ -143,10 +139,13 @@ const ProductCardCart: React.FC<{ product: ProductCart, preCheckout: any }> = ({
         overflow={"hidden"}
         display={"flex"}
         alignItems={"center"}
-        justifyContent={"space-around"}
-        backgroundColor={quantity === 0 ? "sampleItemCart.gray" : "white"}
+        justifyContent={"space-between"}
+        backgroundColor={toInvoice === 1 ? "rgba(227, 116, 37, 0.05)" : "white"}
       >
-        <Stack w={"100%"} ms={12} direction={["column", "row"]} >
+        {/* Caja que contiene la imagen, y las especificaciones */}
+        <Stack 
+          ms={preCheckout ? "2vw" : "50px"} 
+          direction={["column", "row"]} >
           {
             isExtraSmallScreen ? (
               <Box h={"110px"} w={"120px"} position={"relative"} overflow={"hidden"}>
@@ -169,13 +168,27 @@ const ProductCardCart: React.FC<{ product: ProductCart, preCheckout: any }> = ({
                 </Box>
               </Box>
             )}
-
-          <Box h={isExtraSmallScreen ? "120px" : "140px"} ms={2}  w={"220px"} display={"flex"} flexDir={"column"} justifyContent={"space-between"}>
+          {/* Caja que contiene solo las especificaciones */}
+          <Box 
+            h={isExtraSmallScreen ? "120px" : "140px"} 
+            ms={2}  
+            w={"220px"} 
+            display={"flex"} 
+            flexDir={"column"} 
+            justifyContent={"space-between"}
+          >
             <Box>
-              <Text textTransform={"uppercase"} fontSize={fontSubTitle}>{Material}</Text>
-              <Text textTransform={"uppercase"} fontWeight={"bold"} fontSize={fontTitle}>{Naturali_ProdName}</Text>
+              <Text 
+                textTransform={"uppercase"} 
+                fontSize={fontSubTitle}>{Material}
+              </Text>
+              <Text 
+                textTransform={"uppercase"} 
+                fontWeight={"bold"} 
+                fontSize={fontTitle}>{Naturali_ProdName}</Text>
               {
-                quantity > 0 ? (<Text textTransform={"uppercase"} fontSize={"0.6rem"} color={"gray.600"}>{Finish} - {Size} - {Thickness}-{Type}</Text>
+                quantity > 0 ? (
+                  <Text textTransform={"uppercase"} fontSize={"0.6rem"} color={"gray.600"}>{Finish} - {Size} - {Thickness}-{Type}</Text>
                 ) : (<Text textTransform={"uppercase"} fontSize={"0.6rem"} color={"gray.600"}>{Finish} - {Thickness}-{Type}</Text>
                 )
               }
@@ -226,10 +239,20 @@ const ProductCardCart: React.FC<{ product: ProductCart, preCheckout: any }> = ({
                       </Button>
                     </Center>
                   </Box>
+                  <Box>
+                  </Box>
                   {
                     preCheckout && 
-                  <Box>
-                    <Checkbox size="sm" isChecked={AddExtra === 1} onChange={handleAddExtraChange} > Add 10% more</Checkbox>
+                  <Box display={"flex"} flexDirection={"row"} mt={"10px"} position={"relative"}>
+                    <Checkbox
+                      mr={"10px"}
+                      borderColor={"blackAlpha.400"} 
+                      colorScheme='whiteAlpha' 
+                      iconColor="orange" 
+                      isChecked={AddExtra === 1} 
+                      onChange={handleAddExtraChange}/>
+                    <Text fontSize={"0.7rem"} fontWeight={"light"} mr={"10px"} >ADD 10% MORE</Text>
+                    <Icon as={PiInfoThin}/>
                   </Box>
 
                   }
@@ -238,20 +261,46 @@ const ProductCardCart: React.FC<{ product: ProductCart, preCheckout: any }> = ({
             </Box>
           </Box>
         </Stack>
-        <VStack>
-          {
-            preCheckout && <Checkbox isChecked={ToInvoice===1} onChange={handleAddInvoiceChange}>Facturar</Checkbox>
-          }
+      
+        {/* Caja que contiene el precio */}
+        <Box display={"flex"} flexDir={"row"} alignItems={"center"}>
           <Text
             h={"30px"}
-            fontWeight={"semibold"}
+            fontSize={"1.1rem"}
+            fontWeight={"thin"}
             textAlign={"center"}>
-            ${(Quantity * SalePrice).toFixed(2)}
+            {
+              Type === "Sample" ? (
+                "SAMPLE"
+              ):(
+                `${(Quantity * SalePrice).toFixed(2)}`
+              )
+            }
+              
           </Text>
-        </VStack>
+        </Box>
+        {/* Caja que contiene elncheckbox de pre check out */}
+        <Box>
+          {
+            preCheckout && (
+              <>
+                <Box display={"flex"} flexDir={"row"} mr={"1vw"}>
+                  <Checkbox
+                    colorScheme='whiteAlpha' 
+                    iconColor="orange" 
+                    mr={"10px"}
+                    isChecked={ToInvoice===1} 
+                    onChange={handleAddInvoiceChange}/>
+                </Box>
+              </>
+            )
+            
+          }
+        </Box>
       </Box>
-    
+
     </>
+    
   );
 };
 
