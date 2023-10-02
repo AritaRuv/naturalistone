@@ -35,7 +35,6 @@ export default function preCheckout() {
 
     }
   };
-  console.log(customerProjects);
   useEffect(() => {
     if(customerProjects.length > 0 && typeof customerProjects !== "string" ){
       setProjectId(customerProjects[0].idProjects);
@@ -121,29 +120,30 @@ export default function preCheckout() {
         <Text fontWeight={"hairline"} fontSize={"2rem"}>1. ORDER SUMMARY</Text>
         <Text fontWeight={"hairline"} fontSize={"0.9rem"}>Please select the products you want to invoice</Text>
       </Box>
-      <Box display={"flex"} flexDir={"row-reverse"} px={"5vw"} alignItems={"flex-end"}>
+      <Box display={"flex"} flexDir={"row"} px={"5vw"} alignItems={"flex-end"}>
         <Box w={"50vw"}>
-          {/* <Box ml={"50px"}>
-          <Text fontWeight={"thin"} fontSize={"0.9rem"}>Do you want to charge this invoice to an existing project?</Text>
-          <Select
-            icon={<PiCaretDownThin />}
-            w={"10vw"}
-            minW={"120px"}
-            fontSize={"0.8rem"}
-            h={"16px"}
-            placeholder="SELECT PROJECT"
-            fontWeight={"light"}
-            focusBorderColor="none"
-            rounded={"none"}
-            border={"none"}
-            name="s"
-            onChange={handleProjectChange}>
-            {
-              typeof customerProjects !== "string" && 
+          Box de seleccion de proyecto
+          <Box ml={"50px"}>
+            <Text fontWeight={"thin"} fontSize={"0.9rem"}>Do you want to charge this invoice to an existing project?</Text>
+            <Select
+              icon={<PiCaretDownThin />}
+              w={"10vw"}
+              minW={"120px"}
+              fontSize={"0.8rem"}
+              h={"16px"}
+              placeholder="SELECT PROJECT"
+              fontWeight={"light"}
+              focusBorderColor={"none"}
+              rounded={"none"}
+              border={"none"}
+              name="s"
+              onChange={handleProjectChange}>
+              {
+                typeof customerProjects !== "string" && 
             customerProjects?.map((x, y) => <option key={y}>{x.ProjectName}</option>)
-            }
-          </Select>
-        </Box> */}
+              }
+            </Select>
+          </Box>
 
           <Box
             display={"flex"}
@@ -174,14 +174,9 @@ export default function preCheckout() {
           <Box
             display={"flex"}
             flexDir={"row"}
+            justifyContent={"flex-end"}
           >
-            <Checkbox
-              colorScheme='whiteAlpha' 
-              iconColor="orange" 
-              mr={"10px"} 
-              defaultChecked 
-              isChecked={addMore} 
-              onChange={handleChangeAddMoreAll}/>
+            <Icon as={PiInfoThin}/>
             <Text 
               textTransform={"uppercase"} 
               fontWeight={"thin"} 
@@ -189,7 +184,14 @@ export default function preCheckout() {
               mr={"10px"}>
                 Add 10% more to cover cuts and waste (recommended)
             </Text>
-            <Icon as={PiInfoThin}/>
+            <Checkbox
+              colorScheme='whiteAlpha' 
+              iconColor="orange" 
+              mr={"10px"} 
+              defaultChecked 
+              isChecked={addMore} 
+              onChange={handleChangeAddMoreAll}/>
+            
           </Box>
         </Box>
       </Box>

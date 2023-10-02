@@ -18,7 +18,7 @@ import { deleteCart, updateCart } from "@/store/cart/actionsCart";
 import { useAppDispatch } from "@/store/hooks";
 import { PiInfoThin } from "react-icons/pi";
 
-const ProductCardCart: React.FC<{ product: ProductCart, preCheckout: any }> = ({ product, preCheckout }) => {
+const ProductCardCart: React.FC<{ product: ProductCart, preCheckout: boolean }> = ({ product, preCheckout }) => {
   const {
     CustomerID,
     Finish,
@@ -140,11 +140,11 @@ const ProductCardCart: React.FC<{ product: ProductCart, preCheckout: any }> = ({
         display={"flex"}
         alignItems={"center"}
         justifyContent={"space-between"}
-        backgroundColor={toInvoice === 1 ? "rgba(227, 116, 37, 0.05)" : "white"}
+        backgroundColor={preCheckout ? toInvoice === 1 ? "rgba(227, 116, 37, 0.05)" : "white" : "white"}
       >
         {/* Caja que contiene la imagen, y las especificaciones */}
         <Stack 
-          ms={preCheckout ? "2vw" : "50px"} 
+          ms={preCheckout ? "2vw" : "10px"} 
           direction={["column", "row"]} >
           {
             isExtraSmallScreen ? (

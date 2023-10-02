@@ -213,11 +213,11 @@ export async function productCartLocal(req: Request, res: Response) {
   const { Size, Thickness, Finish, ProdNameID } = req.body;
 
   try {
-    const productCartLocalQuery = `SELECT Dimension.*, ProdNames.*, Products.* FROM Products
-LEFT JOIN Dimension ON Products.DimensionID = Dimension.DimensionID
-LEFT JOIN ProdNames ON Products.ProdNameID = ProdNames.ProdNameID
-WHERE Dimension.Size = "${Size}" AND Dimension.Thickness = "${Thickness}" 
-AND Dimension.Finish = "${Finish}" AND ProdNames.ProdNameID = ${ProdNameID}`;
+    const productCartLocalQuery =`SELECT Dimension.*, ProdNames.*, Products.* FROM Products
+                                  LEFT JOIN Dimension ON Products.DimensionID = Dimension.DimensionID
+                                  LEFT JOIN ProdNames ON Products.ProdNameID = ProdNames.ProdNameID
+                                  WHERE Dimension.Size = "${Size}" AND Dimension.Thickness = "${Thickness}" 
+                                  AND Dimension.Finish = "${Finish}" AND ProdNames.ProdNameID = ${ProdNameID}`;
 
     mysqlConnection.query(
       productCartLocalQuery,
