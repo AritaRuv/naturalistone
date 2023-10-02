@@ -264,3 +264,30 @@ export const validateCompletedInputsCheckout = (formData) => {
 
   return errors;
 };
+
+export const validateCompletedInputsAddress = (formData) => {
+  const errors: any = {};
+  const regexNumber = /^[+]?\d+$/;
+  const regexPhone = /^[0-9+\s()-]+$/;
+  const regexNoNumber = /^[^\d]*$/;
+  const regexEmail = /^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}$/i;
+  const regexOnlyLetters = /^[a-zA-Z\s]+$/;
+  const regexCard = /^[0-9\s]+$/;
+
+  if (formData.Nickname === "")
+    errors.Nickname = "Please enter a nickname";
+  
+  if (formData.Address === "")
+    errors.Address = "Please enter an address";
+  
+  if (formData.City === "")
+    errors.City = "Please enter a city";
+  
+  if (formData.State === "")
+    errors.State = "Please enter an state";
+
+  if (formData.ZipCode === "")
+    errors.ZipCode = "Please enter a ZipCode";
+  
+  return errors;
+};

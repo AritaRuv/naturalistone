@@ -32,7 +32,6 @@ export const fetchProjectsCustomer = () => {
 export const postCustomerProject = (
   bodyProject: BodyProject
 ) => {
-  console.log({bodyProject});
   return async (dispatch: Dispatch<ProjectsAction>) => {
     try {
       

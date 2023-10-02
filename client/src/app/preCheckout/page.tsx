@@ -27,7 +27,6 @@ export default function preCheckout() {
   const [subTotal, setSubTotal] = useState(0);
 
   const handleProjectChange = (event) => {
-    console.log(event.target.value);
     if(event.target.value){
       setProjectId(event.target.value);
       localStorage.setItem("projectId", event.target.value.toString());
@@ -64,7 +63,6 @@ export default function preCheckout() {
   const handleChangeAddMoreAll = (event) =>{
     setAddMore(!addMore);
     const boolCheked = event.target.checked;
-    console.log(boolCheked);
     if (boolCheked && typeof cart !== "string"){
       for (let index = 0; index < cart.length; index++) {
         const element = cart[index];
@@ -97,7 +95,6 @@ export default function preCheckout() {
             quanti = quanti / 110;
             porcientoTotal = porcientoTotal * 100;
             quanti = quanti * 100;
-            console.log(quanti);
             const bodyUpd: bodyCartUpdate = {
               Quantity: quanti,
               idCartEntry: element.idCartEntry,

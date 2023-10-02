@@ -1,5 +1,5 @@
 "use client";
-import { Box, Button, HStack, Heading, SimpleGrid, Step, StepDescription, StepIcon, StepIndicator, StepNumber, StepSeparator, StepStatus, StepTitle, Stepper, Text, VStack, useMediaQuery, useSteps } from "@chakra-ui/react";
+import { Box, Button, Center, HStack, Heading, SimpleGrid, Step, StepDescription, StepIcon, StepIndicator, StepNumber, StepSeparator, StepStatus, StepTitle, Stepper, Text, VStack, useMediaQuery, useSteps } from "@chakra-ui/react";
 import React, { useState, useEffect } from "react";
 import { validateCompletedInputsCheckout} from "@/utils/validateForms";
 import { ShippingAddresForm } from "./ShippingAddresForm";
@@ -126,12 +126,12 @@ export default function CheckoutForm() {
             </Step>
           ))}
         </Stepper>
-        <Box m={"50px"} marginX={"30px"} w={"full"} alignContent={"center"} alignItems={"center"}>
+        <Box m={"30px"} marginX={"30px"} w={"full"} alignContent={"center"} alignItems={"center"}>
           {
             activeStep === 0 && <SelectorTypeDelivery handleTypeDelivery={handleTypeDelivery}/>
           }
           {
-            activeStep === 1 && <AddressList handleAddress={handleAddress} />
+            activeStep === 1 && <Center><Box w={"70%"}><AddressList handleAddress={handleAddress} selectable={true} /> </Box></Center>
           }
           {
             activeStep === 2 && clientSecret ? 

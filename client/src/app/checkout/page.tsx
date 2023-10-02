@@ -17,19 +17,15 @@ export default function Checkout() {
   useEffect(() => {
     if (user.CustomerID === 0) {
       dispatch(userInfo());
-      console.log(user);
     }
-    else{
-      console.log(user);
-
-    }
+    
   }, [user]);
 
   return (
 
     <Box display={"flex"} flexDirection={smallerThan740 ? "column" : "row"}>
       {
-        user.CustomerID > 0 && <CheckoutForm smallerThan740={smallerThan740} />
+        user.CustomerID > 0 && <CheckoutForm/>
       }
     </Box>
   );

@@ -1,19 +1,25 @@
-import { validateCompletedInputsCheckout } from "@/utils/validateForms";
-import { Box, Input, InputGroup, Text, VStack } from "@chakra-ui/react";
+import { validateCompletedInputsAddress, validateCompletedInputsCheckout } from "@/utils/validateForms";
+import { Box, Button, Input, InputGroup, Text, VStack, useToast } from "@chakra-ui/react";
 import { useState } from "react";
 import { Address } from "./AddressInterface";
+import { useAppDispatch } from "@/store/hooks";
+import { postAddress } from "@/store/address/actionAddress";
 
-export function AddresForm() {
+export function AddresForm(props) {
+  const dispatch = useAppDispatch();
+  const toast = useToast();
 
+  const { addressData } = props;
+  const idAddress = addressData.AddressId;
   const [formData, setFormData] = useState<Address>({
-    Nickname: "",
-    AddressId: 0,
-    CustomerId: 0,
-    Address: "",
-    Address2: "",
-    City: "",
-    State: "",
-    ZipCode: ""
+    Nickname: addressData.Nickname.length > 0 ? addressData.Nickname : "",
+    AddressId: addressData.AddressId > 0 ? addressData.AddressId : 0,
+    CustomerId: addressData.CustomerId > 0 ? addressData.CustomerId : 0,
+    Address: addressData.Address.length > 0 ? addressData.Address : "",
+    Address2: addressData.Address2.length > 0 ? addressData.Address2 : "",
+    City: addressData.City.length > 0 ? addressData.City : "",
+    State: addressData.State.length > 0 ? addressData.State : "",
+    ZipCode: addressData.ZipCode.length > 0 ? addressData.ZipCode : "",
   });
   const [errors, setErrors] = useState({});
   const [showErrors, setShowErrors] = useState(false);
@@ -23,16 +29,59 @@ export function AddresForm() {
       ...formData,
       [event.target.name]: event.target.value,
     });
-    // setErrors(
-    //   validateCompletedInputsCheckout({
-    //     ...formData,
-    //     Shipping_Address: {
-    //       ...formData.Shipping_Address,
-    //       [event.target.name]: event.target.value,
-    //     },
-    //   })
-    // );
+    setErrors(
+      validateCompletedInputsAddress({
+        ...formData,
+        [event.target.name]: event.target.value,
+      })
+    );
+    setShowErrors(true);
   };
+
+  const handleSubmit = async () => {
+    //
+    setShowErrors(true);
+    const newErrors = validateCompletedInputsAddress(formData);
+    if (
+      Object.values(newErrors).length > 0 ||
+      Object.values(errors).length > 0
+    ) {
+      setErrors(newErrors);
+      return;
+    } 
+    const response = await dispatch(
+      postAddress(formData)
+    );
+    if (response.AddressId < 0) {
+      if (!toast.isActive("toastCreateAddress")) {
+        return toast({
+          id: "toastCreateProject",
+          title: "Error",
+          description: "Error in create address",
+          status: "error",
+          duration: 5000,
+          isClosable: true,
+        });
+      }
+    }
+    if (!toast.isActive("toastCreateAddress")) {
+      toast({
+        id: "toastCreateAddress",
+        title: "Success",
+        description: "Address created successfully",
+        status: "success",
+        duration: 5000,
+        isClosable: true,
+      });
+    }
+    setErrors({});
+    props.onClose();
+    
+  };
+
+
+
+
 
   return (
     <>
@@ -180,6 +229,32 @@ export function AddresForm() {
               {errors.ZipCode}
             </Text>
           )}
+        </InputGroup>
+        <InputGroup justifyContent={"center"} display={"flex"} alignItems={"center"} flexDirection={"row"} h={"62px"}>
+          <Button
+            className="customButton"
+            variant={"unstyled"}
+            fontSize={"0.9rem"}
+            fontWeight={"thin"}
+            pb={"1%"}
+            pr={"1%"}
+            onClick={
+              idAddress === 0
+                ? () => handleSubmit()
+                : () => handleSubmit()
+            }
+          >
+          SUBMIT
+          </Button>
+          <Button
+            className="customButton"
+            variant={"unstyled"}
+            fontSize={"0.9rem"}
+            fontWeight={"thin"}
+            pb={"1%"}
+            pr={"1%"}>
+          CANCEL
+          </Button>
         </InputGroup>
       </VStack>
     </>
